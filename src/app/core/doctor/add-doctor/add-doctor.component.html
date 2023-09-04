@@ -16,186 +16,279 @@
         <!-- /Page Header -->
         <div class="row">
             <div class="col-sm-12">
-
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form (ngSubmit)="crearDoctor()" [formGroup]="form">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Doctor Details</h4>
+                                        <h4>Detalles del Doctor</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Nombres <span class="login-danger">*</span></label>
+                                        <input formControlName="nombres" [(ngModel)]="doctor.nombres"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('nombres')}">
+                                        <div *ngIf="isInvalid('nombres')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('nombres')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Apellidos <span class="login-danger">*</span></label>
+                                        <input formControlName="apellidos" [(ngModel)]="doctor.apellidos"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('apellidos')}">
+                                        <div *ngIf="isInvalid('apellidos')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('apellidos')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label>First Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
+                                        <label>Usuario <span class="login-danger">*</span></label>
+                                        <input formControlName="usuario" [(ngModel)]="doctor.usuario"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('usuario')}">
+                                        <div *ngIf="isInvalid('usuario')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('usuario')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Contraseña <span class="login-danger">*</span></label>
+                                        <input formControlName="contrasena" [(ngModel)]="doctor.contrasena"
+                                            class="form-control" type="password"
+                                            [ngClass]="{'is-invalid': isInvalid('contrasena')}">
+                                        <div *ngIf="isInvalid('contrasena')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('contrasena')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-4">
+                                    <div class="form-group select-gender">
+                                        <label class="gen-label">Sexo<span class="login-danger">*</span></label>
+                                        <div *ngFor="let item of sexo_LISTA; let i = index"   class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input  type="radio" [value]="item.value"  [checked]="item.checked" formControlName="sexo" class="form-check-input">{{item.name}}
+                                            </label>
+                                        </div>
+                                        <div *ngIf="isFormSubmitted && form.controls['sexo'].errors?.['required']" class="invalid-feedback">>
+                                                Debe completar el campo*
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label>Last Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
+                                        <label>Tipo de Documento <span class="login-danger">*</span></label>
+                                        <mat-select formControlName="tipoDoc" [(ngModel)]="tipoDoc"
+                                            class="form-control select" placeholder="Seleccione Tipo de Documento"
+                                            [ngClass]="{'is-invalid': isInvalid('tipoDoc')}">
+                                            <mat-option *ngFor="let data of especialidad_LISTA" [value]="data.value">
+                                                {{data.value}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('tipoDoc')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('tipoDoc')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label>User Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
+                                        <label>Nro. Documento <span class="login-danger">*</span></label>
+                                        <input formControlName="nroDoc" [(ngModel)]="doctor.nroDoc" class="form-control"
+                                            type="text" [ngClass]="{'is-invalid': isInvalid('nroDoc')}">
+                                        <div *ngIf="isInvalid('nroDoc')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('nroDoc')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label>Mobile <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
+                                        <label>RUC <span class="login-danger"></span></label>
+                                        <input formControlName="ruc" [(ngModel)]="doctor.ruc" class="form-control"
+                                            type="text" [ngClass]="{'is-invalid': isInvalid('ruc')}">
+                                        <div *ngIf="isInvalid('ruc')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('ruc')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Email <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email" placeholder="">
+                                        <label>Celular <span class="login-danger"></span></label>
+                                        <input formControlName="celular" [(ngModel)]="doctor.celular"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('celular')}">
+                                        <div *ngIf="isInvalid('celular')" class="invalid-feedback">
+                                            Numero de digitos: 9*
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password" placeholder="">
+                                        <label>Teléfono <span class="login-danger"></span></label>
+                                        <input formControlName="telefono" [(ngModel)]="doctor.telefono"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('telefono')}">
+                                        <div *ngIf="isInvalid('telefono')" class="invalid-feedback">
+                                            Numero de digitos: 7*
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-md-12 col-xl-6">
                                     <div class="form-group local-forms">
-                                        <label>Confirm Password <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="password" placeholder="">
+                                        <label>Correo <span class="login-danger">*</span></label>
+                                        <input formControlName="correo" [(ngModel)]="doctor.correo" class="form-control"
+                                            type="email" [ngClass]="{'is-invalid': isInvalid('correo')}">
+                                        <div *ngIf="isInvalid('correo')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('correo')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isEmail('correo')">
+                                                Debe ingresar un correo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-12 col-sm-12">
                                     <div class="form-group local-forms">
-                                        <label>Date Of Birth <span class="login-danger">*</span></label>
-                                        <input class="form-control datetimepicker" type="text" placeholder="" matInput
-                                            [matDatepicker]="picker">
+                                        <label>Dirección <span class="login-danger">*</span></label>
+                                        <textarea formControlName="direccion" [(ngModel)]="doctor.direccion"
+                                            class="form-control" rows="3" cols="30"
+                                            [ngClass]="{'is-invalid': isInvalid('direccion')}">
+                                           </textarea>
+                                        <div *ngIf="isInvalid('direccion')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('direccion')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                                        <input formControlName="fechaNac" [(ngModel)]="doctor.fechaNac"
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker"
+                                            [ngClass]="{'is-invalid': isInvalid('fechaNac')}">
                                         <mat-datepicker #picker></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
-                                    <div class="form-group select-gender">
-                                        <label class="gen-label">Gender<span class="login-danger">*</span></label>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Male
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Female
-                                            </label>
+                                        <div *ngIf="isInvalid('fechaNac')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fechaNac')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">
+                                <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Education <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label>Designation <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <div class="form-group local-forms">
-                                        <label>Department <span class="login-danger">*</span></label>
-                                        
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Department">
-                                            <mat-option *ngFor="let data of selectedList1" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label>Address <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
+                                        <label>Fecha de Registro <span class="login-danger">*</span></label>
+                                        <input formControlName="fechaReg" [(ngModel)]="doctor.fechaReg"
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker2"
+                                            [ngClass]="{'is-invalid': isInvalid('fechaReg')}">
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <div *ngIf="isInvalid('fechaReg')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fechaReg')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>City <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select City">
-                                            <mat-option *ngFor="let data of selectedList2" [value]="data.value">
-                                            {{data.value}}
+                                        <label>Especialidad <span class="login-danger">*</span></label>
+                                        <mat-select [(ngModel)]="especialidad" formControlName="especialidad"
+                                            class="form-control select" placeholder="Seleccione Especialidad"
+                                            [ngClass]="{'is-invalid': isInvalid('especialidad')}">
+                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.value">
+                                                {{data.value}}
                                             </mat-option>
                                         </mat-select>
+                                        <div *ngIf="isInvalid('especialidad')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('especialidad')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Country <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Country">
-                                            <mat-option *ngFor="let data of selectedList3" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        <label>Colegiatura <span class="login-danger">*</span></label>
+                                        <input formControlName="colegiatura" [(ngModel)]="doctor.colegiatura"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('colegiatura')}">
+                                        <div *ngIf="isInvalid('colegiatura')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('colegiatura')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="form-group local-forms">
-                                        <label>State/Province <span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select State">
-                                            <mat-option *ngFor="let data of selectedList4" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-3">
-                                    <div class="form-group local-forms">
-                                        <label>Postal Code <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12">
-                                    <div class="form-group local-forms">
-                                        <label>Start Biography <span class="login-danger">*</span></label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-6 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
-                                        <label class="local-top">Avatar <span class="login-danger">*</span></label>
+                                        <label class="local-top">Foto <span class="login-danger"></span></label>
                                         <div class="settings-btn upload-files-avator">
-                                            <input type="file" accept="image/*" name="image" id="file"
-                                                onchange="loadFile(event)" class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
+                                            <input formControlName="foto" [(ngModel)]="doctor.foto" type="file"
+                                                (change)="seleccionImage($event)" class="hide-input"
+                                                formControlName="foto">
+                                            <label class="upload">Choose File</label>
+                                        </div>
+                                        <div class="upload-images upload-size"
+                                            [ngClass]="{'d-none':deleteIcon === false}">
+                                            <img *ngIf="!imagenTemp" src="assets/img/favicon.png" alt="Image">
+                                            <img *ngIf="imagenTemp" [src]="imagenTemp" alt="Image">
+                                            <a (click)="deleteIconFunc()" href="javascript:void(0);"
+                                                class="btn-icon logo-hide-btn">
+                                                <i class="feather icon-x-circle"></i>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-6">
+                                <div class="col-6 col-md-6 col-xl-6">
                                     <div class="form-group select-gender">
-                                        <label class="gen-label">Status <span class="login-danger">*</span></label>
-                                        <div class="form-check-inline">
+                                        <label class="gen-label">Estado<span class="login-danger">*</span></label>
+                                        <div *ngFor="let item of estado_LISTA; let i = index"   class="form-check-inline">
                                             <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">Active
+                                                <input  type="radio" [value]="item.value"  [checked]="item.checked" formControlName="estado" class="form-check-input">{{item.name}}
                                             </label>
                                         </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio" name="gender" class="form-check-input">In Active
-                                            </label>
+                                        <div *ngIf="isInvalid('estado')" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('estado')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="doctor-submit text-end">
-                                        <button type="submit" class="btn btn-primary submit-form me-2">Submit</button>
-                                        <button type="submit" class="btn btn-primary cancel-form">Cancel</button>
-                                    </div>
+
                                 </div>
                             </div>
                         </form>
+                        <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button (click)="crearDoctor()" class="btn btn-primary submit-form me-2">Submit</button>
+                                <button [routerLink]="routes.doctorsList"
+                                    class="btn btn-primary cancel-form">Cancel</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

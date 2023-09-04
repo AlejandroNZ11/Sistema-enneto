@@ -1,3 +1,26 @@
+export class Doctor {
+  nombres: string = '';
+  apellidos: string = '';
+  usuario: string = '';
+  contrasena: string = '';
+  sexo: string = '';
+  tipoDoc: string = '';
+  nroDoc: string = '';
+  ruc: string = '';
+  celular: string = '';
+  telefono: string = '';
+  correo: string = '';
+  direccion: string = '';
+  fechaNac?: Date;
+  fechaReg?: Date;
+  especialidad: string = '';
+  colegiatura: string = '';
+  foto: string = '';
+  estado: string = '';
+}
+
+
+
 export interface pageSelection {
   skip: number;
   limit: number;
@@ -300,7 +323,7 @@ export interface SubMenu {
   menuValue: string;
   route: string;
   base: string;
- 
+
 }
 export interface MenuItem {
   menuValue: string;
@@ -312,7 +335,7 @@ export interface MenuItem {
   icon?: string;
   faIcon?: boolean;
   subMenus: SubMenu[];
-  
+
 }
 
 export interface SideBarData {
@@ -320,6 +343,6 @@ export interface SideBarData {
   showAsTab: boolean;
   separateRoute: boolean;
   menu: MenuItem[];
-} 
-  
+}
+
 

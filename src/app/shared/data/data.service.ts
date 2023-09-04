@@ -11,6 +11,8 @@ import { apiResultFormat } from '../models/models';
 export class DataService {
   constructor(private http: HttpClient) {}
 
+
+
   public getDoctorsList(): Observable<apiResultFormat> {
     return this.http.get<apiResultFormat>('assets/json/doctors-list.json').pipe(
       map((res: apiResultFormat) => {
@@ -199,6 +201,15 @@ export class DataService {
       showAsTab: false,
       separateRoute: false,
       menu: [
+        {
+          menuValue: 'Home',
+          route: routes.home,
+          hasSubRoute: false,
+          showSubRoute: false,
+          base: 'home',
+          img: 'assets/img/icons/menu-icon-00.svg',
+          subMenus: [],
+        },
         {
           menuValue: 'Dashboard',
           hasSubRoute: true,

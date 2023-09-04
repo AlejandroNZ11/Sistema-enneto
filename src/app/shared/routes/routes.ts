@@ -356,4 +356,8 @@ export class routes {
   public static get error500(): string {
     return this.baseUrl + '/error/error500';
   }
+  public static get home(): string {
+    return this.baseUrl + '/home';
+  }
 }
+

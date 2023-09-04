@@ -12,6 +12,6 @@ export class AuthService {
 
   public login(): void {
     localStorage.setItem('authenticated', 'true');
-    this.router.navigate([routes.adminDashboard]);
+    this.router.navigate([routes.home]);
   }
 }

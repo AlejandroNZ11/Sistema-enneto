@@ -1,0 +1,204 @@
+<div class="page-wrapper">
+    <div class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.home">Home </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="good-morning-blk">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="morning-user">
+                        <h2>{{this.saludo}}, <span>Ricardo</span></h2>
+                        <p>Que tengas un buen día en el trabajo</p>
+                    </div>
+                </div>
+                <div class="col-md-6 position-blk">
+                    <div class="morning-img">
+                        <img src="assets/img/morning-img-01.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Datos de tu cuenta</h4>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="container-fluid text-center pt-2"
+                            style="background-color:#dddee7; border-radius: 15px;">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+                            <h3 class="my-2">RICARDO</h3>
+                            <h4 class="pb-4">Administrador</h4>
+                        </div>
+                        <div class="about-me-list pt-2">
+                            <ul class="list-space">
+                                <li>
+                                    <h4>Direccion</h4>
+                                    <span>AV. BENJAMIN IZQUIERDO Nº952</span>
+                                </li>
+                                <li>
+                                    <h4>Clinica</h4>
+                                    <span>SALUD DENTAL PERU</span>
+                                </li>
+                                <li>
+                                    <h4>Telefono</h4>
+                                    <span>987654321</span>
+                                </li>
+                                <li>
+                                    <h4>Email</h4>
+                                    <span>admindental@hotmail.com</span>
+                                </li>
+                                <li>
+                                    <h4>Usuario Sesion</h4>
+                                    <span>administrador</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Anuncios
+                        </h4>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="activity">
+                            <div class="activity-box">
+                                <ul class="activity-list">
+
+                                    <li>
+                                        <div class="activity-user">
+                                            <a [routerLink]="routes.profile" title="Lesley Grauer"
+                                                data-bs-toggle="tooltip" class="avatar">
+                                                <img alt="Lesley Grauer" src="assets/img/user-06.jpg"
+                                                    class="img-fluid rounded-circle">
+                                            </a>
+                                        </div>
+                                        <div class="activity-content timeline-group-blk">
+                                            <div class="timeline-group flex-shrink-0">
+                                                <h4>Today</h4>
+                                                <span class="time">4.50 PM</span>
+                                                <span class="badge bg-warning">nuevo</span>
+                                            </div>
+                                            <div class="comman-activitys flex-grow-1">
+                                                <h3>Bernardo James <span> Uploaded 3 new photos for World Safety
+                                                        Event</span></h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod</p>
+                                                <ul class="nav activity-sub-list mt-2">
+                                                    <li><img class="img-fluid" src="assets/img/activity-01.jpg" alt="">
+                                                    </li>
+                                                    <li><img class="img-fluid" src="assets/img/activity-02.jpg" alt="">
+                                                    </li>
+                                                    <li><img class="img-fluid" src="assets/img/activity-03.jpg" alt="">
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity-user">
+                                            <a [routerLink]="routes.profile" title="Lesley Grauer"
+                                                data-bs-toggle="tooltip" class="avatar">
+                                                <img alt="Lesley Grauer" src="assets/img/user-02.jpg"
+                                                    class="img-fluid rounded-circle">
+                                            </a>
+                                        </div>
+                                        <div class="activity-content timeline-group-blk">
+                                            <div class="timeline-group flex-shrink-0">
+                                                <h4>hace 3 dias</h4>
+                                                <span class="badge bg-warning">nuevo</span>
+                                            </div>
+                                            <div class="comman-activitys flex-grow-1">
+                                                <h3>Buscador agenda de citas</h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity-user">
+                                            <a [routerLink]="routes.profile" title="Lesley Grauer"
+                                                data-bs-toggle="tooltip" class="avatar">
+                                                <img alt="Lesley Grauer" src="assets/img/user-02.jpg"
+                                                    class="img-fluid rounded-circle">
+                                            </a>
+                                        </div>
+                                        <div class="activity-content timeline-group-blk">
+                                            <div class="timeline-group flex-shrink-0">
+                                                <h4>11/05/2022</h4>
+                                                <span class="time"> 10:44 PM </span>
+                                            </div>
+                                            <div class="comman-activitys flex-grow-1">
+                                                <h3>Sistema Web Odontologico - Enneto Dental</h3>
+                                                <p>Administrador del Sistema</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="activity-user">
+                                            <a [routerLink]="routes.profile" title="Mike Litorus"
+                                                data-bs-toggle="tooltip" class="avatar">
+                                                <img alt="Mike Litorus" src="assets/img/user-04.jpg"
+                                                    class="img-fluid rounded-circle">
+                                            </a>
+                                        </div>
+                                        <div class="activity-content timeline-group-blk">
+                                            <div class="timeline-group flex-shrink-0">
+                                                <h4>20/10/2022</h4>
+                                                <span class="time">2:20 PM</span>
+                                            </div>
+                                            <div class="comman-activitys flex-grow-1">
+                                                <h3>Rio Williams <span> Posted a Blog about Corona Safety
+                                                        Measurements</span></h3>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                                    eiusmod</p>
+                                                <ul class="latest-posts latest-posts-act mt-2">
+                                                    <li>
+                                                        <div class="post-thumb">
+                                                            <a href="javascript:;">
+                                                                <img class="img-fluid" src="assets/img/blog/blog-8.jpg"
+                                                                    alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="post-info">
+                                                            <div class="date-posts">
+                                                                <h5>Safety</h5>
+                                                                <span class="ms-2">10 Oct 2022</span>
+                                                            </div>
+                                                            <h4>
+                                                                <a href="javascript:;">Keep Hand Sanitizers Away from
+                                                                    Young Children</a>
+                                                            </h4>
+                                                            <p> Read more in 8 Minutes<i
+                                                                    class="fa fa-long-arrow-right ms-2"></i></p>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
