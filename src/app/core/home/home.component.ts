@@ -7,7 +7,7 @@ import { routes } from 'src/app/shared/routes/routes';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public saludo: string = "";
+  public saludo = '';
   public routes = routes;
   public today = new Date();
   public currentHour = this.today.getHours();
