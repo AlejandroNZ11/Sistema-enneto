@@ -629,6 +629,20 @@ export class DataService {
           base: 'settings',
           subMenus: [],
         },
+        {
+          menuValue: 'Catalogo',
+          hasSubRoute: true,
+          showSubRoute: false,
+          img: 'assets/img/icons/menu-icon-13.svg',
+          base: 'catalogo',
+          subMenus: [
+            {
+              menuValue: 'Categoria',
+              route: routes.categoria,
+              base: routes.categoria,
+            },
+          ],
+        },
       ],
     },
     {

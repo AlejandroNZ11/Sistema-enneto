@@ -1,29 +1,66 @@
-export class Doctor {
+export class DoctorRequest {
+  clinicaId: string = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  usuarioId: string = '';
+  especialidades?: string[];
   nombres: string = '';
   apellidos: string = '';
-  usuario: string = '';
-  contrasena: string = '';
-  sexo: string = '';
-  tipoDoc: string = '';
-  nroDoc: string = '';
-  ruc: string = '';
-  celular: string = '';
+  abreviatura: string = '';
+  tipoDocumento: string = '';
+  numeroDocumento: string = '';
+  colegioMedico: string = '';
   telefono: string = '';
-  correo: string = '';
+  celular: string = '';
   direccion: string = '';
-  fechaNac?: Date;
-  fechaReg?: Date;
-  especialidad: string = '';
-  colegiatura: string = '';
+  email: string = '';
+  fechaNacimiento?: Date;
+  sexo: string = '';
   foto: string = '';
-  estado: string = '';
+  firma: string = '';
+}
+export interface DoctorResponse {
+  medicoId: string;
+  especialidadId: string;
+  nombres: string;
+  apellidos: string;
+  numeroDocumento: string;
+  colegioMedico: string;
+  telefono: string;
+  celular: string;
+  direccion: string;
+  email: string;
+  fechaNacimiento: Date;
+  fechaRegistro: Date;
+  estado: number;
+  sexo: string;
+  foto: string;
+  firma: string;
 }
 
-
-
+export interface DoctorListData {
+  data: DoctorResponse[];
+  totalData: number;
+}
+export interface Icategoria {
+  clinicaId: string;
+  usuarioId: string;
+  nombre: string;
+}
+export class categoria {
+  clinicaId: string = 'A306A3E8-F9AF-49BA-9E13-15CD1BDB72B4';
+  usuarioId: string = "";
+  nombre: string = "";
+}
+export interface DataCategoria {
+  totalData: number;
+  data: Icategoria[];
+}
 export interface pageSelection {
   skip: number;
   limit: number;
+}
+export interface respuesta {
+  isSuccess: boolean,
+  message: string,
 }
 export interface apiResultFormat {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,7 +159,7 @@ export interface invoicerecurring {
   status: string;
   img: string;
 }
-export interface doctorlist {
+/* export interface doctorlist {
   name: string;
   department: string;
   specialization: string;
@@ -131,7 +168,7 @@ export interface doctorlist {
   email: string;
   joiningDate: number;
   img: string;
-}
+} */
 export interface schedule {
   doctorName: string;
   department: string;

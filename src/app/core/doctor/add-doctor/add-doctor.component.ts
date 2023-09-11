@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Doctor } from 'src/app/shared/models/models';
+import { getMonth } from 'ngx-bootstrap/chronos';
+import { parseTwoDigitYear } from 'ngx-bootstrap/chronos/units/year';
+import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
+import { DoctorRequest } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { DoctorService } from 'src/app/shared/services/doctor.service';
 import Swal from 'sweetalert2';
 
 interface data {
   value: string;
+}
+interface dataGuid {
+  value: string;
+  guid: string;
 }
 
 @Component({
@@ -18,12 +25,17 @@ export class AddDoctorComponent implements OnInit {
 
   constructor(public formBuilder: FormBuilder, public doctorService: DoctorService,) { }
 
-  doctor: Doctor = new Doctor();
+  doctor: DoctorRequest = new DoctorRequest();
   form!: FormGroup;
-  imagenTemp!: string;
   imagenSubir!: File;
-  reader = new FileReader();
+  readerFoto = new FileReader();
+  readerFirma = new FileReader();
   isFormSubmitted = false;
+  dd: number = new Date().getDate();
+  mm: number = new Date().getMonth();
+  yyyy: number = new Date().getFullYear();
+  hoy: string = this.dd + '/' + this.mm + '/' + this.yyyy;
+
   ngOnInit(): void {
     let getCheckedSexo = null
     let getCheckedEstado = null
@@ -33,30 +45,32 @@ export class AddDoctorComponent implements OnInit {
     this.estado_LISTA.forEach((o) => {
       if (o.checked) getCheckedEstado = o.value;
     });
+
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
+      abreviatura: ['', [Validators.required, Validators.maxLength(15)]],
       usuario: ['', [Validators.required, Validators.maxLength(50)]],
       contrasena: ['', [Validators.required, Validators.maxLength(50)]],
       celular: ['', [Validators.maxLength(9), Validators.minLength(9)]],
       telefono: ['', [Validators.maxLength(7), Validators.minLength(7)]],
-      correo: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
-      tipoDoc: ['', [Validators.required, Validators.maxLength(40)]],
-      nroDoc: ['', [Validators.required, Validators.maxLength(20)]],
+      email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
+      tipoDocumento: ['', [Validators.required, Validators.maxLength(40)]],
+      numeroDocumento: ['', [Validators.required, Validators.maxLength(20)]],
       ruc: ['', [Validators.maxLength(50)]],
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
-      fechaNac: ['', [Validators.required]],
-      fechaReg: ['', [Validators.required]],
+      fechaNacimiento: ['', [Validators.required]],
       sexo: [getCheckedSexo, [Validators.required]],
       estado: [getCheckedEstado, [Validators.required]],
-      especialidad: ['', [Validators.required, Validators.maxLength(100)]],
-      colegiatura: ['', [Validators.required, Validators.maxLength(100)]],
+      especialidades: ['', [Validators.required, Validators.maxLength(100)]],
+      colegioMedico: ['', [Validators.required, Validators.maxLength(100)]],
       foto: [''],
+      firma: ['']
     })
   }
   public routes = routes;
-  public tipoDoc !: string;
-  public especialidad !: string;
+  public tipoDocumento !: string;
+  public especialidades !: string[];
   public deleteIcon = true;
 
   sexo_LISTA = [
@@ -64,18 +78,23 @@ export class AddDoctorComponent implements OnInit {
     { name: 'Femenino', value: 'Femenino', checked: false },
   ]
   estado_LISTA = [
-    { name: 'Activo', value: 'Activo', checked: false },
-    { name: 'Inactivo', value: 'Inactivo', checked: false },
+    { name: 'Activo', value: 1, checked: false },
+    { name: 'Inactivo', value: 0, checked: false },
   ]
-  tipoDoc_LISTA: data[] = [
-    { value: 'Orthopedics' },
-    { value: 'Radiology' },
-    { value: 'Dentist' },
+  especialidad_LISTA: dataGuid[] = [
+    { value: 'Ortodoncia', guid: '6b9e5b30-9b94-4f78-a090-6e01d5b16201' },
+    { value: 'Odontopediatría', guid: '8a0a6a3e-7315-45d7-a54d-c6473c5f8d17' },
+    { value: 'Implantología', guid: '69121893-3AFC-4F92-85F3-40BB5E7C7E29' },
+    { value: 'General', guid: 'CB77CCE6-C2CB-471B-BDD4-5DAC8C93B756' },
+    { value: 'Endodoncia', guid: '4B900A74-E2D9-4837-B9A4-9E828752716E' },
+    { value: 'Cirugia bocal y Maxilofacial', guid: 'AEDC617C-D035-4213-B55A-DAE5CDFCA366' },
   ];
-  especialidad_LISTA: data[] = [
-    { value: 'DNI' },
-    { value: 'Carnet de Extranjeria' },
-    { value: 'Pasaporte' },
+  tipoDoc_LISTA: data[] = [
+    { value: 'DNI', },
+    { value: 'RUC' },
+    { value: 'PASAPORTE' },
+    { value: 'CARNET EXTRANJERIA' },
+    { value: 'OTROS' },
   ];
 
   isInvalid(controlName: string) {
@@ -90,48 +109,114 @@ export class AddDoctorComponent implements OnInit {
     const control = this.form.get(controlName);
     return control?.errors && control?.errors['email'];
   }
-  deleteIconFunc() {
-    this.imagenTemp = "assets/img/favicon.png"
+  deleteIconFuncFoto() {
+    this.imagenTempFoto = "assets/img/user.jpg"
   }
-  seleccionImage(event: any) {
-    const archivo = event.target.files[0]
-    if (!archivo) {
-      this.imagenSubir = null as any;
-      return;
-    }
-    //validar que solo sea imagen 
-    if (archivo.type.indexOf('image') < 0) {
-      Swal.fire('Solo Imagenes', 'El archivo seleccionado no es una imagen', 'error');
-      this.imagenSubir = null as any;
-      return;
-    }
-    this.imagenSubir = archivo;
+  deleteIconFuncFirma() {
+    this.imagenTempFirma = "assets/img/user.jpg"
+  }
+  imagenTempFoto!: string | ArrayBuffer | null;
+  imagenTempFirma!: string | ArrayBuffer | null;
 
-    let urlImagenTemp = this.reader.readAsDataURL(archivo);
-
-    this.reader.onload = () => {
-      this.imagenTemp = this.reader.result as any;
+  cargarImagenFoto(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const nombreArchivo = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const image = new Image();
+        image.src = e.target!.result as string;
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d')!;
+          canvas.width = 150;
+          canvas.height = 150;
+          context.drawImage(image, 0, 0, 150, 150);
+          this.imagenTempFoto = canvas.toDataURL('image/jpeg');
+          this.doctor.foto = nombreArchivo;
+        };
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagenTempFoto = null;
+      this.doctor.foto = '';
     }
+  }
+  cargarImagenFirma(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const nombreArchivo = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const image = new Image();
+        image.src = e.target!.result as string;
+        image.onload = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d')!;
+          canvas.width = 150;
+          canvas.height = 150;
+          context.drawImage(image, 0, 0, 150, 150);
+          this.imagenTempFirma = canvas.toDataURL('image/jpeg');
+          this.doctor.firma = nombreArchivo;
+        };
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagenTempFirma = null;
+      this.doctor.firma = '';
+    }
+  }
+
+  markAllFieldsAsTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
   }
 
   crearDoctor() {
-    this.isFormSubmitted = true;
     if (this.form.invalid) {
-      Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
+      this.markAllFieldsAsTouched();
       return;
     }
-    if (this.reader.result != null) {
-      this.doctor.foto = this.reader.result as string;
-      this.doctor.foto = this.doctor.foto.replace(/^data:image\/[a-z]+;base64,/, "");
+    /* if (this.readerFoto.result != null) {
+       this.doctor.foto = this.readerFoto.result as string;
+       //this.doctor.foto = this.doctor.foto.replace(/^data:image\/[a-z]+;base64,/, "");
+     }
+     if (this.readerFirma.result != null) {
+       this.doctor.firma = this.readerFirma.result as string;
+       //this.doctor.firma = this.doctor.firma.replace(/^data:image\/[a-z]+;base64,/, "");
+     }*/
+    if (this.form.get("sexo")!.value == "Masculino") {
+      this.doctor.sexo = "M"
+    } else {
+      this.doctor.sexo = "F"
     }
-    this.doctor.especialidad = this.especialidad;
-    this.doctor.tipoDoc = this.tipoDoc;
+    console.log(this.doctor);
 
-    Swal.fire({
-      title: 'Registrando...',
-      allowOutsideClick: false,
-    })
-    Swal.showLoading()
-    this.doctorService.crearDoctor(this.doctor);
+    this.doctor.especialidades = this.especialidades;
+
+    switch (this.form.get('tipoDocumento')!.value) {
+      case 'DNI': this.doctor.tipoDocumento = '01'; break;
+      case 'RUC': this.doctor.tipoDocumento = '06'; break;
+      case 'PASAPORTE': this.doctor.tipoDocumento = '07'; break;
+      case 'CARNET EXTRANJERIA': this.doctor.tipoDocumento = '04'; break;
+      case 'OTROS': this.doctor.tipoDocumento = '00'; break;
+    }
+    console.log(this.doctor);
+    this.doctorService.crearDoctor(this.doctor).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire({
+            title: 'Registrando...',
+            allowOutsideClick: false,
+          })
+          Swal.showLoading()
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }

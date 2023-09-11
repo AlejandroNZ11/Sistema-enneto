@@ -1,0 +1,34 @@
+.upload-images {
+  position: relative;
+  /* Asegura que el contenedor sea relativo para alinear elementos secundarios */
+}
+
+.upload-images img {
+  max-width: 100%;
+  /* Ajusta el ancho máximo de la imagen al tamaño del contenedor */
+  max-height: 100%;
+  /* Ajusta la altura máxima de la imagen al tamaño del contenedor */
+  object-fit: contain;
+  /* Controla cómo se ajusta la imagen dentro del contenedor */
+  display: block;
+  /* Asegura que la imagen se ajuste correctamente */
+  margin: 0 auto;
+  /* Centra la imagen horizontalmente en el contenedor */
+}
+
+.upload-size {
+  width: 150px;
+  /* Ajusta el ancho deseado del contenedor */
+  height: 150px;
+  /* Ajusta la altura deseada del contenedor */
+  /* Puedes agregar otras propiedades de diseño según sea necesario */
+}
+
+.selected-item {
+  background-color: #007bff;
+  color: #fff;
+  padding: 2px 4px;
+  margin-right: 4px;
+  border-radius: 4px;
+  display: inline-block;
+}

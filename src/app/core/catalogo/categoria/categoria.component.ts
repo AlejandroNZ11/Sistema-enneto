@@ -1,29 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/shared/data/data.service';
-import { routes } from 'src/app/shared/routes/routes';
 import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection, apiResultFormat, DoctorRequest, DoctorResponse, DoctorListData} from 'src/app/shared/models/models';
-import { DoctorService } from 'src/app/shared/services/doctor.service';
-interface dataGuid {
-  value: string;
-  guid: string;
-}
+import { MatTableDataSource } from '@angular/material/table';
+import { DataService } from 'src/app/shared/data/data.service';
+import { DataCategoria, Icategoria, apiResultFormat, categoria, pageSelection } from 'src/app/shared/models/models';
+import { routes } from 'src/app/shared/routes/routes';
+import { CategoriaService } from 'src/app/shared/services/categoria.service';
+import { AgregarCategoriaComponent } from './agregar-categoria/agregar-categoria.component';
+import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.component';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import Swal from 'sweetalert2';
+
 @Component({
-  selector: 'app-doctors-list',
-  templateUrl: './doctors-list.component.html',
-  styleUrls: ['./doctors-list.component.scss']
+  selector: 'app-categoria',
+  templateUrl: './categoria.component.html',
+  styleUrls: ['./categoria.component.scss']
 })
-export class DoctorsListComponent implements OnInit{
+export class CategoriaComponent implements OnInit {
   public routes = routes;
-  public doctorsList: Array<DoctorResponse> = [];
-  dataSource!: MatTableDataSource<DoctorResponse>;
-  doctorseleccionado: DoctorRequest = new DoctorRequest();
+  public ListCategoria: Array<Icategoria> = [];
+  categoriaSeleccionada: categoria = new categoria();
+  dataSource!: MatTableDataSource<Icategoria>;
   public showFilter = false;
-  public searchDataValueNombre = '';
-  public searchDataValueEspecialidad = '';
-  public fechaDesde = '';
-  public fechaHasta = '';
+  public searchDataValue = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -35,60 +33,39 @@ export class DoctorsListComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-  especialidad_LISTA: dataGuid[] = [
-    { value: 'Ortodoncia', guid: '6b9e5b30-9b94-4f78-a090-6e01d5b16201' },
-    { value: 'Odontopediatría', guid: '8a0a6a3e-7315-45d7-a54d-c6473c5f8d17' },
-    { value: 'Implantología', guid: '69121893-3AFC-4F92-85F3-40BB5E7C7E29' },
-    { value: 'General', guid: 'CB77CCE6-C2CB-471B-BDD4-5DAC8C93B756' },
-    { value: 'Endodoncia', guid: '4B900A74-E2D9-4837-B9A4-9E828752716E' },
-    { value: 'Cirugia bocal y Maxilofacial', guid: 'AEDC617C-D035-4213-B55A-DAE5CDFCA366' },
-  ];
-  constructor(public data : DataService,public doctorService: DoctorService){
+  bsModalRef?: BsModalRef;
 
+
+  constructor(private modalService: BsModalService, public categoriaService: CategoriaService) {
   }
   ngOnInit() {
     this.getTableData();
   }
   private getTableData(): void {
-    this.doctorsList = [];
+    this.ListCategoria = [];
     this.serialNumberArray = [];
-    this.doctorService.obtenerDoctores("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DoctorListData) => {
-      this.totalData = data.totalData;
+    this.categoriaService.obtenerCategorias(this.currentPage, this.pageSize).subscribe((data: DataCategoria) => {
+      this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.doctorsList = data.data;
-      this.dataSource = new MatTableDataSource<DoctorResponse>(this.doctorsList);
+      this.ListCategoria = data.data;
+      this.dataSource = new MatTableDataSource<Icategoria>(this.ListCategoria);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.doctorsList = this.dataSource.filteredData;
+    this.ListCategoria = this.dataSource.filteredData;
   }
-  public aplicarFiltro(): void {
-    const desde = new Date(this.fechaDesde);
-    const hasta = new Date(this.fechaHasta);
-    this.dataSource.filterPredicate = (data, filter) => {
-      if (!desde || !hasta) {
-        return true; // No se aplican filtros si alguno de los campos está vacío
-      }
-      const fechaRegistro = data.fechaRegistro;
-      // Compara la fecha de registro con el rango seleccionado
-      return fechaRegistro >= desde && fechaRegistro <= hasta;
-    };
-    this.dataSource.filter = 'apply';
-    this.doctorsList = this.dataSource.filteredData;
-  }
-
   public sortData(sort: Sort) {
-    const data = this.doctorsList.slice();
+    const data = this.ListCategoria.slice();
+
     if (!sort.active || sort.direction === '') {
-      this.doctorsList = data;
+      this.ListCategoria = data;
     } else {
-      this.doctorsList = data.sort((a, b) => {
+      this.ListCategoria = data.sort((a, b) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,7 +74,6 @@ export class DoctorsListComponent implements OnInit{
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -148,4 +124,18 @@ export class DoctorsListComponent implements OnInit{
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
+  crearCategoria() {
+    this.bsModalRef = this.modalService.show(AgregarCategoriaComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData();
+      });
+  }
+  editarCategoria(categoria: categoria) {
+    this.bsModalRef = this.modalService.show(EditarCategoriaComponent);
+    this.bsModalRef.content.categoriaSeleccionada = categoria.nombre;
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData();
+    });
+  }
+
 }

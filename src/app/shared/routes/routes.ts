@@ -5,6 +5,9 @@ export class routes {
   public static get baseUrl(): string {
     return this.Url;
   }
+  public static get categoria(): string {
+    return this.baseUrl + '/catalogo/categoria';
+  }
   public static get changePassword2(): string {
     return this.baseUrl + '/change-password2';
   }
