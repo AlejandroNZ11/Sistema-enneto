@@ -40,15 +40,32 @@ export interface DoctorListData {
   data: DoctorResponse[];
   totalData: number;
 }
-export interface Icategoria {
+
+export class especialidad {
+  clinicaId: string = 'A306A3E8-F9AF-49BA-9E13-15CD1BDB72B4';
+  usuarioId: string = "";
+  nombre: string = "";
+  descripcion: string = "";
+}
+export interface DataEspecialidad {
+  totalData: number;
+  data: Iespecialidad[];
+}
+export interface Iespecialidad {
   clinicaId: string;
   usuarioId: string;
   nombre: string;
+  descripcion: string;
 }
 export class categoria {
   clinicaId: string = 'A306A3E8-F9AF-49BA-9E13-15CD1BDB72B4';
   usuarioId: string = "";
   nombre: string = "";
+}
+export interface Icategoria {
+  clinicaId: string;
+  usuarioId: string;
+  nombre: string;
 }
 export interface DataCategoria {
   totalData: number;

@@ -641,6 +641,11 @@ export class DataService {
               route: routes.categoria,
               base: routes.categoria,
             },
+            {
+              menuValue: 'Especialidad',
+              route: routes.especialidad,
+              base: routes.especialidad,
+            },
           ],
         },
       ],

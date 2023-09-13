@@ -5,11 +5,12 @@ import { CatalogoComponent } from './catalogo.component';
 import { CatalogoRoutingModule } from './catalogo-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EspecialidadesComponent } from './especialidades/especialidades.component';
 
 
 @NgModule({
   declarations: [
-    CatalogoComponent
+    CatalogoComponent,
   ],
   imports: [
     SharedModule,

@@ -63,7 +63,7 @@ export class AddDoctorComponent implements OnInit {
       sexo: [getCheckedSexo, [Validators.required]],
       estado: [getCheckedEstado, [Validators.required]],
       especialidades: ['', [Validators.required, Validators.maxLength(100)]],
-      colegioMedico: ['', [Validators.required, Validators.maxLength(100)]],
+      colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
       foto: [''],
       firma: ['']
     })
@@ -78,7 +78,7 @@ export class AddDoctorComponent implements OnInit {
     { name: 'Femenino', value: 'Femenino', checked: false },
   ]
   estado_LISTA = [
-    { name: 'Activo', value: 1, checked: false },
+    { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
   ]
   especialidad_LISTA: dataGuid[] = [
@@ -127,12 +127,7 @@ export class AddDoctorComponent implements OnInit {
         const image = new Image();
         image.src = e.target!.result as string;
         image.onload = () => {
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d')!;
-          canvas.width = 150;
-          canvas.height = 150;
-          context.drawImage(image, 0, 0, 150, 150);
-          this.imagenTempFoto = canvas.toDataURL('image/jpeg');
+          this.imagenTempFoto = image.src;
           this.doctor.foto = nombreArchivo;
         };
       };
@@ -151,12 +146,7 @@ export class AddDoctorComponent implements OnInit {
         const image = new Image();
         image.src = e.target!.result as string;
         image.onload = () => {
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d')!;
-          canvas.width = 150;
-          canvas.height = 150;
-          context.drawImage(image, 0, 0, 150, 150);
-          this.imagenTempFirma = canvas.toDataURL('image/jpeg');
+          this.imagenTempFirma = image.src;
           this.doctor.firma = nombreArchivo;
         };
       };

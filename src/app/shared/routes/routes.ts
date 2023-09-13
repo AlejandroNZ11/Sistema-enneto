@@ -8,6 +8,9 @@ export class routes {
   public static get categoria(): string {
     return this.baseUrl + '/catalogo/categoria';
   }
+  public static get especialidad(): string {
+    return this.baseUrl + '/catalogo/especialidades';
+  }
   public static get changePassword2(): string {
     return this.baseUrl + '/change-password2';
   }
@@ -362,5 +365,7 @@ export class routes {
   public static get home(): string {
     return this.baseUrl + '/home';
   }
+
 }
+
 

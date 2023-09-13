@@ -13,6 +13,13 @@ const routes: Routes = [
           (m) => m.CategoriaModule
         ),
     },
+    {
+      path: 'especialidades',
+      loadChildren: () =>
+        import('./especialidades/especialidades.module').then(
+          (m) => m.EspecialidadesModule
+        ),
+    },
   ]
 }
 ];
