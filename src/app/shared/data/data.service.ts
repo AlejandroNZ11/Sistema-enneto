@@ -646,6 +646,26 @@ export class DataService {
               route: routes.especialidad,
               base: routes.especialidad,
             },
+            {
+              menuValue: 'Medida',
+              route: routes.medida,
+              base: routes.medida,
+            },
+            {
+              menuValue: 'Alergias',
+              route: routes.alergias,
+              base: routes.alergias,
+            },
+            {
+              menuValue: 'Tipo Citado',
+              route: routes.tipoCitado,
+              base: routes.tipoCitado,
+            },
+            {
+              menuValue: 'Tipo Concepto',
+              route: routes.tipoConcepto,
+              base: routes.tipoConcepto,
+            },
           ],
         },
       ],

@@ -3,8 +3,9 @@ import { DataService } from 'src/app/shared/data/data.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection, apiResultFormat, DoctorRequest, DoctorResponse, DoctorListData} from 'src/app/shared/models/models';
+import { pageSelection, apiResultFormat,} from 'src/app/shared/models/models';
 import { DoctorService } from 'src/app/shared/services/doctor.service';
+import { MedicoListData, MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
 interface dataGuid {
   value: string;
   guid: string;
@@ -16,9 +17,9 @@ interface dataGuid {
 })
 export class DoctorsListComponent implements OnInit{
   public routes = routes;
-  public doctorsList: Array<DoctorResponse> = [];
-  dataSource!: MatTableDataSource<DoctorResponse>;
-  doctorseleccionado: DoctorRequest = new DoctorRequest();
+  public doctorsList: Array<MedicoResponse> = [];
+  dataSource!: MatTableDataSource<MedicoResponse>;
+  doctorseleccionado: MedicoRequest = new MedicoRequest();
   public showFilter = false;
   public searchDataValueNombre = '';
   public searchDataValueEspecialidad = '';
@@ -52,14 +53,14 @@ export class DoctorsListComponent implements OnInit{
   private getTableData(): void {
     this.doctorsList = [];
     this.serialNumberArray = [];
-    this.doctorService.obtenerDoctores("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DoctorListData) => {
+    this.doctorService.obtenerDoctores("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: MedicoListData) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
       this.doctorsList = data.data;
-      this.dataSource = new MatTableDataSource<DoctorResponse>(this.doctorsList);
+      this.dataSource = new MatTableDataSource<MedicoResponse>(this.doctorsList);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }

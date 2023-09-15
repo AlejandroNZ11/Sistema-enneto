@@ -1,21 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DataCategoria, Icategoria, categoria, respuesta } from '../models/models';
 import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
-
+import { environment } from 'src/environments/environments';
+import { successResponse } from '../models/successResponse';
+import { DataCategoria, categoria } from '../models/categoria';
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaService {
-  apiUrl: string = "https://enneto-dental-dev.azurewebsites.net/api";
+  apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
   obtenerCategorias(page: number, rows: number): Observable<DataCategoria> {
     return this.http.get<DataCategoria>(this.apiUrl + `/Categorias/GetAllCategoria?page=${page}&rows=${rows}`);
   }
-  crearCategoria(categoria: categoria): Observable<respuesta> {
-    return this.http.post<any>(this.apiUrl + '/Categorias/SaveCategoria', categoria).pipe(
+  crearCategoria(categoria: categoria): Observable<successResponse> {
+    return this.http.post<successResponse>(this.apiUrl + '/Categorias/SaveCategoria', categoria).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -23,8 +24,8 @@ export class CategoriaService {
     );
   }
 
-  actualizarCategoria(categoria: any): Observable<respuesta> {
-    return this.http.put<any>(this.apiUrl + `/Categorias/${categoria.id}`, categoria).pipe(
+  actualizarCategoria(categoria: any): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Categorias/${categoria.id}`, categoria).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

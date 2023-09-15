@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DoctorListData, DoctorRequest, respuesta } from '../models/models';
 import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
-
+import { environment } from 'src/environments/environments';
+import { successResponse } from '../models/successResponse';
+import { MedicoListData, MedicoRequest } from '../models/medico';
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-
-
-  apiUrl = 'https://enneto-dental-dev.azurewebsites.net/api';
+  apiUrl = environment.apiURL;
   constructor(public http: HttpClient) { }
-  obtenerDoctores(clinicaId: string, page: number, rows: number): Observable<DoctorListData> {
-    return this.http.get<DoctorListData>(this.apiUrl + `/Medicos/GetAllMedico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerDoctores(clinicaId: string, page: number, rows: number): Observable<MedicoListData> {
+    return this.http.get<MedicoListData>(this.apiUrl + `/Medicos/GetAllMedico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
-  crearDoctor(doctor: DoctorRequest): Observable<respuesta> {
-    return this.http.post<any>(this.apiUrl + '/Medicos/SaveMedico', doctor).pipe(
+  crearDoctor(doctor: MedicoRequest): Observable<successResponse> {
+    return this.http.post<successResponse>(this.apiUrl + '/Medicos/SaveMedico', doctor).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

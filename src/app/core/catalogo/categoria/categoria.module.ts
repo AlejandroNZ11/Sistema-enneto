@@ -17,8 +17,8 @@ import { MatSortModule } from '@angular/material/sort';
   imports: [
     MatSortModule,
     CommonModule,
-    CategoriaRoutingModule,
     SharedModule,
+    CategoriaRoutingModule,
   ]
 })
 export class CategoriaModule { }

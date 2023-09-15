@@ -5,6 +5,18 @@ export class routes {
   public static get baseUrl(): string {
     return this.Url;
   }
+  public static get medida(): string {
+    return this.baseUrl + '/catalogo/medida';
+  }
+  public static get alergias(): string {
+    return this.baseUrl + '/catalogo/alergias';
+  }
+  public static get tipoCitado(): string {
+    return this.baseUrl + '/catalogo/tipo-citado';
+  }
+  public static get tipoConcepto(): string {
+    return this.baseUrl + '/catalogo/tipo-concepto';
+  }
   public static get categoria(): string {
     return this.baseUrl + '/catalogo/categoria';
   }

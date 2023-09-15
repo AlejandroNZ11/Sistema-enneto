@@ -3,9 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { getMonth } from 'ngx-bootstrap/chronos';
 import { parseTwoDigitYear } from 'ngx-bootstrap/chronos/units/year';
 import { getDate } from 'ngx-bootstrap/chronos/utils/date-getters';
-import { DoctorRequest } from 'src/app/shared/models/models';
+import { DataEspecialidad, Iespecialidad } from 'src/app/shared/models/especialidades';
+import { MedicoListData, MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
 import { routes } from 'src/app/shared/routes/routes';
 import { DoctorService } from 'src/app/shared/services/doctor.service';
+import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
 
 interface data {
@@ -23,9 +25,9 @@ interface dataGuid {
 })
 export class AddDoctorComponent implements OnInit {
 
-  constructor(public formBuilder: FormBuilder, public doctorService: DoctorService,) { }
-
-  doctor: DoctorRequest = new DoctorRequest();
+  constructor(public formBuilder: FormBuilder, public doctorService: DoctorService, public especialidadService: EspecialidadesService) { }
+  especialidad_LISTA: Array<Iespecialidad> = [];
+  doctor: MedicoRequest = new MedicoRequest();
   form!: FormGroup;
   imagenSubir!: File;
   readerFoto = new FileReader();
@@ -37,6 +39,10 @@ export class AddDoctorComponent implements OnInit {
   hoy: string = this.dd + '/' + this.mm + '/' + this.yyyy;
 
   ngOnInit(): void {
+    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6",1,100).subscribe((data: DataEspecialidad) => {
+      this.especialidad_LISTA = data.data;
+    });
+    this.isFormSubmitted = false;
     let getCheckedSexo = null
     let getCheckedEstado = null
     this.sexo_LISTA.forEach((o) => {
@@ -50,19 +56,15 @@ export class AddDoctorComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
       abreviatura: ['', [Validators.required, Validators.maxLength(15)]],
-      usuario: ['', [Validators.required, Validators.maxLength(50)]],
-      contrasena: ['', [Validators.required, Validators.maxLength(50)]],
       celular: ['', [Validators.maxLength(9), Validators.minLength(9)]],
       telefono: ['', [Validators.maxLength(7), Validators.minLength(7)]],
       email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
       tipoDocumento: ['', [Validators.required, Validators.maxLength(40)]],
       numeroDocumento: ['', [Validators.required, Validators.maxLength(20)]],
-      ruc: ['', [Validators.maxLength(50)]],
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       fechaNacimiento: ['', [Validators.required]],
       sexo: [getCheckedSexo, [Validators.required]],
-      estado: [getCheckedEstado, [Validators.required]],
-      especialidades: ['', [Validators.required, Validators.maxLength(100)]],
+      especialidades: ['', [Validators.required]],
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
       foto: [''],
       firma: ['']
@@ -81,14 +83,6 @@ export class AddDoctorComponent implements OnInit {
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
   ]
-  especialidad_LISTA: dataGuid[] = [
-    { value: 'Ortodoncia', guid: '6b9e5b30-9b94-4f78-a090-6e01d5b16201' },
-    { value: 'Odontopediatría', guid: '8a0a6a3e-7315-45d7-a54d-c6473c5f8d17' },
-    { value: 'Implantología', guid: '69121893-3AFC-4F92-85F3-40BB5E7C7E29' },
-    { value: 'General', guid: 'CB77CCE6-C2CB-471B-BDD4-5DAC8C93B756' },
-    { value: 'Endodoncia', guid: '4B900A74-E2D9-4837-B9A4-9E828752716E' },
-    { value: 'Cirugia bocal y Maxilofacial', guid: 'AEDC617C-D035-4213-B55A-DAE5CDFCA366' },
-  ];
   tipoDoc_LISTA: data[] = [
     { value: 'DNI', },
     { value: 'RUC' },
@@ -164,7 +158,10 @@ export class AddDoctorComponent implements OnInit {
   }
 
   crearDoctor() {
+    console.log(this.form);
+
     if (this.form.invalid) {
+      this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();
       return;
     }
@@ -181,8 +178,6 @@ export class AddDoctorComponent implements OnInit {
     } else {
       this.doctor.sexo = "F"
     }
-    console.log(this.doctor);
-
     this.doctor.especialidades = this.especialidades;
 
     switch (this.form.get('tipoDocumento')!.value) {
@@ -193,6 +188,7 @@ export class AddDoctorComponent implements OnInit {
       case 'OTROS': this.doctor.tipoDocumento = '00'; break;
     }
     console.log(this.doctor);
+    this.isFormSubmitted = false;
     this.doctorService.crearDoctor(this.doctor).subscribe(
       (response) => {
         if (response.isSuccess) {

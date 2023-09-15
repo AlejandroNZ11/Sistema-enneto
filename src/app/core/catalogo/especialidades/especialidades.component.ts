@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { DataEspecialidad, Iespecialidad, especialidad, pageSelection } from 'src/app/shared/models/models';
+import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import { AgregarEspecialidadComponent } from './agregar-especialidad/agregar-especialidad.component';
 import { EditarEspecialidadComponent } from './editar-especialidad/editar-especialidad.component';
+import { DataEspecialidad, Iespecialidad, especialidad } from 'src/app/shared/models/especialidades';
 
 @Component({
   selector: 'app-especialidades',
@@ -127,9 +128,9 @@ export class EspecialidadesComponent implements OnInit{
         this.getTableData();
       });
   }
-  editarEspecialidad(especialidad: especialidad) {
+  editarEspecialidad(especialidad: Iespecialidad) {
     this.bsModalRef = this.modalService.show(EditarEspecialidadComponent);
-    this.bsModalRef.content.especialidadSeleccionada = especialidad.nombre;
+    this.bsModalRef.content.especialidadSeleccionada = especialidad.especialidadId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });

@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { DataService } from 'src/app/shared/data/data.service';
-import { DataCategoria, Icategoria, apiResultFormat, categoria, pageSelection } from 'src/app/shared/models/models';
+import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import { AgregarCategoriaComponent } from './agregar-categoria/agregar-categoria.component';
 import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.component';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
+import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria';
+
 
 @Component({
   selector: 'app-categoria',
@@ -34,17 +36,19 @@ export class CategoriaComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
+  loading = true;
 
-
-  constructor(private modalService: BsModalService, public categoriaService: CategoriaService) {
+  constructor(private modalService: BsModalService, public categoriaService: CategoriaService, ) {
   }
   ngOnInit() {
+    
     this.getTableData();
   }
   private getTableData(): void {
     this.ListCategoria = [];
     this.serialNumberArray = [];
     this.categoriaService.obtenerCategorias(this.currentPage, this.pageSize).subscribe((data: DataCategoria) => {
+      this.loading = false;
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -74,6 +78,7 @@ export class CategoriaComponent implements OnInit {
       });
     }
   }
+
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -130,9 +135,9 @@ export class CategoriaComponent implements OnInit {
         this.getTableData();
       });
   }
-  editarCategoria(categoria: categoria) {
+  editarCategoria(categoria: Icategoria) {
     this.bsModalRef = this.modalService.show(EditarCategoriaComponent);
-    this.bsModalRef.content.categoriaSeleccionada = categoria.nombre;
+    this.bsModalRef.content.categoriaSeleccionada = categoria.categoriaId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });

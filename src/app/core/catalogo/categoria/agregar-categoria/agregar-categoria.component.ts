@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { categoria } from 'src/app/shared/models/models';
+import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria';
 import { routes } from 'src/app/shared/routes/routes';
 import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import Swal from 'sweetalert2';

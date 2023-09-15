@@ -63,11 +63,13 @@
                     <th></th>
                   </tr>
                 </thead>
-                <tbody>
+                <div class="loader" *ngIf="loading"></div>
+                <tbody *ngIf="!loading">
                   <tr *ngFor="let data of ListCategoria let i = index">
                     <td>{{serialNumberArray[i]}}</td>
                     <td>{{data.nombre}}</td>
-                    <td><button class="custom-badge status-green">Activo</button></td>
+                    <td><button class="custom-badge status-green" *ngIf="data.estado=='1'">Activo</button></td>
+                    <td><button class="custom-badge status-blue" *ngIf="data.estado!='1'">Inactivo</button></td>
                     <td class="text-end">
                       <div class="dropdown dropdown-action">
                         <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"

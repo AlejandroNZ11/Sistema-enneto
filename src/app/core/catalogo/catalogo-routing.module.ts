@@ -20,6 +20,34 @@ const routes: Routes = [
           (m) => m.EspecialidadesModule
         ),
     },
+    {
+      path: 'alergias',
+      loadChildren: () =>
+        import('./alergias/alergias.module').then(
+          (m) => m.AlergiasModule
+        ),
+    },
+    {
+      path: 'medida',
+      loadChildren: () =>
+        import('./medida/medida.module').then(
+          (m) => m.MedidaModule
+        ),
+    },
+    {
+      path: 'tipo-citado',
+      loadChildren: () =>
+        import('./tipo-citado/tipo-citado.module').then(
+          (m) => m.TipoCitadoModule
+        ),
+    },
+    {
+      path: 'tipo-concepto',
+      loadChildren: () =>
+        import('./tipo-concepto/tipo-concepto.module').then(
+          (m) => m.TipoConceptoModule
+        ),
+    },
   ]
 }
 ];
