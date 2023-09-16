@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataEspecialidad, especialidad } from '../models/especialidades';
+import { DataEspecialidad, Iespecialidad, especialidad } from '../models/especialidades';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,8 +25,8 @@ export class EspecialidadesService {
     );
   }
 
-  actualizarEspecialidad(especialidad: any): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${especialidad.id}`, especialidad).pipe(
+  actualizarEspecialidad(especialidad: Iespecialidad): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${especialidad.especialidadId}`, especialidad).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

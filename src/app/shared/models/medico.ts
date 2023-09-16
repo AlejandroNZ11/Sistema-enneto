@@ -1,27 +1,25 @@
 export class MedicoRequest {
-    clinicaId: string = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
-    usuarioId: string = '';
-    especialidades?: string[];
-    nombres: string = '';
-    apellidos: string = '';
-    abreviatura: string = '';
-    tipoDocumento: string = '';
-    numeroDocumento: string = '';
-    colegioMedico: string = '';
-    telefono: string = '';
-    celular: string = '';
-    direccion: string = '';
-    email: string = '';
-    fechaNacimiento?: Date;
-    sexo: string = '';
-    foto: string = '';
-    firma: string = '';
+    ClinicaId: string = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    UsuarioId: string = '';
+    Especialidades?: string[];
+    Nombres: string = '';
+    Apellidos: string = '';
+    Abreviatura: string = '';
+    TipoDocumento: string = '';
+    NumeroDocumento: string = '';
+    ColegioMedico: string = '';
+    Telefono: string = '';
+    Celular: string = '';
+    Direccion: string = '';
+    Email: string = '';
+    FechaNacimiento?: Date;
+    Sexo: string = '';
   }
   export interface MedicoResponse {
     medicoId: string;
     especialidadId: string;
-    nombres: string;
-    apellidos: string;
+    nombre: string;
+    apellido: string;
     numeroDocumento: string;
     colegioMedico: string;
     telefono: string;

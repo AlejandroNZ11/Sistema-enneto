@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataCategoria, categoria } from '../models/categoria';
+import { DataCategoria, Icategoria, categoria } from '../models/categoria';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,8 +24,8 @@ export class CategoriaService {
     );
   }
 
-  actualizarCategoria(categoria: any): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Categorias/${categoria.id}`, categoria).pipe(
+  actualizarCategoria(categoria: Icategoria): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Categorias/${categoria.categoriaId}`, categoria).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

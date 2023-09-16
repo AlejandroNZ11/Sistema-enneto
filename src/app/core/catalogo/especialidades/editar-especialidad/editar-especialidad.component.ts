@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarEspecialidadComponent implements OnInit{
   especialidadSeleccionada ?: string;
-  Especialidad: especialidad = new especialidad();
+  Especialidad!: Iespecialidad;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

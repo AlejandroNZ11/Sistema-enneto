@@ -12,7 +12,7 @@ import { DataAlergias, Ialergias, alergias } from 'src/app/shared/models/alergia
 })
 export class EditarAlergiasComponent  implements OnInit{
   alergiaSeleccionada ?: string;
-  Alergia: alergias = new alergias();
+  Alergia!: Ialergias;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataTipoConcepto, tipoConcepto } from '../models/tipoConcepto';
+import { DataTipoConcepto, ItipoConcepto, tipoConcepto } from '../models/tipoConcepto';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,8 +25,8 @@ export class TipoConceptoService {
     );
   }
 
-  actualizarTipoConcepto(tipoConcepto: any): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/TiposConceptos/${tipoConcepto.id}`, tipoConcepto).pipe(
+  actualizarTipoConcepto(tipoConcepto: ItipoConcepto): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/TiposConceptos/${tipoConcepto.tipoConceptoId}`, tipoConcepto).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

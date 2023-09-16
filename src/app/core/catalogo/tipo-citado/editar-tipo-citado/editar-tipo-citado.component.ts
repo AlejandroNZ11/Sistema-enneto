@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarTipoCitadoComponent implements OnInit{
   tipoCitadoSeleccionado ?: string;
-  tipoCitado: tipoCitado = new tipoCitado();
+  tipoCitado!: ItipoCitado;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

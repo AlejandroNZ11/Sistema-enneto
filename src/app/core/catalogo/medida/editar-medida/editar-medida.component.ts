@@ -13,7 +13,7 @@ import { MedidaService } from 'src/app/shared/services/medida.service';
 })
 export class EditarMedidaComponent implements OnInit{
   medidaSeleccionada ?: string;
-  Medida: medida = new medida();
+  Medida!: Imedida;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

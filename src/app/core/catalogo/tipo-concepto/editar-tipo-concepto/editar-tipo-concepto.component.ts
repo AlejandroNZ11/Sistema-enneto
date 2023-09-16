@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarTipoConceptoComponent implements OnInit{
   tipoConceptoSeleccionado ?: string;
-  tipoConcepto: tipoConcepto = new tipoConcepto();
+  tipoConcepto!: ItipoConcepto;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

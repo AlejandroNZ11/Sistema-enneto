@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarCategoriaComponent implements OnInit {
   categoriaSeleccionada ?: string;
-  Categoria: categoria = new categoria();
+  Categoria!: Icategoria;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

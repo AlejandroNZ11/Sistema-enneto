@@ -90,7 +90,7 @@
                   <tr *ngFor="let data of doctorsList let i = index">
                     <td>{{serialNumberArray[i]}}</td>
                     <td class="profile-image"><a [routerLink]="routes.profile"><img width="28" height="28"
-                          [src]="data.foto" class="rounded-circle m-r-5" alt=""> {{data.nombres}} {{data.apellidos}}</a>
+                          [src]="data.foto" class="rounded-circle m-r-5" alt=""> {{data.nombre}} {{data.apellido}}</a>
                     </td>
                     <td> <button *ngFor="let data of data.especialidadId"
                         class="custom-badge status-blue ">{{data}}</button></td>

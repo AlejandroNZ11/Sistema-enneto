@@ -4,8 +4,7 @@ export class alergias {
     descripcion: string = "";
   }
   export interface Ialergias {
-    clinicaId: string;
-    usuarioId: string;
+    alergiasId: string;
     descripcion: string;
     estado:string;
   }

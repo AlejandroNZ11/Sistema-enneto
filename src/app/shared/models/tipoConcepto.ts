@@ -4,8 +4,7 @@ export class tipoConcepto {
     descripcion: string = "";
 }
 export interface ItipoConcepto {
-    clinicaId: string;
-    usuarioId: string;
+    tipoConceptoId: string;
     descripcion: string;
     estado:string;
 }

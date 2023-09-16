@@ -14,7 +14,7 @@ export class DoctorService {
   obtenerDoctores(clinicaId: string, page: number, rows: number): Observable<MedicoListData> {
     return this.http.get<MedicoListData>(this.apiUrl + `/Medicos/GetAllMedico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
-  crearDoctor(doctor: MedicoRequest): Observable<successResponse> {
+  crearDoctor(doctor: FormData): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Medicos/SaveMedico', doctor).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');

@@ -27,7 +27,7 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Nombres <span class="login-danger">*</span></label>
-                                        <input formControlName="nombres" [(ngModel)]="doctor.nombres"
+                                        <input formControlName="nombres" [(ngModel)]="doctor.Nombres"
                                             class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('nombres') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('nombres') && isFormSubmitted" class="invalid-feedback">
@@ -40,7 +40,7 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Apellidos <span class="login-danger">*</span></label>
-                                        <input formControlName="apellidos" [(ngModel)]="doctor.apellidos"
+                                        <input formControlName="apellidos" [(ngModel)]="doctor.Apellidos"
                                             class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('apellidos') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('apellidos') && isFormSubmitted" class="invalid-feedback">
@@ -53,12 +53,16 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Abreviatura <span class="login-danger">*</span></label>
-                                        <input formControlName="abreviatura" [(ngModel)]="doctor.abreviatura"
+                                        <input formControlName="abreviatura" [(ngModel)]="doctor.Abreviatura"
                                             class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('abreviatura') && isFormSubmitted}">
-                                        <div *ngIf="isInvalid('abreviatura') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('abreviatura') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('abreviatura')">
                                                 Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('abreviatura')">
+                                                Máximo 4 caracteres*
                                             </div>
                                         </div>
                                     </div>
@@ -66,8 +70,9 @@
                                 <div class="col-12 col-md-6 col-xl-8">
                                     <div class="form-group local-forms">
                                         <label>Correo <span class="login-danger">*</span></label>
-                                        <input formControlName="email" [(ngModel)]="doctor.email" class="form-control"
-                                            type="email" [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
+                                        <input formControlName="email" [(ngModel)]="doctor.Email" class="form-control"
+                                            type="email"
+                                            [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('email') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('email')">
                                                 Debe completar el campo*
@@ -95,12 +100,14 @@
                                         <label>Tipo de Documento <span class="login-danger">*</span></label>
                                         <mat-select formControlName="tipoDocumento" [(ngModel)]="tipoDocumento"
                                             class="form-control select" placeholder="Seleccione Tipo de Documento"
-                                            [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}">
+                                            [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
+                                            (ngModelChange)="actualizarCantidad()">
                                             <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.value">
                                                 {{data.value}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('tipoDocumento')">
                                                 Debe completar el campo*
                                             </div>
@@ -110,12 +117,16 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Nro. Documento <span class="login-danger">*</span></label>
-                                        <input formControlName="numeroDocumento" [(ngModel)]="doctor.numeroDocumento"
-                                            class="form-control" type="text"
+                                        <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
+                                            [(ngModel)]="doctor.NumeroDocumento" class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}">
-                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('numeroDocumento')">
                                                 Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidadNroDocumento('numeroDocumento')">
+                                                Debe ingresar la cantidad correcta: {{cantidad}}*
                                             </div>
                                         </div>
                                     </div>
@@ -123,15 +134,19 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
-                                        <input formControlName="fechaNacimiento" [(ngModel)]="doctor.fechaNacimiento"
+                                        <input formControlName="fechaNacimiento" [(ngModel)]="doctor.FechaNacimiento"
                                             style='height:48px' class="form-control datetimepicker" type="text"
                                             placeholder="" matInput [matDatepicker]="picker"
-                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}">
+                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}" >
                                         <mat-datepicker #picker></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                        <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('fechaNacimiento')">
                                                 Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isFechaNacimientoMayorActual()">
+                                                Fecha no valida*
                                             </div>
                                         </div>
                                     </div>
@@ -139,30 +154,36 @@
                                 <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Celular <span class="login-danger"></span></label>
-                                        <input formControlName="celular" [(ngModel)]="doctor.celular"
-                                            class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}">
+                                        <input (input)="soloNumeros($event)" formControlName="celular"
+                                            [(ngModel)]="doctor.Celular" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
+                                            pattern="[0-9]*">
                                         <div *ngIf="isInvalid('celular') && isFormSubmitted" class="invalid-feedback">
-                                            Numero de digitos: 9*
+                                            <div *ngIf="isCantidadExacta('celular')">
+                                                Debe ingresar la cantidad correcta: 9*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Teléfono <span class="login-danger"></span></label>
-                                        <input formControlName="telefono" [(ngModel)]="doctor.telefono"
-                                            class="form-control" type="text"
+                                        <input (input)="soloNumeros($event)" formControlName="telefono"
+                                            [(ngModel)]="doctor.Telefono" class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('telefono') && isFormSubmitted" class="invalid-feedback">
-                                            Numero de digitos: 7*
+                                            <div *ngIf="isCantidadExacta('telefono')">
+                                                Debe ingresar la cantidad correcta: 7*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-12 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Dirección <span class="login-danger">*</span></label>
-                                        <input formControlName="direccion" [(ngModel)]="doctor.direccion"
-                                            class="form-control" [ngClass]="{'is-invalid': isInvalid('direccion') && isFormSubmitted}">
+                                        <input formControlName="direccion" [(ngModel)]="doctor.Direccion"
+                                            class="form-control"
+                                            [ngClass]="{'is-invalid': isInvalid('direccion') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('direccion') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('direccion')">
                                                 Debe completar el campo*
@@ -175,13 +196,15 @@
                                         <label>Especialidad <span class="login-danger">*</span></label>
                                         <mat-select [(ngModel)]="especialidades" formControlName="especialidades"
                                             class="form-control select" placeholder="Seleccione Especialidad"
-                                            [ngClass]="{'is-invalid': isInvalid('especialidades') && isFormSubmitted}" multiple>
+                                            [ngClass]="{'is-invalid': isInvalid('especialidades') && isFormSubmitted}"
+                                            multiple>
                                             <mat-option *ngFor="let data of especialidad_LISTA"
                                                 [value]="data.especialidadId">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('especialidades') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('especialidades') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('especialidades')">
                                                 Debe completar el campo*
                                             </div>
@@ -191,12 +214,17 @@
                                 <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Colegiatura <span class="login-danger">*</span></label>
-                                        <input formControlName="colegioMedico" [(ngModel)]="doctor.colegioMedico"
+                                        <input formControlName="colegioMedico" [(ngModel)]="doctor.ColegioMedico"
                                             class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('colegioMedico') && isFormSubmitted}">
-                                        <div *ngIf="isInvalid('colegioMedico') && isFormSubmitted" class="invalid-feedback">
+                                            [ngClass]="{'is-invalid': isInvalid('colegioMedico') && isFormSubmitted}"
+                                            pattern="[0-9]*">
+                                        <div *ngIf="isInvalid('colegioMedico') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('colegioMedico')">
                                                 Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('colegioMedico')">
+                                                Máximo 4 caracteres*
                                             </div>
                                         </div>
                                     </div>
