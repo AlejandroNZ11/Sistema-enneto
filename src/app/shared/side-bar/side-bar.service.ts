@@ -23,9 +23,7 @@ export class SideBarService {
 
   public expandSideBar: BehaviorSubject<string> = new BehaviorSubject<string>("false");
 
-  constructor(private data: DataService) {
-   
-  }
+  constructor(private data: DataService) { }
 
   public switchSideMenuPosition(): void {
     if (localStorage.getItem('isMiniSidebar')) {
@@ -59,5 +57,4 @@ export class SideBarService {
       localStorage.setItem('isMobileSidebar', 'true');
     }
   }
-
 }

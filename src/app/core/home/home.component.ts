@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@auth0/auth0-angular';
 import { routes } from 'src/app/shared/routes/routes';
 
 @Component({
@@ -11,10 +12,12 @@ export class HomeComponent implements OnInit {
   public routes = routes;
   public today = new Date();
   public currentHour = this.today.getHours();
-
+  constructor(public auth:AuthService){}
   ngOnInit(): void {
     this.checkTime(this.currentHour);
-  }
+    const token = this.auth.getAccessTokenSilently();
+    console.log(token)
+    }
 
   checkTime(i: number) {
     if (i >= 0 && i < 12) { this.saludo = 'Buenos días' }

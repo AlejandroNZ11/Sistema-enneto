@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { DataService } from 'src/app/shared/data/data.service';
 import { MenuItem, SideBarData } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { SideBarService } from 'src/app/shared/side-bar/side-bar.service';
-
+import { AuthGuard, AuthService } from '@auth0/auth0-angular';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -24,7 +25,8 @@ export class SidebarComponent {
   constructor(
     private data: DataService,
     private router: Router,
-    private sideBar: SideBarService
+    private sideBar: SideBarService,
+    @Inject(DOCUMENT) public document: Document, public auth:AuthService
   ) {
     this.sidebarData = this.data.sideBar;
     router.events.subscribe((event: object) => {
@@ -66,6 +68,10 @@ export class SidebarComponent {
     } else {
       this.sideBar.expandSideBar.next("false");
     }
+  }
+  logout(){
+    this.auth.logout({logoutParams:{ 
+      returnTo: document.location.origin +  '/login'}})
   }
 
 }

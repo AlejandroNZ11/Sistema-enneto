@@ -8,12 +8,13 @@ import { materialModule } from './material.module';
 import { NgxEditorModule } from 'ngx-editor';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DataService } from './data/data.service';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-
+import { AuthModule } from '@auth0/auth0-angular';
+import { AuthInterceptor } from './auth/auth.interceptor';
 @NgModule({
   declarations: [],
   imports: [
@@ -44,7 +45,14 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    AuthModule.forRoot({
+      domain: 'dev-wzm6yxhkvbvs4fvs.us.auth0.com',
+      clientId: 'xbq4CkORSEA7aFkYOKIC45Xn72M0ktOk',
+      authorizationParams: {
+        redirect_uri: window.location.origin + '/home'
+      }
+    }),
   ],
   exports: [
     CommonModule,
@@ -64,6 +72,12 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
   ],
   providers: [
     DataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass:AuthInterceptor,
+      multi:true
+
+    }
   ]
 })
 export class SharedModule { }

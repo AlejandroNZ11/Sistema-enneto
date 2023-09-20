@@ -129,7 +129,7 @@ export class TipoConceptoComponent implements OnInit{
   }
   editarTipoConcepto(tipoConcepto: ItipoConcepto) {
     this.bsModalRef = this.modalService.show(EditarTipoConceptoComponent);
-    this.bsModalRef.content.especialidadSeleccionada = tipoConcepto.descripcion;
+    this.bsModalRef.content.especialidadSeleccionada = tipoConcepto.nombre;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });

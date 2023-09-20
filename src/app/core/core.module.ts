@@ -8,6 +8,10 @@ import { SidebarComponent } from '../common-component/sidebar/sidebar.component'
 import { SharedModule } from '../shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from '../shared/auth/auth.interceptor';
+
 
 
 
@@ -21,7 +25,15 @@ import { CatalogoComponent } from './catalogo/catalogo.component';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass:AuthInterceptor,
+      multi:true
+    }
   ],
 })
 export class CoreModule { }

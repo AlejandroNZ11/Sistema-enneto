@@ -12,8 +12,8 @@ export class CategoriaService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerCategorias(page: number, rows: number): Observable<DataCategoria> {
-    return this.http.get<DataCategoria>(this.apiUrl + `/Categorias/GetAllCategoria?page=${page}&rows=${rows}`);
+  obtenerCategorias(clinicaId: string,page: number, rows: number): Observable<DataCategoria> {
+    return this.http.get<DataCategoria>(this.apiUrl + `/Categorias/GetAllCategoria?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   crearCategoria(categoria: categoria): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Categorias/SaveCategoria', categoria).pipe(
