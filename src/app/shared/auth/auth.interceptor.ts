@@ -12,6 +12,7 @@ import { AuthService } from '@auth0/auth0-angular';
 export class AuthInterceptor implements HttpInterceptor {
     constructor(private authService: AuthService) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        debugger;
         const token = this.authService.getAccessTokenSilently();
         if (token) {
             const authRequest = request.clone({
