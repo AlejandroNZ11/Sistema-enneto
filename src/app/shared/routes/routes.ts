@@ -38,6 +38,9 @@ export class routes {
   public static get login(): string {
     return this.baseUrl + '/login';
   }
+  public static get logIn(): string {
+    return this.baseUrl + '/log-in';
+  }
   public static get register(): string {
     return this.baseUrl + '/register';
   }

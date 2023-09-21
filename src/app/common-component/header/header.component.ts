@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { routes } from 'src/app/shared/routes/routes';
 import { SideBarService } from 'src/app/shared/side-bar/side-bar.service';
 
@@ -14,7 +16,10 @@ export class HeaderComponent {
   public miniSidebar  = false;
   public addClass = false;
 
-  constructor(public router: Router,private sideBar: SideBarService) {
+  constructor(
+  public router: Router,private sideBar: SideBarService,
+  public auth:AuthService
+  ) {
     this.sideBar.toggleSideBar.subscribe((res: string) => {
       if (res == 'true') {
         this.miniSidebar = true;
@@ -56,5 +61,9 @@ export class HeaderComponent {
         root.classList.remove('menu-opened');
         sidebar.classList.remove('opened');
       }
+    }
+    logout(){
+      this.auth.logout({logoutParams:{ 
+        returnTo: document.location.origin+  '/login'}})
     }
   }

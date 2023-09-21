@@ -129,7 +129,7 @@ export class AlergiasComponent implements OnInit{
   }
   editarAlergia(alergias: Ialergias) {
     this.bsModalRef = this.modalService.show(EditarAlergiasComponent);
-    this.bsModalRef.content.especialidadSeleccionada = alergias.descripcion;
+    this.bsModalRef.content.especialidadSeleccionada = alergias.nombre;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });

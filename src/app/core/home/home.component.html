@@ -13,9 +13,9 @@
 
         <div class="good-morning-blk">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6" >
                     <div class="morning-user">
-                        <h2>{{this.saludo}}, <span>Ricardo</span></h2>
+                        <h2 *ngIf="auth.user$ | async as user">{{this.saludo}}, {{ user.name }} <span></span></h2>
                         <p>Que tengas un buen día en el trabajo</p>
                     </div>
                 </div>
@@ -33,13 +33,13 @@
                     <div class="card-header">
                         <h4>Datos de tu cuenta</h4>
                     </div>
-                    <div class="card-body pt-0">
+                    <div class="card-body pt-0"  *ngIf="auth.user$ | async as user" >
                         <div class="container-fluid text-center pt-2"
                             style="background-color:#dddee7; border-radius: 15px;">
                             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
                                 alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-                            <h3 class="my-2">RICARDO</h3>
-                            <h4 class="pb-4">Administrador</h4>
+                            <h3 class="my-2" > {{ user.name }} </h3>
+                            <h4 class="pb-4">{{ user.email }}</h4>
                         </div>
                         <div class="about-me-list pt-2">
                             <ul class="list-space">

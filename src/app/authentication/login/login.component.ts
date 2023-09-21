@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/shared/auth/auth.service';
+import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { routes } from 'src/app/shared/routes/routes';
 
 @Component({
@@ -8,35 +9,17 @@ import { routes } from 'src/app/shared/routes/routes';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit{
   public routes = routes;
   public passwordClass = false;
-
-  form = new FormGroup({
-    email: new FormControl('admin@dreamguys.in', [
-      Validators.required,
-      Validators.email,
-    ]),
-    password: new FormControl('123456', [Validators.required]),
-  });
-
-  get f() {
-    return this.form.controls;
-  }
-
-  constructor(public auth: AuthService) {}
   ngOnInit(): void {
-    if (localStorage.getItem('authenticated')) {
-      localStorage.removeItem('authenticated');
-    }
+    
   }
+  constructor(public auth: AuthService, private router: Router) { }
 
-  loginFormSubmit() {
-    if (this.form.valid) {
-      this.auth.login();
-    }
-  }
-  togglePassword() {
-    this.passwordClass = !this.passwordClass;
+  loginWithRedirect() {
+    this.auth.loginWithRedirect();
+    const token =  this.auth.getAccessTokenSilently();
+    console.log('Token de Acceso:', token);
   }
 }

@@ -46,7 +46,7 @@ export class AgregarTipoConceptoComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.tipoConcepto.descripcion = this.form.get("descripcion")?.value;
+    this.tipoConcepto.nombre = this.form.get("descripcion")?.value;
     console.log(this.tipoConcepto);
     this.service.crearTipoConcepto(this.tipoConcepto).subscribe(
       (response)=>{

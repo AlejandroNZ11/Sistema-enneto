@@ -8,8 +8,7 @@ import { SidebarComponent } from '../common-component/sidebar/sidebar.component'
 import { SharedModule } from '../shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
-
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,10 @@ import { CatalogoComponent } from './catalogo/catalogo.component';
   imports: [
     CommonModule,
     CoreRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientModule,
+  ],
+  providers: [
   ],
 })
 export class CoreModule { }

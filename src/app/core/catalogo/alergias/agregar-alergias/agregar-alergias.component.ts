@@ -47,7 +47,7 @@ export class AgregarAlergiasComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Alergia.descripcion = this.form.get("descripcion")?.value;
+    this.Alergia.nombre = this.form.get("descripcion")?.value;
     console.log(this.Alergia);
     this.service.crearAlergia(this.Alergia).subscribe(
       (response)=>{
