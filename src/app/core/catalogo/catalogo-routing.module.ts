@@ -48,6 +48,14 @@ const routes: Routes = [
           (m) => m.TipoConceptoModule
         ),
     },
+    {
+      path: 'banco',
+      loadChildren: () =>
+        import('./banco/banco.module').then(
+          (m) => m.BancosModule
+        ),
+    },
+    
   ]
 }
 ];

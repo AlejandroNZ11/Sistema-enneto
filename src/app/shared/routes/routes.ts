@@ -23,6 +23,9 @@ export class routes {
   public static get especialidad(): string {
     return this.baseUrl + '/catalogo/especialidades';
   }
+  public static get banco(): string {
+    return this.baseUrl + '/catalogo/banco';
+  }
   public static get changePassword2(): string {
     return this.baseUrl + '/change-password2';
   }

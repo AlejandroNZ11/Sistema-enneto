@@ -666,6 +666,11 @@ export class DataService {
               route: routes.tipoConcepto,
               base: routes.tipoConcepto,
             },
+            {
+              menuValue: 'Banco',
+              route: routes.banco,
+              base: routes.banco,
+            },
           ],
         },
       ],
