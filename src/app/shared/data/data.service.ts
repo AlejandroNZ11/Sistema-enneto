@@ -918,7 +918,6 @@ export class DataService {
           base: 'settings',
           subMenus: [],
         },
-
       ],
     },
     {

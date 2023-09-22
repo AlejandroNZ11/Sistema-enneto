@@ -16,17 +16,15 @@ import { EditarTipoCitadoComponent } from './tipo-citado/editar-tipo-citado/edit
 import { AlergiasComponent } from './alergias/alergias.component';
 import { AgregarAlergiasComponent } from './alergias/agregar-alergias/agregar-alergias.component';
 import { EditarAlergiasComponent } from './alergias/editar-alergias/editar-alergias.component';
-import { ClientesComponent } from './clientes/clientes.component';
-import { ApoderadoComponent } from './apoderado/apoderado.component';
-import { ConsentimientoComponent } from './consentimiento/consentimiento.component';
+import { BancosComponent } from './banco/banco.component';
+import { AgregarBancoComponent } from './banco/agregar-banco/agregar-banco.component';
+import { EditarBancoComponent } from './banco/editar-banco/editar-banco.component';
+
 
 
 @NgModule({
   declarations: [
     CatalogoComponent,
-    ClientesComponent,
-    ApoderadoComponent,
-    ConsentimientoComponent,
   ],
   imports: [
     SharedModule,
