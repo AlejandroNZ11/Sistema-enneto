@@ -9,6 +9,12 @@ import { SharedModule } from '../shared/shared.module';
 import { ModalComponent } from './modal/modal.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CajaComponent } from './caja/caja.component';
+import { MovimientoComponent } from './movimiento/movimiento.component';
+import { OperacionesComponent } from './operaciones/operaciones.component';
+import { ReportesComponent } from './reportes/reportes.component';
+import { MantenimientoComponent } from './mantenimiento/mantenimiento.component';
+import { ConfiguracionComponent } from './configuracion/configuracion.component';
 
 @NgModule({
   declarations: [

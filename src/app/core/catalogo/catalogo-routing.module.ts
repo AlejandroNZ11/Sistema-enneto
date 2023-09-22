@@ -14,7 +14,7 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'especialidades',
+      path: 'especialidad',
       loadChildren: () =>
         import('./especialidades/especialidades.module').then(
           (m) => m.EspecialidadesModule
@@ -46,6 +46,27 @@ const routes: Routes = [
       loadChildren: () =>
         import('./tipo-concepto/tipo-concepto.module').then(
           (m) => m.TipoConceptoModule
+        ),
+    },
+    {
+      path: 'clientes',
+      loadChildren: () =>
+        import('./clientes/clientes.module').then(
+          (m) => m.ClientesModule
+        ),
+    },
+    {
+      path: 'apoderado',
+      loadChildren: () =>
+        import('./apoderado/apoderado.module').then(
+          (m) => m.ApoderadoModule
+        ),
+    },
+    {
+      path: 'consentimiento',
+      loadChildren: () =>
+        import('./consentimiento/consentimiento.module').then(
+          (m) => m.ConsentimientoModule
         ),
     },
   ]

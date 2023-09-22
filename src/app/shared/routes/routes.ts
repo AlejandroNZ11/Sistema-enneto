@@ -5,24 +5,155 @@ export class routes {
   public static get baseUrl(): string {
     return this.Url;
   }
-  public static get medida(): string {
+  public static get citas(): string {
+    return this.baseUrl + '/calendario/citas';
+  }
+  public static get control(): string {
+    return this.baseUrl + '/calendario/control';
+  }
+  public static get registroPac(): string {
+    return this.baseUrl + '/paciente/registro';
+  }
+  public static get historiaGeneralPac(): string {
+    return this.baseUrl + '/paciente/historia-general';
+  }
+  public static get historiaMedicoPac(): string {
+    return this.baseUrl + '/paciente/historia-medico';
+  }
+  public static get cobroConsultaCaja(): string {
+    return this.baseUrl + '/caja/cobro-consulta';
+  }
+  public static get cobroPresupuestoCaja(): string {
+    return this.baseUrl + '/caja/cobro-presupuesto';
+  }
+  public static get cierreCaja(): string {
+    return this.baseUrl + '/caja/cierre';
+  }
+  public static get gastosCaja(): string {
+    return this.baseUrl + '/caja/gastos';
+  }
+  public static get ventasProductoMov(): string {
+    return this.baseUrl + '/movimiento/ventas';
+  }
+  public static get salidaMaterialesMov(): string {
+    return this.baseUrl + '/movimiento/salida';
+  }
+  public static get comprasMov(): string {
+    return this.baseUrl + '/movimiento/compras';
+  }
+  public static get inventarioMov(): string {
+    return this.baseUrl + '/movimiento/inventario';
+  }
+  public static get almacenMov(): string {
+    return this.baseUrl + '/movimiento/almacen';
+  }
+
+  public static get productosOp(): string {
+    return this.baseUrl + '/operaciones/productos';
+  }
+  public static get marcaOp(): string {
+    return this.baseUrl + '/operaciones/marca';
+  }
+  public static get categoriaOp(): string {
+    return this.baseUrl + '/operaciones/categoria';
+  }
+  public static get presentacionOp(): string {
+    return this.baseUrl + '/operaciones/presentacion';
+  }
+  public static get tipoOp(): string {
+    return this.baseUrl + '/operaciones/tipo-materiales';
+  }
+  public static get unidadesOp(): string {
+    return this.baseUrl + '/operaciones/unidades';
+  }
+  public static get proveedorOp(): string {
+    return this.baseUrl + '/operaciones/proveedor';
+  }
+  public static get productividadGrafico(): string {
+    return this.baseUrl + '/reportes/productividad';
+  }
+  public static get controlGrafico(): string {
+    return this.baseUrl + '/reportes/control';
+  }
+  public static get produccionMedGrafico(): string {
+    return this.baseUrl + '/reportes/produccion-medico';
+  }
+  public static get comisionMedGrafico(): string {
+    return this.baseUrl + '/reportes/comision-medico';
+  }
+
+  public static get tipoPagoMant(): string {
+    return this.baseUrl + '/mantenimiento/tipo-pago';
+  }
+  public static get monedaMant(): string {
+    return this.baseUrl + '/mantenimiento/moneda';
+  }
+  public static get bancoMant(): string {
+    return this.baseUrl + '/mantenimiento/banco';
+  }
+  public static get tarjetaMant(): string {
+    return this.baseUrl + '/mantenimiento/tarjeta';
+  }
+  public static get tipoGastosMant(): string {
+    return this.baseUrl + '/mantenimiento/tipo-gastos';
+  }
+  public static get cuentaMant(): string {
+    return this.baseUrl + '/mantenimiento/cuenta';
+  }
+  public static get tarifarioMant(): string {
+    return this.baseUrl + '/mantenimiento/tarifario';
+  }
+  public static get diagnosticoMant(): string {
+    return this.baseUrl + '/mantenimiento/diagnostico';
+  }
+  public static get medidaCat(): string {
     return this.baseUrl + '/catalogo/medida';
   }
-  public static get alergias(): string {
+  public static get alergiasCat(): string {
     return this.baseUrl + '/catalogo/alergias';
   }
-  public static get tipoCitado(): string {
+  public static get tipoCitadoCat(): string {
     return this.baseUrl + '/catalogo/tipo-citado';
   }
-  public static get tipoConcepto(): string {
+  public static get tipoConceptoCat(): string {
     return this.baseUrl + '/catalogo/tipo-concepto';
   }
-  public static get categoria(): string {
+  public static get categoriaCat(): string {
     return this.baseUrl + '/catalogo/categoria';
   }
-  public static get especialidad(): string {
-    return this.baseUrl + '/catalogo/especialidades';
+  public static get especialidadCat(): string {
+    return this.baseUrl + '/catalogo/especialidad';
   }
+  public static get clienteCat(): string {
+    return this.baseUrl + '/catalogo/cliente';
+  }
+  public static get apoderadoCat(): string {
+    return this.baseUrl + '/catalogo/apoderado';
+  }
+  public static get consentimientoCat(): string {
+    return this.baseUrl + '/catalogo/consentimiento';
+  }
+
+  public static get usuarioCrud(): string {
+    return this.baseUrl + '/configuracion/usuario';
+  }
+  public static get rolesCrud(): string {
+    return this.baseUrl + '/configuracion/rol';
+  }
+  public static get permisosCrud(): string {
+    return this.baseUrl + '/configuracion/permiso';
+  }
+  public static get miClinicaCrud(): string {
+    return this.baseUrl + '/configuracion/clinica';
+  }
+  public static get tipoDocCrud(): string {
+    return this.baseUrl + '/configuracion/tipo-documento';
+  }
+  public static get sedeCrud(): string {
+    return this.baseUrl + '/configuracion/sede';
+  }
+
+
   public static get changePassword2(): string {
     return this.baseUrl + '/change-password2';
   }

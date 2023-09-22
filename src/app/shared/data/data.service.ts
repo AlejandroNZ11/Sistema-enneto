@@ -9,7 +9,7 @@ import { apiResultFormat } from '../models/models';
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
 
 
@@ -202,20 +202,11 @@ export class DataService {
       separateRoute: false,
       menu: [
         {
-          menuValue: 'Home',
-          route: routes.home,
-          hasSubRoute: false,
-          showSubRoute: false,
-          base: 'home',
-          img: 'assets/img/icons/menu-icon-00.svg',
-          subMenus: [],
-        },
-        {
           menuValue: 'Dashboard',
           hasSubRoute: true,
           showSubRoute: false,
           base: 'dashboard',
-          route:'dashboard',
+          route: 'dashboard',
           img: 'assets/img/icons/menu-icon-01.svg',
           subMenus: [
             {
@@ -236,60 +227,358 @@ export class DataService {
           ],
         },
         {
-          menuValue: 'Doctors',
+          menuValue: 'Calendario',
           hasSubRoute: true,
           showSubRoute: false,
-          base: 'doctor',
-          img: 'assets/img/icons/menu-icon-02.svg',
+          icon: 'fa-calendar',
+          faIcon: true,
+          base: 'calendario',
           subMenus: [
             {
-              menuValue: 'Doctor List',
-              route: routes.doctorsList,
-              base: routes.doctorsList,
+              menuValue: 'Citas',
+              route: routes.citas,
+              base: routes.citas,
             },
             {
-              menuValue: 'Add Doctor',
-              route: routes.addDoctor,
-              base: routes.addDoctor,
-            },
-            {
-              menuValue: 'Edit Doctor',
-              route: routes.editDoctor,
-              base: routes.editDoctor,
-            },
-            {
-              menuValue: 'Doctor Profile',
-              route: routes.doctorProfile,
-              base: routes.doctorProfile,
+              menuValue: 'Control',
+              route: routes.control,
+              base: routes.control,
             },
           ],
         },
         {
-          menuValue: 'Patients',
+          menuValue: 'Pacientes',
           hasSubRoute: true,
           showSubRoute: false,
           base: 'patient',
           img: 'assets/img/icons/menu-icon-03.svg',
           subMenus: [
             {
-              menuValue: 'Patients List',
-              route: routes.patientsList,
-              base: routes.patientsList,
+              menuValue: 'Registro',
+              route: routes.registroPac,
+              base: routes.registroPac,
             },
             {
-              menuValue: 'Add Patients',
-              route: routes.addPatient,
-              base: routes.addPatient,
+              menuValue: 'Historia General',
+              route: routes.historiaGeneralPac,
+              base: routes.historiaGeneralPac,
             },
             {
-              menuValue: 'Edit Patients',
-              route: routes.editPatient,
-              base: routes.editPatient,
+              menuValue: 'Historia Medico',
+              route: routes.historiaMedicoPac,
+              base: routes.historiaMedicoPac,
+            },
+          ],
+        },
+        {
+          menuValue: 'Doctores',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'doctor',
+          img: 'assets/img/icons/menu-icon-02.svg',
+          subMenus: [
+            {
+              menuValue: 'Registro',
+              route: routes.doctorsList,
+              base: routes.doctorsList,
             },
             {
-              menuValue: 'Patients Profile',
-              route: routes.patientProfile,
-              base: routes.patientProfile,
+              menuValue: 'Agregar Doctor',
+              route: routes.addDoctor,
+              base: routes.addDoctor,
+            },
+            {
+              menuValue: 'Editar Doctor',
+              route: routes.editDoctor,
+              base: routes.editDoctor,
+            },
+            {
+              menuValue: 'Perfil Doctor',
+              route: routes.doctorProfile,
+              base: routes.doctorProfile,
+            },
+          ],
+        },
+        {
+          menuValue: 'Caja',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'caja',
+          icon: 'fa-tasks',
+          faIcon: true,
+          subMenus: [
+            {
+              menuValue: 'Cobro consulta',
+              route: routes.cobroConsultaCaja,
+              base: routes.cobroConsultaCaja,
+            },
+            {
+              menuValue: 'Cobro Presupuesto',
+              route: routes.cobroPresupuestoCaja,
+              base: routes.cobroPresupuestoCaja,
+            },
+            {
+              menuValue: 'Cierre',
+              route: routes.cierreCaja,
+              base: routes.cierreCaja,
+            },
+            {
+              menuValue: 'Gastos',
+              route: routes.gastosCaja,
+              base: routes.gastosCaja,
+            },
+          ],
+        },
+        {
+          menuValue: 'Movimientos',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'movimientos',
+          icon: 'fa-shopping-cart',
+          faIcon: true,
+          subMenus: [
+            {
+              menuValue: 'Ventas productos',
+              route: routes.ventasProductoMov,
+              base: routes.ventasProductoMov,
+            },
+            {
+              menuValue: 'Salida Materiales',
+              route: routes.salidaMaterialesMov,
+              base: routes.salidaMaterialesMov,
+            },
+            {
+              menuValue: 'Compras',
+              route: routes.comprasMov,
+              base: routes.comprasMov,
+            },
+            {
+              menuValue: 'Inventario',
+              route: routes.inventarioMov,
+              base: routes.inventarioMov,
+            },
+            {
+              menuValue: 'Almacen',
+              route: routes.almacenMov,
+              base: routes.almacenMov,
+            },
+          ],
+        },
+        {
+          menuValue: 'Operaciones',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'operaciones',
+          icon: 'fa-cubes',
+          faIcon: true,
+          subMenus: [
+            {
+              menuValue: 'Productos',
+              route: routes.productosOp,
+              base: routes.productosOp,
+            },
+            {
+              menuValue: 'Marca',
+              route: routes.marcaOp,
+              base: routes.marcaOp,
+            },
+            {
+              menuValue: 'Categoria',
+              route: routes.categoriaOp,
+              base: routes.categoriaOp,
+            },
+            {
+              menuValue: 'Presentacion',
+              route: routes.presentacionOp,
+              base: routes.presentacionOp,
+            },
+            {
+              menuValue: 'Tipo',
+              route: routes.tipoOp,
+              base: routes.tipoOp,
+            },
+            {
+              menuValue: 'Unidades',
+              route: routes.unidadesOp,
+              base: routes.unidadesOp,
+            },
+            {
+              menuValue: 'Proveedor',
+              route: routes.proveedorOp,
+              base: routes.proveedorOp,
+            },
+          ],
+        },
+        {
+          menuValue: 'Reportes',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'reportes',
+          icon: 'fa-area-chart',
+          faIcon: true,
+          subMenus: [
+            {
+              menuValue: 'Productividad',
+              route: routes.productividadGrafico,
+              base: routes.productosOp,
+            },
+            {
+              menuValue: 'Control',
+              route: routes.controlGrafico,
+              base: routes.controlGrafico,
+            },
+            {
+              menuValue: 'Produccion Medico',
+              route: routes.produccionMedGrafico,
+              base: routes.produccionMedGrafico,
+            },
+            {
+              menuValue: 'Comision Medico',
+              route: routes.comisionMedGrafico,
+              base: routes.comisionMedGrafico,
+            },
+          ],
+        },
+        {
+          menuValue: 'Mantenimiento',
+          hasSubRoute: true,
+          showSubRoute: false,
+          base: 'mantenimiento',
+          icon: 'fa-columns',
+          faIcon: true,
+          subMenus: [
+            {
+              menuValue: 'Tipo Pago',
+              route: routes.tipoPagoMant,
+              base: routes.tipoPagoMant,
+            },
+            {
+              menuValue: 'Moneda',
+              route: routes.monedaMant,
+              base: routes.monedaMant,
+            },
+            {
+              menuValue: 'Banco',
+              route: routes.bancoMant,
+              base: routes.bancoMant,
+            },
+            {
+              menuValue: 'Tarjeta',
+              route: routes.tarjetaMant,
+              base: routes.tarjetaMant,
+            },
+            {
+              menuValue: 'Tipo Gastos',
+              route: routes.tipoGastosMant,
+              base: routes.tipoGastosMant,
+            },
+            {
+              menuValue: 'Cuenta',
+              route: routes.cuentaMant,
+              base: routes.cuentaMant,
+            },
+            {
+              menuValue: 'Tarifario',
+              route: routes.tarifarioMant,
+              base: routes.tarifarioMant,
+            },
+            {
+              menuValue: 'Diagnostico',
+              route: routes.diagnosticoMant,
+              base: routes.diagnosticoMant,
+            },
+          ],
+        },
+        {
+          menuValue: 'Catalogo',
+          hasSubRoute: true,
+          showSubRoute: false,
+          img: 'assets/img/icons/menu-icon-13.svg',
+          base: 'catalogo',
+          subMenus: [
+            {
+              menuValue: 'Categoria',
+              route: routes.categoriaCat,
+              base: routes.categoriaCat,
+            },
+            {
+              menuValue: 'Especialidad',
+              route: routes.especialidadCat,
+              base: routes.especialidadCat,
+            },
+            {
+              menuValue: 'Medida',
+              route: routes.medidaCat,
+              base: routes.medidaCat,
+            },
+            {
+              menuValue: 'Alergias',
+              route: routes.alergiasCat,
+              base: routes.alergiasCat,
+            },
+            {
+              menuValue: 'Tipo Citado',
+              route: routes.tipoCitadoCat,
+              base: routes.tipoCitadoCat,
+            },
+            {
+              menuValue: 'Tipo Concepto',
+              route: routes.tipoConceptoCat,
+              base: routes.tipoConceptoCat,
+            },
+            {
+              menuValue: 'Clientes',
+              route: routes.clienteCat,
+              base: routes.alergiasCat,
+            },
+            {
+              menuValue: 'Apoderado',
+              route: routes.apoderadoCat,
+              base: routes.apoderadoCat,
+            },
+            {
+              menuValue: 'Consentimineto',
+              route: routes.consentimientoCat,
+              base: routes.consentimientoCat,
+            },
+          ],
+        },
+                {
+          menuValue: 'Configuracion',
+          hasSubRoute: true,
+          showSubRoute: false,
+          img: 'assets/img/icons/menu-icon-16.svg',
+          base: 'configuracion',
+          subMenus: [
+            {
+              menuValue: 'Usuario',
+              route: routes.usuarioCrud,
+              base: routes.usuarioCrud,
+            },
+            {
+              menuValue: 'Roles',
+              route: routes.rolesCrud,
+              base: routes.rolesCrud,
+            },
+            {
+              menuValue: 'Permisos',
+              route: routes.permisosCrud,
+              base: routes.permisosCrud,
+            },
+            {
+              menuValue: 'Mi Clinica',
+              route: routes.miClinicaCrud,
+              base: routes.miClinicaCrud,
+            },
+            {
+              menuValue: 'Tipo Documento',
+              route: routes.tipoDocCrud,
+              base: routes.tipoDocCrud,
+            },
+            {
+              menuValue: 'Sede',
+              route: routes.sedeCrud,
+              base: routes.sedeCrud,
             },
           ],
         },
@@ -629,45 +918,7 @@ export class DataService {
           base: 'settings',
           subMenus: [],
         },
-        {
-          menuValue: 'Catalogo',
-          hasSubRoute: true,
-          showSubRoute: false,
-          img: 'assets/img/icons/menu-icon-13.svg',
-          base: 'catalogo',
-          subMenus: [
-            {
-              menuValue: 'Categoria',
-              route: routes.categoria,
-              base: routes.categoria,
-            },
-            {
-              menuValue: 'Especialidad',
-              route: routes.especialidad,
-              base: routes.especialidad,
-            },
-            {
-              menuValue: 'Medida',
-              route: routes.medida,
-              base: routes.medida,
-            },
-            {
-              menuValue: 'Alergias',
-              route: routes.alergias,
-              base: routes.alergias,
-            },
-            {
-              menuValue: 'Tipo Citado',
-              route: routes.tipoCitado,
-              base: routes.tipoCitado,
-            },
-            {
-              menuValue: 'Tipo Concepto',
-              route: routes.tipoConcepto,
-              base: routes.tipoConcepto,
-            },
-          ],
-        },
+
       ],
     },
     {
@@ -749,16 +1000,7 @@ export class DataService {
             },
           ],
         },
-        {
-          menuValue: 'Calendar',
-          route: routes.calendar,
-          hasSubRoute: false,
-          showSubRoute: false,
-          icon: 'fa-calendar',
-          faIcon: true,
-          base: 'calendar',
-          subMenus: [],
-        },
+
       ],
     },
     {
@@ -822,7 +1064,7 @@ export class DataService {
             },
           ],
         },
-        
+
       ],
     },
   ];
@@ -890,111 +1132,111 @@ export class DataService {
   ];
   public upcomingAppointments = [
     {
-      "no" : "R00001",
-      "patientName" : "Andrea Lalema",
-      "doctor" : "Dr.Jenny Smith",
-      "date" : "12.05.2022 at",
-      "time" : "7.00 PM",
-      "disease" : "Fracture",
-      "img" : "assets/img/profiles/avatar-03.jpg"
-  },
-  {
-      "no" : "R00002",
-      "patientName" : "Cristina Groves",
-      "doctor" : "Dr.Angelica Ramos",
-      "date" : "13.05.2022 at",
-      "time" : "7.00 PM",
-      "disease" : "Fever",
-      "img" : "assets/img/profiles/avatar-05.jpg"
-  },
-  {
-      "no" : "R00003",
-      "patientName" : "Bernardo",
-      "doctor" : "Dr.Martin Doe",
-      "date" : "14.05.2022 at",
-      "time" : "7.00 PM",
-      "disease" : "Fracture",
-      "img" : "assets/img/profiles/avatar-04.jpg"
-  },
-  {
-      "no" : "R00004",
-      "patientName" : "Galaviz Lalema",
-      "doctor" : "Dr.Martin Doe",
-      "date" : "15.05.2022 at",
-      "time" : "7.00 PM",
-      "disease" : "Fracture",
-      "img" : "assets/img/profiles/avatar-03.jpg"
-  },
-  {
-      "no" : "R00005",
-      "patientName" : "Dr.William Jerk",
-      "doctor" : "Dr.Angelica Ramos",
-      "date" : "16.05.2022 at",
-      "time" : "7.00 PM",
-      "disease" : "Fever",
-      "img" : "assets/img/profiles/avatar-02.jpg"
-  }
+      "no": "R00001",
+      "patientName": "Andrea Lalema",
+      "doctor": "Dr.Jenny Smith",
+      "date": "12.05.2022 at",
+      "time": "7.00 PM",
+      "disease": "Fracture",
+      "img": "assets/img/profiles/avatar-03.jpg"
+    },
+    {
+      "no": "R00002",
+      "patientName": "Cristina Groves",
+      "doctor": "Dr.Angelica Ramos",
+      "date": "13.05.2022 at",
+      "time": "7.00 PM",
+      "disease": "Fever",
+      "img": "assets/img/profiles/avatar-05.jpg"
+    },
+    {
+      "no": "R00003",
+      "patientName": "Bernardo",
+      "doctor": "Dr.Martin Doe",
+      "date": "14.05.2022 at",
+      "time": "7.00 PM",
+      "disease": "Fracture",
+      "img": "assets/img/profiles/avatar-04.jpg"
+    },
+    {
+      "no": "R00004",
+      "patientName": "Galaviz Lalema",
+      "doctor": "Dr.Martin Doe",
+      "date": "15.05.2022 at",
+      "time": "7.00 PM",
+      "disease": "Fracture",
+      "img": "assets/img/profiles/avatar-03.jpg"
+    },
+    {
+      "no": "R00005",
+      "patientName": "Dr.William Jerk",
+      "doctor": "Dr.Angelica Ramos",
+      "date": "16.05.2022 at",
+      "time": "7.00 PM",
+      "disease": "Fever",
+      "img": "assets/img/profiles/avatar-02.jpg"
+    }
   ];
   public recentPatients = [
     {
-      "no" : "R00001",
-      "patientName" : "Andrea Lalema",
-      "age" : "21",
-      "date" : "12.05.2022 at",
-      "dateOfBirth" : "07 January 2002",
-      "diagnosis" : "Heart attack",
-      "img" : "assets/img/profiles/avatar-02.jpg",
-      "triage" : "Non Urgent"
-  },
-  {
-      "no" : "R00002",
-      "patientName" : "Mark Hay Smith",
-      "age" : "23",
-      "date" : "13.05.2022 at",
-      "dateOfBirth" : "06 January 2002",
-      "diagnosis" : "Jaundice",
-      "img" : "assets/img/profiles/avatar-03.jpg",
-      "triage" : "Emergency"
-  },
-  {
-      "no" : "R00003",
-      "patientName" : "Cristina Groves",
-      "age" : "25",
-      "date" : "14.05.2022 at",
-      "dateOfBirth" : "10 January 2002",
-      "diagnosis" : "Malaria",
-      "img" : "assets/img/profiles/avatar-04.jpg",
-      "triage" : "Out Patient"
-  },
-  {
-      "no" : "R00004",
-      "patientName" : "Galaviz Lalema",
-      "age" : "21",
-      "date" : "15.05.2022 at",
-      "dateOfBirth" : "09 January 2002",
-      "diagnosis" : "Typhoid",
-      "img" : "assets/img/profiles/avatar-05.jpg",
-      "triage" : "Urgent"
-  }
+      "no": "R00001",
+      "patientName": "Andrea Lalema",
+      "age": "21",
+      "date": "12.05.2022 at",
+      "dateOfBirth": "07 January 2002",
+      "diagnosis": "Heart attack",
+      "img": "assets/img/profiles/avatar-02.jpg",
+      "triage": "Non Urgent"
+    },
+    {
+      "no": "R00002",
+      "patientName": "Mark Hay Smith",
+      "age": "23",
+      "date": "13.05.2022 at",
+      "dateOfBirth": "06 January 2002",
+      "diagnosis": "Jaundice",
+      "img": "assets/img/profiles/avatar-03.jpg",
+      "triage": "Emergency"
+    },
+    {
+      "no": "R00003",
+      "patientName": "Cristina Groves",
+      "age": "25",
+      "date": "14.05.2022 at",
+      "dateOfBirth": "10 January 2002",
+      "diagnosis": "Malaria",
+      "img": "assets/img/profiles/avatar-04.jpg",
+      "triage": "Out Patient"
+    },
+    {
+      "no": "R00004",
+      "patientName": "Galaviz Lalema",
+      "age": "21",
+      "date": "15.05.2022 at",
+      "dateOfBirth": "09 January 2002",
+      "diagnosis": "Typhoid",
+      "img": "assets/img/profiles/avatar-05.jpg",
+      "triage": "Urgent"
+    }
   ];
   public patientProfile = [
     {
-      date : "29/09/2022",
-      doctor : "Dr.Jenny Smith",
-      treatment : "Check up",
-      charges : "$ 60"
+      date: "29/09/2022",
+      doctor: "Dr.Jenny Smith",
+      treatment: "Check up",
+      charges: "$ 60"
     },
     {
-      date : "19/09/2022",
-      doctor : "Andrea Lalema",
-      treatment : "	Blood Test",
-      charges : "$ 50"
+      date: "19/09/2022",
+      doctor: "Andrea Lalema",
+      treatment: "	Blood Test",
+      charges: "$ 50"
     },
     {
-      date : "20/09/2022",
-      doctor : "Dr.William Stephin",
-      treatment : "Blood Pressure",
-      charges : "$ 30"
+      date: "20/09/2022",
+      doctor: "Dr.William Stephin",
+      treatment: "Blood Pressure",
+      charges: "$ 30"
     }
   ];
   public blogs = [

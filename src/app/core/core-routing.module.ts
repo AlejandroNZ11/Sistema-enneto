@@ -30,9 +30,39 @@ const routes: Routes = [
           import('./doctor/doctor.module').then((m) => m.DoctorModule),
       },
       {
-        path: 'patient',
+        path: 'paciente',
         loadChildren: () =>
           import('./patient/patient.module').then((m) => m.PatientModule),
+      },
+      {
+        path: 'caja',
+        loadChildren: () =>
+          import('./caja/caja.module').then((m) => m.CajaModule),
+      },
+      {
+        path: 'configuracion',
+        loadChildren: () =>
+          import('./configuracion/configuracion.module').then((m) => m.ConfiguracionModule),
+      },
+      {
+        path: 'mantenimiento',
+        loadChildren: () =>
+          import('./mantenimiento/mantenimiento.module').then((m) => m.MantenimientoModule),
+      },
+      {
+        path: 'movimiento',
+        loadChildren: () =>
+          import('./movimiento/movimiento.module').then((m) => m.MovimientoModule),
+      },
+      {
+        path: 'operaciones',
+        loadChildren: () =>
+          import('./operaciones/operaciones.module').then((m) => m.OperacionesModule),
+      },
+      {
+        path: 'reportes',
+        loadChildren: () =>
+          import('./reportes/reportes.module').then((m) => m.ReportesModule),
       },
       {
         path: 'staff',
@@ -152,7 +182,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'calendar',
+        path: 'calendario',
         loadChildren: () =>
           import('./calendar/calendar.module').then((m) => m.CalendarModule),
       },
@@ -171,4 +201,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CoreRoutingModule {}
+export class CoreRoutingModule { }

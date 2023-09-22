@@ -6,24 +6,24 @@ const routes: Routes = [
   { path: '', component: PatientComponent,
   children: [
     {
-      path: 'patients-list',
+      path: 'registro',
       loadChildren: () =>
         import('./patients-list/patients-list.module').then(
           (m) => m.PatientsListModule
         ),
     },
     {
-      path: 'add-patient',
+      path: 'historia-general',
       loadChildren: () =>
-        import('./add-patient/add-patient.module').then(
-          (m) => m.AddPatientModule
+        import('./historia-general/historia-general.module').then(
+          (m) => m.HistoriaGeneralModule
         ),
     },
     {
-      path: 'edit-patient',
+      path: 'historia-medico',
       loadChildren: () =>
-        import('./edit-patient/edit-patient.module').then(
-          (m) => m.EditPatientModule
+        import('./historia-medico/historia-medico.module').then(
+          (m) => m.HistoriaMedicoModule
         ),
     },
     {
