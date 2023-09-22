@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { BancosService } from 'src/app/shared/services/bancos.service';
+import { Ibancos } from 'src/app/shared/models/bancos';
 import { routes } from 'src/app/shared/routes/routes';
-import { DataBancos,Ibancos,banco } from 'src/app/shared/models/bancos';
+import { BancosService } from 'src/app/shared/services/bancos.service';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-editar-banco',
   templateUrl: './editar-banco.component.html',
   styleUrls: ['./editar-banco.component.scss']
 })
-export class EditarBancoComponent implements OnInit {
+export class EditarBancoComponent {
   bancoSeleccionada?: string;
   Banco!: Ibancos
   public routes = routes;

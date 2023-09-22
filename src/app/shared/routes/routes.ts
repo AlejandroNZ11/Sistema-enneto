@@ -124,9 +124,6 @@ export class routes {
   public static get especialidadCat(): string {
     return this.baseUrl + '/catalogo/especialidad';
   }
-  public static get banco(): string {
-    return this.baseUrl + '/catalogo/banco';
-  }
 
   public static get clienteCat(): string {
     return this.baseUrl + '/catalogo/cliente';

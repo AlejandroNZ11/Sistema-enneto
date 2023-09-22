@@ -70,13 +70,6 @@ const routes: Routes = [
             (m) => m.ConsentimientoModule
           ),
       },
-      {
-        path: 'banco',
-        loadChildren: () =>
-          import('./banco/banco.module').then(
-            (m) => m.BancosModule
-          ),
-      },
     ]
   }
 ];

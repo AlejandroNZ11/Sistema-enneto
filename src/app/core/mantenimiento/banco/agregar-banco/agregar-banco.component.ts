@@ -1,17 +1,17 @@
-import { Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { banco } from 'src/app/shared/models/bancos';
 import { routes } from 'src/app/shared/routes/routes';
-import Swal from 'sweetalert2';
-import { DataBancos, Ibancos,banco } from 'src/app/shared/models/bancos';
 import { BancosService } from 'src/app/shared/services/bancos.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-banco',
   templateUrl: './agregar-banco.component.html',
   styleUrls: ['./agregar-banco.component.scss']
 })
-export class AgregarBancoComponent implements OnInit {
+export class AgregarBancoComponent {
   Banco: banco = new banco();
   public routes = routes;
   form!: FormGroup;
@@ -60,5 +60,4 @@ export class AgregarBancoComponent implements OnInit {
         console.error(error);
       });
   }
-
 }
