@@ -1,27 +1,31 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
+import { DataService } from 'src/app/shared/data/data.service';
 import { routes } from 'src/app/shared/routes/routes';
-import { AlergiasService } from 'src/app/shared/services/alergias.service';
-import { AgregarAlergiasComponent } from './agregar-alergias/agregar-alergias.component';
-import { EditarAlergiasComponent } from './editar-alergias/editar-alergias.component';
-import { DataAlergias, Ialergias, alergias } from 'src/app/shared/models/alergia';
-import { environment as env } from 'src/environments/environments';
-
+import { Sort } from '@angular/material/sort';
+import { MatTableDataSource } from "@angular/material/table";
+import { pageSelection, apiResultFormat,} from 'src/app/shared/models/models';
+import { MedicoService } from 'src/app/shared/services/medico.service';
+import { MedicoListData, MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
+import { environment } from 'src/environments/environments';
+interface dataGuid {
+  value: string;
+  guid: string;
+}
 @Component({
-  selector: 'app-alergias',
-  templateUrl: './alergias.component.html',
-  styleUrls: ['./alergias.component.scss']
+  selector: 'app-lista-medico',
+  templateUrl: './lista-medico.component.html',
+  styleUrls: ['./lista-medico.component.scss']
 })
-export class AlergiasComponent implements OnInit{
+export class ListaMedicoComponent implements OnInit{
   public routes = routes;
-  public ListAlergias: Array<Ialergias> = [];
-  alergiaSeleccionada: alergias = new alergias();
-  dataSource!: MatTableDataSource<Ialergias>;
+  public doctorsList: Array<MedicoResponse> = [];
+  dataSource!: MatTableDataSource<MedicoResponse>;
+  doctorseleccionado: MedicoRequest = new MedicoRequest();
   public showFilter = false;
-  public searchDataValue = '';
+  public searchDataValueNombre = '';
+  public searchDataValueEspecialidad = '';
+  public fechaDesde = '';
+  public fechaHasta = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -33,37 +37,60 @@ export class AlergiasComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-  bsModalRef?: BsModalRef;
-  constructor(private modalService: BsModalService, public alergiaService: AlergiasService) {
+  especialidad_LISTA: dataGuid[] = [
+    { value: 'Ortodoncia', guid: '6b9e5b30-9b94-4f78-a090-6e01d5b16201' },
+    { value: 'Odontopediatría', guid: '8a0a6a3e-7315-45d7-a54d-c6473c5f8d17' },
+    { value: 'Implantología', guid: '69121893-3AFC-4F92-85F3-40BB5E7C7E29' },
+    { value: 'General', guid: 'CB77CCE6-C2CB-471B-BDD4-5DAC8C93B756' },
+    { value: 'Endodoncia', guid: '4B900A74-E2D9-4837-B9A4-9E828752716E' },
+    { value: 'Cirugia bocal y Maxilofacial', guid: 'AEDC617C-D035-4213-B55A-DAE5CDFCA366' },
+  ];
+  constructor(public data : DataService,public medicoService: MedicoService){
+
   }
   ngOnInit() {
     this.getTableData();
   }
   private getTableData(): void {
-    this.ListAlergias = [];
+    this.doctorsList = [];
     this.serialNumberArray = [];
-    this.alergiaService.obtenerAlergias(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataAlergias) => {
-      this.totalData = data.totalData
+    this.medicoService.obtenerMedicos(environment.clinicaId,this.currentPage, this.pageSize).subscribe((data: MedicoListData) => {
+      this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListAlergias = data.data;
-      this.dataSource = new MatTableDataSource<Ialergias>(this.ListAlergias);
+      this.doctorsList = data.data;
+      this.dataSource = new MatTableDataSource<MedicoResponse>(this.doctorsList);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.ListAlergias = this.dataSource.filteredData;
+    this.doctorsList = this.dataSource.filteredData;
   }
-  public sortData(sort: Sort) {
-    const data = this.ListAlergias.slice();
+  public aplicarFiltro(): void {
+    const desde = new Date(this.fechaDesde);
+    const hasta = new Date(this.fechaHasta);
+    this.dataSource.filterPredicate = (data, filter) => {
+      if (!desde || !hasta) {
+        return true; // No se aplican filtros si alguno de los campos está vacío
+      }
+      const fechaRegistro = data.fechaRegistro;
+      // Compara la fecha de registro con el rango seleccionado
+      return fechaRegistro >= desde && fechaRegistro <= hasta;
+    };
+    this.dataSource.filter = 'apply';
+    this.doctorsList = this.dataSource.filteredData;
+  }
 
+  public sortData(sort: Sort) {
+    const data = this.doctorsList.slice();
     if (!sort.active || sort.direction === '') {
-      this.ListAlergias = data;
+      this.doctorsList = data;
     } else {
-      this.ListAlergias = data.sort((a, b) => {
+      this.doctorsList = data.sort((a, b) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,6 +99,7 @@ export class AlergiasComponent implements OnInit{
       });
     }
   }
+
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -122,19 +150,5 @@ export class AlergiasComponent implements OnInit{
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  crearAlergia() {
-    this.bsModalRef = this.modalService.show(AgregarAlergiasComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
-      });
-  }
-  editarAlergia(alergias: Ialergias) {
-    this.bsModalRef = this.modalService.show(EditarAlergiasComponent);
-    this.bsModalRef.content.especialidadSeleccionada = alergias.nombre;
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
-    });
-  }
 }
-
 

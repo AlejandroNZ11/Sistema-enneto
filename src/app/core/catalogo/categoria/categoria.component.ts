@@ -10,6 +10,7 @@ import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.co
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
 import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria';
+import { environment as env } from 'src/environments/environments';
 
 
 @Component({
@@ -47,7 +48,7 @@ export class CategoriaComponent implements OnInit {
   private getTableData(): void {
     this.ListCategoria = [];
     this.serialNumberArray = [];
-    this.categoriaService.obtenerCategorias("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataCategoria) => {
+    this.categoriaService.obtenerCategorias(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataCategoria) => {
       this.loading = false;
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {

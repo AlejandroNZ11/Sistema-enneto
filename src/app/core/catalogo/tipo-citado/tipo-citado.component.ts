@@ -8,6 +8,7 @@ import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
+import { environment as env } from 'src/environments/environments';
 
 @Component({
   selector: 'app-tipo-citado',
@@ -41,7 +42,7 @@ export class TipoCitadoComponent implements OnInit{
   private getTableData(): void {
     this.ListTipoCitados = [];
     this.serialNumberArray = [];
-    this.tipoCitadoService.obtenerTiposCitados("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataTipoCitado) => {
+    this.tipoCitadoService.obtenerTiposCitados(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataTipoCitado) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MatTableDataSource } from '@angular/material/table';
 import { routes } from 'src/app/shared/routes/routes';
 import { DataTipoConcepto, ItipoConcepto, tipoConcepto } from 'src/app/shared/models/tipoConcepto';
+import { environment as env } from 'src/environments/environments';
 
 @Component({
   selector: 'app-tipo-concepto',
@@ -41,7 +42,7 @@ export class TipoConceptoComponent implements OnInit{
   private getTableData(): void {
     this.ListTipoConceptos = [];
     this.serialNumberArray = [];
-    this.tipoConceptoService.obtenerTiposConceptos("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataTipoConcepto) => {
+    this.tipoConceptoService.obtenerTiposConceptos(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataTipoConcepto) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

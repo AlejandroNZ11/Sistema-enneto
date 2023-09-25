@@ -8,6 +8,7 @@ import { EspecialidadesService } from 'src/app/shared/services/especialidades.se
 import { AgregarEspecialidadComponent } from './agregar-especialidad/agregar-especialidad.component';
 import { EditarEspecialidadComponent } from './editar-especialidad/editar-especialidad.component';
 import { DataEspecialidad, Iespecialidad, especialidad } from 'src/app/shared/models/especialidades';
+import { environment as env } from 'src/environments/environments';
 
 @Component({
   selector: 'app-especialidades',
@@ -42,7 +43,7 @@ export class EspecialidadesComponent implements OnInit{
   private getTableData(): void {
     this.ListEspecialidad = [];
     this.serialNumberArray = [];
-    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataEspecialidad) => {
+    this.especialidadService.obtenerEspecialidades(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataEspecialidad) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

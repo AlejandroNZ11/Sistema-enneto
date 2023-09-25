@@ -15,6 +15,7 @@ import { OperacionesComponent } from './operaciones/operaciones.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { MantenimientoComponent } from './mantenimiento/mantenimiento.component';
 import { ConfiguracionComponent } from './configuracion/configuracion.component';
+import { MedicoComponent } from './medico/medico.component';
 
 @NgModule({
   declarations: [

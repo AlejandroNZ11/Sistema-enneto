@@ -8,6 +8,7 @@ import { MedidaService } from 'src/app/shared/services/medida.service';
 import { AgregarMedidaComponent } from './agregar-medida/agregar-medida.component';
 import { EditarMedidaComponent } from './editar-medida/editar-medida.component';
 import { DataMedida, Imedida, medida } from 'src/app/shared/models/medida';
+import { environment as env } from 'src/environments/environments';
 
 @Component({
   selector: 'app-medida',
@@ -41,7 +42,7 @@ export class MedidaComponent implements OnInit{
   private getTableData(): void {
     this.ListMedida = [];
     this.serialNumberArray = [];
-    this.medidaService.obtenerMedidas("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataMedida) => {
+    this.medidaService.obtenerMedidas(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataMedida) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

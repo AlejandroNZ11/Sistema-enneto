@@ -155,126 +155,10 @@ export class routes {
   }
 
 
-  public static get changePassword2(): string {
-    return this.baseUrl + '/change-password2';
-  }
-  public static get forgotPassword(): string {
-    return this.baseUrl + '/forgot-password';
-  }
-  public static get lockScreen(): string {
-    return this.baseUrl + '/lock-screen';
-  }
   public static get login(): string {
     return this.baseUrl + '/login';
   }
-  public static get logIn(): string {
-    return this.baseUrl + '/log-in';
-  }
-  public static get register(): string {
-    return this.baseUrl + '/register';
-  }
-  public static get addPayment(): string {
-    return this.baseUrl + '/accounts/add-payment';
-  }
-  public static get expenses(): string {
-    return this.baseUrl + '/accounts/expenses';
-  }
-  public static get addExpense(): string {
-    return this.baseUrl + '/accounts/add-expense';
-  }
-  public static get editExpense(): string {
-    return this.baseUrl + '/accounts/edit-expense';
-  }
-  public static get invoices(): string {
-    return this.baseUrl + '/accounts/invoices';
-  }
-  public static get invoiceView(): string {
-    return this.baseUrl + '/accounts/invoice-view';
-  }
-  public static get payments(): string {
-    return this.baseUrl + '/accounts/payments';
-  }
-  public static get editPayment(): string {
-    return this.baseUrl + '/accounts/edit-payment';
-  }
-  public static get providentFund(): string {
-    return this.baseUrl + '/accounts/provident-fund';
-  }
-  public static get addProvidentFund(): string {
-    return this.baseUrl + '/accounts/add-provident-fund';
-  }
-  public static get editProvidentFund(): string {
-    return this.baseUrl + '/accounts/edit-provident-fund';
-  }
-  public static get taxes(): string {
-    return this.baseUrl + '/accounts/taxes';
-  }
-  public static get addTax(): string {
-    return this.baseUrl + '/accounts/add-tax';
-  }
-  public static get editTax(): string {
-    return this.baseUrl + '/accounts/edit-tax';
-  }
-  public static get activities(): string {
-    return this.baseUrl + '/activities';
-  }
-  public static get addAppointment(): string {
-    return this.baseUrl + '/appointments/add-appointment';
-  }
-  public static get appointmentList(): string {
-    return this.baseUrl + '/appointments/appointment-list';
-  }
-  public static get editAppointment(): string {
-    return this.baseUrl + '/appointments/edit-appointment';
-  }
-  public static get addAsset(): string {
-    return this.baseUrl + '/assets/add-asset';
-  }
-  public static get assetsList(): string {
-    return this.baseUrl + '/assets/assets-list';
-  }
-  public static get editAsset(): string {
-    return this.baseUrl + '/assets/edit-asset';
-  }
-  public static get blankPage(): string {
-    return this.baseUrl + '/blank-page';
-  }
-  public static get addBlog(): string {
-    return this.baseUrl + '/blogs/add-blog';
-  }
-  public static get blog(): string {
-    return this.baseUrl + '/blogs/blog';
-  }
-  public static get blogDetails(): string {
-    return this.baseUrl + '/blogs/blog-details';
-  }
-  public static get editBlog(): string {
-    return this.baseUrl + '/blogs/edit-blog';
-  }
-  public static get calendar(): string {
-    return this.baseUrl + '/calendar';
-  }
-  public static get incomingCall(): string {
-    return this.baseUrl + '/calls/incoming-call';
-  }
-  public static get videoCall(): string {
-    return this.baseUrl + '/calls/video-call';
-  }
-  public static get voiceCall(): string {
-    return this.baseUrl + '/calls/voice-call';
-  }
-  public static get chat(): string {
-    return this.baseUrl + '/chat';
-  }
-  public static get tabs(): string {
-    return this.baseUrl + '/components/tabs';
-  }
-  public static get typography(): string {
-    return this.baseUrl + '/components/typography';
-  }
-  public static get uikit(): string {
-    return this.baseUrl + '/components/uikit';
-  }
+ 
   public static get adminDashboard(): string {
     return this.baseUrl + '/dashboard/admin-dashboard';
   }
@@ -284,26 +168,18 @@ export class routes {
   public static get patientDashboard(): string {
     return this.baseUrl + '/dashboard/patient-dashboard';
   }
-  public static get addDepartment(): string {
-    return this.baseUrl + '/departments/add-department';
+
+  public static get agregarMedico(): string {
+    return this.baseUrl + '/medico/agregar-medico';
   }
-  public static get departmentList(): string {
-    return this.baseUrl + '/departments/department-list';
+  public static get perfilMedico(): string {
+    return this.baseUrl + '/medico/perfil-medico';
   }
-  public static get editDepartment(): string {
-    return this.baseUrl + '/departments/edit-department';
+  public static get configMedico(): string {
+    return this.baseUrl + '/medico/editar-medico';
   }
-  public static get addDoctor(): string {
-    return this.baseUrl + '/doctor/add-doctor';
-  }
-  public static get doctorProfile(): string {
-    return this.baseUrl + '/doctor/doctor-profile';
-  }
-  public static get doctorSetting(): string {
-    return this.baseUrl + '/doctor/doctor-setting';
-  }
-  public static get doctorsList(): string {
-    return this.baseUrl + '/doctor/doctors-list';
+  public static get listaMedico(): string {
+    return this.baseUrl + '/medico/lista-medico';
   }
   public static get editDoctor(): string {
     return this.baseUrl + '/doctor/edit-doctor';

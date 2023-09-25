@@ -1,0 +1,308 @@
+<div class="page-wrapper">
+    <div class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.listaMedico">Medico </a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Agregar Medico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form (ngSubmit)="crearMedico()" [formGroup]="form">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Detalles del Medico</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Nombres <span class="login-danger">*</span></label>
+                                        <input formControlName="nombres" [(ngModel)]="doctor.Nombres"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('nombres') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('nombres') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('nombres')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Apellidos <span class="login-danger">*</span></label>
+                                        <input formControlName="apellidos" [(ngModel)]="doctor.Apellidos"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('apellidos') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('apellidos') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('apellidos')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Abreviatura <span class="login-danger">*</span></label>
+                                        <input formControlName="abreviatura" [(ngModel)]="doctor.Abreviatura"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('abreviatura') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('abreviatura') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('abreviatura')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('abreviatura')">
+                                                Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-8">
+                                    <div class="form-group local-forms">
+                                        <label>Correo <span class="login-danger">*</span></label>
+                                        <input formControlName="email" [(ngModel)]="doctor.Email" class="form-control"
+                                            type="email"
+                                            [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('email') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('email')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isEmail('email')">
+                                                Debe ingresar un correo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-4">
+                                    <div class="form-group select-gender">
+                                        <label class="gen-label">Sexo<span class="login-danger">*</span></label>
+                                        <div *ngFor="let item of sexo_LISTA; let i = index" class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" [value]="item.value" [checked]="item.checked"
+                                                    formControlName="sexo" class="form-check-input"
+                                                    [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Tipo de Documento <span class="login-danger">*</span></label>
+                                        <mat-select formControlName="tipoDocumento" [(ngModel)]="tipoDocumento"
+                                            class="form-control select" placeholder="Seleccione Tipo de Documento"
+                                            [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
+                                            (ngModelChange)="actualizarCantidad()">
+                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.value">
+                                                {{data.value}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('tipoDocumento')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Nro. Documento <span class="login-danger">*</span></label>
+                                        <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
+                                            [(ngModel)]="doctor.NumeroDocumento" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('numeroDocumento')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidadNroDocumento('numeroDocumento')">
+                                                Debe ingresar la cantidad correcta: {{cantidad}}*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                                        <input formControlName="fechaNacimiento" [(ngModel)]="doctor.FechaNacimiento"
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker"
+                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}" >
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fechaNacimiento')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isFechaNacimientoMayorActual()">
+                                                Fecha no valida*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Celular <span class="login-danger"></span></label>
+                                        <input (input)="soloNumeros($event)" formControlName="celular"
+                                            [(ngModel)]="doctor.Celular" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
+                                            pattern="[0-9]*">
+                                        <div *ngIf="isInvalid('celular') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isCantidadExacta('celular')">
+                                                Debe ingresar la cantidad correcta: 9*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Teléfono <span class="login-danger"></span></label>
+                                        <input (input)="soloNumeros($event)" formControlName="telefono"
+                                            [(ngModel)]="doctor.Telefono" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('telefono') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isCantidadExacta('telefono')">
+                                                Debe ingresar la cantidad correcta: 7*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Dirección <span class="login-danger">*</span></label>
+                                        <input formControlName="direccion" [(ngModel)]="doctor.Direccion"
+                                            class="form-control"
+                                            [ngClass]="{'is-invalid': isInvalid('direccion') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('direccion') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('direccion')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-12 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Especialidad <span class="login-danger">*</span></label>
+                                        <mat-select [(ngModel)]="especialidades" formControlName="especialidades"
+                                            class="form-control select" placeholder="Seleccione Especialidad"
+                                            [ngClass]="{'is-invalid': isInvalid('especialidades') && isFormSubmitted}"
+                                            multiple>
+                                            <mat-option *ngFor="let data of especialidad_LISTA"
+                                                [value]="data.especialidadId">
+                                                {{data.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('especialidades') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('especialidades')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Colegiatura <span class="login-danger">*</span></label>
+                                        <input formControlName="colegioMedico" [(ngModel)]="doctor.ColegioMedico"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('colegioMedico') && isFormSubmitted}"
+                                            pattern="[0-9]*">
+                                        <div *ngIf="isInvalid('colegioMedico') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('colegioMedico')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('colegioMedico')">
+                                                Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-3">
+                                    <div class="form-group select-gender">
+                                        <label class="gen-label">Estado<span class="login-danger">*</span></label>
+                                        <div *ngFor="let item of estado_LISTA; let i = index" class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio" [value]="item.value" [checked]="item.checked"
+                                                    class="form-check-input" [disabled]="true">{{item.name}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-6">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Foto <span class="login-danger"></span></label>
+                                        <div class="settings-btn upload-files-avator">
+                                            <input formControlName="foto" type="file" accept="image/*" name="image"
+                                                id="foto" (change)="cargarImagenFoto($event)" class="hide-input">
+                                            <label for="file" class="upload">Choose File</label>
+                                        </div>
+                                        <div class="upload-images upload-size"
+                                            [ngClass]="{'d-none':deleteIcon === false}"
+                                            style="width: 150px; height: 150px;">
+                                            <img *ngIf="!imagenTempFoto" src="assets/img/user.jpg" alt="Image">
+                                            <img *ngIf="imagenTempFoto" [src]="imagenTempFoto.toString()" alt="Image">
+                                            <a (click)="deleteIconFuncFoto()" href="javascript:void(0);"
+                                                class="btn-icon logo-hide-btn">
+                                                <i class="feather icon-x-circle"></i>
+                                            </a>
+                                        </div>
+                                        <div *ngIf="isInvalid('foto') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('foto')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-6">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Firma <span class="login-danger">*</span></label>
+                                        <div class="settings-btn upload-files-avator">
+                                            <input formControlName="firma" type="file" accept="image/*" name="image"
+                                                id="firma" (change)="cargarImagenFirma($event)" class="hide-input">
+                                            <label for="file" class="upload">Choose File</label>
+                                        </div>
+                                        <div class="upload-images upload-size"
+                                            [ngClass]="{'d-none':deleteIcon === false}"
+                                            style="width: 150px; height: 150px;">
+                                            <img *ngIf="!imagenTempFirma" src="assets/img/user.jpg" alt="Image">
+                                            <img *ngIf="imagenTempFirma" [src]="imagenTempFirma.toString()" alt="Image">
+                                            <a (click)="deleteIconFuncFirma()" href="javascript:void(0);"
+                                                class="btn-icon logo-hide-btn">
+                                                <i class="feather icon-x-circle"></i>
+                                            </a>
+                                        </div>
+                                        <div *ngIf="isInvalid('firma') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('firma')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button (click)="crearMedico()"
+                                    class="btn btn-primary submit-form me-2">Guardar</button>
+                                <button [routerLink]="routes.listaMedico"
+                                    class="btn btn-primary cancel-form">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

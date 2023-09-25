@@ -20,8 +20,8 @@ import { environment as env } from 'src/environments/environments';
     BrowserAnimationsModule,
     SharedModule,
     AuthModule.forRoot({
-      domain: 'rilaros.us.auth0.com',
-      clientId: 'zn036Wn3t9ZStBUCciMcURj4DGOqfLgb',
+      domain: env.domain,
+      clientId: env.clientId,
       authorizationParams: {
         redirect_uri: window.location.origin + '/home'
       },
