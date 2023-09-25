@@ -12,7 +12,7 @@ export class MedicoRequest {
   Celular = '';
   Direccion = '';
   Email = '';
-  FechaNacimiento?: Date;
+  FechaNacimiento!: Date;
   Sexo = '';
 }
 export interface MedicoResponse {

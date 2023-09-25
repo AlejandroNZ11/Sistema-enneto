@@ -120,7 +120,7 @@ export class AddDoctorComponent implements OnInit {
       return null;
     };
   }
-  /* V A L I D A C I O N E S*/ 
+  /* V A L I D A C I O N E S*/
   isFechaNacimientoMayorActual() {
     return this.form.get('fechaNacimiento')?.hasError('fechaNacimientoMayorActual');
   }
@@ -164,7 +164,7 @@ export class AddDoctorComponent implements OnInit {
     const currentValue = input.value;
     input.value = currentValue.replace(/[^0-9]/g, '');
   }
-    /* C A R G A R - I M A G E N */ 
+    /* C A R G A R - I M A G E N */
   deleteIconFuncFoto() {
     this.imagenTempFoto = "assets/img/user.jpg"
   }
@@ -214,7 +214,7 @@ export class AddDoctorComponent implements OnInit {
       //this.doctor.firma = '';
     }
   }
-  /* C R E A R - D O C T O R */ 
+  /* C R E A R - D O C T O R */
   crearDoctor() {
     if (this.form.invalid) {
       this.isFormSubmitted = true;
@@ -243,24 +243,29 @@ export class AddDoctorComponent implements OnInit {
       case 'CARNET EXTRANJERIA': this.doctor.TipoDocumento = '04'; break;
       case 'OTROS': this.doctor.TipoDocumento = '00'; break;
     }
+
     const formData = new FormData();
     formData.append('fotoForm',this.imagenSubirFoto,this.imagenSubirFoto.name)
     formData.append('firmaForm',this.imagenSubirFirma,this.imagenSubirFirma.name)
-    formData.append('Especialidades',JSON.stringify(this.doctor.Especialidades));
-    formData.append('Nombres',JSON.stringify(this.doctor.Nombres));
-    formData.append('Apellidos',JSON.stringify(this.doctor.Apellidos));
-    formData.append('Abreviatura',JSON.stringify(this.doctor.Abreviatura));
-    formData.append('TipoDocumento',JSON.stringify(this.doctor.TipoDocumento));
-    formData.append('NumeroDocumento',JSON.stringify(this.doctor.NumeroDocumento));
-    formData.append('ColegioMedico',JSON.stringify(this.doctor.ColegioMedico));
-    formData.append('Telefono',JSON.stringify(this.doctor.Telefono));
-    formData.append('Celular',JSON.stringify(this.doctor.Celular));
-    formData.append('Direccion',JSON.stringify(this.doctor.Direccion));
-    formData.append('Email',JSON.stringify(this.doctor.Email));
-    formData.append('FechaNacimiento',JSON.stringify(this.doctor.FechaNacimiento));
-    formData.append('Sexo',JSON.stringify(this.doctor.Sexo));
-    formData.append('ClinicaId',JSON.stringify(this.doctor.ClinicaId));
-    formData.append('UsuarioId',JSON.stringify(this.doctor.UsuarioId)); 
+
+    for (let i = 0; i < this.doctor.Especialidades.length; i++) {
+        formData.append('Especialidades',this.doctor.Especialidades[i]);
+    }
+
+    formData.append('Nombres',this.doctor.Nombres);
+    formData.append('Apellidos',this.doctor.Apellidos);
+    formData.append('Abreviatura',this.doctor.Abreviatura);
+    formData.append('TipoDocumento',this.doctor.TipoDocumento);
+    formData.append('NumeroDocumento',this.doctor.NumeroDocumento);
+    formData.append('ColegioMedico',this.doctor.ColegioMedico);
+    formData.append('Telefono',this.doctor.Telefono);
+    formData.append('Celular',this.doctor.Celular);
+    formData.append('Direccion',this.doctor.Direccion);
+    formData.append('Email',this.doctor.Email);
+    formData.append('FechaNacimiento',this.doctor.FechaNacimiento.toISOString().split('T')[0]);
+    formData.append('Sexo',this.doctor.Sexo);
+    formData.append('ClinicaId',this.doctor.ClinicaId);
+    formData.append('UsuarioId',this.doctor.UsuarioId);
     console.log(formData);
     this.doctorService.crearDoctor(formData).subscribe(
       (response) => {
