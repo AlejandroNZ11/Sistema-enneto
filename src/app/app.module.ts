@@ -20,15 +20,15 @@ import { environment as env } from 'src/environments/environments';
     BrowserAnimationsModule,
     SharedModule,
     AuthModule.forRoot({
-      domain: 'dev-wzm6yxhkvbvs4fvs.us.auth0.com',
-      clientId: 'xbq4CkORSEA7aFkYOKIC45Xn72M0ktOk',
+      domain: 'rilaros.us.auth0.com',
+      clientId: 'zn036Wn3t9ZStBUCciMcURj4DGOqfLgb',
       authorizationParams: {
         redirect_uri: window.location.origin + '/home'
       },
       httpInterceptor: {
         allowedList: [`${env.apiURL}/*`]
       }
-    }),
+    })
   ],
   providers: [
     {
