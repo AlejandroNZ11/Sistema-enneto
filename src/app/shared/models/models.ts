@@ -211,6 +211,7 @@ export interface patientsList {
   email: string;
   joiningDate: number;
   img: string;
+  fechaRegistro:Date;
 }
 export interface datatable {
   name: string;
