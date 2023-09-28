@@ -158,7 +158,7 @@ export class routes {
   public static get login(): string {
     return this.baseUrl + '/login';
   }
- 
+
   public static get adminDashboard(): string {
     return this.baseUrl + '/dashboard/admin-dashboard';
   }
