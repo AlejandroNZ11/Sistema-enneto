@@ -128,6 +128,11 @@ export class HistoriaGeneralComponent implements OnInit {
     }
   }
   aplicarFiltro(){}
+
+  
+  Paciente(){
+
+  }
   
 
 }

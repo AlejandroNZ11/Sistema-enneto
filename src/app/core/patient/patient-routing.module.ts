@@ -40,6 +40,13 @@ const routes: Routes = [
           (m) => m.PatientSettingModule
         ),
     },
+    {
+      path: 'add-patient',
+      loadChildren: () =>
+        import('./add-patient/add-patient.module').then(
+          (m) => m.AddPatientModule
+        ),
+    },
   ]}
  
 ];
