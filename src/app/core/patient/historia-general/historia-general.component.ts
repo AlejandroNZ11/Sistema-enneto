@@ -4,6 +4,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { pageSelection, apiResultFormat, patientsList } from 'src/app/shared/models/models';
 import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-historia-general',
@@ -31,7 +32,7 @@ export class HistoriaGeneralComponent implements OnInit {
   public fechaDesde = '';
   public fechaHasta = '';
 
-  constructor(public data: DataService) {
+  constructor(public data: DataService, private router: Router) {
 
   }
   ngOnInit() {
@@ -127,12 +128,23 @@ export class HistoriaGeneralComponent implements OnInit {
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  aplicarFiltro(){}
+  public aplicarFiltro(): void {
+    const desde = new Date(this.fechaDesde);
+    const hasta = new Date(this.fechaHasta);
+    this.dataSource.filterPredicate = (data, filter) => {
+      if (!desde || !hasta) {
+        return true; // No se aplican filtros si alguno de los campos está vacío
+      }
+      const fechaRegistro = data.fechaRegistro;
+      // Compara la fecha de registro con el rango seleccionado
+      return fechaRegistro >= desde && fechaRegistro <= hasta;
+    };
+    this.dataSource.filter = 'apply';
+    this.patientsList = this.dataSource.filteredData;
+  }
 
   
-  Paciente(){
-
-  }
+  
   
 
 }

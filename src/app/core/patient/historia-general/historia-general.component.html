@@ -30,17 +30,17 @@
                                     <div class="doctor-search-blk">
                             
                                         <div class="top-nav-search table-search-blk">
-                                            <input [(ngModel)]="fechaDesde" style='height:48px' class="form-control" type="text" placeholder="Desde"
-                                            matInput [matDatepicker]="picker" (ngModelChange)="aplicarFiltro()"> 
+                                            <input [(ngModel)]="fechaDesde" style='height:48px' class="form-control" type="text" placeholder="Desde" matInput
+                                                [matDatepicker]="picker" (ngModelChange)="aplicarFiltro()">
                                             <mat-datepicker #picker></mat-datepicker>
                                             <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
                                             <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                         </div>
                                         <div class="top-nav-search table-search-blk">
-                                            <input  [(ngModel)]="fechaHasta"style='height:48px' class="form-control" type="text" placeholder="Hasta" 
-                                            matInput [matDatepicker]="picker1" (ngModelChange)="aplicarFiltro()">
-                                            <mat-datepicker #picker1></mat-datepicker>
-                                            <mat-datepicker-toggle [for]="picker1"></mat-datepicker-toggle>
+                                            <input [(ngModel)]="fechaHasta" style='height:48px' class="form-control" type="text" placeholder="Hasta" matInput
+                                                [matDatepicker]="picker2" (ngModelChange)="aplicarFiltro()">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                            <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
                                             <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                         </div>
                             
@@ -58,11 +58,7 @@
                                                     <option value="value3"><i class="fa fa-ellipsis-v"></i> Surquillo</option>
                                                 </select>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-2 col-12 text-end ">
-                                            <a href="javascript:void(0);" class="btn btn-primary btn-rounded"><i class="fa fa-search" (click)="Paciente()"></i> Buscar</a>
-                                        </div>
-                                        
+                                        </div>    
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +116,7 @@
                                         <td>{{data.joiningDate}}</td>
                                         <td class="text-end">
                                         <div class="col-sm-4 col-12 text-end ">
-                                            <a href="javascript:void(0);" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Abrir Historial</a>
+                                            <a [routerLink]="routes.HistoriaPaciente" href="javascript:void(0);" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Abrir Historial</a>
                                         </div>
                                         </td>
                                     </tr>

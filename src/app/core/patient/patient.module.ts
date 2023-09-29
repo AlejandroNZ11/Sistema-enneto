@@ -5,6 +5,7 @@ import { PatientRoutingModule } from './patient-routing.module';
 import { PatientComponent } from './patient.component';
 
 
+
 @NgModule({
   declarations: [
     PatientComponent,

@@ -1,0 +1,259 @@
+<div class="page-wrapper">
+    <div class="content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.HistoriaPaciente">Historia Paciente</a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Filiación</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="doctor-personals-grp">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="https://newdental.odontoenneto.com//assets/img/background/user.png" class="img-circle " width="150"  style="margin: 0 auto;">
+                            <h6>
+                                <b>CARLOS MOISES SMITH TRILLO</b>
+                            </h6>
+                            <h6>H.C 17</h6>
+                            <div class="list-group mt-5">
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoFiliacion'"
+                                    (click)="setActiveLink('HistoriaContenidoFiliacion')">
+                                    <i class="far fa-user" aria-hidden="true"></i> Filiación </a>
+                                <a class="list-group-item list-group-item-action"
+                                    [class.active]="activeLink === 'HistoriaContenidoExploracionFisica'"
+                                    (click)="setActiveLink('HistoriaContenidoExploracionFisica')">
+                                    <i class="far fa-building" aria-hidden="true"></i> Historia clínica
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoOdontograma'"
+                                    (click)="setActiveLink('HistoriaContenidoOdontograma')">
+                                    <i class="fas fa-life-ring"></i> Odontograma
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoOrtodoncia'"
+                                    (click)="setActiveLink('HistoriaContenidoOrtodoncia')">
+                                    <i class="fas fa-table"></i> Ortodoncia
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoCotizacion'"
+                                    (click)="setActiveLink('HistoriaContenidoCotizacion')">
+                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i> Presupuesto
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoDiagnostico'"
+                                    (click)="setActiveLink('HistoriaContenidoDiagnostico')">
+                                    <i class="fas fa-heart"></i> Diagnóstico
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoEvolucion'"
+                                    (click)="setActiveLink('HistoriaContenidoEvolucion')">
+                                    <i class="fas fa-user-md" aria-hidden="true"></i> Evolución
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoPlacas'"
+                                    (click)="setActiveLink('HistoriaContenidoPlacas')">
+                                    <i class="fas fa-images"></i> Imágenes
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoEstadoCuenta'"
+                                    (click)="setActiveLink('HistoriaContenidoEstadoCuenta')">
+                                    <i class="far fa-credit-card"></i> Estado cuenta
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoConsentimiento'"
+                                    (click)="setActiveLink('HistoriaContenidoConsentimiento')">
+                                    <i class="fab fa-wpforms"></i> Consentimiento
+                                </a>
+                                <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoRecetas'"
+                                    (click)="setActiveLink('HistoriaContenidoRecetas')">
+                                    <i class="fas fa-first-aid"></i> Recetas
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div class="doctor-personals-grp">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row my-4">
+                                <div class="col-12">
+                                    <div class="form-heading">
+                                        <h4>Datos del Paciente</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Nombres <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Apellidos <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Fecha Nacimiento <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Edad <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Documento <span class="login-danger">*</span></label>
+                                        <input class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Direccion <span class="login-danger">*</span></label>
+                                        <input class="form-control" >
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-4">
+                                    <div class="form-group select-gender">
+                                        <label class="gen-label">Sexo<span class="login-danger">*</span></label>
+                                        <div  class="form-check-inline">
+                                            <label class="form-check-label">
+                                                <input type="radio"  class="form-check-input ">Masculino
+                                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                                <input type="radio" class="form-check-input ">Femenino
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Estado Civil <span class="login-danger">*</span></label>
+                                        <select class="form-control form select" >
+                                            <option value="">Casado(a)</option>
+                                            <option value="">Soltero(a)</option>
+                                            <option value="">Viudo(a)</option>
+                                            <option value="">Divorsiado(a)</option>
+                                            </select>
+                                    </div>
+                                </div> 
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Ocupacion <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Grado de instruccion <span class="login-danger">*</span></label>
+                                        <select class="form-control form select">
+                                            <option value="">SECUNDARIA COMPLETA</option>
+                                            <option value="">SUPERIOR</option>
+                                            <option value="">PRIMARIA COMPLETA</option>
+                                            <option value="">NO ESPECIFICA</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Telefono <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-4">
+                                    <div class="form-group local-forms">
+                                        <label>Correo <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Pais <span class="login-danger">*</span></label>
+                                        <select class="form-control form select">
+                                            <option value="">Perú</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Departamento <span class="login-danger">*</span></label>
+                                        <select class="form-control form select">
+                                            <option value="">Lima</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Provincia <span class="login-danger">*</span></label>
+                                        <select class="form-control form select">
+                                            <option value="">Lima</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Distrito <span class="login-danger">*</span></label>
+                                        <select class="form-control form select">
+                                            <option value="">Chorrillos</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>En caso de emergencia llamar a <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Parentesco <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Domicilio <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-3">
+                                    <div class="form-group local-forms">
+                                        <label>Celular <span class="login-danger">*</span></label>
+                                        <input class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6">
+                                    <div class="form-group local-forms">
+                                        <label>Referido por<span class="login-danger">*</span></label>
+                                        <input class="form-control custom-input-height" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-xl-6 ">
+                                    <div class="form-group local-forms">
+                                        <label>Observacion <span class="login-danger">*</span></label>
+                                        <input class="form-control custom-input-height" type="text">
+                                    </div>
+                                </div>
+                                <div class=" text-end ">
+                                    <a  href="javascript:void(0);" class="btn btn-primary btn-rounded"><i
+                                            ></i> Guardar</a>
+                                </div>
+                            </div>                                                                                                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

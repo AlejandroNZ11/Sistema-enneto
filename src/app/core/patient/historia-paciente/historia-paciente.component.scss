@@ -1,0 +1,15 @@
+/* Estilo para el fondo morado claro */
+
+
+/* Estilo para el fondo morado oscuro al activar el enlace */
+.list-group-item.active,
+.list-group-item:active {
+    background-color: #1219a1;
+    /* Puedes ajustar el color de fondo oscuro según tus preferencias */
+    color: #fff;
+    /* Cambia el color del texto cuando se activa */
+}
+.custom-input-height {
+    height: 100px;
+    /* Ajusta la altura según tus necesidades */
+}
