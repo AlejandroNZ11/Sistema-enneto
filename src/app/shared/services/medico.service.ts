@@ -1,18 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { MedicoListData, MedicoRequest } from '../models/medico';
+import { MedicoListData, MedicoRequest, MedicoResponse } from '../models/medico';
 @Injectable({
   providedIn: 'root'
 })
 export class MedicoService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient) { }
-  obtenerMedicos(clinicaId: string, page: number, rows: number): Observable<MedicoListData> {
-    return this.http.get<MedicoListData>(this.apiUrl + `/Medicos/GetAllMedico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerMedicos(clinicaId: string, page: number, rows: number, 
+    fechaInicio?: string, fechaFin?: string, medico?: string, especialidad?: string): Observable<MedicoListData> {
+      let url = `${this.apiUrl}/Medicos/GetAllMedico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
+      if (fechaInicio) {
+        url += `&fechaInicio=${fechaInicio}`;
+      }
+      if (fechaFin) {
+        url += `&fechaFin=${fechaFin}`;
+      }
+      if (medico) {
+        url += `&medico=${medico}`;
+      }
+      if (especialidad) {
+        url += `&especialidad=${especialidad}`;
+      }
+      return this.http.get<MedicoListData>(url);
   }
   crearMedico(doctor: FormData): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Medicos/SaveMedico', doctor).pipe(
@@ -21,5 +35,11 @@ export class MedicoService {
         return throwError(() => error);
       })
     );
+  }
+  obtenerMedico( medicoId: string): Observable<MedicoResponse> {
+    return this.http.get<MedicoResponse>(this.apiUrl + `/Medicos/GetMedico/${medicoId}`);
+  }
+  eliminarMedico( medicoId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Medicos/DeleteMedico/${medicoId}`);
   }
 }

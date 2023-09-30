@@ -187,8 +187,8 @@ export class routes {
   public static get listaMedico(): string {
     return this.baseUrl + '/medico/lista-medico';
   }
-  public static get editDoctor(): string {
-    return this.baseUrl + '/doctor/edit-doctor';
+  public static get editarMedico(): string {
+    return this.baseUrl + '/medico/editar-medico';
   }
   public static get addSchedule(): string {
     return this.baseUrl + '/doctor-schedule/add-schedule';

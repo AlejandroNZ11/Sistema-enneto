@@ -21,6 +21,7 @@ export interface MedicoResponse {
   nombre: string;
   apellido: string;
   numeroDocumento: string;
+  tipoDocumentoId: string;
   colegioMedico: string;
   telefono: string;
   celular: string;
@@ -32,6 +33,9 @@ export interface MedicoResponse {
   sexo: string;
   foto: string;
   firma: string;
+  abreviatura:string;
+  clinicaId:string;
+  usuarioId:string;
 }
 export interface MedicoListData {
   data: MedicoResponse[];

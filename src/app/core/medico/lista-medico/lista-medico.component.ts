@@ -3,29 +3,28 @@ import { DataService } from 'src/app/shared/data/data.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection, apiResultFormat,} from 'src/app/shared/models/models';
+import { pageSelection, apiResultFormat, } from 'src/app/shared/models/models';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { MedicoListData, MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
 import { environment } from 'src/environments/environments';
-interface dataGuid {
-  value: string;
-  guid: string;
-}
+import { formatDate } from '@angular/common';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-lista-medico',
   templateUrl: './lista-medico.component.html',
   styleUrls: ['./lista-medico.component.scss']
 })
-export class ListaMedicoComponent implements OnInit{
+export class ListaMedicoComponent implements OnInit {
   public routes = routes;
   public doctorsList: Array<MedicoResponse> = [];
   dataSource!: MatTableDataSource<MedicoResponse>;
   doctorseleccionado: MedicoRequest = new MedicoRequest();
   public showFilter = false;
-  public searchDataValueNombre = '';
-  public searchDataValueEspecialidad = '';
-  public fechaDesde = '';
-  public fechaHasta = '';
+  public medico = '';
+  public especialidad = '';
+  public fechaInicio = '';
+  public fechaFin = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -37,24 +36,43 @@ export class ListaMedicoComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-  especialidad_LISTA: dataGuid[] = [
-    { value: 'Ortodoncia', guid: '6b9e5b30-9b94-4f78-a090-6e01d5b16201' },
-    { value: 'Odontopediatría', guid: '8a0a6a3e-7315-45d7-a54d-c6473c5f8d17' },
-    { value: 'Implantología', guid: '69121893-3AFC-4F92-85F3-40BB5E7C7E29' },
-    { value: 'General', guid: 'CB77CCE6-C2CB-471B-BDD4-5DAC8C93B756' },
-    { value: 'Endodoncia', guid: '4B900A74-E2D9-4837-B9A4-9E828752716E' },
-    { value: 'Cirugia bocal y Maxilofacial', guid: 'AEDC617C-D035-4213-B55A-DAE5CDFCA366' },
-  ];
-  constructor(public data : DataService,public medicoService: MedicoService){
+  constructor(public data: DataService, public medicoService: MedicoService) {
 
   }
   ngOnInit() {
-    this.getTableData();
+    this.obtenerDatosMedicosSinFiltro();
   }
-  private getTableData(): void {
+  eliminar(medicoId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.medicoService.eliminarMedico(medicoId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Médico Eliminado en el sistema correctamente.', 'success');
+              this.obtenerDatosMedicosSinFiltro();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
+  }
+  private obtenerDatosMedicosSinFiltro(): void {
     this.doctorsList = [];
     this.serialNumberArray = [];
-    this.medicoService.obtenerMedicos(environment.clinicaId,this.currentPage, this.pageSize).subscribe((data: MedicoListData) => {
+    this.medicoService.obtenerMedicos(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: MedicoListData) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -65,26 +83,40 @@ export class ListaMedicoComponent implements OnInit{
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.doctorsList = this.dataSource.filteredData;
+  obtenerDatosMedicosConFiltro(): void {
+    this.doctorsList = [];
+    this.serialNumberArray = [];
+    let fechaInicioFormateado = undefined
+    let fechaFinFormateado = undefined
+    let medico = undefined
+    let especialidad = undefined
+    if (this.fechaInicio != "") {
+      fechaInicioFormateado = new Date(this.fechaInicio)?.toISOString().split('T')[0];
+    }
+    if (this.fechaFin != "") {
+      fechaFinFormateado = new Date(this.fechaFin)?.toISOString().split('T')[0];
+    }
+    if (this.medico != "") {
+      medico = this.medico;
+    }
+    if (this.especialidad != "") {
+      especialidad = this.especialidad;
+    }
+    this.medicoService.obtenerMedicos(environment.clinicaId, this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, medico, especialidad)
+      .subscribe((data: MedicoListData) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.doctorsList = data.data;
+        this.dataSource = new MatTableDataSource<MedicoResponse>(this.doctorsList);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+      });
   }
-  public aplicarFiltro(): void {
-    const desde = new Date(this.fechaDesde);
-    const hasta = new Date(this.fechaHasta);
-    this.dataSource.filterPredicate = (data, filter) => {
-      if (!desde || !hasta) {
-        return true; // No se aplican filtros si alguno de los campos está vacío
-      }
-      const fechaRegistro = data.fechaRegistro;
-      // Compara la fecha de registro con el rango seleccionado
-      return fechaRegistro >= desde && fechaRegistro <= hasta;
-    };
-    this.dataSource.filter = 'apply';
-    this.doctorsList = this.dataSource.filteredData;
+  public formatDate(date: Date): string {
+    return date.toISOString().split('T')[0];
   }
-
   public sortData(sort: Sort) {
     const data = this.doctorsList.slice();
     if (!sort.active || sort.direction === '') {
@@ -99,23 +131,21 @@ export class ListaMedicoComponent implements OnInit{
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosMedicosSinFiltro();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosMedicosSinFiltro();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -125,17 +155,15 @@ export class ListaMedicoComponent implements OnInit{
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.getTableData();
+    this.obtenerDatosMedicosSinFiltro();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.getTableData();
+    this.obtenerDatosMedicosSinFiltro();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;

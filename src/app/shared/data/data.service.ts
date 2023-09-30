@@ -287,16 +287,6 @@ export class DataService {
               route: routes.agregarMedico,
               base: routes.agregarMedico,
             },
-            {
-              menuValue: 'Editar Medico',
-              route: routes.configMedico,
-              base: routes.configMedico,
-            },
-            {
-              menuValue: 'Perfil Medico',
-              route: routes.perfilMedico,
-              base: routes.perfilMedico,
-            },
           ],
         },
         {

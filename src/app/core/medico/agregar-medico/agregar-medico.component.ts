@@ -6,6 +6,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 interface data {
   value: string;
@@ -17,7 +18,7 @@ interface data {
 })
 export class AgregarMedicoComponent implements OnInit {
 
-  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService) { }
+  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService, public router: Router) { }
   especialidad_LISTA: Array<Iespecialidad> = [];
   doctor: MedicoRequest = new MedicoRequest();
   form!: FormGroup;
@@ -27,10 +28,6 @@ export class AgregarMedicoComponent implements OnInit {
   readerFoto = new FileReader();
   readerFirma = new FileReader();
   isFormSubmitted = false;
-  dd: number = new Date().getDate();
-  mm: number = new Date().getMonth();
-  yyyy: number = new Date().getFullYear();
-  hoy: string = this.dd + '/' + this.mm + '/' + this.yyyy;
   public routes = routes;
   public tipoDocumento !: string;
   public especialidades !: string[];
@@ -48,7 +45,7 @@ export class AgregarMedicoComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
       abreviatura: ['', [Validators.required, Validators.maxLength(4)]],
-      celular: ['', [Validators.maxLength(9), Validators.minLength(9)]],
+      celular: ['', [Validators.maxLength(9), Validators.minLength(9),Validators.required]],
       telefono: ['', [Validators.maxLength(7), Validators.minLength(7)]],
       email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
       tipoDocumento: ['', [Validators.required, Validators.maxLength(40)]],
@@ -58,8 +55,8 @@ export class AgregarMedicoComponent implements OnInit {
       sexo: [getCheckedSexo, [Validators.required]],
       especialidades: ['', [Validators.required]],
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
-      foto: [''],
-      firma: ['']
+      foto: ['', Validators.required],
+      firma: ['', Validators.required]
     })
   }
   sexo_LISTA = [
@@ -158,7 +155,7 @@ export class AgregarMedicoComponent implements OnInit {
     const currentValue = input.value;
     input.value = currentValue.replace(/[^0-9]/g, '');
   }
-    /* C A R G A R - I M A G E N */
+  /* C A R G A R - I M A G E N */
   deleteIconFuncFoto() {
     this.imagenTempFoto = "assets/img/user.jpg"
   }
@@ -227,28 +224,29 @@ export class AgregarMedicoComponent implements OnInit {
     }
 
     const formData = new FormData();
-    formData.append('fotoForm',this.imagenSubirFoto,this.imagenSubirFoto.name)
-    formData.append('firmaForm',this.imagenSubirFirma,this.imagenSubirFirma.name)
+    formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
+    formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name)
 
     for (let i = 0; i < this.doctor.Especialidades.length; i++) {
-        formData.append('Especialidades',this.doctor.Especialidades[i]);
+      formData.append('Especialidades', this.doctor.Especialidades[i]);
     }
+    console.log(this.doctor);
+    formData.append('Nombres', this.doctor.Nombres);
+    formData.append('Apellidos', this.doctor.Apellidos);
+    formData.append('Abreviatura', this.doctor.Abreviatura);
+    formData.append('TipoDocumento', this.doctor.TipoDocumento);
+    formData.append('NumeroDocumento', this.doctor.NumeroDocumento);
+    formData.append('ColegioMedico', this.doctor.ColegioMedico);
+    formData.append('Telefono', this.doctor.Telefono);
 
-    formData.append('Nombres',this.doctor.Nombres);
-    formData.append('Apellidos',this.doctor.Apellidos);
-    formData.append('Abreviatura',this.doctor.Abreviatura);
-    formData.append('TipoDocumento',this.doctor.TipoDocumento);
-    formData.append('NumeroDocumento',this.doctor.NumeroDocumento);
-    formData.append('ColegioMedico',this.doctor.ColegioMedico);
-    formData.append('Telefono',this.doctor.Telefono);
-    formData.append('Celular',this.doctor.Celular);
-    formData.append('Direccion',this.doctor.Direccion);
-    formData.append('Email',this.doctor.Email);
-    formData.append('FechaNacimiento',this.doctor.FechaNacimiento.toISOString().split('T')[0]);
-    formData.append('Sexo',this.doctor.Sexo);
-    formData.append('ClinicaId',this.doctor.ClinicaId);
-    formData.append('UsuarioId',this.doctor.UsuarioId);
-    console.log(formData);
+    formData.append('Celular', this.doctor.Celular);
+
+    formData.append('Direccion', this.doctor.Direccion);
+    formData.append('Email', this.doctor.Email);
+    formData.append('FechaNacimiento', this.doctor.FechaNacimiento.toISOString().split('T')[0]);
+    formData.append('Sexo', this.doctor.Sexo);
+    formData.append('ClinicaId', this.doctor.ClinicaId);
+    formData.append('UsuarioId', this.doctor.UsuarioId);
     this.medicoService.crearMedico(formData).subscribe(
       (response) => {
         if (response.isSuccess) {
@@ -259,7 +257,7 @@ export class AgregarMedicoComponent implements OnInit {
           Swal.showLoading();
           Swal.close();
           Swal.fire('Correcto', 'Médico registrado en el sistema correctamente.', 'success');
-          return;
+          this.router.navigate(['/medico/lista-medico']);
         } else {
           console.error(response.message);
         }

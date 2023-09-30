@@ -20,7 +20,7 @@ const routes: Routes = [
         import('./agregar-medico/agregar-medico.module').then((m) => m.AgregarMedicoModule),
     },
     {
-      path: 'editar-medico',
+      path: 'editar-medico/:medicoId',
       loadChildren: () =>
         import('./editar-medico/editar-medico.module').then(
           (m) => m.EditarMedicoModule

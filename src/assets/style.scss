@@ -501,7 +501,6 @@ button {
 }
 input[type="file"] {
   height: auto;
-  padding: 6px 0.75rem;
 }
 input[type="text"] {
   -webkit-appearance: none;
@@ -7708,12 +7707,10 @@ h2.card-middle-avatar {
   width: 100%;
   height: 46px;
   .hide-input {
-    position: relative;
+    position: absolute;
     z-index: 1;
     cursor: pointer;
     min-height: auto;
-    padding-left: 4px;
-    padding-top: 0;
     line-height: 10px;
     width: 100%;
     opacity: 0;
