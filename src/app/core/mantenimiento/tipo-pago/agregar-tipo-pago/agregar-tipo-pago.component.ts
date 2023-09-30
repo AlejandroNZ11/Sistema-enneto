@@ -20,7 +20,6 @@ export class AgregarTipoPagoComponent {
 
   constructor(public bsModalRef: BsModalRef, private tipoPagoService: TipoPagoService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required]
     });
@@ -52,7 +51,6 @@ export class AgregarTipoPagoComponent {
       return;
     }
     
-    this.TipoPago.nombre = this.form.get("nombre")?.value;
     this.TipoPago.descripcion = this.form.get("descripcion")?.value;
     this.TipoPago.estado = this.form.get("estado")?.value;
 

@@ -1,6 +1,5 @@
 <div class="page-wrapper">
     <div class="content">
-
         <!-- Page Header -->
         <div class="page-header">
             <div class="row">
@@ -59,7 +58,6 @@
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="id">Nº</th>
-                                        <th mat-sort-header="nombre">Nombre</th>
                                         <th mat-sort-header="descripcion">Descripcion</th>
                                         <th mat-sort-header="estado">Estado</th>
                                         <th></th>
@@ -68,7 +66,6 @@
                                 <tbody>
                                     <tr *ngFor="let data of ListTipoPago let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
-                                        <td>{{data.nombre}}</td>
                                         <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
                                                 *ngIf="data.estado==='1'">Activo</button></td>
