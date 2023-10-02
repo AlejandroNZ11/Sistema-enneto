@@ -324,4 +324,10 @@ export interface SideBarData {
   menu: MenuItem[];
 }
 
+export interface Sede{
+  sedeId: string;
+  nombre: string;
+  estado: number;
+}
+
 

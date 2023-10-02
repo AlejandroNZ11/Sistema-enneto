@@ -16,7 +16,7 @@ export class PatientsListComponent implements OnInit {
   dataSource!: MatTableDataSource<patientsList>;
 
   public showFilter = false;
-  public searchDataValue = '';
+  public paciente = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
