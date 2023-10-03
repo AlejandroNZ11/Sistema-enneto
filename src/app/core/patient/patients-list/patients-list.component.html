@@ -29,8 +29,7 @@
                                         <h3>Lista Pacientes</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
-                                                    <input type="text" class="form-control" placeholder="Search here" [(ngModel)]="paciente"
-                                                    (ngModelChange)="searchData(paciente)">
+                                                    <input type="text" class="form-control" placeholder="Buscar paciente" [(ngModel)]="paciente">
                                                     <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
@@ -71,19 +70,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let data of patientsList">
+                                    <tr *ngFor="let data of patientsList let i = index">
                                         <td>
                                             <div class="form-check check-tables">
                                                 <input class="form-check-input" type="checkbox" value="something">
                                             </div>
                                         </td>
-                                        <td class="profile-image"><a [routerLink]="routes.profile"><img width="28" height="28" [src]="data.img" class="rounded-circle m-r-5" alt=""> {{data.name}}</a></td>
-                                        <td>{{data.department}}</td>
-                                        <td>{{data.specialization}}</td>
-                                        <td>{{data.degree}}</td>
-                                        <td><a href="javascript:;">{{data.mobile}}</a></td>
+                                        <td class="profile-image"><a [routerLink]="routes.profile"><img width="28" height="28" [src]="data.foto" class="rounded-circle m-r-5" alt=""> {{data.nombre}}</a></td>
+                                        <td>{{data.nombre}}</td>
+                                        <td>{{data.apellido}}</td>
+                                        <td>{{data.telefono}}</td>
+                                        <td><a href="javascript:;">{{data.dniPaciente}}</a></td>
                                         <td>{{data.email}}</td>
-                                        <td>{{data.joiningDate}}</td>
+                                        <td>{{data.fechaNacimiento}}</td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>

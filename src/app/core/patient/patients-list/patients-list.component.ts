@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection, apiResultFormat, patientsList } from 'src/app/shared/models/models';
+import { pageSelection, apiResultFormat } from 'src/app/shared/models/models';
 import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
+import Swal from 'sweetalert2';
+import { PacienteService } from 'src/app/shared/services/paciente.service';
+import { PacienteListData, PacienteResponse, PacienteRequest } from 'src/app/shared/models/paciente';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-patients-list',
@@ -12,8 +16,8 @@ import { DataService } from 'src/app/shared/data/data.service';
 })
 export class PatientsListComponent implements OnInit {
   public routes = routes;
-  public patientsList: Array<patientsList> = [];
-  dataSource!: MatTableDataSource<patientsList>;
+  public patientsList: Array<PacienteResponse> = [];
+  dataSource!: MatTableDataSource<PacienteResponse>;
 
   public showFilter = false;
   public paciente = '';
@@ -29,35 +33,54 @@ export class PatientsListComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
 
-  constructor(public data : DataService){
+  constructor(public data : DataService, public pacienteService: PacienteService){
 
   }
   ngOnInit() {
-    this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
-  private getTableData(): void {
+  eliminar(pacienteId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pacienteService.eliminarPaciente(pacienteId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
+              this.obtenerDatosPacientesSinFiltro();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
+
+  }
+  private obtenerDatosPacientesSinFiltro(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
-
-    this.data.getPatientsList().subscribe((data: apiResultFormat) => {
+    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: PacienteListData) => {
       this.totalData = data.totalData;
-      data.data.map((res: patientsList, index: number) => {
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-          
-          this.patientsList.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<patientsList>(this.patientsList);
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.patientsList = data.data;
+      this.dataSource = new MatTableDataSource<PacienteResponse>(this.patientsList);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.patientsList = this.dataSource.filteredData;
-  }
+  
 
   public sortData(sort: Sort) {
     const data = this.patientsList.slice();
@@ -81,13 +104,13 @@ export class PatientsListComponent implements OnInit {
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosPacientesSinFiltro();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosPacientesSinFiltro();
     }
   }
 
@@ -100,7 +123,7 @@ export class PatientsListComponent implements OnInit {
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
 
   public PageSize(): void {
@@ -108,7 +131,7 @@ export class PatientsListComponent implements OnInit {
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
 
   private calculateTotalPages(totalData: number, pageSize: number): void {

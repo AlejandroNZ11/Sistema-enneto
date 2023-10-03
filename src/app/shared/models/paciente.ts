@@ -12,6 +12,8 @@ export class PacienteRequest {
     EstadoCivil = '';
     Afiliacion = '';
     PacienteAlergias = '';
+    Telefono = '';
+    Celular = '';
     Email = '';
     Titulo = '';
     PaisId = '';

@@ -19,17 +19,23 @@
             
                 <div class="card">
                     <div class="card-body">
-                        <form>
+                        <form (ngSubmit)="crearPaciente()" [formGroup]="form">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Patinets Details</h4>
+                                        <h4>Detalles del Paciente</h4>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-4">  
+                                <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
-                                        <label >First Name <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text" placeholder="" >
+                                        <label>Nombres <span class="login-danger">*</span></label>
+                                        <input formControlName="nombres" [(ngModel)]="paciente.Nombre" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('nombres') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('nombres') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('nombres')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
@@ -107,11 +113,7 @@
                                     <div class="form-group local-forms">
                                         <label >Department <span class="login-danger">*</span></label>
                                         
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select  Department">
-                                            <mat-option *ngFor="let data of selectedList1" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                            
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12">
@@ -124,33 +126,21 @@
                                     <div class="form-group local-forms">
                                         <label >City <span class="login-danger">*</span></label>
                                         
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select City">
-                                            <mat-option *ngFor="let data of selectedList2" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label >Country  <span class="login-danger">*</span></label>
                                         
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select Country">
-                                            <mat-option *ngFor="let data of selectedList3" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label >State/Province <span class="login-danger">*</span></label>
                                         
-                                        <mat-select [(ngModel)]="selectedValue" [ngModelOptions]="{standalone: true}" class="form-control select"  placeholder="Select State">
-                                            <mat-option *ngFor="let data of selectedList4" [value]="data.value">
-                                            {{data.value}}
-                                            </mat-option>
-                                        </mat-select>
+                                       
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
