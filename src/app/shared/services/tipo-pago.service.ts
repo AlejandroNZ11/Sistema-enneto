@@ -16,23 +16,25 @@ export class TipoPagoService {
   constructor(public http: HttpClient) { }
 
   obtenerTiposPago(clinicaId: string, page: number, rows: number): Observable<DataTipoPago> {
-    return this.http.get<DataTipoPago>(`${this.apiUrl}/TiposPago/GetAllTipoPago?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataTipoPago>(this.apiUrl + `/TiposPago/GetAllTipoPago?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
   crearTipoPago(tipoPago: tipoPago): Observable<successResponse> {
-    return this.http.post<successResponse>(`${this.apiUrl}/TiposPago/SaveTipoPago`, tipoPago).pipe(
+    return this.http.post<successResponse>(this.apiUrl + `/TiposPago/SaveTipoPago`, tipoPago).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
-        return throwError(() => error);
+        const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
+        Swal.fire('Error', errorMessage, 'warning');
+        return throwError(error);
       })
     );
   }
 
   actualizarTipoPago(tipoPago: ITipoPago): Observable<successResponse> {
-    return this.http.put<successResponse>(`${this.apiUrl}/TiposPago/${tipoPago.tipoPagoId}`, tipoPago).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/TiposPago/${tipoPago.tipoPagoId}`, tipoPago).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
-        return throwError(() => error);
+        const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
+        Swal.fire('Error', errorMessage, 'warning');
+        return throwError(error);
       })
     );
   }

@@ -19,6 +19,7 @@ export class EditarTipoPagoComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, private tipoPagoService: TipoPagoService, public fb: FormBuilder) {
     this.form = this.fb.group({
+      metodopago: ['', Validators.required],
       descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
@@ -27,6 +28,7 @@ export class EditarTipoPagoComponent implements OnInit {
   ngOnInit() {
     if (this.tipoPagoSeleccionado) {
       this.form.patchValue({
+        metodopago: this.tipoPagoSeleccionado.metodopago,
         descripcion: this.tipoPagoSeleccionado.descripcion,
         estado: this.tipoPagoSeleccionado.estado,
       });
@@ -55,6 +57,7 @@ export class EditarTipoPagoComponent implements OnInit {
   
     const tipoPagoActualizado: ITipoPago = {
       tipoPagoId: this.tipoPagoSeleccionado.tipoPagoId,
+      metodopago: this.form.value.metodopago,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
     };
