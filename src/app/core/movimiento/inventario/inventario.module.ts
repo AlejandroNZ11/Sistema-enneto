@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InventarioComponent } from './inventario.component';
 import { InventarioRoutingModule } from './inventario-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatSortModule } from '@angular/material/sort';
 
 
 
@@ -11,6 +12,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     InventarioComponent,
   ],
   imports: [
+    MatSortModule,
     CommonModule,
     InventarioRoutingModule,
     SharedModule,

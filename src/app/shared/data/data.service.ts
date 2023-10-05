@@ -323,7 +323,7 @@ export class DataService {
           menuValue: 'Movimientos',
           hasSubRoute: true,
           showSubRoute: false,
-          base: 'movimientos',
+          base: 'movimiento',
           icon: 'fa-shopping-cart',
           faIcon: true,
           subMenus: [
