@@ -268,6 +268,11 @@ export class DataService {
               route: routes.historiaMedicoPac,
               base: routes.historiaMedicoPac,
             },
+            {
+              menuValue: 'Agregar Paciente',
+              route: routes.addPatient,
+              base: routes.addPatient,
+            },
           ],
         },
         {

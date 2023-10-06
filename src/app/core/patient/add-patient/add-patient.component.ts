@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { PacienteRequest } from 'src/app/shared/models/paciente';
+import { PacienteRequest, PacienteListData,PacienteResponse } from 'src/app/shared/models/paciente';
 import { routes } from 'src/app/shared/routes/routes';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+
 interface data {
   value: string ;
 }
@@ -14,7 +15,9 @@ interface data {
   styleUrls: ['./add-patient.component.scss']
 })
 export class AddPatientComponent implements OnInit{
-  constructor(public formBuilder: FormBuilder, public pacienteService: PacienteService, public router: Router) { }
+  constructor(public formBuilder: FormBuilder, public pacienteService: PacienteService, public router: Router) { 
+
+  }
   public routes = routes;
   public selectedValue! : string  ;
   paciente: PacienteRequest = new PacienteRequest();
@@ -32,13 +35,7 @@ export class AddPatientComponent implements OnInit{
     { name: 'Masculino', value: 'Masculino', checked: false },
     { name: 'Femenino', value: 'Femenino', checked: false },
   ]
-  tipoDoc_LISTA: data[] = [
-    { value: 'DNI', },
-    { value: 'RUC' },
-    { value: 'PASAPORTE' },
-    { value: 'CARNET EXTRANJERIA' },
-    { value: 'OTROS' },
-  ];
+  
   actualizarCantidad() {
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
     let maxCaracteres = 0;
@@ -149,7 +146,7 @@ export class AddPatientComponent implements OnInit{
     }
   }
 
-  /* C R E A R - M E D I C O */
+  /* C R E A R - P A C I E N T E */
   crearPaciente() {
     if (this.form.invalid) {
       this.isFormSubmitted = true;
@@ -174,20 +171,20 @@ export class AddPatientComponent implements OnInit{
     formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
 
     console.log(this.paciente);
-    formData.append('Nombres', this.paciente.Nombre);
-    formData.append('Apellidos', this.paciente.Apellido);
-    formData.append('Edad', this.paciente.Edad);
-    formData.append('DniPaciente', this.paciente.DniPaciente);
-    formData.append('Ocupacion', this.paciente.Ocupacion);
-    formData.append('LugarNacimiento', this.paciente.LugarNacimiento);
-    formData.append('Telefono', this.paciente.Telefono);
-    formData.append('Celular', this.paciente.Celular);
-    formData.append('Direccion', this.paciente.Direccion);
-    formData.append('Email', this.paciente.Email);
-    formData.append('FechaNacimiento', this.paciente.FechaNacimiento.toISOString().split('T')[0]);
-    formData.append('Sexo', this.paciente.Sexo);
-    formData.append('ClinicaId', this.paciente.ClinicaId);
-    formData.append('UsuarioId', this.paciente.UsuarioId);
+    formData.append('Nombre', this.paciente.Nombre);
+    formData.append('apellido', this.paciente.Apellido);
+    formData.append('edad', this.paciente.Edad);
+    formData.append('dniPaciente', this.paciente.DniPaciente);
+    formData.append('ocupacion', this.paciente.Ocupacion);
+    formData.append('lugarNacimiento', this.paciente.LugarNacimiento);
+    formData.append('telefono', this.paciente.Telefono);
+    formData.append('celular', this.paciente.Celular);
+    formData.append('direccion', this.paciente.Direccion);
+    formData.append('email', this.paciente.Email);
+    formData.append('fechaNacimiento', this.paciente.FechaNacimiento.toISOString().split('T')[0]);
+    formData.append('sexo', this.paciente.Sexo);
+    formData.append('clinicaId', this.paciente.ClinicaId);
+    formData.append('usuarioId', this.paciente.UsuarioId);
     this.pacienteService.crearPaciente(formData).subscribe(
       (response) => {
         if (response.isSuccess) {

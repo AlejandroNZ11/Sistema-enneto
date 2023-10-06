@@ -18,7 +18,14 @@ export interface DataInventario {
 }
 export interface IInventario {
     inventarioId: string;
-    nombre: string;
-    descripcion: string;
-    estado: string;
+    codigoBarra: string;
+    nombreAlmacen: string;
+    nombreProducto: string;
+    tipoInventarioId: string;
+    precioEntrada: number;
+    precioSalida: number;
+    unidad: string;
+    stock: number;
+    fechaRegistro: Date;
+    estado:string;
 }

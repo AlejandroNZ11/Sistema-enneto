@@ -275,10 +275,10 @@ export class routes {
     return this.baseUrl + '/invoice/view-invoice';
   }
   public static get addPatient(): string {
-    return this.baseUrl + '/patient/add-patient';
+    return this.baseUrl + '/paciente/add-patient';
   }
   public static get editPatient(): string {
-    return this.baseUrl + '/patient/edit-patient';
+    return this.baseUrl + '/paciente/edit-patient';
   }
   public static get patientProfile(): string {
     return this.baseUrl + '/patient/patient-profile';
