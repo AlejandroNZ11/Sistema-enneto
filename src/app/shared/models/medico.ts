@@ -15,9 +15,34 @@ export class MedicoRequest {
   FechaNacimiento!: Date;
   Sexo = '';
 }
-export interface MedicoResponse {
+export interface MedicoList {
   medicoId: string;
-  especialidadId: string;
+  especialidadesAsociadas: string[];
+  nombre: string;
+  apellido: string;
+  tipoDocumento: string;
+  numeroDocumento: string;
+  colegioMedico: string;
+  telefono: string;
+  celular: string;
+  direccion: string;
+  email: string;
+  fechaNacimiento: Date;
+  fechaRegistro: string;
+  estado: string;
+  sexo: string;
+  foto: string;
+  firma: string;
+}
+export interface MedicoListData {
+  data: MedicoList[];
+  totalData: number;
+}
+
+export interface MedicoEditar {
+
+  medicoId: string;
+  especialidadesAsociadas: string[];
   nombre: string;
   apellido: string;
   numeroDocumento: string;
@@ -29,15 +54,11 @@ export interface MedicoResponse {
   email: string;
   fechaNacimiento: Date;
   fechaRegistro: Date;
-  estado: number;
+  estado: string;
   sexo: string;
   foto: string;
   firma: string;
   abreviatura:string;
   clinicaId:string;
   usuarioId:string;
-}
-export interface MedicoListData {
-  data: MedicoResponse[];
-  totalData: number;
 }

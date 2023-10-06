@@ -13,6 +13,7 @@ import { DataService } from './data/data.service';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     NgxBootstrapModule,
     CountUpModule,
     NgApexchartsModule,
+    NgMultiSelectDropDownModule.forRoot(),
     NgCircleProgressModule.forRoot({
       "radius": 40,
       "space": -10,

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { DataEspecialidad, Iespecialidad } from 'src/app/shared/models/especialidades';
-import { MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
+import { MedicoEditar, MedicoRequest } from 'src/app/shared/models/medico';
 import { routes } from 'src/app/shared/routes/routes';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 interface data {
   value: string;
 }
@@ -18,48 +18,30 @@ interface data {
 })
 export class EditarMedicoComponent implements OnInit {
 
-  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService, public router: Router,
-    private route: ActivatedRoute) { }
+  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService,
+    public router: Router, private route: ActivatedRoute) { }
   especialidad_LISTA: Array<Iespecialidad> = [];
   form!: FormGroup;
-  cantidad!: number;
   imagenSubirFoto!: File;
   imagenSubirFirma!: File;
+  otraFoto:boolean = false;
+  otraFirma:boolean = false;
+  routes = routes;
   readerFoto = new FileReader();
   readerFirma = new FileReader();
-  isFormSubmitted = false;
-  dd: number = new Date().getDate();
-  mm: number = new Date().getMonth();
-  yyyy: number = new Date().getFullYear();
-  hoy: string = this.dd + '/' + this.mm + '/' + this.yyyy;
-  public routes = routes;
-  public tipoDocumento !: string;
-  public especialidades !: string[];
   public deleteIcon = true;
   imagenTempFoto!: string | ArrayBuffer | null;
   imagenTempFirma!: string | ArrayBuffer | null;
+  isFormSubmitted = false;
+  tipoDocumento !: string;
+  especialidades: Array<string> = [];
+  especialidadesAsociadas: Array<string> = [];
   medicoId: string = "";
-  medicoEditar!: MedicoResponse;
-  sexoMedico!: string ;
+  medicoEditar!: MedicoEditar;
+  sexoMedico!: string;
+  estadoMedico !:number;
 
   ngOnInit(): void {
-    this.isFormSubmitted = false;
-    this.route.params.subscribe(params => {
-      this.medicoId = params['medicoId'];
-      console.log(this.medicoId);
-      this.medicoService.obtenerMedico(this.medicoId).subscribe((medico: MedicoResponse) => {
-        if (medico) {
-          this.medicoEditar = medico;
-          this.imagenTempFoto = this.medicoEditar.foto;
-          this.imagenTempFirma = this.medicoEditar.firma;
-          this.sexoMedico = this.medicoEditar.sexo;
-        }
-      })
-      let elementoActivo = document.querySelector('input[name="status"]:checked');
-    })
-    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6", 1, 100).subscribe((data: DataEspecialidad) => {
-      this.especialidad_LISTA = data.data;
-    });
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
@@ -70,45 +52,51 @@ export class EditarMedicoComponent implements OnInit {
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       fechaNacimiento: ['', [Validators.required, this.fechaNacimientoValidator()]],
       sexo: ['', [Validators.required]],
-      especialidades: ['', [Validators.required]],
+      estado: ['', [Validators.required]],
+      especialidades: ['',[Validators.required]],
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
       foto: [''],
-      firma: ['']
+      firma: [''],
+    });
+    this.isFormSubmitted = false;
+    this.especialidadService.obtenerEspecialidades
+    this.route.params.subscribe(params => {
+      this.medicoId = params['medicoId'];
     })
+    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6", 1, 100).subscribe((data: DataEspecialidad) => {
+      this.especialidad_LISTA = data.data;
+    });
+    this.medicoService.obtenerMedico(this.medicoId).subscribe((medico: MedicoEditar) => {
+      if (medico) {
+        this.medicoEditar = medico;
+        this.imagenTempFoto = this.medicoEditar.foto;
+        this.imagenTempFirma = this.medicoEditar.firma;
+        this.sexoMedico = this.medicoEditar.sexo;
+        if(this.medicoEditar.estado == "A"){
+          this.estadoMedico = 1
+        }else{
+          this.estadoMedico = 0
+        }
+        switch (this.medicoEditar.tipoDocumentoId) {
+          case '01': this.tipoDocumento = 'DNI'; break;
+          case '06': this.tipoDocumento = 'RUC'; break;
+          case '07': this.tipoDocumento = 'PASAPORTE'; break;
+          case '04': this.tipoDocumento = 'CARNET EXTRANJERIA'; break;
+          case '00': this.tipoDocumento = 'OTROS'; break;
+        }
+        this.especialidades = medico.especialidadesAsociadas;
+      }
+    })    
   }
-
   sexo_LISTA = [
-    { name: 'Masculino', value: 'M'},
-    { name: 'Femenino', value: 'F'},
+    { name: 'Masculino', value: 'M' },
+    { name: 'Femenino', value: 'F' },
   ]
   estado_LISTA = [
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
   ]
 
-  actualizarCantidad() {
-    const tipoDocumento = this.form.get('tipoDocumento')!.value;
-    let maxCaracteres = 0;
-    switch (tipoDocumento) {
-      case 'DNI':
-        maxCaracteres = 8;
-        break;
-      case 'RUC':
-        maxCaracteres = 11;
-        break;
-      default:
-        maxCaracteres = 12;
-        break;
-    }
-    this.cantidad = maxCaracteres;
-    this.form.get('numeroDocumento')?.setValidators([
-      Validators.required,
-      Validators.maxLength(maxCaracteres),
-      Validators.minLength(maxCaracteres),
-      Validators.pattern('^[0-9]+$')
-    ]);
-    this.form.get('numeroDocumento')?.updateValueAndValidity();
-  }
   fechaNacimientoValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const fechaNacimiento = control.value;
@@ -127,15 +115,6 @@ export class EditarMedicoComponent implements OnInit {
   isFechaNacimientoMayorActual() {
     return this.form.get('fechaNacimiento')?.hasError('fechaNacimientoMayorActual');
   }
-  isCantidadNroDocumento(controlName: string) {
-    const control = this.form.get(controlName);
-    console.log(this.cantidad);
-    if (control && control.value) {
-      const cantidadCorrecta = this.cantidad;
-      return control.value.length !== cantidadCorrecta;
-    }
-    return false;
-  }
   isCantidadExacta(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && (control?.errors['maxlength'] || control?.errors['minlength']);
@@ -144,7 +123,6 @@ export class EditarMedicoComponent implements OnInit {
     const control = this.form.get(controlName);
     return control?.errors && (control?.errors['maxlength']);
   }
-
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -185,6 +163,7 @@ export class EditarMedicoComponent implements OnInit {
         image.onload = () => {
           this.imagenTempFoto = image.src;
           this.imagenSubirFoto = file;
+          this.otraFoto = true;
         };
       };
       reader.readAsDataURL(file);
@@ -203,6 +182,7 @@ export class EditarMedicoComponent implements OnInit {
         image.onload = () => {
           this.imagenTempFirma = image.src;
           this.imagenSubirFirma = file;
+          this.otraFirma = true;
         };
       };
       reader.readAsDataURL(file);
@@ -212,6 +192,7 @@ export class EditarMedicoComponent implements OnInit {
   }
   /* C R E A R - M E D I C O */
   actualizarMedico() {
+    console.log(this.especialidades);
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();
@@ -223,10 +204,26 @@ export class EditarMedicoComponent implements OnInit {
     } else {
       this.medicoEditar.sexo = 'F'
     }
+    if (this.form.get("estado")!.value == 1) {
+      this.medicoEditar.estado = 'A'
+    } else {
+      this.medicoEditar.estado = 'I'
+    }
+    this.medicoEditar.clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     const formData = new FormData();
-    formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
-    formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name)
-    formData.append('Especialidades', this.medicoEditar.especialidadId);
+    for (let i = 0; i < this.especialidades.length; i++) {
+      formData.append('Especialidades', this.especialidades[i]);
+    }
+    if(this.otraFoto){
+      formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
+    }else{
+      formData.append('fotoForm', this.medicoEditar.foto)
+    }
+    if(this.otraFirma){
+      formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name)
+    }else{
+      formData.append('firmaForm', this.medicoEditar.firma)
+    }
     formData.append('Nombres', this.medicoEditar.nombre);
     formData.append('Apellidos', this.medicoEditar.apellido);
     formData.append('Abreviatura', this.medicoEditar.abreviatura);
@@ -237,21 +234,22 @@ export class EditarMedicoComponent implements OnInit {
     formData.append('Celular', this.medicoEditar.celular);
     formData.append('Direccion', this.medicoEditar.direccion);
     formData.append('Email', this.medicoEditar.email);
-    formData.append('FechaNacimiento', this.medicoEditar.fechaNacimiento.toISOString().split('T')[0]);
+    formData.append('FechaNacimiento', new Date(this.medicoEditar.fechaNacimiento).toISOString().split('T')[0]);
     formData.append('Sexo', this.medicoEditar.sexo);
     formData.append('ClinicaId', this.medicoEditar.clinicaId);
     formData.append('UsuarioId', this.medicoEditar.usuarioId);
-    console.log(formData);
-    this.medicoService.crearMedico(formData).subscribe(
+    formData.append('MedicoId', this.medicoEditar.medicoId);
+    formData.append('Estado', this.medicoEditar.estado);
+    this.medicoService.actualizarMedico(formData, this.medicoEditar.medicoId).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire({
-            title: 'Registrando...',
+            title: 'Actualizando...',
             allowOutsideClick: false,
           })
           Swal.showLoading();
           Swal.close();
-          Swal.fire('Correcto', 'Médico registrado en el sistema correctamente.', 'success');
+          Swal.fire('Correcto', 'Médico actualizado en el sistema correctamente.', 'success');
           this.router.navigate(['/medico/lista-medico']);
         } else {
           console.error(response.message);

@@ -7,6 +7,7 @@ import { EditarMedicoComponent } from './editar-medico/editar-medico.component';
 import { MedicoComponent } from './medico.component';
 import { MedicoRoutingModule } from './medico-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 
@@ -17,7 +18,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     MedicoRoutingModule,
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
 export class MedicoModule { }

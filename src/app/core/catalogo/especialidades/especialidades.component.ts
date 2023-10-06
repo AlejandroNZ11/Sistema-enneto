@@ -9,6 +9,7 @@ import { AgregarEspecialidadComponent } from './agregar-especialidad/agregar-esp
 import { EditarEspecialidadComponent } from './editar-especialidad/editar-especialidad.component';
 import { DataEspecialidad, Iespecialidad, especialidad } from 'src/app/shared/models/especialidades';
 import { environment as env } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-especialidades',
@@ -88,7 +89,6 @@ export class EspecialidadesComponent implements OnInit{
       this.getTableData();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -100,7 +100,6 @@ export class EspecialidadesComponent implements OnInit{
     }
     this.getTableData();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
@@ -108,7 +107,6 @@ export class EspecialidadesComponent implements OnInit{
     this.currentPage = 1;
     this.getTableData();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;
@@ -135,6 +133,33 @@ export class EspecialidadesComponent implements OnInit{
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });
+  }
+  eliminarEspecialidad(especialidadId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.especialidadService.eliminarEspecialidad(especialidadId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Especialidad Eliminada en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
   }
 }
 

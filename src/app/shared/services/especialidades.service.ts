@@ -24,7 +24,12 @@ export class EspecialidadesService {
       })
     );
   }
-
+  obtenerEspecialidad( especialidadId: string): Observable<Iespecialidad> {
+    return this.http.get<Iespecialidad>(this.apiUrl + `/Especialidades/GetEspecialidad/${especialidadId}`);
+  }
+  eliminarEspecialidad( especialidadId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${especialidadId}`);
+  }
   actualizarEspecialidad(especialidad: Iespecialidad): Observable<successResponse> {
     return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${especialidad.especialidadId}`, especialidad).pipe(
       catchError(error => {
