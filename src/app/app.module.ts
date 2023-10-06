@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment as env } from 'src/environments/environments';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { environment as env } from 'src/environments/environments';
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
+    NgMultiSelectDropDownModule.forRoot(),
     AuthModule.forRoot({
       domain: env.domain,
       clientId: env.clientId,

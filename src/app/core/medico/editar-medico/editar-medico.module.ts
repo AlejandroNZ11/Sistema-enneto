@@ -6,6 +6,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
+
+
 @NgModule({
   declarations: [
     EditarMedicoComponent
@@ -13,7 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
   imports: [
     CommonModule,
     EditarMedicoRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class EditarMedicoModule { }

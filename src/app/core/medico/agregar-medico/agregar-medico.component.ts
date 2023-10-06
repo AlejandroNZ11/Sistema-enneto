@@ -203,6 +203,7 @@ export class AgregarMedicoComponent implements OnInit {
   }
   /* C R E A R - M E D I C O */
   crearMedico() {
+    console.log(this.doctor.FechaNacimiento.toISOString().split('T')[0]);
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();
@@ -230,7 +231,7 @@ export class AgregarMedicoComponent implements OnInit {
     for (let i = 0; i < this.doctor.Especialidades.length; i++) {
       formData.append('Especialidades', this.doctor.Especialidades[i]);
     }
-    console.log(this.doctor);
+    console.log(this.doctor.FechaNacimiento.toISOString().split('T')[0]);
     formData.append('Nombres', this.doctor.Nombres);
     formData.append('Apellidos', this.doctor.Apellidos);
     formData.append('Abreviatura', this.doctor.Abreviatura);
@@ -238,9 +239,7 @@ export class AgregarMedicoComponent implements OnInit {
     formData.append('NumeroDocumento', this.doctor.NumeroDocumento);
     formData.append('ColegioMedico', this.doctor.ColegioMedico);
     formData.append('Telefono', this.doctor.Telefono);
-
     formData.append('Celular', this.doctor.Celular);
-
     formData.append('Direccion', this.doctor.Direccion);
     formData.append('Email', this.doctor.Email);
     formData.append('FechaNacimiento', this.doctor.FechaNacimiento.toISOString().split('T')[0]);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent {
-
+  @Output() confirmacion = new EventEmitter<boolean>();
+  eliminar(){
+    this.confirmacion.emit(true);
+  }
 }

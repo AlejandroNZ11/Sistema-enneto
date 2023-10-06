@@ -5,10 +5,11 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from "@angular/material/table";
 import { pageSelection, apiResultFormat, } from 'src/app/shared/models/models';
 import { MedicoService } from 'src/app/shared/services/medico.service';
-import { MedicoListData, MedicoRequest, MedicoResponse } from 'src/app/shared/models/medico';
+import { MedicoList, MedicoListData, MedicoRequest} from 'src/app/shared/models/medico';
 import { environment } from 'src/environments/environments';
 import { formatDate } from '@angular/common';
 import Swal from 'sweetalert2';
+import { timestamp } from 'rxjs';
 
 @Component({
   selector: 'app-lista-medico',
@@ -17,8 +18,8 @@ import Swal from 'sweetalert2';
 })
 export class ListaMedicoComponent implements OnInit {
   public routes = routes;
-  public doctorsList: Array<MedicoResponse> = [];
-  dataSource!: MatTableDataSource<MedicoResponse>;
+  public doctorsList: Array<MedicoList> = [];
+  dataSource!: MatTableDataSource<MedicoList>;
   doctorseleccionado: MedicoRequest = new MedicoRequest();
   public showFilter = false;
   public medico = '';
@@ -42,33 +43,7 @@ export class ListaMedicoComponent implements OnInit {
   ngOnInit() {
     this.obtenerDatosMedicosSinFiltro();
   }
-  eliminar(medicoId:string){
-    Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: 'Eliminar',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if(result.isConfirmed){
-        this.medicoService.eliminarMedico(medicoId).subscribe(
-          (response) => {
-            if (response.isSuccess) {
-              Swal.fire('Correcto', 'Médico Eliminado en el sistema correctamente.', 'success');
-              this.obtenerDatosMedicosSinFiltro();
-              return;
-            } else {
-              console.error(response.message);
-            }
-          },
-          (error) => {
-            console.error(error);
-          });
-      }else{
-        return;
-      }
-    })
-    
-  }
+
   private obtenerDatosMedicosSinFiltro(): void {
     this.doctorsList = [];
     this.serialNumberArray = [];
@@ -79,7 +54,7 @@ export class ListaMedicoComponent implements OnInit {
         this.serialNumberArray.push(serialNumber);
       }
       this.doctorsList = data.data;
-      this.dataSource = new MatTableDataSource<MedicoResponse>(this.doctorsList);
+      this.dataSource = new MatTableDataSource<MedicoList>(this.doctorsList);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
@@ -110,12 +85,41 @@ export class ListaMedicoComponent implements OnInit {
           this.serialNumberArray.push(serialNumber);
         }
         this.doctorsList = data.data;
-        this.dataSource = new MatTableDataSource<MedicoResponse>(this.doctorsList);
+        this.dataSource = new MatTableDataSource<MedicoList>(this.doctorsList);
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
   }
-  public formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+
+  formatoFecha(fecha:string) :string{
+    const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+  eliminar(medicoId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.medicoService.eliminarMedico(medicoId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Médico Eliminado en el sistema correctamente.', 'success');
+              this.obtenerDatosMedicosSinFiltro();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
   }
   public sortData(sort: Sort) {
     const data = this.doctorsList.slice();

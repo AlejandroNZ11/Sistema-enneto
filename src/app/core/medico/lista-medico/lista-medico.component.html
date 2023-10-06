@@ -95,19 +95,23 @@
                                 <tbody>
                                     <tr *ngFor="let data of doctorsList let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
-                                        <td class="profile-image"><a [routerLink]="routes.profile"><img width="28"
-                                                    height="28" [src]="data.foto" class="rounded-circle m-r-5" alt="">
-                                                {{data.nombre}} {{data.apellido}}</a>
+                                        <td class="profile-image"><img width="28" height="28" [src]="data.foto"
+                                                class="rounded-circle m-r-5" alt="">
+                                            {{data.nombre}} {{data.apellido}}
                                         </td>
-                                        <td> <button *ngFor="let data of data.especialidadId"
-                                                class="custom-badge status-blue ">{{data}}</button></td>
+                                        <td>
+                                            <div class="button-container">
+                                                <button *ngFor="let data of data.especialidadesAsociadas"
+                                                    class="custom-badge status-blue ">{{data}}</button>
+                                            </div>
+                                        </td>
                                         <td>{{data.numeroDocumento}}</td>
                                         <td>{{data.colegioMedico}}</td>
-                                        <td>{{data.fechaRegistro}}</td>
+                                        <td>{{formatoFecha(data.fechaRegistro)}}</td>
                                         <td><button class="custom-badge status-green "
-                                                *ngIf="data.estado==1">Activo</button>
+                                                *ngIf="data.estado=='A'">Activo</button>
                                             <button class="custom-badge status-blue "
-                                                *ngIf="data.estado==0">Inactivo</button>
+                                                *ngIf="data.estado=='I'">Inactivo</button>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
@@ -115,11 +119,12 @@
                                                     data-bs-toggle="dropdown" aria-expanded="false"><i
                                                         class="fa fa-ellipsis-v"></i></a>
                                                 <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" [routerLink]="[routes.editarMedico, data.medicoId]"><i
+                                                    <a class="dropdown-item"
+                                                        [routerLink]="[routes.editarMedico, data.medicoId]"><i
                                                             class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                        (click)="eliminar(data.medicoId)" ><i
-                                                            class="fa fa-trash-alt m-r-5" ></i> Delete</a>
+                                                        (click)="eliminar(data.medicoId)"><i
+                                                            class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </td>

@@ -27,9 +27,8 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                        <input (input)="soloNumeros($event)"
-                                            placeholder="{{medicoEditar!.tipoDocumentoId}}" class="form-control"
-                                            type="text" [disabled]="true">
+                                        <input (input)="soloNumeros($event)" placeholder="{{tipoDocumento}}"
+                                            class="form-control" type="text" [disabled]="true">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
@@ -99,7 +98,7 @@
                                     <div class="form-group local-forms">
                                         <label>Abreviatura <span class="login-danger">*</span></label>
                                         <input formControlName="abreviatura" [(ngModel)]="medicoEditar!.abreviatura"
-                                            class="form-control" type="text"
+                                            class="form-control" type="text" maxlength="4"
                                             [ngClass]="{'is-invalid': isInvalid('abreviatura') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('abreviatura') && isFormSubmitted"
                                             class="invalid-feedback">
@@ -167,7 +166,8 @@
                                         <div *ngFor="let item of sexo_LISTA; let i = index" class="form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" [value]="item.value" formControlName="sexo"
-                                                    class="form-check-input" name="sexo" [id]="item.value" [(ngModel)]="sexoMedico"
+                                                    class="form-check-input" name="sexo" [id]="item.value"
+                                                    [(ngModel)]="sexoMedico"
                                                     [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
                                             </label>
                                         </div>
@@ -217,7 +217,9 @@
                                         <div *ngFor="let item of estado_LISTA; let i = index" class="form-check-inline">
                                             <label class="form-check-label">
                                                 <input type="radio" [value]="item.value" [checked]="item.checked"
-                                                    class="form-check-input" [disabled]="true">{{item.name}}
+                                                    formControlName="estado" class="form-check-input" name="estado"
+                                                    [id]="item.value" [(ngModel)]="estadoMedico"
+                                                    [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
                                             </label>
                                         </div>
                                     </div>
@@ -288,4 +290,3 @@
         </div>
     </div>
 </div>
-
