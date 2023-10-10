@@ -16,11 +16,11 @@ export class TipoPagoService {
   constructor(public http: HttpClient) { }
 
   obtenerTiposPago(clinicaId: string, page: number, rows: number): Observable<DataTipoPago> {
-    return this.http.get<DataTipoPago>(this.apiUrl + `/TiposPago/GetAllTipoPago?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataTipoPago>(`${this.apiUrl}/Pagos/GetAllPago?ClinicaId=${clinicaId}&Page=${page}&Rows=${rows}`);
   }
 
   crearTipoPago(tipoPago: tipoPago): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + `/TiposPago/SaveTipoPago`, tipoPago).pipe(
+    return this.http.post<successResponse>(`${this.apiUrl}/Pagos/SavePago`, tipoPago).pipe(
       catchError(error => {
         const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
         Swal.fire('Error', errorMessage, 'warning');
@@ -30,7 +30,7 @@ export class TipoPagoService {
   }
 
   actualizarTipoPago(tipoPago: ITipoPago): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/TiposPago/${tipoPago.tipoPagoId}`, tipoPago).pipe(
+    return this.http.put<successResponse>(`${this.apiUrl}/Pagos/${tipoPago.tipoPagoId}`, tipoPago).pipe(
       catchError(error => {
         const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
         Swal.fire('Error', errorMessage, 'warning');
