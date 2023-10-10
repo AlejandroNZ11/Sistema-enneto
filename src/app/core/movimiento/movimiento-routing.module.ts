@@ -18,13 +18,6 @@ const routes: Routes = [
         import('./compras/compras.module').then((m) => m.ComprasModule),
     },
     {
-      path: 'inventario',
-      loadChildren: () =>
-        import('./inventario/inventario.module').then(
-          (m) => m.InventarioModule
-        ),
-    },
-    {
       path: 'salida',
       loadChildren: () =>
         import('./salida/salida.module').then(
@@ -36,6 +29,13 @@ const routes: Routes = [
       loadChildren: () =>
         import('./ventas/ventas.module').then(
           (m) => m.VentasModule
+        ),
+    },
+    {
+      path: 'inventario',
+      loadChildren: () =>
+        import('./inventario/inventario.module').then(
+          (m) => m.InventarioModule
         ),
     },
   ]

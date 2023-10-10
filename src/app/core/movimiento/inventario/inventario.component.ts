@@ -18,7 +18,7 @@ export class InventarioComponent implements OnInit {
   inventarioSeleccionada:inventario = new inventario();
   dataSource!: MatTableDataSource<IInventario>;
   public showFilter = false;
-  public searchDataValue = '';
+  public BuscarDatosValue = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -31,7 +31,7 @@ export class InventarioComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
-  constructor(private modalService: BsModalService, public inventarioService: InventarioService) {
+  constructor( public inventarioService: InventarioService) {
   }
   ngOnInit() {
     this.getTableData();
@@ -50,7 +50,7 @@ export class InventarioComponent implements OnInit {
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  public searchData(value: any): void {
+  public BuscarDatos(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListInventario = this.dataSource.filteredData;
   }
