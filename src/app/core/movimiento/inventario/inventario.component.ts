@@ -7,6 +7,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { InventarioService } from 'src/app/shared/services/inventario.service';
 import { DataInventario, IInventario,inventario } from 'src/app/shared/models/inventario';
 import { environment as env } from 'src/environments/environments';
+import { AgregarInventarioComponent } from './agregar-inventario/agregar-inventario.component';
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
@@ -31,7 +32,7 @@ export class InventarioComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
-  constructor( public inventarioService: InventarioService) {
+  constructor(public inventarioService: InventarioService, private modalService: BsModalService,) {
   }
   ngOnInit() {
     this.getTableData();
@@ -116,5 +117,11 @@ export class InventarioComponent implements OnInit {
       this.pageNumberArray.push(i);
       this.pageSelection.push({ skip: skip, limit: limit });
     }
+  }
+  crearInventario() {
+    this.bsModalRef = this.modalService.show(AgregarInventarioComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData();
+      });
   }
 }  
