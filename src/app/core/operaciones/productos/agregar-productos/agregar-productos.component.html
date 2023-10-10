@@ -1,0 +1,53 @@
+<div class="content" >
+  
+    <div class="modal-content modal-md">
+        <div class="modal-header">
+            <h4 class="modal-title">Agregar Producto</h4>
+            <button type="button" class="btn-close" (click)="Cancelar()"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="form-group">
+                    <label>Id producto: <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" >
+                </div>
+                <div class="form-group">
+                    <label>Nombre Producto: <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" >
+                </div>
+                <div class="form-group">
+                    <label>Descripcion: <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" >
+                </div>
+                <div class="form-group">
+                    <label>Fecha: <span class="text-danger">*</span></label>
+                    <div>
+                        <input class="form-control datetimepicker" type="text"  matInput [matDatepicker]="picker">
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker" class="date-picker-icon"></mat-datepicker-toggle>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Stock <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Estado <span class="text-danger">*</span></label>
+                    <input class="form-control" type="text" >
+                </div>
+
+
+
+
+
+                <div class="m-t-20 text-center">
+                    
+                    
+                    
+                    <button class="btn btn-primary submit-btn" (click)="agregarProducto()">Agregar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

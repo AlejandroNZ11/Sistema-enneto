@@ -1,1 +1,131 @@
-<p>productos works!</p>
+<div class="page-wrapper">
+    <div class="content">    
+        <div class="page-header">
+            <div class="row">
+              <div class="col-sm-12">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="routes.productosOp">Productos</a></li>
+                  <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                  <li class="breadcrumb-item active">Administracion De productos</li>
+                </ul>
+              </div>
+              
+            </div>
+        </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="doctor-search-blk">
+                            <div class="card card-table show-entire">
+                                <div class="page-table-header mb-2">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <div class="doctor-table-blk">
+                                            <h4 class="modal-title">Administracion De productos</h4>
+                                            <div class="doctor-search-blk">
+                                                <div class="top-nav-search table-search-blk">
+                                                    <input class="form-control" type="text" placeholder="Buscar Producto" id="buscar" [(ngModel)]="valorBusqueda"(ngModelChange)="filtrarProductos()">
+                                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                                </div>
+                                                <div  class="add-group">
+                                                    <!-- <button type="button" class="btn btn-primary" (click)="filtrarProductos()">Buscar</button> -->
+                                                    <a class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt="" (click)="AgregarProductos2()"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                   
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Producto</th>
+                                                <th>Nombre</th>
+                                                <th>Descripcion</th>
+                                                <th>Fecha</th>
+                                                <th>Stock</th>
+                                                <th>Estado</th>
+                                                <th>Accion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let productos of productos; let i = index">
+                                                <td>{{productos.id}}</td>
+                                                <td>{{productos.nombre}}</td>
+                                                <td>{{productos.descripcion}}</td>
+                                                <td>{{productos.fecha}}</td>
+                                                <td>{{productos.stock}}</td>
+                                                <td>{{productos.estado}}</td>
+                                                <td><button (click)="eliminarProducto(i)" class="btn btn-danger"><i class="fa fa-dollar"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="col-sm-12 col-12 text-end m-b-30">
+                    <a (click)="AgregarProductos2()"
+                            class="btn btn-primary add-pluss ms-2">Agregar</a>
+                    <a href="javascript:void(0);" class="btn btn-primary btn-rounded" data-bs-toggle="modal" data-bs-target="#add_product"><i class="fa fa-plus"></i> Agregar producto</a>
+                </div> -->
+    </div>
+</div>
+
+
+<div id="add_product" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content modal-md">
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar Producto</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>Id producto: <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.id">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre Producto: <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripcion: <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.descripcion">
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha: <span class="text-danger">*</span></label>
+                        <div>
+                            <input class="form-control datetimepicker" type="text" [(ngModel)]="nuevoProducto.fecha" matInput [matDatepicker]="picker">
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker" class="date-picker-icon"></mat-datepicker-toggle>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Stock <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text"[(ngModel)]="nuevoProducto.stock">
+                    </div>
+                    <div class="form-group">
+                        <label>Estado <span class="text-danger">*</span></label>
+                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.estado">
+                    </div>
+
+
+
+
+
+                    <!-- <div class="m-t-20 text-center">
+                        
+                        
+                        
+                        <button class="btn btn-primary submit-btn" (click)="agregarProducto()">Agregar</button>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
