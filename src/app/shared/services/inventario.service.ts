@@ -17,6 +17,15 @@ export class InventarioService {
         return this.http.get<DataInventario>(this.apiUrl + `/Inventarios/GetAllInventario?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
     
+    crearInventario(Inventario: inventario): Observable<successResponse> {
+        return this.http.post<successResponse>(this.apiUrl + '/Inventarios/SaveInventario', Inventario).pipe(
+            catchError(error => {
+                Swal.fire('Error', error.error, 'warning');
+                return throwError(() => error);
+            })
+        );
+    }
+    
 
     actualizarInventario(inventario: IInventario): Observable<successResponse> {
         return this.http.put<successResponse>(this.apiUrl + `/Inventarios/${inventario.inventarioId}`, inventario).pipe(
@@ -27,14 +36,7 @@ export class InventarioService {
         );
     }
 
-    crearInventario(Inventario: inventario): Observable<successResponse> {
-        return this.http.post<successResponse>(this.apiUrl + '/Inventarios/SaveInventario', Inventario).pipe(
-            catchError(error => {
-                Swal.fire('Error', error.error, 'warning');
-                return throwError(() => error);
-            })
-        );
-    }
+    
 
     
 }
