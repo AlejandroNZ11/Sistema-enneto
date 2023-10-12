@@ -8,7 +8,7 @@ import { materialModule } from './material.module';
 import { NgxEditorModule } from 'ngx-editor';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DataService } from './data/data.service';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
