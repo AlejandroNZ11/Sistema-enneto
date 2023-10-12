@@ -38,7 +38,7 @@
                                    
                                             
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table border-0 custom-table comman-table datatable mb-0">
@@ -79,57 +79,3 @@
     </div>
 </div>
 
-
-<div id="add_product" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content modal-md">
-            <div class="modal-header">
-                <h4 class="modal-title">Agregar Producto</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label>Id producto: <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.id">
-                    </div>
-                    <div class="form-group">
-                        <label>Nombre Producto: <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Descripcion: <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.descripcion">
-                    </div>
-                    <div class="form-group">
-                        <label>Fecha: <span class="text-danger">*</span></label>
-                        <div>
-                            <input class="form-control datetimepicker" type="text" [(ngModel)]="nuevoProducto.fecha" matInput [matDatepicker]="picker">
-                            <mat-datepicker #picker></mat-datepicker>
-                            <mat-datepicker-toggle matIconSuffix [for]="picker" class="date-picker-icon"></mat-datepicker-toggle>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Stock <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text"[(ngModel)]="nuevoProducto.stock">
-                    </div>
-                    <div class="form-group">
-                        <label>Estado <span class="text-danger">*</span></label>
-                        <input class="form-control" type="text" [(ngModel)]="nuevoProducto.estado">
-                    </div>
-
-
-
-
-
-                    <!-- <div class="m-t-20 text-center">
-                        
-                        
-                        
-                        <button class="btn btn-primary submit-btn" (click)="agregarProducto()">Agregar</button>
-                    </div> -->
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
