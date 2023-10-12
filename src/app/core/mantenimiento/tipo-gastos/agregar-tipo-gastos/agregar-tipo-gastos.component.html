@@ -1,1 +1,46 @@
-<p>agregar-tipo-gastos works!</p>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Nuevo Tipo de Gasto</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombre Concepto <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="crearTipoGasto()"
+                                class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

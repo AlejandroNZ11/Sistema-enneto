@@ -57,7 +57,7 @@ export class TipoGastosComponent implements OnInit {
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListTipoGasto = this.dataSource.filteredData;
@@ -70,7 +70,9 @@ export class TipoGastosComponent implements OnInit {
       this.ListTipoGasto = data;
     } else {
       this.ListTipoGasto = data.sort((a, b) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
         return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
       });

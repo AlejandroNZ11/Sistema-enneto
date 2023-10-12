@@ -70,7 +70,6 @@
                                     <tr *ngFor="let data of ListTipoGasto let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.nombre}}</td>
-                                        <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
                                                 *ngIf="data.estado==='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
