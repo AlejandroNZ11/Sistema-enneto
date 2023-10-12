@@ -1,53 +1,98 @@
-<div class="content" >
-  
-    <div class="modal-content modal-md">
-        <div class="modal-header">
-            <h4 class="modal-title">Agregar Producto</h4>
-            <button type="button" class="btn-close" (click)="Cancelar()"></button>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                    <label>Id producto: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" >
-                </div>
-                <div class="form-group">
-                    <label>Nombre Producto: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" >
-                </div>
-                <div class="form-group">
-                    <label>Descripcion: <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" >
-                </div>
-                <div class="form-group">
-                    <label>Fecha: <span class="text-danger">*</span></label>
-                    <div>
-                        <input class="form-control datetimepicker" type="text"  matInput [matDatepicker]="picker">
-                        <mat-datepicker #picker></mat-datepicker>
-                        <mat-datepicker-toggle matIconSuffix [for]="picker" class="date-picker-icon"></mat-datepicker-toggle>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Nuevo Producto</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Id <span class="login-danger">*</span></label>
+                                    <input formControlName="id" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('id')}">
+                                    <div *ngIf="isInvalid('id') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('id')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Descripcion <span class="login-danger">*</span></label>
+                                    <input formControlName="descripcion" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
+                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('descripcion')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Fecha <span class="login-danger">*</span></label>
+                                    <input formControlName="fecha" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('fecha')}">
+                                    <div *ngIf="isInvalid('fecha') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('fecha')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Stock <span class="login-danger">*</span></label>
+                                    <input formControlName="stock" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('stock')}">
+                                    <div *ngIf="isInvalid('stock') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('stock')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+
+                           
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="crearProducto()"
+                                class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Stock <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text">
-                </div>
-                <div class="form-group">
-                    <label>Estado <span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" >
-                </div>
-
-
-
-
-
-                <div class="m-t-20 text-center">
-                    
-                    
-                    
-                    <button class="btn btn-primary submit-btn" (click)="agregarProducto()">Agregar</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-
 </div>
