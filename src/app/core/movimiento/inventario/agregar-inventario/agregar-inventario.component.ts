@@ -30,7 +30,8 @@ export class AgregarInventarioComponent implements OnInit {
       precioSalida: ['', Validators.required],
       nombreAlmacen: ['', Validators.required],
       fecha: ['', Validators.required],
-      estado: ['Activo'],
+      estado: ['1'],
+      tipoInventarioId: ['UNO'],
 
       
     });
@@ -66,6 +67,7 @@ export class AgregarInventarioComponent implements OnInit {
     this.Inventario.NombreAlmacen = this.form.get("nombreAlmacen")?.value;
     this.Inventario.FechaRegistro = this.form.get("fecha")?.value;
     this.Inventario.Estado = this.form.get("estado")?.value;
+    this.Inventario.TipoInventarioId = this.form.get("tipoInventarioId")?.value;
     console.log(this.Inventario);
     this.service.crearInventario(this.Inventario).subscribe(
       (response) => {
