@@ -1,0 +1,29 @@
+import { Injectable } from '@angular/core';
+import { successResponse } from '../models/successResponse';
+import { Observable, catchError, throwError } from 'rxjs';
+import { environment } from 'src/environments/environments';
+import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { DataProveedor ,Iproveedor,proveedor} from '../models/proveedor';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProveedorService {
+
+  apiUrl = environment.apiURL;
+  constructor(public http: HttpClient,) { }
+
+  obtenerEspecialidades(clinicaId: string, page: number, rows: number): Observable<DataProveedor> {
+    return this.http.get<DataProveedor>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  }
+  crearProveedor(proveedor: proveedor): Observable<successResponse> {
+    return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', proveedor).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
+  }
+}
