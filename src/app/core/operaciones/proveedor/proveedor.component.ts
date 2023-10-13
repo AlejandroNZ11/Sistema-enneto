@@ -6,6 +6,7 @@ import { pageSelection } from 'src/app/shared/models/models';
 import { Iproveedor, proveedor } from 'src/app/shared/models/proveedor';
 import { routes } from 'src/app/shared/routes/routes';
 import { ProveedorService } from 'src/app/shared/services/proveedor.service';
+import { AgregarProveedorComponent } from './agregar-proveedor/agregar-proveedor.component';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
@@ -36,6 +37,8 @@ ngOnInit() {
  
 }
 
+getTableData(){}
+
 public searchData(value: any): void {
   this.dataSource.filter = value.trim().toLowerCase();
   this.ListProveedor = this.dataSource.filteredData;
@@ -54,6 +57,12 @@ public sortData(sort: Sort) {
       return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
     });
   }
+}
+crearProveedor() {
+  this.bsModalRef = this.modalService.show(AgregarProveedorComponent),
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData();
+    });
 }
 
 

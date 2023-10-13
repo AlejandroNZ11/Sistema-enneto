@@ -32,7 +32,7 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
-                                                <a 
+                                                <a (click)="crearProveedor()"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""></a>
                                                 <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
@@ -52,8 +52,8 @@
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="ruc">Ruc</th>
-                                        <th mat-sort-header="nombre">Nombre</th>
-                                        <th mat-sort-header="direccion">Descripcion</th>
+                                        <th mat-sort-header="nombre">Razon social / Nombre</th>
+                                        <th mat-sort-header="direccion">Direccion</th>
                                         <th mat-sort-header="telefono">Telefono</th>
                                         <th mat-sort-header="contacto">Contacto</th>
                                         <th mat-sort-header="correo">Correo</th>
