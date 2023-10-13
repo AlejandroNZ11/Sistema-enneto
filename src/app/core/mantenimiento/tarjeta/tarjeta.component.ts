@@ -4,8 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
-import { TipoPagoService } from 'src/app/shared/services/tipo-pago.service'
-import { DataTipoPago, ITipoPago, tipoPago } from 'src/app/shared/models/tipopago';
+import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service'
+import { DataTipoTarjetas, ITipoTarjeta, tipoTarjeta } from 'src/app/shared/models/tipotarjeta';
 import { environment as env } from 'src/environments/environments';
 @Component({
   selector: 'app-tarjeta',
@@ -14,9 +14,9 @@ import { environment as env } from 'src/environments/environments';
 })
 export class TarjetaComponent implements OnInit {
   public routes = routes;
-  public ListTipoPago: Array<ITipoPago> = [];
-  tipoPagoSeleccionado: tipoPago = new tipoPago();
-  dataSource!: MatTableDataSource<ITipoPago>;
+  public ListTipoTarjeta: Array<ITipoTarjeta> = [];
+  tipoTarjetaSeleccionado: tipoTarjeta = new tipoTarjeta();
+  dataSource!: MatTableDataSource<ITipoTarjeta>;
   public showFilter = false;
   public searchDataValue = '';
   public lastIndex = 0;
@@ -32,7 +32,7 @@ export class TarjetaComponent implements OnInit {
   public totalPages = 0;
   bsModalRef?: BsModalRef;
 
-  constructor(private modalService: BsModalService, public tipoPagoService: TipoPagoService) {
+  constructor(private modalService: BsModalService, public tipoTarjetaService: TipoTarjetaService) {
   }
 
   ngOnInit() {
@@ -40,32 +40,32 @@ export class TarjetaComponent implements OnInit {
   }
 
   private getTableData(): void {
-    this.ListTipoPago = [];
+    this.ListTipoTarjeta = [];
     this.serialNumberArray = [];
-    this.tipoPagoService.obtenerTiposPago(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataTipoPago) => {
+    this.tipoTarjetaService.obtenerTarjetas(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataTipoTarjetas) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListTipoPago = data.data;
-      this.dataSource = new MatTableDataSource<ITipoPago>(this.ListTipoPago);
+      this.ListTipoTarjeta = data.data;
+      this.dataSource = new MatTableDataSource<ITipoTarjeta>(this.ListTipoTarjeta);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.ListTipoPago = this.dataSource.filteredData;
+    this.ListTipoTarjeta = this.dataSource.filteredData;
   }
 
   public sortData(sort: Sort) {
-    const data = this.ListTipoPago.slice();
+    const data = this.ListTipoTarjeta.slice();
 
     if (!sort.active || sort.direction === '') {
-      this.ListTipoPago = data;
+      this.ListTipoTarjeta = data;
     } else {
-      this.ListTipoPago = data.sort((a, b) => {
+      this.ListTipoTarjeta = data.sort((a, b) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

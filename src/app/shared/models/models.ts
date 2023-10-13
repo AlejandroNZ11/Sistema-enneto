@@ -330,10 +330,5 @@ export interface Sede{
   estado: number;
 }
 
-export interface tarjeta {
-  tipoTarjetaId: string;
-  descripcion: string;
-  estado: number;
-}
 
 
