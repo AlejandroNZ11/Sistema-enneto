@@ -8,7 +8,7 @@ export class proveedor {
     contacto =  "";
     correo=  "";
   }
-  export interface DataProducto {
+  export interface DataProveedor {
     totalData: number;
     data: Iproveedor[];
   }
