@@ -9,6 +9,7 @@ import { AgregarMarcaComponent } from './agregar-marca/agregar-marca.component';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
 import { DataMarca, Imarca, marca } from 'src/app/shared/models/marca';
+import { environment as env } from 'src/environments/environments';
 
 @Component({
   selector: 'app-marca',
