@@ -45,7 +45,7 @@ export class AgregarMedicoComponent implements OnInit {
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
       abreviatura: ['', [Validators.required, Validators.maxLength(4)]],
-      celular: ['', [Validators.maxLength(9), Validators.minLength(9),Validators.required]],
+      celular: ['', [Validators.maxLength(9), Validators.minLength(9), Validators.required]],
       telefono: ['', [Validators.maxLength(7), Validators.minLength(7)]],
       email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
       tipoDocumento: ['', [Validators.required, Validators.maxLength(40)]],
@@ -74,6 +74,27 @@ export class AgregarMedicoComponent implements OnInit {
     { value: 'CARNET EXTRANJERIA' },
     { value: 'OTROS' },
   ];
+  obtenerCliente() {
+    if (this.doctor.NumeroDocumento) {
+      this.medicoService.getMedico(this.doctor.NumeroDocumento).subscribe(medico => {
+        if (medico.success == true) {
+          this.doctor.Nombres = medico.data.nombres;
+          this.doctor.Apellidos = medico.data.apellido_paterno + " " + medico.data.apellido_materno
+        }
+        else {
+          this.doctor.Nombres = "";
+          this.doctor.Apellidos = "";
+          Swal.fire({
+            icon: 'info',
+            title: medico.message.toString(),
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      })
+    }
+
+  }
   actualizarCantidad() {
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
     let maxCaracteres = 0;
@@ -132,7 +153,6 @@ export class AgregarMedicoComponent implements OnInit {
     const control = this.form.get(controlName);
     return control?.errors && (control?.errors['maxlength']);
   }
-
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;

@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CoreComponent } from './core.component';
 import { Auth0Guard } from '../shared/guard/auth0.guard';
+import { StartGuard } from '../shared/guard/start.guard';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
   {
     path: '',
     component: CoreComponent,
-    canActivate: [Auth0Guard],
+    canActivate: [StartGuard,AuthGuard],
     children: [
       {
         path: 'home',

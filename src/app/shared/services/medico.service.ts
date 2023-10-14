@@ -4,7 +4,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { MedicoEditar, MedicoListData, MedicoRequest } from '../models/medico';
+import { MedicoByDNI, MedicoByDNIResponse, MedicoEditar, MedicoListData, MedicoRequest } from '../models/medico';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +36,10 @@ export class MedicoService {
       })
     );
   }
+  getMedico(IdEntidad: string): Observable<MedicoByDNIResponse> {
+		let url = `?IdEntidad=${IdEntidad}`;
+		return this.http.get<MedicoByDNIResponse>(this.apiUrl + `/Medicos/dni/${IdEntidad}`);
+	}
   obtenerMedico(medicoId: string): Observable<MedicoEditar> {
     return this.http.get<MedicoEditar>(this.apiUrl + `/Medicos/GetMedico/${medicoId}`);
   }
