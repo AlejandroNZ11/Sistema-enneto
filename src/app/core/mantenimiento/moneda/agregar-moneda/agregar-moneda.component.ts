@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { MonedaService } from 'src/app/shared/services/moneda.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-moneda',
@@ -7,4 +11,53 @@ import { Component } from '@angular/core';
 })
 export class AgregarMonedaComponent {
 
+  public form!: FormGroup;
+  public mostrarErrores = false;
+
+  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService,
+    public fb: FormBuilder) {
+    this.form = this.fb.group({
+      descripcion: ['', Validators.required],
+    });
+  }
+
+  isInvalid(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.touched;
+  }
+
+  isRequerido(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.errors && control.errors['required'];
+  }
+
+  Cancelar() {
+    this.bsModalRef.hide()
+  }
+
+  isTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
+
+  crearMoneda() {
+    if (this.form.invalid) {
+      this.isTouched()      
+      return;
+    }
+    const descripcion = this.form.get("descripcion")?.value;
+    this.monedaService.crearMoneda(descripcion).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
 }
