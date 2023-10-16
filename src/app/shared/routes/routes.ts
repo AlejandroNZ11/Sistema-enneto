@@ -38,6 +38,9 @@ export class routes {
   public static get gastosCaja(): string {
     return this.baseUrl + '/caja/gastos';
   }
+  public static get pagosCaja(): string {
+    return this.baseUrl + '/caja/pagos';
+  }
   public static get ventasProductoMov(): string {
     return this.baseUrl + '/movimiento/ventas';
   }

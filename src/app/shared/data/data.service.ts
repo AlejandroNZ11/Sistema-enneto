@@ -322,6 +322,11 @@ export class DataService {
               route: routes.gastosCaja,
               base: routes.gastosCaja,
             },
+            {
+              menuValue: 'Pagos',
+              route: routes.pagosCaja,
+              base: routes.pagosCaja,
+            },
           ],
         },
         {
@@ -357,6 +362,7 @@ export class DataService {
               route: routes.almacenMov,
               base: routes.almacenMov,
             },
+  
           ],
         },
         {

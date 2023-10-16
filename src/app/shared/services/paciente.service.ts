@@ -11,6 +11,7 @@ import { PacienteListData, PacienteRequest, PacienteResponse } from '../models/p
 export class PacienteService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient) { }
+    
     obtenerPacientes(clinicaId: string, page: number, rows: number): Observable<PacienteListData> {
         return this.http.get<PacienteListData>(this.apiUrl + `/Pacientes/GetAllPaciente?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }

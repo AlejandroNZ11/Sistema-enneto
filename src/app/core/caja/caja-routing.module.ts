@@ -33,6 +33,14 @@ const routes: Routes = [
           (m) => m.GastosModule
         ),
     },
+    {
+      path: 'pagos',
+      loadChildren: () =>
+        import('./pagos/pagos.module').then(
+          (m) => m.PagosModule
+        ),
+    },
+    
   ]
 }
 ];
