@@ -1,21 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria-op';
+import { routes } from 'src/app/shared/routes/routes';
+import { CategoriaOpService } from 'src/app/shared/services/categoria-op.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-agregar-moneda',
-  templateUrl: './agregar-moneda.component.html',
-  styleUrls: ['./agregar-moneda.component.scss']
+  selector: 'app-agregar-categoria',
+  templateUrl: './agregar-categoria.component.html',
+  styleUrls: ['./agregar-categoria.component.scss']
 })
-export class AgregarMonedaComponent {
+export class AgregarCategoriaComponent implements OnInit{
 
-  public form!: FormGroup;
+  Categoria: categoria = new categoria();
+  public routes = routes;
+  form!: FormGroup;
   public mostrarErrores = false;
+  ngOnInit(): void { }
 
-  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService,
-    public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private service: CategoriaOpService,
+    public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
     });
@@ -25,39 +30,38 @@ export class AgregarMonedaComponent {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
   }
-
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
-
   Cancelar() {
     this.bsModalRef.hide()
   }
-
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
       control.markAsTouched();
     });
   }
-
-  crearMoneda() {
+  crearCategoria() {
     if (this.form.invalid) {
       this.isTouched()      
       return;
     }
-    const descripcion = this.form.get("descripcion")?.value;
-    this.monedaService.crearMoneda(descripcion).subscribe(
-      (response) => {
-        if (response.isSuccess) {
+    this.Categoria.nombre = this.form.get("descripcion")?.value;
+    console.log(this.Categoria);
+    this.service.crearCategoria(this.Categoria).subscribe(
+      (response)=>{
+        if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
-        } else {
+        }else{
           console.error(response.message);
         }
       },
-      (error) => {
+      (error)=>{
         console.error(error);
       });
   }
 }
+
+

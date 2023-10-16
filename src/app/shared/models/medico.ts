@@ -58,7 +58,24 @@ export interface MedicoEditar {
   sexo: string;
   foto: string;
   firma: string;
-  abreviatura:string;
-  clinicaId:string;
-  usuarioId:string;
+  abreviatura: string;
+  clinicaId: string;
+  usuarioId: string;
+}
+
+export interface MedicoByDNI {
+  apellido_materno: string
+  apellido_paterno: string
+  codigo_verificacion: number
+  direccion: string
+  direccion_completa: string
+  nombres: string
+  numero: number
+};
+
+export interface MedicoByDNIResponse {
+  data: MedicoByDNI
+  source: string
+  success: boolean
+  message: string
 }

@@ -1,34 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { IMoneda } from 'src/app/shared/models/moneda';
+import { Itipomateriales } from 'src/app/shared/models/tipo-materiales';
 import { routes } from 'src/app/shared/routes/routes';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { TipomaterialesService } from 'src/app/shared/services/tipo-materiales.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-editar-moneda',
-  templateUrl: './editar-moneda.component.html',
-  styleUrls: ['./editar-moneda.component.scss']
+  selector: 'app-editar-tipo-materiales',
+  templateUrl: './editar-tipo-materiales.component.html',
+  styleUrls: ['./editar-tipo-materiales.component.scss']
 })
-export class EditarMonedaComponent implements OnInit {
-  monedaSeleccionada: IMoneda | null = null;
+export class EditarTipoMaterialesComponent implements OnInit {
+  tipomaterialesSeleccionada: Itipomateriales | null = null;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private tipomaterialesService: TipomaterialesService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required], 
       estado: ['Activo', Validators.required],
     });
   }
 
   ngOnInit() {
-    if (this.monedaSeleccionada) {
+    if (this.tipomaterialesSeleccionada) {
       this.form.patchValue({
-        descripcion: this.monedaSeleccionada.descripcion,
-        estado: this.monedaSeleccionada.estado,
+        nombre: this.tipomaterialesSeleccionada.nombre,
+        descripcion: this.tipomaterialesSeleccionada.descripcion,
+        estado: this.tipomaterialesSeleccionada.estado,
       });
     }
   }
@@ -47,19 +49,20 @@ export class EditarMonedaComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  guardarMoneda() {
-    if (!this.monedaSeleccionada || this.form.invalid) {
+  guardarTipomateriales() {
+    if (!this.tipomaterialesSeleccionada || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-
-    const monedaActualizada: IMoneda = {
-      monedaId: this.monedaSeleccionada.monedaId,
+  
+    const tipomaterialesActualizada: Itipomateriales = {
+      tipomaterialesId: this.tipomaterialesSeleccionada.tipomaterialesId,
+      nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
     };
-
-    this.monedaService.actualizarMoneda(monedaActualizada).subscribe(
+  
+    this.tipomaterialesService.actualizarTipomateriales(tipomaterialesActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
@@ -72,4 +75,4 @@ export class EditarMonedaComponent implements OnInit {
         console.error(error);
       });
   }
-}
+} 

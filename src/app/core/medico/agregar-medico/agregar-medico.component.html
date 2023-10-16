@@ -46,10 +46,15 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Nro. Documento <span class="login-danger">*</span></label>
-                                        <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
-                                            [(ngModel)]="doctor.NumeroDocumento" class="form-control" type="text" 
-                                            [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
-                                            [maxLength]='cantidad'>
+                                        <div class="input-group">
+                                            <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
+                                                [(ngModel)]="doctor.NumeroDocumento" class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
+                                                [maxLength]='cantidad'>
+                                                <span class="icon-inside" *ngIf="tipoDocumento === 'DNI'" >
+                                                    <i class="fa fa-search" (click)="obtenerCliente()"></i>
+                                                </span>
+                                        </div>
                                         <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
                                             class="invalid-feedback">
                                             <div *ngIf="isRequerido('numeroDocumento')">
@@ -121,7 +126,8 @@
                                         <label>Abreviatura <span class="login-danger">*</span></label>
                                         <input formControlName="abreviatura" [(ngModel)]="doctor.Abreviatura"
                                             class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('abreviatura') && isFormSubmitted}" maxlength="4">
+                                            [ngClass]="{'is-invalid': isInvalid('abreviatura') && isFormSubmitted}"
+                                            maxlength="4">
                                         <div *ngIf="isInvalid('abreviatura') && isFormSubmitted"
                                             class="invalid-feedback">
                                             <div *ngIf="isRequerido('abreviatura')">
@@ -139,7 +145,7 @@
                                         <input formControlName="fechaNacimiento" [(ngModel)]="doctor.FechaNacimiento"
                                             style='height:48px' class="form-control datetimepicker" type="text"
                                             placeholder="" matInput [matDatepicker]="picker"
-                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}" >
+                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}">
                                         <mat-datepicker #picker></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                         <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted"
@@ -175,7 +181,8 @@
                                         <label>Teléfono <span class="login-danger"></span></label>
                                         <input (input)="soloNumeros($event)" formControlName="telefono"
                                             [(ngModel)]="doctor.Telefono" class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}" maxlength="7">
+                                            [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}"
+                                            maxlength="7">
                                         <div *ngIf="isInvalid('telefono') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isCantidadExacta('telefono')">
                                                 Debe ingresar la cantidad correcta: 7*
@@ -194,7 +201,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>                                                     
+                                </div>
                                 <div class="col-12 col-md-12 col-xl-6">
                                     <div class="form-group local-forms">
                                         <label>Especialidad <span class="login-danger">*</span></label>
@@ -298,7 +305,7 @@
                         </form>
                         <div class="col-12">
                             <div class="doctor-submit text-end">
-                                <button (click)="crearMedico()" 
+                                <button (click)="crearMedico()"
                                     class="btn btn-primary submit-form me-2">Guardar</button>
                                 <button [routerLink]="routes.listaMedico"
                                     class="btn btn-primary cancel-form">Cancel</button>

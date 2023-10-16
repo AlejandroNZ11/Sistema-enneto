@@ -15,8 +15,11 @@ export class ProveedorService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerEspecialidades(clinicaId: string, page: number, rows: number): Observable<DataProveedor> {
+  obtenerProveedores(clinicaId: string, page: number, rows: number): Observable<DataProveedor> {
     return this.http.get<DataProveedor>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  }
+  obtenerProveedor( proveedorRuc: string): Observable<Iproveedor> {
+    return this.http.get<Iproveedor>(this.apiUrl + `/Especialidades/GetEspecialidad/${proveedorRuc}`);
   }
   crearProveedor(proveedor: proveedor): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', proveedor).pipe(
@@ -25,5 +28,8 @@ export class ProveedorService {
         return throwError(() => error);
       })
     );
+  }
+  eliminarProveedor( proveedorRuc: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${proveedorRuc}`);
   }
 }
