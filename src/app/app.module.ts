@@ -27,6 +27,7 @@ import { FormsModule } from '@angular/forms';
       domain: env.domain,
       clientId: env.clientId,
       authorizationParams: {
+        audience: env.audience,
         redirect_uri: window.location.origin + '/home'
       },
       httpInterceptor: {
