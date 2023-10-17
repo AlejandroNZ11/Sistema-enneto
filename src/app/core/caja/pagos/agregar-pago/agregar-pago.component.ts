@@ -23,6 +23,9 @@ export class AgregarPagoComponent implements OnInit {
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       monto: ['', Validators.required],
+      numeroPago: ['', Validators.required],
+      fechaRegistro: ['', Validators.required],
+      fechaVencimiento: ['', Validators.required],
     });
   }
 
@@ -42,13 +45,16 @@ export class AgregarPagoComponent implements OnInit {
       control.markAsTouched();
     });
   }
-  crearCategoria() {
+  crearPago() {
     if (this.form.invalid) {
       this.isTouched()      
       return;
     }
     this.Pago.Monto = this.form.get("monto")?.value;
     this.Pago.EstadoPago = this.form.get("estadoPago")?.value;
+    this.Pago.NumeroPago = this.form.get("numeroPago")?.value;
+    this.Pago.FechaRegistro = this.form.get("fechaRegistro")?.value;
+    this.Pago.FechaVencimiento = this.form.get("fechaVencimiento")?.value;
     console.log(this.Pago);
     this.pagosService.crearPago(this.Pago).subscribe(
       (response)=>{

@@ -32,4 +32,12 @@ export class ProveedorService {
   eliminarProveedor( proveedorRuc: string): Observable<successResponse> {
     return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${proveedorRuc}`);
   }
+  actualizarProveedor(proveedor: Iproveedor): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Proveedor/${proveedor.ruc}`, proveedor).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
+  }
 }
