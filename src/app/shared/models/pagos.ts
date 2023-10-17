@@ -2,8 +2,8 @@ export class PagosRequest {
     TransaccionId = '';
     NumeroPago = '';
     EstadoPago = '';
-    FechaRegistro = '';
-    FechaVencimiento = '';
+    FechaRegistro !: Date;
+    FechaVencimiento!: Date;
     Monto = '';
     IdUsuario = '';
     TratamientoId = '';
@@ -15,14 +15,11 @@ export interface PagosResponse {
     transaccionId: string;
     numeroPago: number;
     estadoPago: number;
-    fechaRegistro: string;
-    fechaVencimiento: string;
+    fechaRegistro: Date;
+    fechaVencimiento: Date;
     monto: number;
     usuarioId: number;
-    tratamientoId: string;
-
-
-    
+    tratamientoId: string; 
 }
 export interface PagosListData {
     data: PagosResponse[];

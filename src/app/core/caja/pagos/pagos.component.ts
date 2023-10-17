@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import Swal from 'sweetalert2';
 import { environment as env } from 'src/environments/environments';
 import { PagosListData, PagosRequest, PagosResponse } from 'src/app/shared/models/pagos';
+import { AgregarPagoComponent } from './agregar-pago/agregar-pago.component';
 
 @Component({
   selector: 'app-pagos',
@@ -126,12 +127,13 @@ export class PagosComponent implements OnInit {
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  /*crearCategoria() {
-    this.bsModalRef = this.modalService.show(AgregarCategoriaComponent),
+  crearPago() {
+    this.bsModalRef = this.modalService.show(AgregarPagoComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
         this.getTableData();
       });
   }
+  /*
   editarCategoria(categoria: Icategoria) {
     this.bsModalRef = this.modalService.show(EditarCategoriaComponent);
     this.bsModalRef.content.categoriaSeleccionada = categoria.categoriaId;
@@ -140,9 +142,8 @@ export class PagosComponent implements OnInit {
     });
   }
   */
- crearPago(){
+ 
 
- }
  editarPago() {
 
   }
