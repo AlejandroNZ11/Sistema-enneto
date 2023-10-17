@@ -97,14 +97,8 @@ public moveToPage(pageNumber: number): void {
     this.pageIndex = pageNumber + 1;
   }
   this.getTableData();
-}
-public PageSize(): void {
-  this.pageSelection = [];
-  this.limit = this.pageSize;
-  this.skip = 0;
-  this.currentPage = 1;
-  this.getTableData();
-}
+} 
+
 private calculateTotalPages(totalData: number, pageSize: number): void {
   this.pageNumberArray = [];
   this.totalPages = totalData / pageSize;
@@ -155,6 +149,13 @@ eliminarProveedor(ruc:string){
 
   
   
+}
+public PageSize(): void {
+  this.pageSelection = [];
+  this.limit = this.pageSize;
+  this.skip = 0;
+  this.currentPage = 1;
+  this.getTableData();
 }
 
 
