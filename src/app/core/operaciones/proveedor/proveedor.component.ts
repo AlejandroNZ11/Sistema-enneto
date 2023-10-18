@@ -99,20 +99,6 @@ public moveToPage(pageNumber: number): void {
   this.getTableData();
 } 
 
-private calculateTotalPages(totalData: number, pageSize: number): void {
-  this.pageNumberArray = [];
-  this.totalPages = totalData / pageSize;
-  if (this.totalPages % 1 != 0) {
-    this.totalPages = Math.trunc(this.totalPages + 1);
-  }
-  /* eslint no-var: off */
-  for (var i = 1; i <= this.totalPages; i++) {
-    const limit = pageSize * i;
-    const skip = limit - pageSize;
-    this.pageNumberArray.push(i);
-    this.pageSelection.push({ skip: skip, limit: limit });
-  }
-}
 
 crearProveedor() {
   this.bsModalRef = this.modalService.show(AgregarProveedorComponent),
