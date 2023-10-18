@@ -51,10 +51,13 @@ export class AgregarPagoComponent implements OnInit {
       return;
     }
     this.Pago.Monto = this.form.get("monto")?.value;
-    this.Pago.EstadoPago = this.form.get("estadoPago")?.value;
     this.Pago.NumeroPago = this.form.get("numeroPago")?.value;
     this.Pago.FechaRegistro = this.form.get("fechaRegistro")?.value;
     this.Pago.FechaVencimiento = this.form.get("fechaVencimiento")?.value;
+    this.Pago.UsuarioId = "Franco";
+    this.Pago.IdUsuario = "Carlos";
+    this.Pago.TratamientoId = "Tratamiento";
+    this.Pago.TransaccionId = "Trasaccion";
     console.log(this.Pago);
     this.pagosService.crearPago(this.Pago).subscribe(
       (response)=>{
