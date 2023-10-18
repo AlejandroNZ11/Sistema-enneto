@@ -1,0 +1,64 @@
+<div class="content">
+    <!-- /Page Header -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Editar Cuenta</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre"
+                                        class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Balance Inicial <span class="login-danger">*</span></label>
+                                    <input formControlName="balance"
+                                        class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('balance')}">
+                                    <div *ngIf="isInvalid('balance') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('balance')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="guardarCuenta()"
+                                class="btn btn-primary submit-form me-2">Actualizar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
