@@ -3,12 +3,12 @@ export class inventario{
     NombreAlmacen = '';
     NombreProducto = '';
     TipoInventarioId = '';
-    PrecioEntrada = '';
-    PrecioSalida = '';
+    PrecioEntrada!: number;
+    PrecioSalida!: number;
     Unidad = '';
-    Stock = '';
+    Stock!: number;
     FechaRegistro!: Date;
-    Estado = '';
+    Estado!: number;
     ClinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     UsuarioId = '';
 }

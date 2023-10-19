@@ -24,14 +24,13 @@ export class AgregarInventarioComponent implements OnInit {
     this.form = this.fb.group({
       nombreProducto: ['', Validators.required],
       unidad: ['', Validators.required],
-      precio: ['', Validators.required],
-      stock: ['', Validators.required],
+      precio: [, Validators.required],
+      stock: [, Validators.required],
       codigoBarra: ['', Validators.required],
-      precioSalida: ['', Validators.required],
-      nombreAlmacen: ['', Validators.required],
+      precioSalida: [, Validators.required],
+      nombreAlmacen: [, Validators.required],
       fecha: ['', Validators.required],
-      estado: ['1'],
-      tipoInventarioId: ['UNO'],
+      estado: [1],
 
       
     });
@@ -60,14 +59,15 @@ export class AgregarInventarioComponent implements OnInit {
     }
     this.Inventario.NombreProducto = this.form.get("nombreProducto")?.value;
     this.Inventario.Unidad = this.form.get("unidad")?.value;
-    this.Inventario.PrecioEntrada = this.form.get("precio")?.value;
-    this.Inventario.Stock = this.form.get("stock")?.value;
+    this.Inventario.PrecioEntrada = parseFloat(this.form.get("precio")?.value);
+    this.Inventario.Stock = parseInt(this.form.get("stock")?.value);
     this.Inventario.CodigoBarra = this.form.get("codigoBarra")?.value;
-    this.Inventario.PrecioSalida = this.form.get("precioSalida")?.value;
+    this.Inventario.PrecioSalida = parseFloat(this.form.get("precioSalida")?.value);
     this.Inventario.NombreAlmacen = this.form.get("nombreAlmacen")?.value;
     this.Inventario.FechaRegistro = this.form.get("fecha")?.value;
-    this.Inventario.Estado = this.form.get("estado")?.value;
-    this.Inventario.TipoInventarioId = this.form.get("tipoInventarioId")?.value;
+    this.Inventario.Estado = parseInt(this.form.get("estado")?.value);
+    this.Inventario.UsuarioId = "001"
+    this.Inventario.TipoInventarioId = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
     console.log(this.Inventario);
     this.service.crearInventario(this.Inventario).subscribe(
       (response) => {

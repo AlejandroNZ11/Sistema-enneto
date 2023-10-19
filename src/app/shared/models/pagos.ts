@@ -1,11 +1,11 @@
 export class PagosRequest {
     TransaccionId = '';
-    NumeroPago = '';
-    EstadoPago = '';
+    NumeroPago!: number;
+    EstadoPago!: number;
     FechaRegistro !: Date;
     FechaVencimiento!: Date;
-    Monto = '';
-    IdUsuario = '';
+    Monto!: number;
+    IdUsuario !: number;
     TratamientoId = '';
     ClinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     UsuarioId = '';
