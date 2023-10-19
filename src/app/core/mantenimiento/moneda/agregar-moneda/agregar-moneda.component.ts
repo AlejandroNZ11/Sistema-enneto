@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { Moneda } from 'src/app/shared/models/moneda';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -43,21 +44,24 @@ export class AgregarMonedaComponent {
 
   crearMoneda() {
     if (this.form.invalid) {
-      this.isTouched()      
-      return;
+        this.isTouched()      
+        return;
     }
-    const descripcion = this.form.get("descripcion")?.value;
-    this.monedaService.crearMoneda(descripcion).subscribe(
-      (response) => {
-        if (response.isSuccess) {
-          Swal.fire(response.message, '', 'success');
-          this.bsModalRef.hide();
-        } else {
-          console.error(response.message);
+    const nuevaMoneda = new Moneda();
+    nuevaMoneda.descripcion = this.form.get("descripcion")?.value;
+
+    this.monedaService.crearMoneda(nuevaMoneda).subscribe(
+        (response) => {
+            if (response.isSuccess) {
+                Swal.fire(response.message, '', 'success');
+                this.bsModalRef.hide();
+            } else {
+                console.error(response.message);
+            }
+        },
+        (error) => {
+            console.error(error);
         }
-      },
-      (error) => {
-        console.error(error);
-      });
-  }
+    );
+}
 }
