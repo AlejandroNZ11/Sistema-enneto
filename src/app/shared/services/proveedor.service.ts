@@ -16,7 +16,7 @@ export class ProveedorService {
   constructor(public http: HttpClient,) { }
 
   obtenerProveedores(clinicaId: string, page: number, rows: number): Observable<DataProveedor> {
-    return this.http.get<DataProveedor>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataProveedor>(`${this.apiUrl}/TipoGastos/GetAllTipoGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   obtenerProveedor( proveedorRuc: string): Observable<Iproveedor> {
     return this.http.get<Iproveedor>(this.apiUrl + `/Especialidades/GetEspecialidad/${proveedorRuc}`);
