@@ -45,20 +45,21 @@ export class ProductosComponent {
   bsModalRef?: BsModalRef;
   
 
-   private getTableData(): void {
-     this.ListProducto = [];
-     this.serialNumberArray = [];
-    //  this.ProductosService.obtenerProducto(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataProducto) => {
-    //    this.totalData = data.totalData
-    //    for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-    //      const serialNumber = index + 1;
-    //      this.serialNumberArray.push(serialNumber);
-    //    }
-    //    this.ListProducto = data.data;
-    //    this.dataSource = new MatTableDataSource<Iproducto>(this.ListProducto);
-    //    this.calculateTotalPages(this.totalData, this.pageSize);
-    //  });
+  private getTableData(): void {
+    this.ListProducto = [];
+    this.serialNumberArray = [];
+    this.ProductosService.obtenerProductos(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataProducto) => {
+      this.totalData = data.totalData;
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.ListProducto = data.data;
+      this.dataSource = new MatTableDataSource<Iproducto>(this.ListProducto);
+      this.calculateTotalPages(this.totalData, this.pageSize);
+    });
   }
+  
   eliminarProducto(id:string){
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

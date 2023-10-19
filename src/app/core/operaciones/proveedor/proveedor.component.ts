@@ -3,11 +3,12 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
-import { Iproveedor, proveedor } from 'src/app/shared/models/proveedor';
+import { DataProveedor, Iproveedor, proveedor } from 'src/app/shared/models/proveedor';
 import { routes } from 'src/app/shared/routes/routes';
 import { ProveedorService } from 'src/app/shared/services/proveedor.service';
 import { AgregarProveedorComponent } from './agregar-proveedor/agregar-proveedor.component';
 import Swal from 'sweetalert2';
+import { environment as env } from 'src/environments/environments';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
@@ -38,19 +39,20 @@ ngOnInit(){
   this.getTableData();
 }
 
+
 private getTableData(): void {
   this.ListProveedor = [];
   this.serialNumberArray = [];
-  //this.proveedorService.obtenerProveedores(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataProveedor) => {
-   // this.totalData = data.totalData
-    //for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-   //   const serialNumber = index + 1;
-   //   this.serialNumberArray.push(serialNumber);
-   // }
-   // this.ListProveedor = data.data;
-   // this.dataSource = new MatTableDataSource<Iproveedor>(this.ListProveedor);
-   // this.calculateTotalPages(this.totalData, this.pageSize);
-  //});
+  this.proveedorService.obtenerProveedores(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataProveedor) => {
+    this.totalData = data.totalData;
+    for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+      const serialNumber = index + 1;
+      this.serialNumberArray.push(serialNumber);
+    }
+    this.ListProveedor = data.data;
+    this.dataSource = new MatTableDataSource<Iproveedor>(this.ListProveedor);
+    this.calculateTotalPages(this.totalData, this.pageSize);
+  });
 }
 
 public searchData(value: any): void {
@@ -142,6 +144,19 @@ public PageSize(): void {
   this.skip = 0;
   this.currentPage = 1;
   this.getTableData();
+}
+private calculateTotalPages(totalData: number, pageSize: number): void {
+  this.pageNumberArray = [];
+  this.totalPages = totalData / pageSize;
+  if (this.totalPages % 1 != 0) {
+    this.totalPages = Math.trunc(this.totalPages + 1);
+  }
+  for (let i = 1; i <= this.totalPages; i++) {
+    const limit = pageSize * i;
+    const skip = limit - pageSize;
+    this.pageNumberArray.push(i);
+    this.pageSelection.push({ skip: skip, limit: limit });
+  }
 }
 
 
