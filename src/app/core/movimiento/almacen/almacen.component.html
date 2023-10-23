@@ -27,11 +27,12 @@
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input class="form-control" placeholder="Buscar aqui"
-                                                    >
+                                                    [(ngModel)]="BuscarDatosValue"
+                                                    (ngModelChange)="BuscarDatos(BuscarDatosValue)">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
-                                                <a 
+                                                <a (click)="crearInventario()"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""></a>
                                                 <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
@@ -54,7 +55,104 @@
                         </div>
                         <!-- /Table Header -->
 
-                        
+                        <div class="table-responsive">
+                            <table matSort (matSortChange)="sortData($event)"
+                                class="table border-0 custom-table comman-table datatable mb-0">
+                                <thead>
+                                    <tr>
+                                        <th mat-sort-header="id">Nº</th>
+                                        <th mat-sort-header="nombre">Nombre</th>
+                                        <th mat-sort-header="estado">Estado</th>
+                                        <th mat-sort-header="precio">SedeId</th>
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let data of ListInventario let i = index">
+                                        <td>{{serialNumberArray[i]}}</td>
+                                        <td>{{data.nombreProducto}}</td>
+                                        <td>{{data.unidad}}</td>
+                                        <td>{{data.precioSalida}}</td>
+                                        <td>{{data.stock}}</td>
+                                        <td><button class="custom-badge status-green"
+                                                *ngIf="data.estado=== '1' ">Activo</button></td>
+                                        <td><button class="custom-badge status-blue"
+                                                *ngIf="data.estado!== '1' ">Inactivo</button></td>
+                                        <td>{{data.fechaRegistro}}</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="table_footer">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info">
+                                        Mostrando {{ serialNumberArray[0] }} a
+                                        {{ serialNumberArray[serialNumberArray.length - 1] }} de
+                                        {{ totalData }} entradas
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-7">
+                                    <div class="pagination_section">
+                                        <ul class="pagination">
+                                            <li class="page-item" [ngClass]="{
+                                            disabled: currentPage === 1}">
+                                                <a (click)="getMoreData('previous')" class="page-link"
+                                                    href="javascript:void(0);" tabindex="-1">Antes</a>
+                                            </li>
+                                            <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                                                <li class="page-item" [class.active]="item === currentPage" [ngClass]="
+                                            (pageNumberArray[currentPage - 2] > item &&
+                                                item !== 1 &&
+                                                pageNumberArray.length > 6) ||
+                                            (pageNumberArray[currentPage] < item &&
+                                                item !== 1 &&
+                                                pageNumberArray.length > 6 &&
+                                                pageNumberArray.length !== item)
+                                                ? 'hide-page-no'
+                                                : 'show-page-no'">
+                                                    <a (click)="moveToPage(item)" class="page-link"
+                                                        href="javascript:void(0);">
+                                                        {{ item }}
+                                                    </a>
+                                                </li>
+                                                <li class="page-item" *ngIf="
+                                            i === 0 &&
+                                            pageNumberArray.length > 6 &&
+                                            currentPage > 2
+                                            " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                                                    <a class="page-link" href="javascript:void(0);">
+                                                        ...
+                                                    </a>
+                                                </li>
+                                                <li *ngIf="
+                                            i === pageNumberArray.length - 2 &&
+                                            pageNumberArray.length > 6
+                                            " [hidden]="
+                                            currentPage >=
+                                                pageNumberArray[pageNumberArray.length - 2] ||
+                                            totalData <
+                                                serialNumberArray[serialNumberArray.length - 1]
+                                            " class="page-item" (click)="moveToPage(currentPage + 2)">
+                                                    <a class="page-link" href="javascript:void(0);">
+                                                        ...
+                                                    </a>
+                                                </li>
+                                            </ng-container>
+                                            <li class="page-item" [ngClass]="{
+                                            disabled:
+                                            currentPage ===
+                                                pageNumberArray[pageNumberArray.length - 1] ||
+                                                ListInventario.length === 0  }">
+                                                <a (click)="getMoreData('next')" class="page-link"
+                                                    href="javascript:void(0);">Siguiente
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
