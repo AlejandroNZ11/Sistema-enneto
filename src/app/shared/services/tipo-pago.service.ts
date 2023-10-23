@@ -16,25 +16,31 @@ export class TipoPagoService {
   constructor(public http: HttpClient) { }
 
   obtenerTiposPago(clinicaId: string, page: number, rows: number): Observable<DataTipoPago> {
-    return this.http.get<DataTipoPago>(`${this.apiUrl}/Pagos/GetAllPago?ClinicaId=${clinicaId}&Page=${page}&Rows=${rows}`);
+    return this.http.get<DataTipoPago>(`${this.apiUrl}/TiposPagos/GetAllTipoPago?ClinicaId=${clinicaId}&Page=${page}&Rows=${rows}`);
   }
 
   crearTipoPago(tipoPago: tipoPago): Observable<successResponse> {
-    return this.http.post<successResponse>(`${this.apiUrl}/Pagos/SavePago`, tipoPago).pipe(
+    return this.http.post<successResponse>(`${this.apiUrl}/TiposPagos/SaveTipoPago`, tipoPago).pipe(
       catchError(error => {
-        const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
-        Swal.fire('Error', errorMessage, 'warning');
-        return throwError(error);
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
       })
     );
   }
 
+  obtenerTipoPago(tipoPagoId: string): Observable<ITipoPago> {
+    return this.http.get<ITipoPago>(`${this.apiUrl}/TiposPagos/GetAllTipoPago/${tipoPagoId}`);
+  }
+
+  eliminarTipoPago(tipoPagoId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(`${this.apiUrl}/TiposPagos/DeleteTipoPago/${tipoPagoId}`);
+  }
+
   actualizarTipoPago(tipoPago: ITipoPago): Observable<successResponse> {
-    return this.http.put<successResponse>(`${this.apiUrl}/Pagos/${tipoPago.tipoPagoId}`, tipoPago).pipe(
+    return this.http.put<successResponse>(`${this.apiUrl}/TiposPagos/UpdateTipoPago/${tipoPago.tipoPagoId}`, tipoPago).pipe(
       catchError(error => {
-        const errorMessage = error && error.error ? error.error : 'Ha ocurrido un error desconocido';
-        Swal.fire('Error', errorMessage, 'warning');
-        return throwError(error);
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
       })
     );
   }

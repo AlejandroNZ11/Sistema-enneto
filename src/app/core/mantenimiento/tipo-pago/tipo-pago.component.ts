@@ -9,13 +9,13 @@ import { AgregarTipoPagoComponent } from './agregar-tipo-pago/agregar-tipo-pago.
 import { EditarTipoPagoComponent } from './editar-tipo-pago/editar-tipo-pago.component';
 import { DataTipoPago, ITipoPago, tipoPago } from 'src/app/shared/models/tipopago';
 import { environment as env } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tipo-pago',
   templateUrl: './tipo-pago.component.html',
   styleUrls: ['./tipo-pago.component.scss']
 })
-
 export class TipoPagoComponent implements OnInit {
   public routes = routes;
   public ListTipoPago: Array<ITipoPago> = [];
@@ -57,7 +57,7 @@ export class TipoPagoComponent implements OnInit {
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListTipoPago = this.dataSource.filteredData;
@@ -65,7 +65,6 @@ export class TipoPagoComponent implements OnInit {
 
   public sortData(sort: Sort) {
     const data = this.ListTipoPago.slice();
-
     if (!sort.active || sort.direction === '') {
       this.ListTipoPago = data;
     } else {
@@ -121,8 +120,7 @@ export class TipoPagoComponent implements OnInit {
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
+    for (let i = 1; i <= this.totalPages; i++) {
       const limit = pageSize * i;
       const skip = limit - pageSize;
       this.pageNumberArray.push(i);
@@ -131,7 +129,7 @@ export class TipoPagoComponent implements OnInit {
   }
 
   crearTipoPago() {
-    this.bsModalRef = this.modalService.show(AgregarTipoPagoComponent),
+    this.bsModalRef = this.modalService.show(AgregarTipoPagoComponent);
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });
@@ -142,6 +140,33 @@ export class TipoPagoComponent implements OnInit {
     this.bsModalRef.content.tipoPagoSeleccionado = tipoPago.tipoPagoId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
+    });
+  }
+
+  eliminarTipoPago(tipoPagoId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.tipoPagoService.eliminarTipoPago(tipoPagoId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Tipo de Pago eliminado en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
     });
   }
 }
