@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { tipoPago } from 'src/app/shared/models/tipopago';
-import { routes } from 'src/app/shared/routes/routes';
 import { TipoPagoService } from 'src/app/shared/services/tipo-pago.service';
+import { tipoPago } from 'src/app/shared/models/tipopago';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,9 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTipoPagoComponent {
 
-  TipoPago: tipoPago = new tipoPago();
-  public routes = routes;
-  form!: FormGroup;
+  public form!: FormGroup;
   public mostrarErrores = false;
 
   constructor(public bsModalRef: BsModalRef, private tipoPagoService: TipoPagoService, public fb: FormBuilder) {
@@ -52,10 +49,12 @@ export class AgregarTipoPagoComponent {
       return;
     }
     
-    this.TipoPago.descripcion = this.form.get("descripcion")?.value;
-    this.TipoPago.estado = this.form.get("estado")?.value;
+    const nuevoTipoPago = new tipoPago();
+    nuevoTipoPago.descripcion = this.form.get("descripcion")?.value;
+    nuevoTipoPago.estado = this.form.get("estado")?.value;
+    nuevoTipoPago.metodopago = this.form.get("metodopago")?.value;
 
-    this.tipoPagoService.crearTipoPago(this.TipoPago).subscribe(
+    this.tipoPagoService.crearTipoPago(nuevoTipoPago).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
