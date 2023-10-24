@@ -13,13 +13,13 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Método de Pago <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="metodopago" class="form-control select">
+                                    <mat-select formControlName="metodoPago" class="form-control select">
                                         <mat-option value="Efectivo">Efectivo</mat-option>
                                         <mat-option value="Tarjeta">Tarjeta</mat-option>
                                         <mat-option value="Transferencia">Transferencia</mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('metodopago') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('metodopago') || mostrarErrores">
+                                    <div *ngIf="isInvalid('metodoPago') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('metodoPago') || mostrarErrores">
                                             Debe seleccionar una opción*
                                         </div>
                                     </div>

@@ -4,6 +4,7 @@ export class sede {
     usuarioId = "";
     nombre = "";
     descripcion = "";
+    codigo="";
   }
   export interface DataSede {
     totalData: number;
