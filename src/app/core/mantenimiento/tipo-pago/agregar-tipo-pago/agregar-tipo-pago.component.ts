@@ -19,7 +19,7 @@ export class AgregarTipoPagoComponent {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
-      metodopago: ['', Validators.required]
+      metodoPago: ['', Validators.required]
     });
   }
 
@@ -52,7 +52,7 @@ export class AgregarTipoPagoComponent {
     const nuevoTipoPago = new tipoPago();
     nuevoTipoPago.descripcion = this.form.get("descripcion")?.value;
     nuevoTipoPago.estado = this.form.get("estado")?.value;
-    nuevoTipoPago.metodopago = this.form.get("metodopago")?.value;
+    nuevoTipoPago.metodoPago = this.form.get("metodoPago")?.value;
 
     this.tipoPagoService.crearTipoPago(nuevoTipoPago).subscribe(
       (response) => {
