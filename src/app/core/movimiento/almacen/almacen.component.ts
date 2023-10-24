@@ -4,9 +4,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
-import { InventarioService } from 'src/app/shared/services/inventario.service';
-import { DataInventario, IInventario, inventario } from 'src/app/shared/models/inventario';
+import { AlmacenService } from 'src/app/shared/services/almacen.service';
+import { DataAlmacen, Ialmacen, almacen } from 'src/app/shared/models/almacen';
 import { environment as env } from 'src/environments/environments';
+import { AgregarAlmacenComponent } from './agregar-almacen/agregar-almacen.component';
 
 @Component({
     selector: 'app-almacen',
@@ -15,9 +16,9 @@ import { environment as env } from 'src/environments/environments';
 })
 export class AlmacenComponent implements OnInit {
     public routes = routes;
-    public ListInventario: Array<IInventario> = [];
-    inventarioSeleccionada: inventario = new inventario();
-    dataSource!: MatTableDataSource<IInventario>;
+    public ListAlmacen: Array<Ialmacen> = [];
+    AlmacenSeleccionada: almacen = new almacen();
+    dataSource!: MatTableDataSource<Ialmacen>;
     public showFilter = false;
     public BuscarDatosValue = '';
     public lastIndex = 0;
@@ -32,36 +33,36 @@ export class AlmacenComponent implements OnInit {
     public pageSelection: Array<pageSelection> = [];
     public totalPages = 0;
     bsModalRef?: BsModalRef;
-    constructor(public inventarioService: InventarioService, private modalService: BsModalService,) {
+    constructor(public almacenService: AlmacenService, private modalService: BsModalService,) {
     }
     ngOnInit() {
         this.getTableData();
     }
     private getTableData(): void {
-        this.ListInventario = [];
+        this.ListAlmacen = [];
         this.serialNumberArray = [];
-        this.inventarioService.obtenerInventarios(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataInventario) => {
+        this.almacenService.obtenerAlmacenes(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataAlmacen) => {
             this.totalData = data.totalData
             for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
                 const serialNumber = index + 1;
                 this.serialNumberArray.push(serialNumber);
             }
-            this.ListInventario = data.data;
-            this.dataSource = new MatTableDataSource<IInventario>(this.ListInventario);
+            this.ListAlmacen = data.data;
+            this.dataSource = new MatTableDataSource<Ialmacen>(this.ListAlmacen);
             this.calculateTotalPages(this.totalData, this.pageSize);
         });
     }
     public BuscarDatos(value: any): void {
         this.dataSource.filter = value.trim().toLowerCase();
-        this.ListInventario = this.dataSource.filteredData;
+        this.ListAlmacen = this.dataSource.filteredData;
     }
     public sortData(sort: Sort) {
-        const data = this.ListInventario.slice();
+        const data = this.ListAlmacen.slice();
 
         if (!sort.active || sort.direction === '') {
-            this.ListInventario = data;
+            this.ListAlmacen = data;
         } else {
-            this.ListInventario = data.sort((a, b) => {
+            this.ListAlmacen = data.sort((a, b) => {
                 const aValue = (a as any)[sort.active];
                 const bValue = (b as any)[sort.active];
                 return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
@@ -118,6 +119,10 @@ export class AlmacenComponent implements OnInit {
             this.pageSelection.push({ skip: skip, limit: limit });
         }
     }
-    crearInventario() {
+    crearAlmacen() {
+        this.bsModalRef = this.modalService.show(AgregarAlmacenComponent),
+            this.bsModalRef.onHidden?.subscribe(() => {
+                this.getTableData();
+            });
     }
 }

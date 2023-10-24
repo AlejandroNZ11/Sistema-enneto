@@ -32,7 +32,7 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
-                                                <a (click)="crearInventario()"
+                                                <a (click)="crearAlmacen()"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""></a>
                                                 <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
@@ -61,25 +61,23 @@
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="id">Nº</th>
-                                        <th mat-sort-header="nombre">Nombre</th>
+                                        <th mat-sort-header="descripcion">Descripcion</th>
                                         <th mat-sort-header="estado">Estado</th>
-                                        <th mat-sort-header="precio">SedeId</th>
+                                        <th mat-sort-header="TipoMonedaId">TipoMonedaId</th>
 
-                                        <th></th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let data of ListInventario let i = index">
+                                    <tr *ngFor="let data of ListAlmacen let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
-                                        <td>{{data.nombreProducto}}</td>
-                                        <td>{{data.unidad}}</td>
-                                        <td>{{data.precioSalida}}</td>
-                                        <td>{{data.stock}}</td>
-                                        <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado=== '1' ">Activo</button></td>
-                                        <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!== '1' ">Inactivo</button></td>
-                                        <td>{{data.fechaRegistro}}</td>
+                                        <td>{{data.descripcion}}</td>
+                                        <td>
+                                            <button class="custom-badge status-{{data.estado === '1' ? 'green' : 'blue'}}">
+                                                {{data.estado === '1' ? 'Activo' : 'Inactivo'}}
+                                            </button>
+                                        </td>
+                                        <td>{{data.tipoMonedaId}}</td>
 
                                     </tr>
                                 </tbody>
@@ -143,7 +141,7 @@
                                             disabled:
                                             currentPage ===
                                                 pageNumberArray[pageNumberArray.length - 1] ||
-                                                ListInventario.length === 0  }">
+                                                ListAlmacen.length === 0  }">
                                                 <a (click)="getMoreData('next')" class="page-link"
                                                     href="javascript:void(0);">Siguiente
                                                 </a>
