@@ -7,7 +7,6 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
 interface data {
   value: string;
 }
@@ -24,8 +23,8 @@ export class EditarMedicoComponent implements OnInit {
   form!: FormGroup;
   imagenSubirFoto!: File;
   imagenSubirFirma!: File;
-  otraFoto:boolean = false;
-  otraFirma:boolean = false;
+  otraFoto = false;
+  otraFirma = false;
   routes = routes;
   readerFoto = new FileReader();
   readerFirma = new FileReader();
@@ -36,7 +35,7 @@ export class EditarMedicoComponent implements OnInit {
   tipoDocumento !: string;
   especialidades: Array<string> = [];
   especialidadesAsociadas: Array<string> = [];
-  medicoId: string = "";
+  medicoId = "";
   medicoEditar!: MedicoEditar;
   sexoMedico!: string;
   estadoMedico !:number;
@@ -86,7 +85,7 @@ export class EditarMedicoComponent implements OnInit {
         }
         this.especialidades = medico.especialidadesAsociadas;
       }
-    })    
+    })
   }
   sexo_LISTA = [
     { name: 'Masculino', value: 'M' },
