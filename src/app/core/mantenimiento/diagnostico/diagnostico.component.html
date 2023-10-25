@@ -53,8 +53,31 @@
                             </div>
                         </div>
                         <!-- /Table Header -->
-
-                        
+                        <div class="table-responsive">
+                            <table 
+                                class="table border-0 custom-table comman-table datatable mb-0">
+                                <thead>
+                                    <tr>
+                                        <th mat-sort-header="id">N°</th>
+                                        <th mat-sort-header="nombre">Nombre</th>
+                                        <th mat-sort-header="descripcion">Descripcion</th>
+                                        <th mat-sort-header="estado">Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                
+                            </table>
+                            <div class="table_footer">
+                                <div class="col-sm-12 col-md-5">
+                                    <div class="dataTables_info">
+                                        Mostrando {{ serialNumberArray[0] }} a
+                                        {{ serialNumberArray[serialNumberArray.length - 1] }} de
+                                        {{ totalData }} entradas
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
