@@ -21,5 +21,5 @@ export interface IApoderado {
     documento: string;
     direccion: string;
     telefono: string;
-    estado: string;
+    estado: boolean;
 }
