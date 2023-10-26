@@ -71,7 +71,6 @@
                                     <tr *ngFor="let data of ListSede let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.nombre}}</td>
-                                        <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
                                                 *ngIf="data.estado==='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
@@ -86,7 +85,7 @@
                                                         (click)="editarSede(data)"><i
                                                             class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                        (click)="eliminarSede(data.sedeId)"><i
+                                                        (click)="eliminarSede()"><i
                                                             class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>

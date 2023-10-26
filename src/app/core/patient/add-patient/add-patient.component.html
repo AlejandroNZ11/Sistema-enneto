@@ -192,8 +192,34 @@
                                         <input class="form-control custom-input-height" type="text">
                                     </div>
                                 </div>
-                                <div class=" text-end ">
-                                    <a href="javascript:void(0);" class="btn btn-primary btn-rounded"><i></i> Guardar</a>
+                                <div class="col-6 col-md-6 col-xl-6">
+                                    <div class="form-group local-top-form">
+                                        <label class="local-top">Foto <span class="login-danger"></span></label>
+                                        <div class="settings-btn upload-files-avator">
+                                            <input formControlName="foto" type="file" accept="image/*" name="image" id="foto"
+                                                (change)="cargarImagenFoto($event)" class="hide-input">
+                                            <label for="file" class="upload">Choose File</label>
+                                        </div>
+                                        <div class="upload-images upload-size" [ngClass]="{'d-none':deleteIcon === false}"
+                                            style="width: 150px; height: 150px;">
+                                            <img *ngIf="!imagenTempFoto" src="assets/img/user.jpg" alt="Image">
+                                            <img *ngIf="imagenTempFoto" [src]="imagenTempFoto.toString()" alt="Image">
+                                            <a (click)="deleteIconFuncFoto()" href="javascript:void(0);" class="btn-icon logo-hide-btn">
+                                                <i class="feather icon-x-circle"></i>
+                                            </a>
+                                        </div>
+                                        <div *ngIf="isInvalid('foto') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('foto')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button  class="btn btn-primary submit-form me-2">Guardar</button>
+                                        <button [routerLink]="routes.patientsList" class="btn btn-primary cancel-form">Cancel</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>

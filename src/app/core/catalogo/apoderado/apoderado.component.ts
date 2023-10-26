@@ -46,7 +46,7 @@ export class ApoderadoComponent implements OnInit {
   private getTableData(): void {
     this.ListApoderado = [];
     this.serialNumberArray = [];
-    this.apoderadoService.obtenerApoderados(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataApoderado) => {
+    this.apoderadoService.obtenerApoderados(this.currentPage, this.pageSize).subscribe((data: DataApoderado) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

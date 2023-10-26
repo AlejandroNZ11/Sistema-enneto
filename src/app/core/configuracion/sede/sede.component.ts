@@ -134,31 +134,7 @@ export class SedeComponent implements OnInit{
       this.getTableData();
     });
   }
-  eliminarSede(sedeId:string){
-    Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: 'Eliminar',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if(result.isConfirmed){
-        this.sedeService.eliminarSede(sedeId).subscribe(
-          (response) => {
-            if (response.isSuccess) {
-              Swal.fire('Correcto', 'Sede Eliminada en el sistema correctamente.', 'success');
-              this.getTableData();
-              return;
-            } else {
-              console.error(response.message);
-            }
-          },
-          (error) => {
-            console.error(error);
-          });
-      }else{
-        return;
-      }
-    })
+  eliminarSede(){
     
   }
 }
