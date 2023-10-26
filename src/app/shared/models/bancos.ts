@@ -1,14 +1,17 @@
+
 export class banco {
-    bancoId: string = "3414b9e5-ecb8-477f-e60b-08dbb86db1a5";
-    descripcion: string = "";
-    estado: string = "";
-}
-export interface Ibancos{
-    bancoId: string;
-    descripcion: string;
-    estado: string;
-}
-export interface DataBancos {
+    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    usuarioId = "";
+    nombre = "";
+    descripcion = "";
+  }
+  export interface DataBancos {
     totalData: number;
     data: Ibancos[];
-}
+  }
+  export interface Ibancos {
+    bancoId: string;
+    nombre: string;
+    descripcion: string;
+    estado:string;
+  }

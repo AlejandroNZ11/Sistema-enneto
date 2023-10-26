@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { banco } from 'src/app/shared/models/bancos';
+import {  banco } from 'src/app/shared/models/bancos';
 import { routes } from 'src/app/shared/routes/routes';
 import { BancosService } from 'src/app/shared/services/bancos.service';
 import Swal from 'sweetalert2';
@@ -11,18 +11,22 @@ import Swal from 'sweetalert2';
   templateUrl: './agregar-banco.component.html',
   styleUrls: ['./agregar-banco.component.scss']
 })
-export class AgregarBancoComponent {
+export class AgregarBancoComponent implements OnInit{
+
   Banco: banco = new banco();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
   ngOnInit(): void { }
-  constructor(public bsModalRef: BsModalRef, private bancosService: BancosService,public fb: FormBuilder,){
-      this.form = this.fb.group({
-        nombre: ['', Validators.required],
-        descripcion: ['', Validators.required],
-      });
+
+  constructor(public bsModalRef: BsModalRef, private bancoService: BancosService,
+    public fb: FormBuilder,) {
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      descripcion: ['', Validators.required],
+    });
   }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -41,23 +45,24 @@ export class AgregarBancoComponent {
   }
   crearBanco() {
     if (this.form.invalid) {
-      this.isTouched()
+      this.isTouched()      
       return;
     }
-    this.Banco.estado = this.form.get("estado")?.value;
+    this.Banco.nombre = this.form.get("nombre")?.value;
     this.Banco.descripcion = this.form.get("descripcion")?.value;
     console.log(this.Banco);
-    this.bancosService.crearBanco(this.Banco).subscribe(
-      (response) => {
-        if (response.isSuccess) {
+    this.bancoService.crearBanco(this.Banco).subscribe(
+      (response)=>{
+        if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
-        } else {
+        }else{
           console.error(response.message);
         }
       },
-      (error) => {
+      (error)=>{
         console.error(error);
       });
   }
 }
+

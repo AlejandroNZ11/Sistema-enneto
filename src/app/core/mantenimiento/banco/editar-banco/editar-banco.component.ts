@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Ibancos } from 'src/app/shared/models/bancos';
@@ -11,19 +11,29 @@ import Swal from 'sweetalert2';
   templateUrl: './editar-banco.component.html',
   styleUrls: ['./editar-banco.component.scss']
 })
-export class EditarBancoComponent {
-  bancoSeleccionada?: string;
-  Banco!: Ibancos
+export class EditarBancoComponent implements OnInit {
+  bancoSeleccionada: Ibancos | null = null;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
+
   constructor(public bsModalRef: BsModalRef, private bancosService: BancosService  ,public fb: FormBuilder,) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
+      estado: ['Activo', Validators.required],
     });
   }
+  ngOnInit() {
+    if (this.bancoSeleccionada) {
+      this.form.patchValue({
+        descripcion: this.bancoSeleccionada.descripcion,
+        estado: this.bancoSeleccionada.estado,
+      });
+    }
+  }
+
+  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -35,13 +45,20 @@ export class EditarBancoComponent {
   Cancelar() {
     this.bsModalRef.hide()
   }
-  guardarCategoria() {
-    if (this.form.invalid) {
+  guardarBanco() {
+    if (!this.bancoSeleccionada || this.form.invalid) {
       this.mostrarErrores = true;
-      //Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
       return;
     }
-    this.bancosService.actualizarBanco(this.Banco).subscribe(
+
+    const bancoActualizada: Ibancos = {
+      bancoId: this.bancoSeleccionada.bancoId,
+      nombre: this.form.value.nombre,
+      descripcion: this.form.value.descripcion,
+      estado: this.form.value.estado,
+    };
+
+    this.bancosService.actualizarBanco(bancoActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

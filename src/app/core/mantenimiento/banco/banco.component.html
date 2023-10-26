@@ -23,7 +23,7 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk">
-                                        <h3>Lista Bancos</h3>
+                                        <h3>Lista de Bancos</h3>
                                         <div class="doctor-search-blk">
                                             <div class="top-nav-search table-search-blk">
                                                 <input class="form-control" placeholder="Buscar aqui"
@@ -70,11 +70,12 @@
                                 <tbody>
                                     <tr *ngFor="let data of Listbanco let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
+                                        <td>{{data.nombre}}</td>
                                         <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado=='1'">Activo</button></td>
+                                                *ngIf="data.estado==='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!='1'">Inactivo</button></td>
+                                                *ngIf="data.estado!=='1'">Inactivo</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"
@@ -85,7 +86,7 @@
                                                         (click)="editarBanco(data)"><i
                                                             class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                        data-bs-toggle="modal" data-bs-target="#delete_patient"><i
+                                                        (click)="eliminarBanco(data.bancoId)"><i
                                                             class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>
@@ -111,10 +112,10 @@
                                             </li>
                                             <ng-container *ngFor="let item of pageNumberArray; let i = index">
                                                 <li class="page-item" [class.active]="item === currentPage" [ngClass]="
-                                              (pageNumberArray[currentPage - 2] > item &&
+                                            (pageNumberArray[currentPage - 2] > item &&
                                                 item !== 1 &&
                                                 pageNumberArray.length > 6) ||
-                                              (pageNumberArray[currentPage] < item &&
+                                            (pageNumberArray[currentPage] < item &&
                                                 item !== 1 &&
                                                 pageNumberArray.length > 6 &&
                                                 pageNumberArray.length !== item)
@@ -126,21 +127,21 @@
                                                     </a>
                                                 </li>
                                                 <li class="page-item" *ngIf="
-                                              i === 0 &&
-                                              pageNumberArray.length > 6 &&
-                                              currentPage > 2
+                                            i === 0 &&
+                                            pageNumberArray.length > 6 &&
+                                            currentPage > 2
                                             " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
                                                     <a class="page-link" href="javascript:void(0);">
                                                         ...
                                                     </a>
                                                 </li>
                                                 <li *ngIf="
-                                              i === pageNumberArray.length - 2 &&
-                                              pageNumberArray.length > 6
+                                            i === pageNumberArray.length - 2 &&
+                                            pageNumberArray.length > 6
                                             " [hidden]="
-                                              currentPage >=
+                                            currentPage >=
                                                 pageNumberArray[pageNumberArray.length - 2] ||
-                                              totalData <
+                                            totalData <
                                                 serialNumberArray[serialNumberArray.length - 1]
                                             " class="page-item" (click)="moveToPage(currentPage + 2)">
                                                     <a class="page-link" href="javascript:void(0);">
@@ -150,7 +151,7 @@
                                             </ng-container>
                                             <li class="page-item" [ngClass]="{
                                             disabled:
-                                              currentPage ===
+                                            currentPage ===
                                                 pageNumberArray[pageNumberArray.length - 1] ||
                                                 Listbanco.length === 0  }">
                                                 <a (click)="getMoreData('next')" class="page-link"
