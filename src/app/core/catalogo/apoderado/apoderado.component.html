@@ -76,9 +76,9 @@
                                         <td>{{data.direccion}}</td>
                                         <td>{{data.telefono}}</td>
                                         <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado==='1'">Activo</button>
+                                                *ngIf="data.estado">Activo</button>
                                             <button class="custom-badge status-red"
-                                                *ngIf="data.estado!=='1'">Inactivo</button></td>
+                                                *ngIf="data.estado!">Inactivo</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"

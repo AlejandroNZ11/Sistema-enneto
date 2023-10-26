@@ -16,9 +16,10 @@ export interface DataApoderado {
 
 export interface IApoderado {
     apoderadoId: string;
+    tipoDocumento: string;
     nombre: string;
     documento: string;
     direccion: string;
     telefono: string;
-    estado: string;
+    estado: boolean;
 }

@@ -15,8 +15,8 @@ export class ApoderadoService {
 
   constructor(public http: HttpClient) { }
 
-  obtenerApoderados(clinicaId: string, page: number, rows: number): Observable<DataApoderado> {
-    return this.http.get<DataApoderado>(`${this.apiUrl}/Apoderados/GetAllApoderados?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerApoderados(page: number, rows: number): Observable<DataApoderado> {
+    return this.http.get<DataApoderado>(`${this.apiUrl}/Apoderados/GetAllApoderado?page=${page}&rows=${rows}`);
   }
 
   crearApoderado(apoderado: Apoderado): Observable<successResponse> {
