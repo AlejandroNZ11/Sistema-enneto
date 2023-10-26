@@ -29,7 +29,6 @@ export class EditarSedeComponent implements OnInit {
     if (this.sedeSeleccionada) {
       this.form.patchValue({
         nombre: this.sedeSeleccionada.nombre,
-        descripcion: this.sedeSeleccionada.descripcion,
         estado: this.sedeSeleccionada.estado,
       });
     }
@@ -50,29 +49,6 @@ export class EditarSedeComponent implements OnInit {
   }
 
   guardarSede() {
-    if (!this.sedeSeleccionada || this.form.invalid) {
-      this.mostrarErrores = true;
-      return;
-    }
-  
-    const sedeActualizada: Isede = {
-      sedeId: this.sedeSeleccionada.sedeId,
-      nombre: this.form.value.nombre,
-      descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
-    };
-  
-    this.sedeService.actualizarSede(sedeActualizada).subscribe(
-      (response) => {
-        if (response.isSuccess) {
-          Swal.fire(response.message, '', 'success');
-          this.bsModalRef.hide();
-        } else {
-          console.error(response.message);
-        }
-      },
-      (error) => {
-        console.error(error);
-      });
   }
+    
 } 
