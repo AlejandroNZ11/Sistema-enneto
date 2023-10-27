@@ -18,6 +18,7 @@ export class AgregarApoderadoComponent {
   constructor(public bsModalRef: BsModalRef, private apoderadoService: ApoderadoService,
     public fb: FormBuilder) {
     this.form = this.fb.group({
+      apoderadoId: [''],
       nombre: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
       documento: ['', Validators.required],
@@ -52,6 +53,7 @@ export class AgregarApoderadoComponent {
         return;
     }
     const nuevoApoderado = new Apoderado();
+    nuevoApoderado.apoderadoId = this.form.get('apoderadoId')?.value,
     nuevoApoderado.nombre = this.form.get("nombre")?.value;
     nuevoApoderado.tipoDocumento = this.form.get("tipoDocumento")?.value;
     nuevoApoderado.documento = this.form.get("documento")?.value;
