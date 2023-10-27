@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/shared/data/data.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { MarcaService } from 'src/app/shared/services/marca.service';
 import { AgregarMarcaComponent } from './agregar-marca/agregar-marca.component';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import Swal from 'sweetalert2';
+import { EditarMarcaComponent } from './editar-marca/editar-marca.component';
 import { DataMarca, Imarca, marca } from 'src/app/shared/models/marca';
 import { environment as env } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-marca',
@@ -17,8 +17,7 @@ import { environment as env } from 'src/environments/environments';
   styleUrls: ['./marca.component.scss']
 })
 
-
-export class MarcaComponent implements OnInit {
+export class MarcaComponent implements OnInit{
   public routes = routes;
   public ListMarca: Array<Imarca> = [];
   marcaSeleccionada: marca = new marca();
@@ -37,19 +36,15 @@ export class MarcaComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
-  loading = true;
-
-  constructor(private modalService: BsModalService, public marcaService: MarcaService, ) {
+  constructor(private modalService: BsModalService, public marcaService: MarcaService) {
   }
   ngOnInit() {
-    
     this.getTableData();
   }
   private getTableData(): void {
-    this.ListMarca= [];
+    this.ListMarca = [];
     this.serialNumberArray = [];
-    this.marcaService.obtenerMarca("D30C2D1E-E883-4B2D-818A-6813E15046E6",this.currentPage, this.pageSize).subscribe((data: DataMarca) => {
-      this.loading = false;
+    this.marcaService.obtenerMarcas(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataMarca) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -79,7 +74,6 @@ export class MarcaComponent implements OnInit {
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -95,7 +89,6 @@ export class MarcaComponent implements OnInit {
       this.getTableData();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -107,7 +100,6 @@ export class MarcaComponent implements OnInit {
     }
     this.getTableData();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
@@ -115,7 +107,6 @@ export class MarcaComponent implements OnInit {
     this.currentPage = 1;
     this.getTableData();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;
@@ -136,6 +127,39 @@ export class MarcaComponent implements OnInit {
         this.getTableData();
       });
   }
- 
+  editarMarca(marca: Imarca) {
+    this.bsModalRef = this.modalService.show(EditarMarcaComponent);
+    this.bsModalRef.content.marcaSeleccionada = marca.marcaMaterialesId;
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData();
+    });
+  }
+  eliminarMarca(marcaMaterialesId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.marcaService.eliminarMarca(marcaMaterialesId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Marca Eliminada en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
+  }
 }
 

@@ -1,16 +1,15 @@
 export class marca {
-    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    clinicaId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
     usuarioId = "";
-    nombre= "";
-}
-export interface Imarca {
-    marcaId: string;
-    nombre: string;
-    estado:string;
-}
-export interface DataMarca {
+    nombre = "";
+    estado="";
+  }
+  export interface DataMarca {
     totalData: number;
     data: Imarca[];
-}
-
-
+  }
+  export interface Imarca {
+    marcaMaterialesId: string;
+    nombre: string;
+    estado:string;
+  }

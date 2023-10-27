@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataMarca, Imarca, marca} from 'src/app/shared/models/marca';
+import {   marca} from 'src/app/shared/models/marca';
 import { routes } from 'src/app/shared/routes/routes';
 import { MarcaService } from 'src/app/shared/services/marca.service';
 import Swal from 'sweetalert2';
-import { MarcaComponent } from '../marca.component';
-
+ 
 @Component({
   selector: 'app-agregar-marca',
   templateUrl: './agregar-marca.component.html',
@@ -49,8 +48,8 @@ export class AgregarMarcaComponent implements OnInit {
       this.isTouched()      
       return;
     }
+    
     this.Marca.nombre = this.form.get("nombre")?.value;
-    this.Marca.usuarioId = "Franco";
     console.log(this.Marca);
     this.marcaService.crearMarca(this.Marca).subscribe(
       (response)=>{
