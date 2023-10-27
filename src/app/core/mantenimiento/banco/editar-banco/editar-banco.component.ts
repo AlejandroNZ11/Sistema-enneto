@@ -53,7 +53,6 @@ export class EditarBancoComponent implements OnInit {
 
     const bancoActualizada: Ibancos = {
       bancoId: this.bancoSeleccionada.bancoId,
-      nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
     };

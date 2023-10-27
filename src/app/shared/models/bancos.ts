@@ -11,7 +11,6 @@ export class banco {
   }
   export interface Ibancos {
     bancoId: string;
-    nombre: string;
     descripcion: string;
     estado:string;
   }

@@ -22,7 +22,7 @@ export class AgregarBancoComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private bancoService: BancosService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
+    
       descripcion: ['', Validators.required],
     });
   }
@@ -48,7 +48,7 @@ export class AgregarBancoComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Banco.nombre = this.form.get("nombre")?.value;
+    
     this.Banco.descripcion = this.form.get("descripcion")?.value;
     console.log(this.Banco);
     this.bancoService.crearBanco(this.Banco).subscribe(
