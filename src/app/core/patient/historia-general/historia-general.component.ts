@@ -142,9 +142,4 @@ export class HistoriaGeneralComponent implements OnInit {
     this.dataSource.filter = 'apply';
     this.patientsList = this.dataSource.filteredData;
   }
-
-  
-  
-  
-
 }
