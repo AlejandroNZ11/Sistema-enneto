@@ -8,14 +8,13 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-heading">
-                                    <h4>Editar Categoria</h4>
+                                    <h4>Editar Especialidad</h4>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nombre <span class="login-danger">*</span></label>
-                                    <input formControlName="nombre"
-                                        class="form-control" type="text"
+                                    <input formControlName="nombre" class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('nombre')}">
                                     <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('nombre')">
@@ -33,12 +32,11 @@
                                     </mat-select>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Descripcion <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion"
-                                        class="form-control" type="text"
+                                    <input formControlName="descripcion" class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('descripcion')}">
                                     <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('descripcion')">
@@ -51,7 +49,7 @@
                     </form>
                     <div class="col-12">
                         <div class="doctor-submit text-end">
-                            <button type="submit" (click)="guardarCategoria()"
+                            <button type="submit" (click)="guardarEspecialidad()"
                                 class="btn btn-primary submit-form me-2">Actualizar</button>
                             <button type="submit" (click)="Cancelar()"
                                 class="btn btn-primary cancel-form">Cancelar</button>

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,10 +8,12 @@ import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { environment as env } from 'src/environments/environments';
 import { FormsModule } from '@angular/forms';
+import { TablaComponent } from './common-component/tabla/tabla.component';
+import { TablaModule } from './common-component/tabla/tabla.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     HttpClientModule,
@@ -21,6 +22,7 @@ import { FormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     SharedModule,
     FormsModule ,
+    TablaModule,
     AuthModule.forRoot({
       domain: env.domain,
       clientId: env.clientId,

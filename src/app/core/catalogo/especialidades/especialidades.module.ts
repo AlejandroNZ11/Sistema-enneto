@@ -6,6 +6,7 @@ import { EspecialidadesComponent } from './especialidades.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
 import { EspecialidadesRoutingModule } from './especialidades-routing.module';
+import { CoreModule } from '../../core.module';
 
 
 
@@ -20,6 +21,7 @@ import { EspecialidadesRoutingModule } from './especialidades-routing.module';
     CommonModule,
     EspecialidadesRoutingModule,
     SharedModule,
+    CoreModule,
   ]
 })
 export class EspecialidadesModule { }

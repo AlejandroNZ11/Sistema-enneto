@@ -530,7 +530,7 @@ export class DataService {
             {
               menuValue: 'Clientes',
               route: routes.clienteCat,
-              base: routes.alergiasCat,
+              base: routes.clienteCat,
             },
             {
               menuValue: 'Apoderado',

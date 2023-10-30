@@ -1,6 +1,5 @@
 export class SucursalResponse {
     id!:number;
-    idEmpresa!:number;
     nombre!:string;
     direccion!:string;
     isDefault!:boolean;
@@ -9,10 +8,8 @@ export class SucursalResponse {
 }
 
 export interface SucursalAlmacen {
-	idAlmacen: number;
-	idSucursal: number;
+	id: number;
 	nombre: string;
 	descripcion?: string;
 	ubicacion?: string;
-	nombreCorto?: string;
 }

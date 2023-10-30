@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -10,6 +10,7 @@ import { EditarEspecialidadComponent } from './editar-especialidad/editar-especi
 import { DataEspecialidad, Iespecialidad, especialidad } from 'src/app/shared/models/especialidades';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
   selector: 'app-especialidades',
@@ -17,34 +18,31 @@ import Swal from 'sweetalert2';
   styleUrls: ['./especialidades.component.scss']
 })
 
-export class EspecialidadesComponent implements OnInit{
+export class EspecialidadesComponent implements OnInit {
   public routes = routes;
-  public ListEspecialidad: Array<Iespecialidad> = [];
+  ListEspecialidad: Array<Iespecialidad> = [];
+  columnas: string[] = []
+  acciones: string[] = []
   especialidadSeleccionada: especialidad = new especialidad();
   dataSource!: MatTableDataSource<Iespecialidad>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
+  limit: number = this.pageSize;
   constructor(private modalService: BsModalService, public especialidadService: EspecialidadesService) {
   }
+
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades('Especialidad');
+    this.acciones = ['Editar', 'Eliminar'];
   }
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListEspecialidad = [];
     this.serialNumberArray = [];
-    this.especialidadService.obtenerEspecialidades(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataEspecialidad) => {
+    this.especialidadService.obtenerEspecialidades(env.clinicaId, currentPage, pageSize).subscribe((data: DataEspecialidad) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -52,101 +50,55 @@ export class EspecialidadesComponent implements OnInit{
       }
       this.ListEspecialidad = data.data;
       this.dataSource = new MatTableDataSource<Iespecialidad>(this.ListEspecialidad);
-      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListEspecialidad = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.ListEspecialidad.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.ListEspecialidad = data;
-    } else {
-      this.ListEspecialidad = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearEspecialidad();
+    } else if (accion.accion == 'Editar') {
+      this.editarEspecialidad(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarEspecialidad(accion.fila.especialidadId)
     }
   }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
+
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
+
   crearEspecialidad() {
     this.bsModalRef = this.modalService.show(AgregarEspecialidadComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
+        this.getTableData(this.currentPage, this.pageSize);
       });
   }
   editarEspecialidad(especialidad: Iespecialidad) {
-    this.bsModalRef = this.modalService.show(EditarEspecialidadComponent);
-    this.bsModalRef.content.especialidadSeleccionada = especialidad.especialidadId;
+    const initialState = {
+      especialidadSeleccionada: especialidad.especialidadId
+    };
+    this.bsModalRef = this.modalService.show(EditarEspecialidadComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
-  eliminarEspecialidad(especialidadId:string){
+  eliminarEspecialidad(especialidadId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         this.especialidadService.eliminarEspecialidad(especialidadId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Especialidad Eliminada en el sistema correctamente.', 'success');
-              this.getTableData();
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);
@@ -155,11 +107,11 @@ export class EspecialidadesComponent implements OnInit{
           (error) => {
             console.error(error);
           });
-      }else{
+      } else {
         return;
       }
     })
-    
+
   }
 }
 

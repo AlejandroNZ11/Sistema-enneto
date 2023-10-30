@@ -13,6 +13,10 @@ import { DataService } from './data/data.service';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatTableModule } from '@angular/material/table';
+import { TablaModule } from '../common-component/tabla/tabla.module';
+
+
 
 @NgModule({
   declarations: [],
@@ -44,7 +48,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTableModule,
+    TablaModule,
   ],
   exports: [
     CommonModule,
@@ -60,7 +66,9 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatSortModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    MatTableModule,
+    TablaModule,
   ],
   providers: [
     DataService,

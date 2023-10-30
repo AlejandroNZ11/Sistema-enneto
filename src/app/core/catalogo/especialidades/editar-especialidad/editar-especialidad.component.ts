@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-especialidad.component.scss']
 })
 export class EditarEspecialidadComponent implements OnInit {
-  especialidadSeleccionada: Iespecialidad | null = null;
+  especialidad!: Iespecialidad;
+  especialidadSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -26,13 +27,14 @@ export class EditarEspecialidadComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.especialidadSeleccionada) {
+    this.especialidadService.obtenerEspecialidad(this.especialidadSeleccionada!).subscribe(especialidad => {
+      this.especialidad = especialidad;
       this.form.patchValue({
-        nombre: this.especialidadSeleccionada.nombre,
-        descripcion: this.especialidadSeleccionada.descripcion,
-        estado: this.especialidadSeleccionada.estado,
+        nombre: this.especialidad.nombre,
+        descripcion: this.especialidad.descripcion,
+        estado: this.especialidad.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
 
   isInvalid(controlName: string) {
@@ -49,19 +51,18 @@ export class EditarEspecialidadComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  guardarCategoria() {
-    if (!this.especialidadSeleccionada || this.form.invalid) {
+  guardarEspecialidad() {
+    if (!this.especialidad || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-  
     const especialidadActualizada: Iespecialidad = {
-      especialidadId: this.especialidadSeleccionada.especialidadId,
+      especialidadId: this.especialidad.especialidadId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-  
+
     this.especialidadService.actualizarEspecialidad(especialidadActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {

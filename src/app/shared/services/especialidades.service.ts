@@ -31,7 +31,7 @@ export class EspecialidadesService {
     return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${especialidadId}`);
   }
   actualizarEspecialidad(especialidad: Iespecialidad): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${especialidad.especialidadId}`, especialidad).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/UpdateEspecialidad/${especialidad.especialidadId}`, especialidad).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
