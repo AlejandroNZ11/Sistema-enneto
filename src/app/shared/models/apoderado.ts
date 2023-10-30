@@ -7,7 +7,7 @@ export class Apoderado {
     nombre = '';
     direccion = '';
     telefono = '';
-    estado = false
+    estado = '';
 }
 
 export interface DataApoderado {
@@ -23,4 +23,11 @@ export interface IApoderado {
     direccion: string;
     telefono: string;
     estado: boolean;
+}
+
+export class ApoderadoResponse {
+    nombre = "";
+    documento = "";
+    direccion = "";
+    telefono = '';
 }

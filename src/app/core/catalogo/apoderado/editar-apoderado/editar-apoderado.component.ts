@@ -12,12 +12,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-apoderado.component.scss']
 })
 export class EditarApoderadoComponent implements OnInit {
-  apoderadoSeleccionado: IApoderado | null = null;
+  apoderado: IApoderado | undefined;
+  apoderadoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private apoderadoService: ApoderadoService, public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef,
+    private apoderadoService: ApoderadoService,
+    public fb: FormBuilder
+  ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
@@ -28,15 +33,16 @@ export class EditarApoderadoComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.apoderadoSeleccionado) {
+    this.apoderadoService.obtenerApoderado(this.apoderadoSeleccionado!).subscribe(apoderado => {
+      this.apoderado = apoderado;
       this.form.patchValue({
-        nombre: this.apoderadoSeleccionado.nombre,
-        tipoDocumento: this.apoderadoSeleccionado.tipoDocumento,
-        documento: this.apoderadoSeleccionado.documento,
-        direccion: this.apoderadoSeleccionado.direccion,
-        telefono: this.apoderadoSeleccionado.telefono,
+        nombre: this.apoderado.nombre,
+        tipoDocumento: this.apoderado.tipoDocumento,
+        documento: this.apoderado.documento,
+        direccion: this.apoderado.direccion,
+        telefono: this.apoderado.telefono,
       });
-    }
+    })
   }
 
   isInvalid(controlName: string) {
@@ -54,19 +60,18 @@ export class EditarApoderadoComponent implements OnInit {
   }
 
   guardarApoderado() {
-    if (!this.apoderadoSeleccionado || this.form.invalid) {
+    if (!this.apoderado || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-
     const apoderadoActualizado: IApoderado = {
-      apoderadoId: this.apoderadoSeleccionado.apoderadoId,
+      apoderadoId: this.apoderado.apoderadoId,
       nombre: this.form.value.nombre,
       tipoDocumento: this.form.value.tipoDocumento,
       documento: this.form.value.documento,
       direccion: this.form.value.direccion,
       telefono: this.form.value.telefono,
-      estado: this.apoderadoSeleccionado.estado,
+      estado: this.apoderado.estado,
     };
 
     this.apoderadoService.actualizarApoderado(apoderadoActualizado).subscribe(
