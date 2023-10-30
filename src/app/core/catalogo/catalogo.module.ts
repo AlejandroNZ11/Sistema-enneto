@@ -16,6 +16,7 @@ import { EditarTipoCitadoComponent } from './tipo-citado/editar-tipo-citado/edit
 import { AlergiasComponent } from './alergias/alergias.component';
 import { AgregarAlergiasComponent } from './alergias/agregar-alergias/agregar-alergias.component';
 import { EditarAlergiasComponent } from './alergias/editar-alergias/editar-alergias.component';
+import { PlanesComponent } from './planes/planes.component';
 
 
 

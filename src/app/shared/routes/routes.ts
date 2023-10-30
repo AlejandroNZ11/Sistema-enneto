@@ -146,6 +146,9 @@ export class routes {
   public static get consentimientoCat(): string {
     return this.baseUrl + '/catalogo/consentimiento';
   }
+  public static get planesCat(): string {
+    return this.baseUrl + '/catalogo/planes';
+  }
 
   public static get usuarioCrud(): string {
     return this.baseUrl + '/configuracion/usuario';

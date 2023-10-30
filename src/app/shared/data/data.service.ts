@@ -542,6 +542,11 @@ export class DataService {
               route: routes.consentimientoCat,
               base: routes.consentimientoCat,
             },
+            {
+              menuValue: 'Planes',
+              route: routes.planesCat,
+              base: routes.planesCat,
+            },
           ],
         },
         {

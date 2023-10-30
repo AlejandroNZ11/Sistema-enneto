@@ -70,6 +70,13 @@ const routes: Routes = [
             (m) => m.ConsentimientoModule
           ),
       },
+      {
+        path: 'planes',
+        loadChildren: () =>
+          import('./planes/planes.module').then(
+            (m) => m.PlanesModule
+          ),
+      },
     ]
   }
 ];
