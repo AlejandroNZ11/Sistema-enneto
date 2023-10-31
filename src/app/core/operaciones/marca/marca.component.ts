@@ -129,12 +129,12 @@ export class MarcaComponent implements OnInit{
   }
   editarMarca(marca: Imarca) {
     this.bsModalRef = this.modalService.show(EditarMarcaComponent);
-    this.bsModalRef.content.marcaSeleccionada = marca.marcaMaterialesId;
+    this.bsModalRef.content.marcaSeleccionada = marca.MarcaMaterialesId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });
   }
-  eliminarMarca(marcaMaterialesId:string){
+  eliminarMarca(MarcaMaterialesId:string){
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
@@ -142,7 +142,7 @@ export class MarcaComponent implements OnInit{
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if(result.isConfirmed){
-        this.marcaService.eliminarMarca(marcaMaterialesId).subscribe(
+        this.marcaService.eliminarMarca(MarcaMaterialesId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Marca Eliminada en el sistema correctamente.', 'success');
