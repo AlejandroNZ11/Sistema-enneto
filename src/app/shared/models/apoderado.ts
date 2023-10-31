@@ -25,7 +25,7 @@ export interface IApoderado {
     estado: boolean;
 }
 
-export class ApoderadoResponse {
+export class apoderadoResponse {
     nombre = "";
     documento = "";
     direccion = "";

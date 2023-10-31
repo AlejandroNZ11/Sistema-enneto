@@ -52,15 +52,15 @@ export class AgregarApoderadoComponent {
         this.isTouched()      
         return;
     }
-    const nuevoApoderado = new Apoderado();
-    nuevoApoderado.apoderadoId = this.form.get('apoderadoId')?.value,
-    nuevoApoderado.nombre = this.form.get("nombre")?.value;
-    nuevoApoderado.tipoDocumento = this.form.get("tipoDocumento")?.value;
-    nuevoApoderado.documento = this.form.get("documento")?.value;
-    nuevoApoderado.direccion = this.form.get("direccion")?.value;
-    nuevoApoderado.telefono = this.form.get("telefono")?.value;
+    const apoderado = new Apoderado();
+    apoderado.apoderadoId = this.form.get('apoderadoId')?.value,
+    apoderado.nombre = this.form.get("nombre")?.value;
+    apoderado.tipoDocumento = this.form.get("tipoDocumento")?.value;
+    apoderado.documento = this.form.get("documento")?.value;
+    apoderado.direccion = this.form.get("direccion")?.value;
+    apoderado.telefono = this.form.get("telefono")?.value;
 
-    this.apoderadoService.crearApoderado(nuevoApoderado).subscribe(
+    this.apoderadoService.crearApoderado(apoderado).subscribe(
         (response) => {
             if (response.isSuccess) {
                 Swal.fire(response.message, '', 'success');

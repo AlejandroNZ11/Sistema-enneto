@@ -1,4 +1,5 @@
 import { especialidadResponse } from "./especialidades";
+import { apoderadoResponse } from "./apoderado";
 
 
 
@@ -21,6 +22,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
   let clase: any;
   switch (entidad) {
     case 'Especialidad': clase = new especialidadResponse(); break;
+    case 'Apoderado': clase = new apoderadoResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
