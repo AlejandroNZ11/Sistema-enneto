@@ -1,6 +1,5 @@
 export class Apoderado {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
-    apoderadoId = '';
     usuarioId = '';
     tipoDocumento = '';
     documento = '';
@@ -17,7 +16,7 @@ export interface DataApoderado {
 
 export interface IApoderado {
     apoderadoId: string;
-    tipoDocumento: string;
+    tipoDocumento: number;
     nombre: string;
     documento: string;
     direccion: string;
@@ -25,7 +24,7 @@ export interface IApoderado {
     estado: boolean;
 }
 
-export class ApoderadoResponse {
+export class apoderadoResponse {
     nombre = "";
     documento = "";
     direccion = "";

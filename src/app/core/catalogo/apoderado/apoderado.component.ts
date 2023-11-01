@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MatTableDataSource } from '@angular/material/table';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';

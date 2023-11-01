@@ -24,14 +24,14 @@ export class MarcaService {
       })
     );
   }
-  obtenerMarca( marcaMaterialesId: string): Observable<Imarca> {
-    return this.http.get<Imarca>(this.apiUrl + `/MarcasMateriales/GetMarcaMaterial/${marcaMaterialesId}`);
+  obtenerMarca( MarcaMaterialId: string): Observable<Imarca> {
+    return this.http.get<Imarca>(this.apiUrl + `/MarcasMateriales/GetMarcaMaterial/${MarcaMaterialId}`);
   }
-  eliminarMarca( marcaMaterialesId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/MarcasMateriales/DeleteMarcaMaterial/${marcaMaterialesId}`);
+  eliminarMarca( MarcaMaterialId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/MarcasMateriales/DeleteMarcaMaterial/${MarcaMaterialId}`);
   }
   actualizarMarca(marca: Imarca): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/MarcasMateriales/${marca.marcaMaterialesId}`, marca).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/MarcasMateriales/${marca.MarcaMaterialesId}`, marca).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
