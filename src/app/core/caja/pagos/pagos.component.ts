@@ -142,7 +142,7 @@ export class PagosComponent implements OnInit {
     });
   }
   */
- 
+
 
  editarPago() {
 

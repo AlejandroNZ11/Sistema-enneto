@@ -41,6 +41,9 @@ export class routes {
   public static get pagosCaja(): string {
     return this.baseUrl + '/caja/pagos';
   }
+  public static get cobroConsulta(): string {
+    return this.baseUrl + '/caja/cobro-consulta';
+  }
   public static get agregarPagoCaja(): string {
     return this.baseUrl + '/caja/agregar-pago';
   }

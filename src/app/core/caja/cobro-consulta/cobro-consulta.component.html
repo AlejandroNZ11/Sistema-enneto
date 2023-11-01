@@ -1,130 +1,138 @@
 <div class="page-wrapper">
-  <!-- ============================================================== -->
-  <!-- Container fluid  -->
-  <!-- ============================================================== -->
-  <div class="container-fluid">
-    <!-- ============================================================== -->
-    <!-- Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <div class="row page-titles">
-      <div class="col-md-5 align-self-center">
-        <h4 class="text-themecolor">Cobrar Consulta</h4>
-      </div>
-      <div class="col-md-7 align-self-center text-end">
-        <div class="d-flex justify-content-end align-items-center">
-          <ol class="breadcrumb justify-content-end">
-            <li class="breadcrumb-item"><a href="javascript:void(0)">Caja</a></li>
-            <li class="breadcrumb-item active">Lista Consultas</li>
-          </ol>
-
-        </div>
-      </div>
-    </div>
-    <!-- ============================================================== -->
-    <!-- End Bread crumb and right sidebar toggle -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- Start Page Content -->
-    <!-- ============================================================== -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="card">
-          <div class="card-body">
-            <form id="CobrosFormBusqueda" action="" method="post" autocomplete="off">
-              <div class="row">
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Desde:</label>
-                    <div class='input-group col-md-4'>
-                      <input type='text' name="desde" class="form-control datepicker" value="2023-10-30" />
-                      <span class="input-group-text">
-                        <i class="icon-calender"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Hasta:</label>
-                    <div class='input-group col-md-4'>
-                      <input type='text' name="hasta" class="form-control datepicker" value="2023-10-30" />
-                      <span class="input-group-text">
-                        <i class="icon-calender"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="control-label">Buscar por paciente:</label>
-                    <input type="text" name="paciente" class="form-control">
-                  </div>
-                </div>
-
-                <!--/span-->
-                <div class="col-md-2">
-                  <div class="form-group">
-                    <label class="control-label">Estado pago:</label>
-                    <select class="form-control form-select" name="estado">
-                      <option value="">Todos</option>
-                      <option value="1">Cobrado</option>
-                      <option value="2">Anulado</option>
-                    </select>
-                  </div>
-                </div>
-                <!--/span-->
-
-
-                <div class="col-md-3">
-                  <button type="submit" style="margin-top:23px" class="btn btn-info waves-effect waves-light"><i class="fa fa-search"></i> Buscar</button>
-                  <a href="https://newdental.odontoenneto.com/appcajero/crudconsulta/agregar" style="margin-top:23px" class="btn waves-effect waves-light btn-success"><i class="fas fa-dollar-sign"></i> Pagar consulta</a>
-
-                </div>
+  <div class="content">
+      <!-- Page Header -->
+      <div class="page-header">
+          <div class="row">
+              <div class="col-sm-12">
+                  <ul class="breadcrumb">
+                      <li class="breadcrumb-item"><a [routerLink]="routes.cobroConsulta">Cobro Consulta </a></li>
+                      <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                      <li class="breadcrumb-item active">Lista de cobro consulta</li>
+                  </ul>
               </div>
-            </form>
-
           </div>
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table id="TableCobros" class="table display table-striped border no-wrap dataTable no-footer dtr-inline" width="100%">
-                <thead>
-                  <tr>
-                    <th>Documento</th>
-                    <th>Fecha</th>
-                    <th>Correlativo</th>
-                    <th>Paciente</th>
-                    <th>Especialidad</th>
-                    <th>Total</th>
-                    <th>Pago</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-
-              </table>
-            </div>
-          </div>
-
-        </div>
-        <div id="totalMontosCobros" class="alert alert-success weight" role="alert">
-          <strong>
-            Monto recaudado: S/ <span></span>
-          </strong>
-        </div>
       </div>
+      <!-- /Page Header -->
 
-    </div>
+      <div class="row">
+          <div class="col-sm-12">
+              <div class="card card-table show-entire">
+                  <div class="card-body">
+                      <!-- Table Header -->
+                      <div class="page-table-header mb-2">
+                          <div class="row align-items-center">
+                              <div class="col">
+                                <div class="doctor-table-blk">
+                                  <h3>Lista de Cobro Consulta</h3>
+                                  <div class="doctor-search-blk">
+                                      <div class="top-nav-search table-search-blk">
+                                          <input [(ngModel)]="fechaDesde" style='height:48px' class="form-control" type="text" placeholder="Desde" matInput [matDatepicker]="picker" (ngModelChange)="aplicarFiltro()">
+                                          <mat-datepicker #picker></mat-datepicker>
+                                          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                                          <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                                      </div>
+                                      <div class="top-nav-search table-search-blk">
+                                          <input [(ngModel)]="fechaHasta" style='height:48px' class="form-control" type="text" placeholder="Hasta" matInput [matDatepicker]="picker2" (ngModelChange)="aplicarFiltro()">
+                                          <mat-datepicker #picker2></mat-datepicker>
+                                          <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
+                                          <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                                      </div>
+                                      <div class="top-nav-search table-search-blk mb-1">
+                                          <input type="text" class="form-control" placeholder="Busca aquí" [(ngModel)]="searchDataValue" (ngModelChange)="searchData(searchDataValue)">
+                                          <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                      </div>
+                                      <div class="form-group mx-3 mt-3">
+                                          <div class="dropdown">
+                                              <select class="form-control select custom-select">
+                                                  <option value="default">Todos</option>
+                                                  <option value="value1"><i class="fa fa-ellipsis-v"></i> Sede</option>
+                                                  <option value="value2"><i class="fa fa-ellipsis-v"></i> Todos</option>
+                                                  <option value="value3"><i class="fa fa-ellipsis-v"></i> Lima</option>
+                                                  <option value="value3"><i class="fa fa-ellipsis-v"></i> Surquillo</option>
+                                              </select>
+                                          </div>
+                                      </div>
+                                      <div class="add-group">
+                                        <a [routerLink]="routes.agregarMedico"
+                                            class="btn btn-primary add-pluss ms-2"><img
+                                                src="assets/img/icons/plus.svg" alt=""></a>
+                                        <a href="javascript:;"
+                                            class="btn btn-primary doctor-refresh ms-2"><img
+                                                src="assets/img/icons/re-fresh.svg" alt=""></a>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-auto text-end float-end ms-auto download-grp">
+                                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
+                                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                                  <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
+                              </div>
 
+                              </div>
+                              <div class="col-auto text-end float-end ms-auto download-grp">
+                                  <!-- Otras opciones o botones -->
+                              </div>
+                          </div>
+                      </div>
+                      <!-- /Table Header -->
 
+                      <div class="table-responsive">
+                        <table class="table border-0 custom-table comman-table datatable mb-0">
+                            <thead>
+                                <tr>
+                                  <th>Nº</th>
+                                  <th>Documento</th>
+                                  <th>Fecha</th>
+                                  <th>Correlativo</th>
+                                  <th>Paciente</th>
+                                  <th>Especialidad</th>
+                                  <th>Total</th>
+                                  <th>Pago</th>
+                                  <th>Estado</th>
+                                  <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                            </tbody>
+                        </table>
+                        <div class="table_footer">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info">
+                                </div>
+                            </div>
 
+                            <div class="col-sm-12 col-md-7">
+                                <div class="pagination_section">
+                                    <ul class="pagination">
+                                        <li class="page-item" >
+                                            <a class="page-link"
+                                                href="javascript:void(0);" tabindex="-1">Antes</a>
+                                        </li>
 
+                                        <ng-container>
+                                          
+                                        </ng-container>
 
-
-
+                                        <li class="page-item" >
+                                            <a  class="page-link"
+                                                href="javascript:void(0);">Siguiente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div id="totalMontosCobros" class="alert alert-success weight" role="alert">
+          <strong>
+              Monto recaudado: S/ <span></span>
+          </strong>
+      </div>
   </div>
-  <!-- ============================================================== -->
-  <!-- End Container fluid  -->
-  <!-- ============================================================== -->
 </div>
