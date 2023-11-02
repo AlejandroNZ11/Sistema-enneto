@@ -12,52 +12,55 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-banco.component.scss']
 })
 export class EditarBancoComponent implements OnInit {
-  bancoSeleccionada: Ibancos | null = null;
+  banco!: Ibancos;
+  bancoSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private bancosService: BancosService  ,public fb: FormBuilder,) {
+  constructor(public bsModalRef: BsModalRef, private bancoService: BancosService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
+
   ngOnInit() {
-    if (this.bancoSeleccionada) {
+    this.bancoService.obtenerBanco(this.bancoSeleccionada!).subscribe(banco => {
+      this.banco = banco;
       this.form.patchValue({
-        descripcion: this.bancoSeleccionada.descripcion,
-        estado: this.bancoSeleccionada.estado,
+        descripcion: this.banco.descripcion,
+        estado: this.banco.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
 
-  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
   }
+
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
+
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
+
   guardarBanco() {
-    if (!this.bancoSeleccionada || this.form.invalid) {
+    if (!this.banco || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-
     const bancoActualizada: Ibancos = {
-      bancoId: this.bancoSeleccionada.bancoId,
+      bancoId: this.banco.bancoId,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
-    this.bancosService.actualizarBanco(bancoActualizada).subscribe(
+    this.bancoService.actualizarBanco(bancoActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
@@ -70,5 +73,4 @@ export class EditarBancoComponent implements OnInit {
         console.error(error);
       });
   }
-
-}
+} 
