@@ -7,6 +7,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import { DataPlanes, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
 import { environment as env } from 'src/environments/environments';
+import { AgregarPlanComponent } from './agregar-plan/agregar-plan.component';
 
 @Component({
   selector: 'app-planes',
@@ -121,6 +122,10 @@ export class PlanesComponent implements OnInit {
     }
   }
   crearPlan() {
+    this.bsModalRef = this.modalService.show(AgregarPlanComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData();
+      });
   }
   
 }

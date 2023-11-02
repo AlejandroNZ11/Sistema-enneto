@@ -22,7 +22,12 @@ export class AgregarPlanComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private service: PlanesService, 
     public fb: FormBuilder) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombrePlan: ['', Validators.required],
+      costoPlan: ['', Validators.required],
+      usuPlan: ['', Validators.required],
+      maxPlan: ['', Validators.required],
+      fechaInicio: ['', Validators.required],
+      fechaFinContrato: ['', Validators.required],
     });
   }
 
@@ -50,8 +55,9 @@ export class AgregarPlanComponent implements OnInit{
     this.Plan.fechaInicio = this.form.get("fechaInicio")?.value;
     this.Plan.fechaFinContrato = this.form.get("fechaFinContrato")?.value;
     this.Plan.costoPlan = this.form.get("costoPlan")?.value;
-    this.Plan.maxPlan = this.form.get("costoPlan")?.value;
-    this.Plan.usuMax = this.form.get("costoPlan")?.value;
+    this.Plan.maxPlan = this.form.get("maxPlan")?.value;
+    this.Plan.usuMax = this.form.get("usuPlan")?.value;
+    this.Plan.nombrePlan = this.form.get("nombrePlan")?.value;
     console.log(this.Plan);
     this.service.crearPlan(this.Plan).subscribe(
       (response) => {
