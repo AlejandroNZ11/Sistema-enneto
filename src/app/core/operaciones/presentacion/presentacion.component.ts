@@ -49,7 +49,7 @@ export class PresentacionComponent implements OnInit {
   private getTableData(): void {
     this.ListPresentacion = [];
     this.serialNumberArray = [];
-    this.presentacionService.obtenerPresentacion(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataPresentacion) => {
+    this.presentacionService.obtenerPresentaciones (env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataPresentacion) => {
       this.loading = false;
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {

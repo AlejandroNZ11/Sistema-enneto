@@ -31,7 +31,7 @@ export class BancosService {
     return this.http.delete<successResponse>(this.apiUrl + `/Bancos/DeleteBanco/${bancoId}`);
   }
   actualizarBanco(banco: Ibancos): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Bancos/${banco.bancoId}`, banco).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Bancos/UpdateBanco/${banco.bancoId}`, banco).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
