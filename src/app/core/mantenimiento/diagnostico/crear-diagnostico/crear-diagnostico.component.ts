@@ -13,6 +13,10 @@ import { diagnostico } from 'src/app/shared/models/diagnostico';
 })
 export class CrearDiagnosticoComponent {
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,private DiagnosticoService :DiagnosticoService) { 
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      diagnostico: ['', Validators.required],
+    });
   }
   Diagnostico: diagnostico = new diagnostico();
   public routes = routes;
@@ -41,7 +45,7 @@ export class CrearDiagnosticoComponent {
       return;
     }
     this.Diagnostico.nombre = this.form.get("nombre")?.value;
-    this.Diagnostico.diagnostico = this.form.get("descripcion")?.value;
+    this.Diagnostico.diagnostico = this.form.get("diagnostico")?.value;
     console.log(this.Diagnostico);
     this.DiagnosticoService.crearDiagnostico(this.Diagnostico).subscribe(
       (response)=>{
