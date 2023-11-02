@@ -32,7 +32,6 @@ export class DiagnosticoComponent {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-
   bsModalRef?: BsModalRef;
   constructor(private modalService: BsModalService, public DiagnosticoService:DiagnosticoService) {
   }
