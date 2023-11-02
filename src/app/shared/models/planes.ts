@@ -26,7 +26,3 @@ export interface DataPlanes {
     totalData: number;
 }
 
-export class Iplanes {
-    nombre = "";
-    descripcion = "";
-}

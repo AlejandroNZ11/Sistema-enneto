@@ -5,7 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
-import { PlanesListData, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
+import { DataPlanes, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
 import { environment as env } from 'src/environments/environments';
 
 @Component({
@@ -15,9 +15,9 @@ import { environment as env } from 'src/environments/environments';
 })
 export class PlanesComponent implements OnInit {
   public routes = routes;
-  public ListPlan: Array<PlanesResponse> = [];
-  planSeleccionada: PlanesRequest = new PlanesRequest();
-  dataSource!: MatTableDataSource<PlanesResponse>;
+  public ListPlan: Array<PlanesRequest> = [];
+  planSeleccionada: PlanesResponse = new PlanesResponse();
+  dataSource!: MatTableDataSource<PlanesRequest>;
   public showFilter = false;
   public searchDataValue = '';
   public lastIndex = 0;
@@ -40,14 +40,14 @@ export class PlanesComponent implements OnInit {
   private getTableData(): void {
     this.ListPlan = [];
     this.serialNumberArray = [];
-    this.planesService.obtenerPlanes(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: PlanesListData) => {
+    this.planesService.obtenerPlanes(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataPlanes) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
       this.ListPlan = data.data;
-      this.dataSource = new MatTableDataSource<PlanesResponse>(this.ListPlan);
+      this.dataSource = new MatTableDataSource<PlanesRequest>(this.ListPlan);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }

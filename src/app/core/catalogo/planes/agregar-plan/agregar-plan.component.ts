@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import Swal from 'sweetalert2';
-import { Iplanes, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
+import { DataPlanes, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
 
 @Component({
   selector: 'app-agregar-plan',
