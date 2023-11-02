@@ -8,11 +8,11 @@ import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service
 import { DataTipoTarjetas, ITipoTarjeta, tipoTarjeta } from 'src/app/shared/models/tipotarjeta';
 import { environment as env } from 'src/environments/environments';
 @Component({
-  selector: 'app-tarjeta',
-  templateUrl: './tarjeta.component.html',
-  styleUrls: ['./tarjeta.component.scss']
+  selector: 'app-tipo-tarjeta',
+  templateUrl: './tipo-tarjeta.component.html',
+  styleUrls: ['./tipo-tarjeta.component.scss']
 })
-export class TarjetaComponent implements OnInit {
+export class TipoTarjetaComponent implements OnInit {
   public routes = routes;
   public ListTipoTarjeta: Array<ITipoTarjeta> = [];
   tipoTarjetaSeleccionado: tipoTarjeta = new tipoTarjeta();
@@ -42,7 +42,7 @@ export class TarjetaComponent implements OnInit {
   private getTableData(): void {
     this.ListTipoTarjeta = [];
     this.serialNumberArray = [];
-    this.tipoTarjetaService.obtenerTarjetas(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataTipoTarjetas) => {
+    this.tipoTarjetaService.obtenerTipoTarjetas(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataTipoTarjetas) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -126,5 +126,5 @@ export class TarjetaComponent implements OnInit {
     }
   }
 }
-  
+
 

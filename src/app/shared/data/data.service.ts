@@ -464,9 +464,9 @@ export class DataService {
               base: routes.bancoMant,
             },
             {
-              menuValue: 'Tarjeta',
-              route: routes.tarjetaMant,
-              base: routes.tarjetaMant,
+              menuValue: 'Tipo Tarjeta',
+              route: routes.tipoTarjetaMant,
+              base: routes.tipoTarjetaMant,
             },
             {
               menuValue: 'Tipo Gastos',

@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.tarjetaMant">Tipo Tarjetas</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.tipoTarjetaMant">Tipo Tarjetas</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista de Tarjetas</li>
+                        <li class="breadcrumb-item active">Lista de Tipo Tarjetas</li>
                     </ul>
                 </div>
             </div>
@@ -66,9 +66,9 @@
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado==='1'">Activo</button></td>
+                                                *ngIf="data.estado===1">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!=='1'">Inactivo</button></td>
+                                                *ngIf="data.estado!==1">Inactivo</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"

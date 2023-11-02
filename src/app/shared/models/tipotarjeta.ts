@@ -1,12 +1,14 @@
 export class tipoTarjeta {
-    tipoTarjetaId: string = "";
-    descripcion: string = "";
-    estado: string = "";
+    clinicaId = "";
+    usuarioId = "";
+    tipoTarjetaId= "";
+    descripcion= "";
+    estado = "";
 }
 export interface ITipoTarjeta {
     tipoTarjetaId: string;
     descripcion: string;
-    estado: string;
+    estado: number;
 }
 export interface DataTipoTarjetas {
     totalData: number;

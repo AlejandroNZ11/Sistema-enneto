@@ -40,9 +40,9 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'tarjeta',
+        path: 'tipo-tarjeta',
         loadChildren: () =>
-          import('./tarjeta/tarjeta.module').then(
+          import('./tipo-tarjeta/tipo-tarjeta.module').then(
             (m) => m.TarjetaModule
           ),
       },
