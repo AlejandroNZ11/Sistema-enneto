@@ -1,16 +1,17 @@
-export class PlanesRequest {
+export class PlanesResponse {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
-    usuarioId = '';
-    planId = '';
-    fechaInicio!: Date;
+    usuarioId = "";
+    planId = "";
+    fechaInicio!: Date;;
     fechaFinContrato!: Date;
-    maxPlan!: number;
-    usuMax!: number;
+    maxPlan !: number;
+    usuMax !: number;
     costoPlan!: number;
     estado!: number;
+    nombrePlan = "";
     
 }
-export interface PlanesResponse {
+export interface PlanesRequest {
     planId: string;
     nombrePlan: string;
     fechaInicio: Date;
@@ -19,9 +20,9 @@ export interface PlanesResponse {
     usuMax: number;
     costoPlan: number;
     estado: number;
-    
 }
-export interface PlanesListData {
-    data: PlanesResponse[];
+export interface DataPlanes {
+    data: PlanesRequest[];
     totalData: number;
 }
+
