@@ -15,11 +15,11 @@ export class TipoDocumentoService {
   constructor(public http: HttpClient) {}
 
   obtenerTiposDocumento(clinicaId: string, page: number, rows: number): Observable<DataTipoDocumento> {
-    return this.http.get<DataTipoDocumento>(`${this.apiUrl}/TiposDocumentos/GetAllTiposDocumento?clinicaId=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataTipoDocumento>(`${this.apiUrl}/TiposDocumentos/GetAllTipoDocumento?clinicaId=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
   crearTipoDocumento(tipoDocumento: TipoDocumento): Observable<successResponse> {
-    return this.http.post<successResponse>(`${this.apiUrl}/TiposDocumentos/SaveTiposDocumento`, tipoDocumento).pipe(
+    return this.http.post<successResponse>(`${this.apiUrl}/TiposDocumentos/SaveTipoDocumento`, tipoDocumento).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

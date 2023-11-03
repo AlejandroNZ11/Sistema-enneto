@@ -6,6 +6,7 @@ export class TipoDocumento {
     serie = "";
     inicio = "";
     fin = "";
+    correlativoActual = "";
 }
 
 export interface DataTipoDocumento {
@@ -20,6 +21,7 @@ export interface ITipoDocumento {
     serie: string;
     inicio: string;
     fin: string;
+    correlativoActual: string;
     estado: string;
 }
 
@@ -30,4 +32,5 @@ export class tipoDocumentoResponse {
     serie = "";
     inicio = "";
     fin = "";
+    actual = "";
 }
