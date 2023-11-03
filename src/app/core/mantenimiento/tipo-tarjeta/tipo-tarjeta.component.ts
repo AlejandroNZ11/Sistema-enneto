@@ -7,6 +7,9 @@ import { routes } from 'src/app/shared/routes/routes';
 import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service'
 import { DataTipoTarjetas, ITipoTarjeta, tipoTarjeta } from 'src/app/shared/models/tipotarjeta';
 import { environment as env } from 'src/environments/environments';
+import { AgregarTarjetaComponent } from './agregar-tarjeta/agregar-tarjeta.component';
+
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-tipo-tarjeta',
   templateUrl: './tipo-tarjeta.component.html',
@@ -124,6 +127,12 @@ export class TipoTarjetaComponent implements OnInit {
       this.pageNumberArray.push(i);
       this.pageSelection.push({ skip: skip, limit: limit });
     }
+  }
+  crearTarjeta() {
+    this.bsModalRef = this.modalService.show(AgregarTarjetaComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData();
+      });
   }
 }
 

@@ -44,5 +44,27 @@ export class AgregarTarjetaComponent implements OnInit {
       control.markAsTouched();
     });
   }
+  crearTarjeta() {
+    if (this.form.invalid) {
+      this.isTouched()
+      return;
+    }
+
+    this.TipoTarjeta.descripcion = this.form.get("descripcion")?.value;
+    this.TipoTarjeta.estado = 1
+    console.log(this.TipoTarjeta);
+    this.tipoTarjetaService.crearTipoTarjeta(this.TipoTarjeta).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
  
 }

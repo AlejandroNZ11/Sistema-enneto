@@ -31,6 +31,7 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
+                                                <a (click)="crearTarjeta()" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
                                         
                                                 <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
                                                         src="assets/img/icons/re-fresh.svg" alt=""></a>
@@ -65,10 +66,11 @@
                                     <tr *ngFor="let data of ListTipoTarjeta let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.descripcion}}</td>
-                                        <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado===1">Activo</button></td>
-                                        <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!==1">Inactivo</button></td>
+                                        <td>
+                                            <button *ngIf="data.estado===1" class="custom-badge status-green">Activo</button>
+                                            <button *ngIf="data.estado!==1" class="custom-badge status-blue">Inactivo</button>
+                                        </td>
+
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"
