@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TipoPagoComponent } from './tipo-pago/tipo-pago.component';
 import { MonedaComponent } from './moneda/moneda.component';
 import { BancoComponent } from './banco/banco.component';
-import { TarjetaComponent } from './tarjeta/tarjeta.component';
+import { TipoTarjetaComponent} from './tipo-tarjeta/tipo-tarjeta.component';
 import { TipoGastosComponent } from './tipo-gastos/tipo-gastos.component';
 import { CuentaComponent } from './cuenta/cuenta.component';
 import { TarifarioComponent } from './tarifario/tarifario.component';
