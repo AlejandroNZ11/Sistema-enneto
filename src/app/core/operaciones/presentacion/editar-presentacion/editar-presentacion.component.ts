@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { Imarca } from 'src/app/shared/models/marca';
+import { Ipresentacion } from 'src/app/shared/models/presentacion';
 import { routes } from 'src/app/shared/routes/routes';
-import { MarcaService } from 'src/app/shared/services/marca.service';
+import { PresentacionService } from 'src/app/shared/services/presentacion.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-editar-marca',
-  templateUrl: './editar-marca.component.html',
-  styleUrls: ['./editar-marca.component.scss']
+  selector: 'app-editar-presentacion',
+  templateUrl: './editar-presentacion.component.html',
+  styleUrls: ['./editar-presentacion.component.scss']
 })
-export class EditarMarcaComponent implements OnInit {
-  marca!: Imarca;
-  marcaSeleccionada: any;
+export class EditarPresentacionComponent {
+  presentacion!: Ipresentacion;
+  presentacionSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private marcaService: MarcaService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private presentacionService: PresentacionService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
@@ -26,11 +26,11 @@ export class EditarMarcaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.marcaService.obtenerMarca(this.marcaSeleccionada!).subscribe(marca => {
-      this.marca = marca;
+    this.presentacionService.obtenerPresentacion(this.presentacionSeleccionada!).subscribe(presentacion => {
+      this.presentacion = presentacion;
       this.form.patchValue({
-        nombre: this.marca.nombre,
-        estado: this.marca.estado == '1' ? 'Activo' : 'Inactivo',
+        nombre: this.presentacion.nombre,
+        estado: this.presentacion.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
   }
@@ -49,18 +49,18 @@ export class EditarMarcaComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  guardarMarca() {
-    if (!this.marca || this.form.invalid) {
+  guardarPresentacion() {
+    if (!this.presentacion || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-    const marcaActualizada: Imarca = {
-      MarcaMaterialesId: this.marca.MarcaMaterialesId,
+    const presentacionActualizada: Ipresentacion = {
+      presentacionId: this.presentacion.presentacionId,
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
-    this.marcaService.actualizarMarca(marcaActualizada).subscribe(
+    this.presentacionService.actualizarPresentacion(presentacionActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

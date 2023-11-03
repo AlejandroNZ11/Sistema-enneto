@@ -134,7 +134,7 @@ export class MarcaComponent implements OnInit{
       this.getTableData();
     });
   }
-  eliminarMarca(MarcaMaterialesId:string){
+  eliminarMarca(MarcaMaterialId:string){
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
@@ -142,7 +142,7 @@ export class MarcaComponent implements OnInit{
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if(result.isConfirmed){
-        this.marcaService.eliminarMarca(MarcaMaterialesId).subscribe(
+        this.marcaService.eliminarMarca(MarcaMaterialId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Marca Eliminada en el sistema correctamente.', 'success');
