@@ -21,7 +21,7 @@ export class TipoDocumentoComponent implements OnInit {
   ListTipoDocumento: Array<ITipoDocumento> = [];
   columnas: string[] = []
   acciones: string[] = []
-  tipoDocumentoSeleccionado: TipoDocumento = new TipoDocumento();
+  documentoSeleccionado: TipoDocumento = new TipoDocumento();
   dataSource!: MatTableDataSource<ITipoDocumento>;
   pageSize = PageSize.size;
   totalData = 0;
@@ -81,7 +81,7 @@ export class TipoDocumentoComponent implements OnInit {
 
   editarTipoDocumento(tipoDocumento: ITipoDocumento) {
     const initialState = {
-      tipoDocumentoSeleccionado: tipoDocumento.tipoDocumentoId
+      documentoSeleccionado: tipoDocumento.tipoDocumentoId
     };
     this.bsModalRef = this.modalService.show(EditarDocumentoComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {

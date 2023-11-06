@@ -1,1 +1,108 @@
-<p>editar-documento works!</p>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Editar Documento</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Descripción <span class="login-danger">*</span></label>
+                                    <input formControlName="descripcion" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
+                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('descripcion')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Abreviatura <span class="login-danger">*</span></label>
+                                    <input formControlName="abreviatura" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('abreviatura')}">
+                                    <div *ngIf="isInvalid('abreviatura') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('abreviatura')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Serie <span class="login-danger">*</span></label>
+                                    <input formControlName="serie" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('serie')}">
+                                    <div *ngIf="isInvalid('serie') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('serie')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Inicio <span class="login-danger">*</span></label>
+                                    <input formControlName="inicio" class="form-control" type="number"
+                                        [ngClass]="{'is-invalid': isInvalid('inicio')}">
+                                    <div *ngIf="isInvalid('inicio') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('inicio')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Fin <span class="login-danger">*</span></label>
+                                    <input formControlName="fin" class="form-control" type="number"
+                                        [ngClass]="{'is-invalid': isInvalid('fin')}">
+                                    <div *ngIf="isInvalid('fin') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('fin')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Correlativo Actual <span class="login-danger">*</span></label>
+                                    <input formControlName="correlativoActual" class="form-control" type="number"
+                                        [ngClass]="{'is-invalid': isInvalid('correlativoActual')}">
+                                    <div *ngIf="isInvalid('correlativoActual') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('correlativoActual')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="document-submit text-end">
+                            <button type="submit" (click)="guardarDocumento()"
+                                class="btn btn-primary submit-form me-2">Actualizar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

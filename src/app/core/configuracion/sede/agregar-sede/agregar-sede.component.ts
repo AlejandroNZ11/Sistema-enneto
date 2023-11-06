@@ -24,8 +24,8 @@ export class AgregarSedeComponent implements OnInit{
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       codigo: ['', Validators.required],
-      Direccion: ['', Validators.required],
-      Ubigeo: ['', Validators.required],
+      direccion: ['', Validators.required],
+      ubigeo: ['', Validators.required],
       
     });
   }
@@ -52,11 +52,6 @@ export class AgregarSedeComponent implements OnInit{
       return;
     }
     this.Sede.nombre = this.form.get("nombre")?.value;
-    this.Sede.codigo = this.form.get("codigo")?.value;
-    this.Sede.direccion = this.form.get("Direccion")?.value;
-    this.Sede.ubigeo = this.form.get("Ubigeo")?.value;
-    
-
     console.log(this.Sede);
     this.sedeService.crearSede(this.Sede).subscribe(
       (response)=>{
