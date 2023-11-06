@@ -8,6 +8,7 @@ import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service
 import { DataTipoTarjetas, ITipoTarjeta, tipoTarjeta } from 'src/app/shared/models/tipotarjeta';
 import { environment as env } from 'src/environments/environments';
 import { AgregarTarjetaComponent } from './agregar-tarjeta/agregar-tarjeta.component';
+import { EditarTarjetaComponent } from './editar-tarjeta/editar-tarjeta.component';
 
 import Swal from 'sweetalert2';
 @Component({
@@ -134,6 +135,14 @@ export class TipoTarjetaComponent implements OnInit {
         this.getTableData();
       });
   }
+  editarTipoTarjeta(tipoTarjeta: ITipoTarjeta) {
+    this.bsModalRef = this.modalService.show(EditarTarjetaComponent);
+    this.bsModalRef.content.tipoPagoSeleccionado = tipoTarjeta.tipoTarjetaId;
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData();
+    });
+  }
+  
 }
 
 

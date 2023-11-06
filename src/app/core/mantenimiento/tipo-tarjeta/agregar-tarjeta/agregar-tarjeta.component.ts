@@ -25,6 +25,7 @@ export class AgregarTarjetaComponent implements OnInit {
     this.form = this.fb.group({
 
       descripcion: ['', Validators.required],
+      estado: [, Validators.required],
     });
   }
 
@@ -51,7 +52,7 @@ export class AgregarTarjetaComponent implements OnInit {
     }
 
     this.TipoTarjeta.descripcion = this.form.get("descripcion")?.value;
-    this.TipoTarjeta.estado = 1
+    this.TipoTarjeta.estado = this.form.get("estado")?.value;
     console.log(this.TipoTarjeta);
     this.tipoTarjetaService.crearTipoTarjeta(this.TipoTarjeta).subscribe(
       (response) => {
