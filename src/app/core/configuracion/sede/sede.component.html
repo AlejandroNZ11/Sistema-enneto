@@ -63,6 +63,9 @@
                                         <th mat-sort-header="id">Nº</th>
                                         <th mat-sort-header="nombre">Nombre</th>
                                         <th mat-sort-header="descripcion">Secuencia Historia</th>
+                                        <th mat-sort-header="codigo">Codigo</th>
+                                        <th mat-sort-header="direccion">Direccion</th>
+                                        <th mat-sort-header="ubigeo">Ubigeo</th>
                                         <th mat-sort-header="estado">Estado</th>
                                         <th></th>
                                     </tr>
@@ -71,10 +74,14 @@
                                     <tr *ngFor="let data of ListSede let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.nombre}}</td>
+                                        <td>{{data.descripcion}}</td>
+                                        <td>{{data.codigo}}</td>
+                                        <td>{{data.direccion}}</td>
+                                        <td>{{data.ubigeo}}</td>
                                         <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado==='1'">Activo</button></td>
+                                                *ngIf="data.estado=='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!=='1'">Inactivo</button></td>
+                                                *ngIf="data.estado!='1'">Inactivo</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"
