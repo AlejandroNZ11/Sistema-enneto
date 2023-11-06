@@ -10,7 +10,7 @@ export class marca {
     data: Imarca[];
   }
   export interface Imarca {
-    MarcaMaterialesId: string;
+    marcaMaterialesId: string;
     nombre: string;
     estado:string;
   }

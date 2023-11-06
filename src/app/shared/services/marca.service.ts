@@ -31,7 +31,7 @@ export class MarcaService {
     return this.http.delete<successResponse>(this.apiUrl + `/MarcasMateriales/DeleteMarcaMaterial/${MarcaMaterialId}`);
   }
   actualizarMarca(marca: Imarca): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/MarcasMateriales/UpdateMarcaMaterial/${marca.MarcaMaterialesId}`, marca).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/MarcasMateriales/UpdateMarcaMaterial/${marca.marcaMaterialesId}`, marca).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

@@ -55,7 +55,7 @@ export class EditarMarcaComponent implements OnInit {
       return;
     }
     const marcaActualizada: Imarca = {
-      MarcaMaterialesId: this.marca.MarcaMaterialesId,
+      marcaMaterialesId: this.marca.marcaMaterialesId,
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };

@@ -129,7 +129,7 @@ export class MarcaComponent implements OnInit{
   }
   editarMarca(marca: Imarca) {
     this.bsModalRef = this.modalService.show(EditarMarcaComponent);
-    this.bsModalRef.content.marcaSeleccionada = marca.MarcaMaterialesId;
+    this.bsModalRef.content.marcaSeleccionada = marca.marcaMaterialesId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });
