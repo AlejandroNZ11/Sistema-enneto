@@ -63,9 +63,9 @@
                       <th></th>
                     </tr>
                   </thead>
-                  <div class="loader" *ngIf="loading"></div>
-                  <tbody *ngIf="!loading">
-                    <tr *ngFor="let data of ListPresentacion let i = index">
+                  
+                  <tbody>
+                    <tr *ngFor="let data of Listpresentacion let i = index">
                       <td>{{serialNumberArray[i]}}</td>
                       <td>{{data.nombre}}</td>
                       <td><button class="custom-badge status-green" *ngIf="data.estado=='1'">Activo</button></td>
@@ -147,7 +147,7 @@
                                             disabled:
                                               currentPage ===
                                                 pageNumberArray[pageNumberArray.length - 1] ||
-                                                ListPresentacion.length === 0
+                                                Listpresentacion.length === 0
                                           }">
                           <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Siguiente
                           </a>

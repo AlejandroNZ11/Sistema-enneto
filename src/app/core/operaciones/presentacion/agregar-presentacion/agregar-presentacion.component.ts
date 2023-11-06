@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataPresentacion, Ipresentacion, presentacion } from 'src/app/shared/models/presentacion';
+import { presentacion } from 'src/app/shared/models/presentacion';
 import { routes } from 'src/app/shared/routes/routes';
 import { PresentacionService } from 'src/app/shared/services/presentacion.service';
 import Swal from 'sweetalert2';
-import { PresentacionComponent } from '../presentacion.component';
-
+ 
 @Component({
   selector: 'app-agregar-presentacion',
   templateUrl: './agregar-presentacion.component.html',
@@ -50,7 +49,6 @@ export class AgregarPresentacionComponent implements OnInit {
       return;
     }
     this.Presentacion.nombre = this.form.get("nombre")?.value;
-    this.Presentacion.usuarioId = "Franco";
     console.log(this.Presentacion);
     this.presentacionService.crearPresentacion(this.Presentacion).subscribe(
       (response)=>{

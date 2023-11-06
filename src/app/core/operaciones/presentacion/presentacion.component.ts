@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { DataService } from 'src/app/shared/data/data.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { PresentacionService } from 'src/app/shared/services/presentacion.service';
 import { AgregarPresentacionComponent } from './agregar-presentacion/agregar-presentacion.component';
-import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import Swal from 'sweetalert2';
+import { EditarPresentacionComponent } from './editar-presentacion/editar-presentacion.component';
 import { DataPresentacion, Ipresentacion, presentacion } from 'src/app/shared/models/presentacion';
 import { environment as env } from 'src/environments/environments';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-presentacion',
@@ -21,7 +20,7 @@ import { environment as env } from 'src/environments/environments';
 
 export class PresentacionComponent implements OnInit {
   public routes = routes;
-  public ListPresentacion: Array<Ipresentacion> = [];
+  public Listpresentacion: Array<Ipresentacion> = [];
   presentacionSeleccionada: presentacion = new presentacion();
   dataSource!: MatTableDataSource<Ipresentacion>;
   public showFilter = false;
@@ -38,40 +37,36 @@ export class PresentacionComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
-  loading = true;
-
-  constructor(private modalService: BsModalService, public presentacionService: PresentacionService, ) {
+  constructor(private modalService: BsModalService, public presentacionService: PresentacionService) {
   }
   ngOnInit() {
-    
     this.getTableData();
   }
   private getTableData(): void {
-    this.ListPresentacion = [];
+    this.Listpresentacion = [];
     this.serialNumberArray = [];
-    this.presentacionService.obtenerPresentaciones (env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataPresentacion) => {
-      this.loading = false;
+    this.presentacionService.obtenerPresentaciones(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataPresentacion) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListPresentacion = data.data;
-      this.dataSource = new MatTableDataSource<Ipresentacion>(this.ListPresentacion);
+      this.Listpresentacion = data.data;
+      this.dataSource = new MatTableDataSource<Ipresentacion>(this.Listpresentacion);
       this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.ListPresentacion = this.dataSource.filteredData;
+    this.Listpresentacion = this.dataSource.filteredData;
   }
   public sortData(sort: Sort) {
-    const data = this.ListPresentacion.slice();
+    const data = this.Listpresentacion.slice();
 
     if (!sort.active || sort.direction === '') {
-      this.ListPresentacion = data;
+      this.Listpresentacion = data;
     } else {
-      this.ListPresentacion = data.sort((a, b) => {
+      this.Listpresentacion = data.sort((a, b) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -80,7 +75,6 @@ export class PresentacionComponent implements OnInit {
       });
     }
   }
-
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -96,7 +90,6 @@ export class PresentacionComponent implements OnInit {
       this.getTableData();
     }
   }
-
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
     this.skip = this.pageSelection[pageNumber - 1].skip;
@@ -108,7 +101,6 @@ export class PresentacionComponent implements OnInit {
     }
     this.getTableData();
   }
-
   public PageSize(): void {
     this.pageSelection = [];
     this.limit = this.pageSize;
@@ -116,7 +108,6 @@ export class PresentacionComponent implements OnInit {
     this.currentPage = 1;
     this.getTableData();
   }
-
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;
@@ -137,6 +128,38 @@ export class PresentacionComponent implements OnInit {
         this.getTableData();
       });
   }
-  
-
+  editarPresentacion(presentacion: Ipresentacion) {
+    this.bsModalRef = this.modalService.show(EditarPresentacionComponent);
+    this.bsModalRef.content.presentacionSeleccionada = presentacion.presentacionId;
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData();
+    });
+  }
+  eliminarPresentacion(presentacionId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.presentacionService.eliminarPresentacion(presentacionId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'presentacion Eliminada en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
+  }
 }
