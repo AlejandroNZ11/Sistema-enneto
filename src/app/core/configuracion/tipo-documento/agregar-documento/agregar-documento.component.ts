@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TipoDocumento } from 'src/app/shared/models/tipodocumento';
 import { TipoDocumentoService } from 'src/app/shared/services/tipo-documento.service';
+import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-documento.component.scss']
 })
 export class AgregarDocumentoComponent  {
+  public routes = routes;
   Documento: TipoDocumento = new TipoDocumento();
   form!: FormGroup;
   public mostrarErrores = false;
