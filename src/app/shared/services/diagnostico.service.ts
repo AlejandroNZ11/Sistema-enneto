@@ -18,13 +18,14 @@ export class DiagnosticoService {
     return this.http.get<DataDiagnostico>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', diagnostico).pipe(
+    return this.http.post<successResponse>(this.apiUrl + 'Especialidades/SaveEspecialidad', diagnostico).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
       })
     );
   }
+  ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
   obtenerDiagnostico( diagnosticoId: string): Observable<Idiagnostico> {
     return this.http.get<Idiagnostico>(this.apiUrl + `/Especialidades/GetEspecialidad/${diagnosticoId}`);
   }
