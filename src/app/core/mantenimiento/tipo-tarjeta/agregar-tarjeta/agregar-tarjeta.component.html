@@ -23,12 +23,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" class="form-control select">
-                                        <mat-option value= 1>Activo</mat-option>
-                                        <mat-option value= 0>Inactivo</mat-option>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
                                     </mat-select>
                                 </div>
                             </div>

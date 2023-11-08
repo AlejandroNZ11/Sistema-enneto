@@ -24,6 +24,9 @@ export class TipoTarjetaService {
             })
         );
     }
+    obtenerTipoTarjeta(tipoTarjetaId: string): Observable<ITipoTarjeta> {
+        return this.http.get<ITipoTarjeta>(this.apiUrl + `/TipoTarjeta/GetTipoTarjeta/${tipoTarjetaId}`);
+    }
     eliminarTipoTarjeta(tipoTarjetaId: string): Observable<successResponse> {
         return this.http.delete<successResponse>(`${this.apiUrl}/TipoTarjeta/DeleteTipoTarjeta/${tipoTarjetaId}`);
     }

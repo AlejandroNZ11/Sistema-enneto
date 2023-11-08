@@ -14,7 +14,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tarjeta.component.scss']
 })
 export class EditarTarjetaComponent implements OnInit {
-  tipoTarjetaSeleccionado: ITipoTarjeta | null = null;
+  tipoTarjeta!: ITipoTarjeta;
+  tipoTarjetaSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -22,17 +23,18 @@ export class EditarTarjetaComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private tipoTarjetaService: TipoTarjetaService, public fb: FormBuilder) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
-      estado: [, Validators.required],
+      estado: ['Activo', Validators.required],
     });
   }
 
   ngOnInit() {
-    if (this.tipoTarjetaSeleccionado) {
+    this.tipoTarjetaService.obtenerTipoTarjeta(this.tipoTarjetaSeleccionada!).subscribe(tipoTarjeta => {
+      this.tipoTarjeta = tipoTarjeta;
       this.form.patchValue({
-        descripcion: this.tipoTarjetaSeleccionado.descripcion,
-        estado: this.tipoTarjetaSeleccionado.estado,
+        descripcion: this.tipoTarjeta.descripcion,
+        estado: this.tipoTarjeta.estado == 1 ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
 
   isInvalid(controlName: string) {
@@ -50,15 +52,15 @@ export class EditarTarjetaComponent implements OnInit {
   }
 
   guardarTipoTarjeta() {
-    if (!this.tipoTarjetaSeleccionado || this.form.invalid) {
+    if (!this.tipoTarjeta || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
 
     const tipoTarjetaActualizado: ITipoTarjeta = {
-      tipoTarjetaId: this.tipoTarjetaSeleccionado.tipoTarjetaId,
+      tipoTarjetaId: this.tipoTarjeta.tipoTarjetaId,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? 1 : 0,
     };
 
     this.tipoTarjetaService.actualizarTipoTarjeta(tipoTarjetaActualizado).subscribe(
