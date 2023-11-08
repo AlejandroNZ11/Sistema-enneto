@@ -21,7 +21,7 @@ export interface IApoderado {
     documento: string;
     direccion: string;
     telefono: string;
-    estado: boolean;
+    estado: string;
 }
 
 export class apoderadoResponse {
