@@ -11,7 +11,7 @@ import { DataUnidad, Iunidad, unidad } from 'src/app/shared/models/unidades';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 @Component({
-  selector: 'app-unidades',
+  selector: 'app-unidades', 
   templateUrl: './unidades.component.html',
   styleUrls: ['./unidades.component.scss']
 })

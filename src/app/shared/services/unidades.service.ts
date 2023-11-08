@@ -31,7 +31,7 @@ export class UnidadesService {
     return this.http.delete<successResponse>(this.apiUrl + `/Unidades/DeleteUnidad/${unidadId}`);
   }
   actualizarUnidad(unidad: Iunidad): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Unidades/${unidad.unidadId}`, unidad).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Unidades/UpdateUnidad/${unidad.unidadId}`, unidad).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
