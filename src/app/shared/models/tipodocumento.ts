@@ -32,5 +32,5 @@ export class tipoDocumentoResponse {
     serie = "";
     inicio = "";
     fin = "";
-    actual = "";
+    correlativoActual = "";
 }
