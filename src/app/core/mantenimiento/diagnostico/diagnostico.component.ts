@@ -9,6 +9,8 @@ import Swal from 'sweetalert2';
 import { CrearDiagnosticoComponent } from './crear-diagnostico/crear-diagnostico.component';
 import { Sort } from '@angular/material/sort';
 import { pageSelection } from 'src/app/shared/models/models';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { EditarDiagnosticoComponent } from './editar-diagnostico/editar-diagnostico.component';
 @Component({
   selector: 'app-diagnostico',
   templateUrl: './diagnostico.component.html',
@@ -16,57 +18,67 @@ import { pageSelection } from 'src/app/shared/models/models';
 })
 export class DiagnosticoComponent {
   public routes = routes;
-  public ListDiagnostico: Array<Idiagnostico> = [];
+  ListDiagnostico: Array<Idiagnostico> = [];
+  columnas: string[] = []
+  acciones: string[] = []
   diagnosticoSeleccionado: diagnostico = new diagnostico();
   dataSource!: MatTableDataSource<Idiagnostico>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
-  constructor(private modalService: BsModalService, public DiagnosticoService:DiagnosticoService) {
+  limit: number = this.pageSize;
+  constructor(private modalService: BsModalService, public DiagnosticoService: DiagnosticoService) {
   }
   ngOnInit(): void {
-    this.getTableData(); 
+    this.columnas = getEntityPropiedades('Diagnostico');
+    this.acciones = ['Editar', 'Eliminar'];
   }
   
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListDiagnostico = [];
     this.serialNumberArray = [];
-    this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataDiagnostico) => {
-      this.totalData = data.totalData;
+    this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
+      this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
       this.ListDiagnostico = data.data;
       this.dataSource = new MatTableDataSource<Idiagnostico>(this.ListDiagnostico);
-      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
   
-  eliminarDiagnostico(DiagnosticoId:string){
+  crearDiagnostico() {
+    this.bsModalRef = this.modalService.show(CrearDiagnosticoComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData(this.currentPage, this.pageSize);
+      });
+  }
+  editarDiagnostico(diagnostico: Idiagnostico) {
+    const initialState = {
+      diagnosticoSeleccionado: diagnostico.diagnosticoId
+    };
+    this.bsModalRef = this.modalService.show(EditarDiagnosticoComponent, { initialState });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData(this.currentPage, this.pageSize);
+    });
+  }
+  eliminarDiagnostico(diagnosticoId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      if(result.isConfirmed){
-        this.DiagnosticoService.eliminarDiagnostico(DiagnosticoId).subscribe(
+      if (result.isConfirmed) {
+        this.DiagnosticoService.eliminarDiagnostico(diagnosticoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Diagnostico eliminado en el sistema correctamente.', 'success');
-              this.getTableData();
+              Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);
@@ -75,11 +87,11 @@ export class DiagnosticoComponent {
           (error) => {
             console.error(error);
           });
-      }else{
+      } else {
         return;
       }
     })
-    
+
   }
 
   public searchData(value: any): void {
@@ -87,12 +99,7 @@ export class DiagnosticoComponent {
     this.ListDiagnostico = this.dataSource.filteredData;
   }
   
-  crearDiagnostico() {
-    this.bsModalRef = this.modalService.show(CrearDiagnosticoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
-      });
-  }
+  
   public sortData(sort: Sort) {
     const data = this.ListDiagnostico.slice();
 
@@ -108,52 +115,21 @@ export class DiagnosticoComponent {
       });
     }
   }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearDiagnostico();
+    }  else if (accion.accion == 'Eliminar') {
+      this.eliminarDiagnostico(accion.fila.diagnosticoId)
     }
   }
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
+
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
+
   
 }
