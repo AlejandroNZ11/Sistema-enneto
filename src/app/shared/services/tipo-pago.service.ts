@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataTipoPago, ITipoPago, tipoPago } from '../models/tipopago'; 
+import { DataTipoPago, ITipoPago, TipoPago } from '../models/tipopago'; 
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class TipoPagoService {
     return this.http.get<DataTipoPago>(`${this.apiUrl}/TiposPagos/GetAllTipoPago?ClinicaId=${clinicaId}&Page=${page}&Rows=${rows}`);
   }
 
-  crearTipoPago(tipoPago: tipoPago): Observable<successResponse> {
+  crearTipoPago(tipoPago: TipoPago): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/TiposPagos/SaveTipoPago`, tipoPago).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
