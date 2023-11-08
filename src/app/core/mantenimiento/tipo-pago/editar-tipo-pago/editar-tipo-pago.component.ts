@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-pago.component.scss']
 })
 export class EditarTipoPagoComponent implements OnInit {
-  tipoPagoSeleccionado: ITipoPago | null = null;
+  tipoPago!: ITipoPago;
+  tipoPagoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -26,13 +27,14 @@ export class EditarTipoPagoComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.tipoPagoSeleccionado) {
+    this.tipoPagoService.obtenerTipoPago(this.tipoPagoSeleccionado!).subscribe(tipoPago => {
+      this.tipoPago = tipoPago;
       this.form.patchValue({
-        metodoPago: this.tipoPagoSeleccionado.metodoPago,
-        descripcion: this.tipoPagoSeleccionado.descripcion,
-        estado: this.tipoPagoSeleccionado.estado,
+        metodoPago: this.tipoPago.metodoPago,
+        descripcion: this.tipoPago.descripcion,
+        estado: this.tipoPago.estado == 'Activo' ? 'Activo' : 'Inactivo',
       });
-    }
+    });
   }
 
   isInvalid(controlName: string) {
@@ -50,18 +52,17 @@ export class EditarTipoPagoComponent implements OnInit {
   }
 
   guardarTipoPago() {
-    if (!this.tipoPagoSeleccionado || this.form.invalid) {
+    if (!this.tipoPago || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-  
     const tipoPagoActualizado: ITipoPago = {
-      tipoPagoId: this.tipoPagoSeleccionado.tipoPagoId,
+      tipoPagoId: this.tipoPago.tipoPagoId,
       metodoPago: this.form.value.metodoPago,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? 'Activo' : 'Inactivo',
     };
-  
+
     this.tipoPagoService.actualizarTipoPago(tipoPagoActualizado).subscribe(
       (response) => {
         if (response.isSuccess) {

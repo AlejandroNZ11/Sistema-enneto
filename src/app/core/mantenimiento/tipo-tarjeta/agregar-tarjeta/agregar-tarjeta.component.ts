@@ -51,7 +51,6 @@ export class AgregarTarjetaComponent implements OnInit {
     }
 
     this.TipoTarjeta.descripcion = this.form.get("descripcion")?.value;
-    this.TipoTarjeta.estado = 1
     console.log(this.TipoTarjeta);
     this.tipoTarjetaService.crearTipoTarjeta(this.TipoTarjeta).subscribe(
       (response) => {

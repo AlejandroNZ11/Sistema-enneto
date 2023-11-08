@@ -4,13 +4,15 @@ import { DiagnosticoComponent } from './diagnostico.component';
 import { DiagnosticoRoutingModule } from './diagnostico-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CrearDiagnosticoComponent } from './crear-diagnostico/crear-diagnostico.component';
+import { EditarDiagnosticoComponent } from './editar-diagnostico/editar-diagnostico.component';
 
 
 
 @NgModule({
   declarations: [
     DiagnosticoComponent,
-    CrearDiagnosticoComponent
+    CrearDiagnosticoComponent,
+    EditarDiagnosticoComponent
   ],
   imports: [
     CommonModule,

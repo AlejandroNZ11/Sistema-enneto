@@ -14,3 +14,6 @@ export interface DataTipoTarjetas {
     totalData: number;
     data: ITipoTarjeta[];
 }
+export class TipoTarjetaResponse {
+    descripcion = "";
+}

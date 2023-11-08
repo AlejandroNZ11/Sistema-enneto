@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Apoderado } from 'src/app/shared/models/apoderado';
-import { ApoderadoService } from 'src/app/shared/services/apoderado.service';
+import { ApoderadoService }  from 'src/app/shared/services/apoderado.service';
+import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,9 +11,9 @@ import Swal from 'sweetalert2';
   templateUrl: './agregar-apoderado.component.html',
   styleUrls: ['./agregar-apoderado.component.scss']
 })
-export class AgregarApoderadoComponent {
-
-  apoderado: Apoderado = new Apoderado();
+export class AgregarApoderadoComponent  {
+  public routes = routes;
+  Apoderado: Apoderado = new Apoderado();
   form!: FormGroup;
   public mostrarErrores = false;
 
@@ -21,9 +22,9 @@ export class AgregarApoderadoComponent {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
-      documento: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      documento: ['', Validators.required],
       direccion: ['', Validators.required],
-      telefono: ['', [Validators.required, Validators.pattern(/^\d+$/)]],
+      telefono: ['', Validators.required]
     });
   }
 
@@ -38,7 +39,7 @@ export class AgregarApoderadoComponent {
   }
 
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
 
   isTouched() {
@@ -49,18 +50,17 @@ export class AgregarApoderadoComponent {
 
   crearApoderado() {
     if (this.form.invalid) {
-      this.isTouched()
+      this.isTouched();
       return;
     }
-    this.apoderado.nombre = this.form.get("nombre")?.value;
-    this.apoderado.tipoDocumento = this.form.get("tipoDocumento")?.value;
-    this.apoderado.documento = this.form.get("documento")?.value;
-    this.apoderado.direccion = this.form.get("direccion")?.value;
-    this.apoderado.telefono = this.form.get("telefono")?.value;
 
-    console.log('Datos enviados:', this.apoderado);
+    this.Apoderado.nombre = this.form.get('nombre')?.value;
+    this.Apoderado.tipoDocumento = this.form.get('tipoDocumento')?.value;
+    this.Apoderado.documento = this.form.get('documento')?.value;
+    this.Apoderado.direccion = this.form.get('direccion')?.value;
+    this.Apoderado.telefono = this.form.get('telefono')?.value;
 
-    this.apoderadoService.crearApoderado(this.apoderado).subscribe(
+    this.apoderadoService.crearApoderado(this.Apoderado).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
@@ -70,8 +70,8 @@ export class AgregarApoderadoComponent {
         }
       },
       (error) => {
-        console.error('Error al crear apoderado:', error);
-        console.error('Cuerpo de la respuesta del error:', error.error);
-      });
+        console.error(error);
+      }
+    );
   }
 }
