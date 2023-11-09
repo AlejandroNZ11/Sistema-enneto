@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataTipoGasto, ITipoGasto, tipoGasto } from 'src/app/shared/models/tipogastos';
-import { routes } from 'src/app/shared/routes/routes';
+import { TipoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,19 +12,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-tipo-gastos.component.scss']
 })
 export class AgregarTipoGastosComponent {
-
-  tipoGasto: tipoGasto = new tipoGasto();
   public routes = routes;
+  tipoGasto: TipoGasto = new TipoGasto();
   form!: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService,
-    public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
     });
   }
-
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -37,7 +34,7 @@ export class AgregarTipoGastosComponent {
   }
 
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
 
   isTouched() {
@@ -48,10 +45,12 @@ export class AgregarTipoGastosComponent {
 
   crearTipoGasto() {
     if (this.form.invalid) {
-      this.isTouched()      
+      this.isTouched();
       return;
     }
+
     this.tipoGasto.nombre = this.form.get("nombre")?.value;
+
     this.tipoGastosService.crearTipoGasto(this.tipoGasto).subscribe(
       (response) => {
         if (response.isSuccess) {

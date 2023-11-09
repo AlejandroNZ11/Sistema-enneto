@@ -1,5 +1,5 @@
-export class tipoGasto {
-    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+export class TipoGasto {
+    clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = "";
     nombre = "";
 }
@@ -13,4 +13,8 @@ export interface ITipoGasto {
     tipoGastoId: string;
     nombre: string;
     estado: string;
+}
+
+export class tipoGastosResponse {
+    nombre = "";
 }

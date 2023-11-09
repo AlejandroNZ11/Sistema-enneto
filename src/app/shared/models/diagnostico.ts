@@ -14,6 +14,11 @@ export class diagnostico {
     diagnosticoId: string;
     nombre: string;
     diagnostico: string;
-   
-
   }
+   
+  export class DiagnosticoResponse {
+      diagnostico = "";
+  
+  }
+
+
