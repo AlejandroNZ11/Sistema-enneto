@@ -22,6 +22,7 @@ export class AgregarUnidadesComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private unidadService: UnidadesService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
+      nombre: ['', Validators.required],
       siglas: ['', Validators.required],
       descripcion: ['', Validators.required],
     });
@@ -48,7 +49,7 @@ export class AgregarUnidadesComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Unidad.nombre = this.form.get("siglas")?.value; 
+    this.Unidad.nombre = this.form.get("nombre")?.value;this.bsModalRef 
     console.log(this.Unidad);
     this.unidadService.crearUnidad(this.Unidad).subscribe(
       (response)=>{

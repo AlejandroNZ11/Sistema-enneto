@@ -61,6 +61,7 @@
                                 <thead>
                                     <tr>
                                         <th mat-sort-header="id">Nº</th>
+                                        <th mat-sort-header="siglas">Nombre</th>
                                         <th mat-sort-header="siglas">Siglas</th>
                                         <th mat-sort-header="descripcion">Descripcion</th>
                                         <th mat-sort-header="estado">Estado</th>
@@ -70,12 +71,13 @@
                                 <tbody>
                                     <tr *ngFor="let data of ListUnidad let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
-                                        <td>{{data.siglas}</td>
+                                        <td>{{data.nombre}}</td>
+                                        <td>{{data.siglas}}</td>
                                         <td>{{data.descripcion}}</td>
                                         <td><button class="custom-badge status-green"
-                                                *ngIf="data.estado==='1'">Activo</button></td>
+                                                *ngIf="data.estado=='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
-                                                *ngIf="data.estado!=='1'">Inactivo</button></td>
+                                                *ngIf="data.estado!='1'">Inactivo</button></td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">
                                                 <a href="javascript:void(0);" class="action-icon dropdown-toggle"

@@ -57,6 +57,7 @@ export class EditarUnidadesComponent implements OnInit {
   
     const unidadActualizada: Iunidad = {
       unidadId: this.unidadSeleccionada.unidadId,
+      nombre: this.form.value.nombre,
       siglas: this.form.value.siglas,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
