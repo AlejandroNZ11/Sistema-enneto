@@ -10,6 +10,18 @@
                                     <h4>Nueva Categoria</h4>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Descripcion <span class="login-danger">*</span></label>
@@ -22,13 +34,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>   
                                     </mat-select>
                                 </div>
-                            </div>                          
+                            </div>                        
                         </div>
                     </form>
                     <div class="col-12">

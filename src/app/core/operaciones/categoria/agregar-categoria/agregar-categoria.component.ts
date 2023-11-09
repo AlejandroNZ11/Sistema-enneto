@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria-op';
+import { categoria } from 'src/app/shared/models/categoria-op';
 import { routes } from 'src/app/shared/routes/routes';
 import { CategoriaOpService } from 'src/app/shared/services/categoria-op.service';
 import Swal from 'sweetalert2';
@@ -19,10 +19,11 @@ export class AgregarCategoriaComponent implements OnInit{
   public mostrarErrores = false;
   ngOnInit(): void { }
 
-  constructor(public bsModalRef: BsModalRef, private service: CategoriaOpService,
+  constructor(public bsModalRef: BsModalRef, private categoriaService: CategoriaOpService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
     });
   }
 
@@ -47,9 +48,10 @@ export class AgregarCategoriaComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Categoria.nombre = this.form.get("descripcion")?.value;
+    this.Categoria.nombre = this.form.get("nombre")?.value;
+    this.Categoria.descripcion = this.form.get("descripcion")?.value;
     console.log(this.Categoria);
-    this.service.crearCategoria(this.Categoria).subscribe(
+    this.categoriaService.crearCategoria(this.Categoria).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');

@@ -5,6 +5,8 @@ import { TipoTarjetaResponse } from "./tipotarjeta";
 import { tipoPagoResponse } from "./tipopago";
 import { DiagnosticoResponse } from "./diagnostico";
 import { tipoGastosResponse } from "./tipogastos";
+import { CategoriaResponse } from "./categoria-op";
+
 
 
 
@@ -33,6 +35,8 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoPago': clase = new tipoPagoResponse(); break;
     case 'Diagnostico' : clase = new DiagnosticoResponse(); break;
     case 'TipoGastos' : clase = new tipoGastosResponse(); break;
+    case 'categoria' : clase = new CategoriaResponse(); break;
+
   }
   if (clase) {
     resultados = Object.keys(clase);

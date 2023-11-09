@@ -13,19 +13,26 @@ export class CategoriaOpService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient,) { }
   
-    obtenerCategoria(clinicaId: string, page: number, rows: number): Observable<DataCategoria> {
-      return this.http.get<DataCategoria>(this.apiUrl + `/Categoria/GetAllCategoria?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    obtenerCategorias(clinicaId: string, page: number, rows: number): Observable<DataCategoria> {
+      return this.http.get<DataCategoria>(this.apiUrl + `/CategoriaMateriales/GetAllCategoriaMaterial?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
     crearCategoria(categorias: categoria): Observable<successResponse> {
-      return this.http.post<successResponse>(this.apiUrl + '/Categoria/SaveCategoria', categorias).pipe(
+      return this.http.post<successResponse>(this.apiUrl + '/CategoriaMateriales/SaveCategoriaMaterial', categorias).pipe(
         catchError(error => {
           Swal.fire('Error', error.error, 'warning');
           return throwError(() => error);
         })
       );
     } 
+
+    obtenerCategoria( categoriaId: string): Observable<Icategoria> {
+      return this.http.get<Icategoria>(this.apiUrl + `/CategoriaMateriales/GetCategoriaMaterial/${categoriaId}`);
+    }
+    eliminarCategoria( categoriaId: string): Observable<successResponse> {
+      return this.http.delete<successResponse>(this.apiUrl + `/CategoriaMateriales/DeleteCategoriaMaterial/${categoriaId}`);
+    }
     actualizarCategoria(categorias: Icategoria): Observable<successResponse> {
-      return this.http.put<successResponse>(this.apiUrl + `/Categoria/${categorias.categoriaId}`, categorias).pipe(
+      return this.http.put<successResponse>(this.apiUrl + `/CategoriaMateriales/UpdateCategoriaMaterial/${categorias.categoriaMaterialesId}`, categorias).pipe(
         catchError(error => {
           Swal.fire('Error', error.error, 'warning');  
           return throwError(() => error);
