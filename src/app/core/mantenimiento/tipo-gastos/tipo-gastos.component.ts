@@ -1,52 +1,49 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { AgregarTipoGastosComponent } from './agregar-tipo-gastos/agregar-tipo-gastos.component';
 import { EditarTipoGastosComponent } from './editar-tipo-gastos/editar-tipo-gastos.component';
-import { DataTipoGasto, ITipoGasto, tipoGasto } from 'src/app/shared/models/tipogastos';
+import { DataTipoGasto, ITipoGasto, TipoGasto } from 'src/app/shared/models/tipogastos';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
   selector: 'app-tipo-gastos',
   templateUrl: './tipo-gastos.component.html',
   styleUrls: ['./tipo-gastos.component.scss']
 })
+
 export class TipoGastosComponent implements OnInit {
   public routes = routes;
-  public ListTipoGasto: Array<ITipoGasto> = [];
-  tipoGastoSeleccionado: tipoGasto = new tipoGasto();
+  ListTipoGasto: Array<ITipoGasto> = [];
+  columnas: string[] = []
+  acciones: string[] = []
+  gastoSeleccionado: TipoGasto = new TipoGasto();
   dataSource!: MatTableDataSource<ITipoGasto>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
-
-  constructor(private modalService: BsModalService, public tipoGastoService: TipoGastosService) {
+  limit: number = this.pageSize;
+  
+  constructor(private modalService: BsModalService, public tipoGastosService: TipoGastosService) {
   }
 
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades('TipoGasto');
+    this.acciones = ['Editar', 'Eliminar'];
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoGasto = [];
     this.serialNumberArray = [];
-    this.tipoGastoService.obtenerTipoGastos(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataTipoGasto) => {
+    this.tipoGastosService.obtenerTipoGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataTipoGasto) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -54,109 +51,57 @@ export class TipoGastosComponent implements OnInit {
       }
       this.ListTipoGasto = data.data;
       this.dataSource = new MatTableDataSource<ITipoGasto>(this.ListTipoGasto);
-      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListTipoGasto = this.dataSource.filteredData;
-  }
 
-  public sortData(sort: Sort) {
-    const data = this.ListTipoGasto.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.ListTipoGasto = data;
-    } else {
-      this.ListTipoGasto = data.sort((a, b) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearTipoGasto();
+    } else if (accion.accion == 'Editar') {
+      this.editarTipoGasto(accion.fila);
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarTipoGasto(accion.fila.tipoGastoId);
     }
   }
 
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    for (let i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
-
-  crearTipoGastos() {
+  crearTipoGasto() {
     this.bsModalRef = this.modalService.show(AgregarTipoGastosComponent);
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
 
-  editarTipoGastos(tipoGasto: ITipoGasto) {
-    this.bsModalRef = this.modalService.show(EditarTipoGastosComponent);
-    this.bsModalRef.content.tipoGastoSeleccionado = tipoGasto.tipoGastoId;
+  editarTipoGasto(tipoGasto: ITipoGasto) {
+    const initialState = {
+      gastoSeleccionado: tipoGasto.tipoGastoId
+    };
+    this.bsModalRef = this.modalService.show(EditarTipoGastosComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
 
-  eliminarTipoGastos(tipoGastoId: string) {
+  eliminarTipoGasto(tipoGastoId: string) {
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Estás seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      if(result.isConfirmed){
-        this.tipoGastoService.eliminarTipoGasto(tipoGastoId).subscribe(
+      if (result.isConfirmed) {
+        this.tipoGastosService.eliminarTipoGasto(tipoGastoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo Gasto Eliminado en el sistema correctamente.', 'success');
-              this.getTableData();
+              Swal.fire('Correcto', 'Tipo de Gasto eliminado en el sistema correctamente.', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);
