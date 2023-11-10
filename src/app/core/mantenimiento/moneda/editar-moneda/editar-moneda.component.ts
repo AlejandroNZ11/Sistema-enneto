@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { IMoneda } from 'src/app/shared/models/moneda';
-import { routes } from 'src/app/shared/routes/routes';
 import { MonedaService } from 'src/app/shared/services/moneda.service';
 import Swal from 'sweetalert2';
+import { ITipoMoneda } from 'src/app/shared/models/moneda';
 
 @Component({
   selector: 'app-editar-moneda',
@@ -12,8 +11,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-moneda.component.scss']
 })
 export class EditarMonedaComponent implements OnInit {
-  monedaSeleccionada: IMoneda | null = null;
-  public routes = routes;
+  moneda!: ITipoMoneda;
+  monedaSeleccionada: any;
   form: FormGroup;
   public mostrarErrores = false;
 
@@ -25,12 +24,13 @@ export class EditarMonedaComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.monedaSeleccionada) {
+    this.monedaService.obtenerMoneda(this.monedaSeleccionada!).subscribe(moneda => {
+      this.moneda = moneda;
       this.form.patchValue({
-        descripcion: this.monedaSeleccionada.descripcion,
-        estado: this.monedaSeleccionada.estado,
+        descripcion: this.moneda.descripcion,
+        estado: this.moneda.estado == 'Activo' ? 'Activo' : 'Inactivo',
       });
-    }
+    });
   }
 
   isInvalid(controlName: string) {
@@ -48,15 +48,14 @@ export class EditarMonedaComponent implements OnInit {
   }
 
   guardarMoneda() {
-    if (!this.monedaSeleccionada || this.form.invalid) {
+    if (!this.moneda || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-
-    const monedaActualizada: IMoneda = {
-      monedaId: this.monedaSeleccionada.monedaId,
+    const monedaActualizada: ITipoMoneda = {
+      tipoMonedaId: this.moneda.tipoMonedaId,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.monedaService.actualizarMoneda(monedaActualizada).subscribe(
