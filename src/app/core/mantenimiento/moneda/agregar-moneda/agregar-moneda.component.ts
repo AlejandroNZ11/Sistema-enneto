@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
 import { Moneda } from 'src/app/shared/models/moneda';
+import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,12 +12,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-moneda.component.scss']
 })
 export class AgregarMonedaComponent {
-
-  public form!: FormGroup;
+  public routes = routes;
+  moneda: Moneda = new Moneda();
+  form!: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService,
-    public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService, public fb: FormBuilder) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
     });
@@ -33,7 +34,7 @@ export class AgregarMonedaComponent {
   }
 
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
 
   isTouched() {
@@ -44,24 +45,23 @@ export class AgregarMonedaComponent {
 
   crearMoneda() {
     if (this.form.invalid) {
-        this.isTouched()      
-        return;
+      this.isTouched();
+      return;
     }
-    const nuevaMoneda = new Moneda();
-    nuevaMoneda.descripcion = this.form.get("descripcion")?.value;
 
-    this.monedaService.crearMoneda(nuevaMoneda).subscribe(
-        (response) => {
-            if (response.isSuccess) {
-                Swal.fire(response.message, '', 'success');
-                this.bsModalRef.hide();
-            } else {
-                console.error(response.message);
-            }
-        },
-        (error) => {
-            console.error(error);
+    this.moneda.descripcion = this.form.get("descripcion")?.value;
+
+    this.monedaService.crearMoneda(this.moneda).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
         }
-    );
-}
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
 }
