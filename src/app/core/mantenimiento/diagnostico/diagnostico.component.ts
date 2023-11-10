@@ -118,6 +118,8 @@ export class DiagnosticoComponent {
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
+    } else if (accion.accion == 'Editar') {
+      this.editarDiagnostico(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
       this.eliminarDiagnostico(accion.fila.diagnosticoId)
     }
