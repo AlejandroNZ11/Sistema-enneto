@@ -4,20 +4,20 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import Swal from 'sweetalert2';
-import { DataPlanes, PlanesRequest, PlanesResponse } from 'src/app/shared/models/planes';
+import { DataPlanes, Planes, IPlanes } from 'src/app/shared/models/planes';
 
 @Component({
   selector: 'app-agregar-plan',
   templateUrl: './agregar-plan.component.html',
   styleUrls: ['./agregar-plan.component.scss']
 })
-export class AgregarPlanComponent implements OnInit{
+export class AgregarPlanComponent {
 
-  Plan: PlanesResponse = new PlanesResponse();
+  Plan:Planes = new Planes();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
+
 
   constructor(public bsModalRef: BsModalRef, private service: PlanesService, 
     public fb: FormBuilder) {
