@@ -14,3 +14,7 @@ export class banco {
     descripcion: string;
     estado:string;
   }
+
+  export class bancoResponse {
+    descripcion = "";
+  }
