@@ -250,7 +250,7 @@ export class DataService {
           menuValue: 'Pacientes',
           hasSubRoute: true,
           showSubRoute: false,
-          base: 'patient',
+          base: 'paciente',
           img: 'assets/img/icons/menu-icon-03.svg',
           subMenus: [
             {

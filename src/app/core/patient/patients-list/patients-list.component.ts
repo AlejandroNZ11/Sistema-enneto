@@ -6,7 +6,7 @@ import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
 import Swal from 'sweetalert2';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
-import { PacienteListData, PacienteResponse, PacienteRequest } from 'src/app/shared/models/paciente';
+import { PacienteListData, PacienteList, PacienteRequest } from 'src/app/shared/models/paciente';
 import { environment } from 'src/environments/environments';
 
 @Component({
@@ -16,11 +16,14 @@ import { environment } from 'src/environments/environments';
 })
 export class PatientsListComponent implements OnInit {
   public routes = routes;
-  public patientsList: Array<PacienteResponse> = [];
-  dataSource!: MatTableDataSource<PacienteResponse>;
-
+  public patientsList: Array<PacienteList> = [];
+  dataSource!: MatTableDataSource<PacienteList>;
+  pacienteSeleccionado: PacienteRequest = new PacienteRequest();
   public showFilter = false;
   public paciente = '';
+  public tipoPaciente = '';
+  public fechaInicio = '';
+  public fechaFin = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -39,6 +42,56 @@ export class PatientsListComponent implements OnInit {
   ngOnInit() {
     this.obtenerDatosPacientesSinFiltro();
   }
+  private obtenerDatosPacientesSinFiltro(): void {
+    this.patientsList = [];
+    this.serialNumberArray = [];
+    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: PacienteListData) => {
+      this.totalData = data.totalData;
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.patientsList = data.data;
+      this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
+      this.calculateTotalPages(this.totalData, this.pageSize);
+    });
+  }
+  obtenerDatosPacientesConFiltro(): void {
+    this.patientsList = [];
+    this.serialNumberArray = [];
+    let fechaInicioFormateado = undefined
+    let fechaFinFormateado = undefined
+    let paciente = undefined
+    let tipoPaciente = undefined
+    if (this.fechaInicio != "") {
+      fechaInicioFormateado = new Date(this.fechaInicio)?.toISOString().split('T')[0];
+    }
+    if (this.fechaFin != "") {
+      fechaFinFormateado = new Date(this.fechaFin)?.toISOString().split('T')[0];
+    }
+    if (this.paciente != "") {
+      paciente = this.paciente;
+    }
+    if (this.tipoPaciente != "") {
+      tipoPaciente = this.tipoPaciente;
+    }
+    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+      .subscribe((data: PacienteListData) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.patientsList = data.data;
+        this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+      });
+  }
+  formatoFecha(fecha:string) :string{
+    const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+  
   eliminar(pacienteId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
@@ -66,20 +119,7 @@ export class PatientsListComponent implements OnInit {
     })
 
   }
-  private obtenerDatosPacientesSinFiltro(): void {
-    this.patientsList = [];
-    this.serialNumberArray = [];
-    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: PacienteListData) => {
-      this.totalData = data.totalData;
-      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-        const serialNumber = index + 1;
-        this.serialNumberArray.push(serialNumber);
-      }
-      this.patientsList = data.data;
-      this.dataSource = new MatTableDataSource<PacienteResponse>(this.patientsList);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
+
   
 
   public sortData(sort: Sort) {

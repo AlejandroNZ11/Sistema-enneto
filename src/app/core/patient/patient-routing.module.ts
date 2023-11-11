@@ -48,10 +48,17 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'add-patient',
+      path: 'agregar-paciente',
       loadChildren: () =>
         import('./add-patient/add-patient.module').then(
           (m) => m.AddPatientModule
+        ),
+    },
+    {
+      path: 'editar-paciente',
+      loadChildren: () =>
+        import('./edit-patient/edit-patient.module').then(
+          (m) => m.EditPatientModule
         ),
     },
   ]}

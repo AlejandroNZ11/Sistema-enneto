@@ -287,19 +287,19 @@ export class routes {
     return this.baseUrl + '/invoice/view-invoice';
   }
   public static get addPatient(): string {
-    return this.baseUrl + '/paciente/add-patient';
+    return this.baseUrl + '/paciente/agregar-paciente';
   }
   public static get editPatient(): string {
-    return this.baseUrl + '/paciente/edit-patient';
+    return this.baseUrl + '/paciente/editar-paciente';
   }
   public static get patientProfile(): string {
-    return this.baseUrl + '/patient/patient-profile';
+    return this.baseUrl + '/paciente/patient-profile';
   }
   public static get patientSetting(): string {
-    return this.baseUrl + '/patient/patient-setting';
+    return this.baseUrl + '/paciente/patient-setting';
   }
   public static get patientsList(): string {
-    return this.baseUrl + '/patient/patients-list';
+    return this.baseUrl + '/paciente/patients-list';
   }
   public static get addSalary(): string {
     return this.baseUrl + '/payroll/add-salary';

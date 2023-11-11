@@ -14,8 +14,8 @@ export class AseguradorasService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient,) { }
 
-    obtenerAseguradoras(clinicaId: string, page: number, rows: number): Observable<DataAseguradoras> {
-        return this.http.get<DataAseguradoras>(this.apiUrl + `/Aseguradoras/GetAllAseguradora?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    obtenerAseguradoras(): Observable<Iaseguradoras[]> {
+        return this.http.get<Iaseguradoras[]>(this.apiUrl + '/Aseguradoras/GetAseguradoraList');
     }
     crearAseguradora(Aseguradoras: aseguradoras): Observable<successResponse> {
         return this.http.post<successResponse>(this.apiUrl + '/Almacenes/SaveAseguradora', Aseguradoras).pipe(
