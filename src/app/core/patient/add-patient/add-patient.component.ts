@@ -41,8 +41,8 @@ export class AddPatientComponent implements OnInit {
   departamentos!: Idepartamento[];
   provincias!: Iprovincia[];
   distritos!: Idistrito[];
-  departamento!:string;
-  provincia!:string;
+  departamento!: string;
+  provincia!: string;
   aseguradoras!: Iaseguradoras[];
   estadosCiviles!: any[];
   tiposPacientes!: any[];
@@ -78,14 +78,14 @@ export class AddPatientComponent implements OnInit {
       estadoCivil: ['', [Validators.required, Validators.maxLength(100)]],
       sexo: [getCheckedSexo, [Validators.required]],
       formaEnteroClinica: ['', [Validators.required, Validators.maxLength(100)]],
-      nombreContacto: ['', [Validators.maxLength(100)]],
+      nombreContacto: ['', [Validators.required, Validators.maxLength(100)]],
       tipoHistoria: ['', [Validators.required, Validators.maxLength(100)]],
-      aseguradoraId: ['', [Validators.required, Validators.maxLength(100)]],
-      empresaId: ['', [Validators.required, Validators.maxLength(100)]],
-      email: ['', [Validators.required, Validators.maxLength(100), Validators.email]],
-      fotoPaciente: ['', Validators.required],
+      aseguradoraId: ['', [Validators.maxLength(100)]],
+      empresaId: ['', [, Validators.maxLength(100)]],
+      email: ['', [Validators.maxLength(100), Validators.email]],
+      fotoPaciente: ['', []],
       titulo: ['', Validators.required],
-      observacion: ['', [Validators.required, Validators.maxLength(100)]],
+      observacion: ['', [, Validators.maxLength(100)]],
     })
   }
   sexo_LISTA = [
@@ -266,7 +266,6 @@ export class AddPatientComponent implements OnInit {
 
   /* C R E A R - P A C I E N T E */
   crearPaciente() {
-    console.log()
     /*     if (this.form.invalid) {
           this.isFormSubmitted = true;
           this.markAllFieldsAsTouched();
@@ -278,7 +277,12 @@ export class AddPatientComponent implements OnInit {
       this.paciente.Sexo = 'F'
     }
     const formData = new FormData();
-    formData.append('FotoPaciente', this.imagenSubirFoto, this.imagenSubirFoto.name)
+    if(this.imagenSubirFoto){ formData.append('FotoPaciente', this.imagenSubirFoto, this.imagenSubirFoto.name) }
+    if(this.paciente.AseguradoraId){ formData.append('AseguradoraId', this.paciente.AseguradoraId); }
+    if(this.paciente.Observacion){ formData.append('Observacion', this.paciente.Observacion); }
+    if(this.paciente.Titulo){ formData.append('Titulo', this.paciente.Titulo); }
+    if(this.paciente.EmpresaId){ formData.append('EmpresaId', 'ED8AD1BA-51EF-457D-9E22-3033FCBFD13A'); }
+    if(this.paciente.Email){ formData.append('Email', this.paciente.Email); }
     formData.append('TipoDocumentoId', this.paciente.TipoDocumentoId);
     formData.append('NumeroDocumento', this.paciente.NumeroDocumento);
     formData.append('Apellidos', this.paciente.Apellidos);
@@ -289,7 +293,7 @@ export class AddPatientComponent implements OnInit {
     formData.append('Direccion', this.paciente.Direccion);
     formData.append('GradoInstruccionId', 'S');
     formData.append('PaisId', this.paciente.PaisId);
-    formData.append('Ubigeo', '1');
+    formData.append('Ubigeo', this.paciente.Ubigeo);
     formData.append('Celular', this.paciente.Celular);
     formData.append('TipoPacienteId', '3');
     formData.append('EstadoCivil', 'C');
@@ -297,12 +301,7 @@ export class AddPatientComponent implements OnInit {
     formData.append('FormaEnteroClinica', '1');
     formData.append('NombreContacto', this.paciente.NombreContacto);
     formData.append('TipoHistoria', this.paciente.TipoHistoria);
-    formData.append('AseguradoraId', this.paciente.AseguradoraId);
-    formData.append('EmpresaId', 'ED8AD1BA-51EF-457D-9E22-3033FCBFD13A');
-    formData.append('Email', this.paciente.Email);
     formData.append('SedeId', this.sedeId);
-    formData.append('Observacion', this.paciente.Observacion);
-    formData.append('Titulo', this.paciente.Titulo);
     formData.append('ClinicaId', this.paciente.ClinicaId);
     formData.append('UsuarioId', this.paciente.UsuarioId);
     this.pacienteService.crearPaciente(formData).subscribe(

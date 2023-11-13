@@ -123,7 +123,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Correo<span class="login-danger">*</span></label>
+                                        <label>Correo<span class="login-danger"></span></label>
                                         <input formControlName="email" [(ngModel)]="paciente.Email" class="form-control"
                                             type="email"
                                             [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
@@ -243,8 +243,7 @@
                                         <label>Titulo <span class="login-danger"></span></label>
                                         <input formControlName="titulo" [(ngModel)]="paciente.Titulo"
                                             class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('titulo') && isFormSubmitted}"
-                                            maxlength="4">
+                                            [ngClass]="{'is-invalid': isInvalid('titulo') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('titulo') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('titulo')">
                                                 Debe completar el campo*
@@ -313,7 +312,7 @@
                                         <mat-select formControlName="ubigeo" [(ngModel)]="paciente.Ubigeo"
                                             class="form-control select" placeholder="Seleccione Distrito"
                                             [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of distritos" [value]="data.nombre">
+                                            <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
@@ -358,7 +357,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Aseguradora <span class="login-danger">*</span></label>
+                                        <label>Aseguradora <span class="login-danger"></span></label>
                                         <mat-select formControlName="aseguradoraId" [(ngModel)]="paciente.AseguradoraId"
                                             class="form-control select" placeholder="Seleccione Aseguradora"
                                             [ngClass]="{'is-invalid': isInvalid('aseguradoraId') && isFormSubmitted}">
@@ -414,7 +413,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Empresa<span class="login-danger">*</span></label>
+                                        <label>Empresa<span class="login-danger"></span></label>
                                         <mat-select formControlName="empresaId" [(ngModel)]="paciente.EmpresaId"
                                             class="form-control select" placeholder="Seleccione una Opcion"
                                             [ngClass]="{'is-invalid': isInvalid('empresaId') && isFormSubmitted}">
@@ -431,7 +430,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Observacion<span class="login-danger">*</span></label>
+                                        <label>Observacion<span class="login-danger"></span></label>
                                         <input formControlName="observacion" [(ngModel)]="paciente.Observacion"
                                             class="form-control"
                                             [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}">
