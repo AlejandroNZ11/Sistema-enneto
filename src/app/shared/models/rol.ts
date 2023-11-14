@@ -12,3 +12,7 @@ export class roles {
     totalData: number;
     data: Iroles[];
   }
+
+  export class rolResponse {
+    nombre= "";
+  }

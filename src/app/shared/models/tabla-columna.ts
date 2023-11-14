@@ -7,6 +7,7 @@ import { DiagnosticoResponse } from "./diagnostico";
 import { tipoGastosResponse } from "./tipogastos";
 import { CategoriaResponse } from "./categoria-op";
 import { bancoResponse } from "./bancos";
+import { rolResponse } from "./rol";
 
 
 
@@ -39,6 +40,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoGastos' : clase = new tipoGastosResponse(); break;
     case 'categoria' : clase = new CategoriaResponse(); break;
     case 'Banco' : clase = new bancoResponse(); break;
+    case 'Rol' : clase = new rolResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
