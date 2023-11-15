@@ -10,6 +10,7 @@ import { PlanesResponse } from "./planes";
 import { AlmacenResponse } from "./almacen";
 import { banco, bancoResponse } from "./bancos";
 import { ProductoResponse } from "./producto";
+import { rolResponse } from "./rol";
 
 
 
@@ -44,6 +45,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Almacen': clase = new AlmacenResponse(); break;
     case 'Banco': clase = new bancoResponse(); break;
     case 'Producto': clase = new ProductoResponse(); break;
+    case 'Rol': clase = new rolResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
