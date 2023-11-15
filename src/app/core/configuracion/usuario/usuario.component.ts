@@ -30,6 +30,9 @@ export class UsuarioComponent implements OnInit {
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
 
+  fechaDesde: Date | null = null;
+  fechaHasta: Date | null = null;
+
   constructor(private modalService: BsModalService, public usuarioService: UsuarioService) {}
 
   ngOnInit() {
@@ -113,4 +116,9 @@ export class UsuarioComponent implements OnInit {
       }
     });
   }
+  
+  aplicarFiltro() {
+    // Implementa lógica de filtrado según tus necesidades
+  }
 }
+
