@@ -19,10 +19,10 @@ import Swal from 'sweetalert2';
 export class TipoTarjetaComponent implements OnInit {
   public routes = routes;
   ListTipoTarjeta: Array<ITipoTarjeta> = [];
-  columnas: string[] = []
-  acciones: string[] = []
   tipoTarjetaSeleccionada: tipoTarjeta = new tipoTarjeta();
   dataSource!: MatTableDataSource<ITipoTarjeta>;
+  columnas: string[] = []
+  acciones: string[] = []
   pageSize = PageSize.size;
   totalData = 0;
   skip = 0;

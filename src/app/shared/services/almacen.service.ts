@@ -25,4 +25,19 @@ export class AlmacenService {
             })
         );
     }
+    obtenerAlmacen(almacenId: string): Observable<Ialmacen> {
+        return this.http.get<Ialmacen>(this.apiUrl + `/Almacenes/GetAlmacen/${almacenId}`);
+    }
+    eliminarAlmacen(almacenId: string): Observable<successResponse> {
+        return this.http.delete<successResponse>(this.apiUrl + `/Almacenes/DeleteAlmacen/${almacenId}`);
+    }
+    actualizarAlmacen(almacen: Ialmacen): Observable<successResponse> {
+        return this.http.put<successResponse>(this.apiUrl + `/Almacenes/UpdateAlmacen/${almacen.almacenId}`, almacen).pipe(
+            catchError(error => {
+                Swal.fire('Error', error.error, 'warning');
+                return throwError(() => error);
+            })
+        );
+    }
 }
+

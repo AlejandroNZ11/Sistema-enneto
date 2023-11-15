@@ -5,6 +5,7 @@ import { AlmacenService } from 'src/app/shared/services/almacen.service';
 import { almacen } from 'src/app/shared/models/almacen';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-agregar-almacen',
   templateUrl: './agregar-almacen.component.html',
@@ -19,8 +20,6 @@ export class AgregarAlmacenComponent {
     public fb: FormBuilder) {
     this.form = this.fb.group({
       nombreAlmacen: ['', Validators.required],
-      UsuarioId: ['', Validators.required],
-      SedeId: ['', Validators.required],
     });
   }
 
@@ -50,9 +49,7 @@ export class AgregarAlmacenComponent {
       return;
     }
     const nuevaAlmacen = new almacen();
-    nuevaAlmacen.nombreAlmacen = this.form.get("nombreAlmacen")?.value;
-    nuevaAlmacen.usuarioId = this.form.get("UsuarioId")?.value;
-    nuevaAlmacen.sedeId = this.form.get("SedeId")?.value;
+    nuevaAlmacen.descripcion = this.form.get("nombreAlmacen")?.value;
     this.almacenService.crearAlmacen(nuevaAlmacen).subscribe(
       (response) => {
         if (response.isSuccess) {
