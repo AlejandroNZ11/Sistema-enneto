@@ -1,135 +1,143 @@
 <div class="page-wrapper">
-    <div class="content">
-    
-        <!-- Page Header -->
-        <div class="page-header">
-            <div class="row">
-                <div class="col-sm-12">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.patientsList">Patients </a></li>
-                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista Pacientes</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="content">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a [routerLink]="routes.patientsList">Patients </a></li>
+            <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+            <li class="breadcrumb-item active">Lista Pacientes</li>
+          </ul>
         </div>
-        <!-- /Page Header -->
-        
-        <div class="row">
-            <div class="col-sm-12">
-            
-                <div class="card card-table show-entire">
-                    <div class="card-body">
-                    
-                        <!-- Table Header -->
-                        <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Lista Pacientes</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
-                                                    <input type="text" class="form-control" placeholder="Buscar paciente" [(ngModel)]="paciente">
-                                                    <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="add-group">
-                                                <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
-                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt=""></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
-                                    <a href="javascript:;" ><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
-                                    
-                                </div>
-                            </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div class="card card-table show-entire">
+          <div class="card-body">
+
+            <!-- Table Header -->
+            <div class="page-table-header mb-2">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="doctor-table-blk">
+                    <h3>Pacientes</h3>
+                    <div class="doctor-search-blk">
+                      <div class="top-nav-search table-search-blk">
+                        <input [(ngModel)]="fechaInicio" style='height:48px' class="form-control" type="text"
+                          placeholder="Desde" matInput [matDatepicker]="picker">
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                        <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                      </div>
+                      <div class="top-nav-search table-search-blk">
+                        <input [(ngModel)]="fechaFin" style='height:48px' class="form-control" type="text"
+                          placeholder="Hasta" matInput [matDatepicker]="picker2">
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
+                        <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                      </div>
+                      <div class="top-nav-search table-search-blk">
+                        <input class="form-control" placeholder="Buscar Paciente" [(ngModel)]="paciente">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="top-nav-search table-search-blk">
+                        <input class="form-control" placeholder="Tipo Paciente" [(ngModel)]="tipoPaciente">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                      <div class="add-group">
+                        <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2"><img
+                            src="assets/img/icons/plus.svg" alt=""></a>
+                        <a (click)="obtenerDatosPacientesConFiltro()" href="javascript:;"
+                          class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
+                            alt=""></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto text-end float-end ms-auto download-grp">
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
+                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                  <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
+
+                </div>
+              </div>
+            </div>
+            <!-- /Table Header -->
+
+            <div class="table-responsive">
+              <table matSort (matSortChange)="sortData($event)"
+                class="table border-0 custom-table comman-table datatable mb-0">
+                <thead>
+                  <tr>
+                    <th mat-sort-header="numero">Nº</th>
+                    <th mat-sort-header="name">Paciente</th>
+                    <th mat-sort-header="edad">Edad</th>
+                    <th mat-sort-header="tipo">Tipo</th>
+                    <th mat-sort-header="dni">Dni</th>
+                    <th mat-sort-header="direccion">Direccion</th>
+                    <th mat-sort-header="fechaRegistro">F.Registro</th>
+                    <th mat-sort-header="estado">Estado</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of patientsList let i = index">
+                    <td>{{serialNumberArray[i]}}</td>
+                    <td class="profile-image"><img width="28" height="28" [src]="data.fotoPaciente"
+                        class="rounded-circle m-r-5">
+                      {{data.nombres}} {{data.apellidos}}
+                    </td>
+                    <td>{{data.edad}}</td>
+                    <td>{{data.tipoPacienteId}}</td>
+                    <td>{{data.numeroDocumento}}</td>
+                    <td>{{data.direccion}}</td>
+                    <td>{{formatoFecha(data.fechaRegistro)}}</td>
+                    <td><button class="custom-badge status-green " *ngIf="data.estado=='A'">Activo</button>
+                      <button class="custom-badge status-blue " *ngIf="data.estado=='I'">Inactivo</button>
+                    </td>
+                    <td class="text-end">
+                      <div class="dropdown dropdown-action">
+                        <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                          aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                          <a class="dropdown-item" [routerLink]="[routes.editPatient, data.pacienteId]"><i
+                              class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
+                          <a class="dropdown-item" href="javascript:void(0);" (click)="eliminar(data.pacienteId)"><i
+                              class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
                         </div>
-                        <!-- /Table Header -->
-                        
-                        <div class="table-responsive">
-                            <table matSort (matSortChange)="sortData($event)" class="table border-0 custom-table comman-table datatable mb-0">
-                                <thead>
-                                    <tr>
-                                        <th mat-sort-header="checkbox">
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </th>
-                                        <th mat-sort-header="name">Name</th>
-                                        <th mat-sort-header="department">Department</th>
-                                        <th mat-sort-header="specialization">Specialization</th>
-                                        <th mat-sort-header="degree">Degree</th>
-                                        <th mat-sort-header="mobile">Mobile</th>
-                                        <th mat-sort-header="email">Email</th>
-                                        <th mat-sort-header="joiningDate">Joining Date</th>
-                                        <th ></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let data of patientsList let i = index">
-                                        <td>
-                                            <div class="form-check check-tables">
-                                                <input class="form-check-input" type="checkbox" value="something">
-                                            </div>
-                                        </td>
-                                        <td class="profile-image"><a [routerLink]="routes.profile"><img width="28" height="28" [src]="data.foto" class="rounded-circle m-r-5" alt=""> {{data.nombre}}</a></td>
-                                        <td>{{data.nombre}}</td>
-                                        <td>{{data.apellido}}</td>
-                                        <td>{{data.telefono}}</td>
-                                        <td><a href="javascript:;">{{data.dniPaciente}}</a></td>
-                                        <td>{{data.email}}</td>
-                                        <td>{{data.fechaNacimiento}}</td>
-                                        <td class="text-end">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-end">
-                                                    <a class="dropdown-item" [routerLink]="routes.editPatient"><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" ><i class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
-                                                    <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_patient"><i class="fa fa-trash-alt m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="table_footer">
-                                <div class="col-sm-12 col-md-5">
-                                  <div class="dataTables_info">
-                                    Showing {{ serialNumberArray[0] }} to
-                                    {{ serialNumberArray[serialNumberArray.length - 1] }} of
-                                    {{ totalData }} entries
-                                  </div>
-                                </div>
-                
-                                <div class="col-sm-12 col-md-7">
-                                  <div class="pagination_section">
-                                    <ul class="pagination">
-                                      <li
-                                        class="page-item"
-                                        [ngClass]="{
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="table_footer">
+                <div class="col-sm-12 col-md-5">
+                  <div class="dataTables_info">
+                    Showing {{ serialNumberArray[0] }} to
+                    {{ serialNumberArray[serialNumberArray.length - 1] }} of
+                    {{ totalData }} entries
+                  </div>
+                </div>
+
+                <div class="col-sm-12 col-md-7">
+                  <div class="pagination_section">
+                    <ul class="pagination">
+                      <li class="page-item" [ngClass]="{
                                           disabled: currentPage === 1
-                                        }"
-                                      >
-                                        <a
-                                          (click)="getMoreData('previous')"
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          tabindex="-1"
-                                          >Previous</a
-                                        >
-                                      </li>
-                
-                                      <ng-container
-                                        *ngFor="let item of pageNumberArray; let i = index"
-                                      >
-                                        <li
-                                          class="page-item"
-                                          [class.active]="item === currentPage"
-                                          [ngClass]="
+                                        }">
+                        <a (click)="getMoreData('previous')" class="page-link" href="javascript:void(0);"
+                          tabindex="-1">Previous</a>
+                      </li>
+
+                      <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                        <li class="page-item" [class.active]="item === currentPage" [ngClass]="
                                             (pageNumberArray[currentPage - 2] > item &&
                                               item !== 1 &&
                                               pageNumberArray.length > 6) ||
@@ -139,75 +147,52 @@
                                               pageNumberArray.length !== item)
                                               ? 'hide-page-no'
                                               : 'show-page-no'
-                                          "
-                                        >
-                                          <a
-                                            (click)="moveToPage(item)"
-                                            class="page-link"
-                                            href="javascript:void(0);"
-                                          >
-                                            {{ item }}
-                                          </a>
-                                        </li>
-                                        <li
-                                          class="page-item"
-                                          *ngIf="
+                                          ">
+                          <a (click)="moveToPage(item)" class="page-link" href="javascript:void(0);">
+                            {{ item }}
+                          </a>
+                        </li>
+                        <li class="page-item" *ngIf="
                                             i === 0 &&
                                             pageNumberArray.length > 6 &&
                                             currentPage > 2
-                                          "
-                                          [hidden]="currentPage === 1"
-                                          (click)="moveToPage(currentPage - 2)"
-                                        >
-                                          <a class="page-link" href="javascript:void(0);">
-                                            ...
-                                          </a>
-                                        </li>
-                                        <li
-                                          *ngIf="
+                                          " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                          <a class="page-link" href="javascript:void(0);">
+                            ...
+                          </a>
+                        </li>
+                        <li *ngIf="
                                             i === pageNumberArray.length - 2 &&
                                             pageNumberArray.length > 6
-                                          "
-                                          [hidden]="
+                                          " [hidden]="
                                             currentPage >=
                                               pageNumberArray[pageNumberArray.length - 2] ||
                                             totalData <
                                               serialNumberArray[serialNumberArray.length - 1]
-                                          "
-                                          class="page-item"
-                                          (click)="moveToPage(currentPage + 2)"
-                                        >
-                                          <a class="page-link" href="javascript:void(0);">
-                                            ...
-                                          </a>
-                                        </li>
-                                      </ng-container>
-                
-                                      <li
-                                        class="page-item"
-                                        [ngClass]="{
+                                          " class="page-item" (click)="moveToPage(currentPage + 2)">
+                          <a class="page-link" href="javascript:void(0);">
+                            ...
+                          </a>
+                        </li>
+                      </ng-container>
+
+                      <li class="page-item" [ngClass]="{
                                           disabled:
                                             currentPage ===
                                               pageNumberArray[pageNumberArray.length - 1] ||
                                               patientsList.length === 0
-                                        }"
-                                      >
-                                        <a
-                                          (click)="getMoreData('next')"
-                                          class="page-link"
-                                          href="javascript:void(0);"
-                                          >Next
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                              </div>
-                        </div>
-                    </div>
-                </div>							
-            </div>					
+                                        }">
+                        <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
- 

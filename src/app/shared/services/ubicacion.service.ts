@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environments';
-import { DataPais,pais } from '../models/pais';
+import { DataPais,Ipais,pais } from '../models/pais';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
-import { DataDepartamento } from '../models/departamento';
-import { DataProvincia } from '../models/provincia';
-import { DataDistrito } from '../models/distrito';
+import { DataDepartamento, Idepartamento } from '../models/departamento';
+import { DataProvincia, Iprovincia } from '../models/provincia';
+import { DataDistrito, Idistrito } from '../models/distrito';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class UbicacionService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerPaises(clinicaId: string, page: number, rows: number): Observable<DataPais> {
-    return this.http.get<DataPais>(this.apiUrl + `/Paises/GetAllPais?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerPaises(): Observable<Ipais[]> {
+    return this.http.get<Ipais[]>(this.apiUrl + `/Paises/GetPaisList`);
   }
   crearPais(pais: pais): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Paises/SavePais', pais).pipe(
@@ -28,13 +28,13 @@ export class UbicacionService {
       })
     );
   }
-  obtenerDepartamentos(clinicaId: string, page: number, rows: number): Observable<DataDepartamento> {
-    return this.http.get<DataDepartamento>(this.apiUrl + `/Departamentos/GetAllDepartamento?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerDepartamentos(): Observable<Idepartamento[]> {
+    return this.http.get<Idepartamento[]>(this.apiUrl + `/Departamentos/GetDepartamentoList`);
   }
-  obtenerProvincias(clinicaId: string, page: number, rows: number): Observable<DataProvincia> {
-    return this.http.get<DataProvincia>(this.apiUrl + `/Provincias/GetAllProvincias?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerProvincias(departamentoId: string): Observable<Iprovincia[]> {
+    return this.http.get<Iprovincia[]>(this.apiUrl + `/Provincias/GetProvinciasByDepartamento?departamentoId=${departamentoId}`);
   }
-  obtenerDistritos(clinicaId: string, page: number, rows: number): Observable<DataDistrito> {
-    return this.http.get<DataDistrito>(this.apiUrl + `/Distritos/GetAllDistritos?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerDistritos(provinciaId: string): Observable<Idistrito[]> {
+    return this.http.get<Idistrito[]>(this.apiUrl + `/Distritos/GetDistritoByProvincia?provinciaId=${provinciaId}`);
   }
 }

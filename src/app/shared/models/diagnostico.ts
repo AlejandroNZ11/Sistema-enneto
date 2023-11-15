@@ -14,11 +14,9 @@ export class diagnostico {
     diagnosticoId: string;
     nombre: string;
     diagnostico: string;
-    estado: string;
   }
    
   export class DiagnosticoResponse {
-      nombre  = "";
       diagnostico = "";
   
   }

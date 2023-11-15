@@ -20,3 +20,12 @@ export class producto {
     estado:string;
 
   }
+  export class ProductoResponse {
+    id = "";
+    nombre = "";
+    descripcion =  "";
+    fecha ="";
+    stock =  "";
+    estado=  "";
+
+}

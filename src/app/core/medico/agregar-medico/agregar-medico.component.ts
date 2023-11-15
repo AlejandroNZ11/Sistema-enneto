@@ -93,7 +93,6 @@ export class AgregarMedicoComponent implements OnInit {
         }
       })
     }
-
   }
   actualizarCantidad() {
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
@@ -223,7 +222,6 @@ export class AgregarMedicoComponent implements OnInit {
   }
   /* C R E A R - M E D I C O */
   crearMedico() {
-    console.log(this.doctor.FechaNacimiento.toISOString().split('T')[0]);
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();

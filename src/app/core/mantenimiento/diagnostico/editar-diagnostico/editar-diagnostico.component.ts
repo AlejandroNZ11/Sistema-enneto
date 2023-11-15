@@ -31,7 +31,6 @@ export class EditarDiagnosticoComponent {
       this.form.patchValue({
         nombre: this.diagnostico.nombre,
         diagnostico: this.diagnostico.diagnostico,
-        estado: this.diagnostico.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
   }
@@ -59,7 +58,6 @@ export class EditarDiagnosticoComponent {
       diagnosticoId: this.diagnostico.diagnosticoId,
       nombre: this.form.value.nombre,
       diagnostico: this.form.value.diagnostico,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.DiagnosticoService.actualizarDiagnostico(diagnosticoActualizado).subscribe(

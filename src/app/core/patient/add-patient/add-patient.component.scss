@@ -1,0 +1,15 @@
+.input-group {
+    position: relative;
+}
+
+.icon-inside {
+    position: absolute;
+    right: 10px; /* Ajusta la posición según sea necesario */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.icon-inside i {
+    cursor: pointer;
+    padding: 5px;
+}

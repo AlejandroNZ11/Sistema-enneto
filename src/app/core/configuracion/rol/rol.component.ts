@@ -10,6 +10,8 @@ import { EditarRolesComponent } from './editar-roles/editar-roles.component';
 import { DataRoles, Iroles, roles } from 'src/app/shared/models/rol';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+
 @Component({
   selector: 'app-rol',
   templateUrl: './rol.component.html',
@@ -18,122 +20,65 @@ import Swal from 'sweetalert2';
 
 export class RolComponent implements OnInit{
   public routes = routes;
-  public ListRoles: Array<Iroles> = [];
+  Listroles: Array<Iroles> = [];
+  columnas: string[] = []
+  acciones: string[] = []
   rolSeleccionada: roles = new roles();
   dataSource!: MatTableDataSource<Iroles>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
+  limit: number = this.pageSize;
   constructor(private modalService: BsModalService, public rolService: RolesService) {
   }
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades('Rol');
+    this.acciones = ['Editar', 'Eliminar'];
   }
-  private getTableData(): void {
-    this.ListRoles = [];
+  private getTableData(currentPage: number, pageSize: number): void {
+    this.Listroles = [];
     this.serialNumberArray = [];
-    this.rolService.obtenerRoles(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataRoles) => {
+    this.rolService.obtenerRoles(env.clinicaId, currentPage, pageSize).subscribe((data: DataRoles) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListRoles = data.data;
-      this.dataSource = new MatTableDataSource<Iroles>(this.ListRoles);
-      this.calculateTotalPages(this.totalData, this.pageSize);
+      this.Listroles = data.data;
+      this.dataSource = new MatTableDataSource<Iroles>(this.Listroles);
     });
   }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListRoles = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.ListRoles.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.ListRoles = data;
-    } else {
-      this.ListRoles = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
-  }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearRol();
+    } else if (accion.accion == 'Editar') {
+      this.editarRol(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarRol(accion.fila.rolesId)
     }
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
   crearRol() {
     this.bsModalRef = this.modalService.show(AgregarRolesComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
+        this.getTableData(this.currentPage, this.pageSize);
       });
   }
   editarRol(roles: Iroles) {
     this.bsModalRef = this.modalService.show(EditarRolesComponent);
     this.bsModalRef.content.rolSeleccionada = roles.nombre;
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
 
@@ -149,7 +94,7 @@ export class RolComponent implements OnInit{
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Rol Eliminado en el sistema correctamente.', 'success');
-              this.getTableData();
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);

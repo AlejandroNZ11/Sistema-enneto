@@ -9,7 +9,7 @@ import { MedicoList, MedicoListData, MedicoRequest} from 'src/app/shared/models/
 import { environment } from 'src/environments/environments';
 import { formatDate } from '@angular/common';
 import Swal from 'sweetalert2';
-import { timestamp } from 'rxjs';
+import { finalize, timestamp } from 'rxjs';
 
 @Component({
   selector: 'app-lista-medico',
@@ -37,6 +37,7 @@ export class ListaMedicoComponent implements OnInit {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
+  isLoading = false;
   constructor(public data: DataService, public medicoService: MedicoService) {
 
   }
@@ -47,7 +48,12 @@ export class ListaMedicoComponent implements OnInit {
   private obtenerDatosMedicosSinFiltro(): void {
     this.doctorsList = [];
     this.serialNumberArray = [];
-    this.medicoService.obtenerMedicos(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: MedicoListData) => {
+    this.isLoading = true;
+    this.medicoService.obtenerMedicos(environment.clinicaId, this.currentPage, this.pageSize)
+    .pipe(
+      finalize(() => this.isLoading = false)
+    )
+    .subscribe((data: MedicoListData) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;

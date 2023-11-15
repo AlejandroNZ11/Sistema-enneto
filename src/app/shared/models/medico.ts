@@ -40,7 +40,6 @@ export interface MedicoListData {
 }
 
 export interface MedicoEditar {
-
   medicoId: string;
   especialidadesAsociadas: string[];
   nombre: string;
