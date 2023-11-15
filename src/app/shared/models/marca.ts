@@ -12,7 +12,7 @@ export class marca {
   export interface Imarca {
     marcaMaterialesId: string;
     nombre: string;
-    estado:string;
+    estado: string;
   }
   export class MarcaResponse {
     nombre = "";
