@@ -14,3 +14,6 @@ export class marca {
     nombre: string;
     estado:string;
   }
+  export class MarcaResponse {
+    nombre = "";
+}

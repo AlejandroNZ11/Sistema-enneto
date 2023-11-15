@@ -10,6 +10,7 @@ import { EditarMarcaComponent } from './editar-marca/editar-marca.component';
 import { DataMarca, Imarca, marca } from 'src/app/shared/models/marca';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
   selector: 'app-marca',
@@ -19,32 +20,28 @@ import Swal from 'sweetalert2';
 
 export class MarcaComponent implements OnInit{
   public routes = routes;
-  public ListMarca: Array<Imarca> = [];
+  ListMarca: Array<Imarca> = [];
+  columnas: string[] = []
+  acciones: string[] = []
   marcaSeleccionada: marca = new marca();
   dataSource!: MatTableDataSource<Imarca>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
+  limit: number = this.pageSize;
   constructor(private modalService: BsModalService, public marcaService: MarcaService) {
   }
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades('Marca');
+    this.acciones = ['Editar', 'Eliminar'];
   }
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListMarca = [];
     this.serialNumberArray = [];
-    this.marcaService.obtenerMarcas(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataMarca) => {
+    this.marcaService.obtenerMarcas(env.clinicaId, currentPage, pageSize).subscribe((data: DataMarca) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -52,86 +49,37 @@ export class MarcaComponent implements OnInit{
       }
       this.ListMarca = data.data;
       this.dataSource = new MatTableDataSource<Imarca>(this.ListMarca);
-      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListMarca = this.dataSource.filteredData;
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearMarca();
+    } else if (accion.accion == 'Editar') {
+      this.editarMarca(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarMarca(accion.fila.marcaMaterialesId)
+    }
   }
-  public sortData(sort: Sort) {
-    const data = this.ListMarca.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.ListMarca = data;
-    } else {
-      this.ListMarca = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
-  }
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
+
   crearMarca() {
     this.bsModalRef = this.modalService.show(AgregarMarcaComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
+        this.getTableData(this.currentPage, this.pageSize);
       });
   }
   editarMarca(marca: Imarca) {
     this.bsModalRef = this.modalService.show(EditarMarcaComponent);
     this.bsModalRef.content.marcaSeleccionada = marca.marcaMaterialesId;
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
   eliminarMarca(MarcaMaterialId:string){
@@ -146,7 +94,7 @@ export class MarcaComponent implements OnInit{
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Marca Eliminada en el sistema correctamente.', 'success');
-              this.getTableData();
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);
