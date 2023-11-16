@@ -12,48 +12,54 @@ import { Iroles } from 'src/app/shared/models/rol';
   styleUrls: ['./editar-roles.component.scss']
 })
 export class EditarRolesComponent  implements OnInit{
-  rolSeleccionada: Iroles | null = null;
+  rol!: Iroles;
+  rolSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void {
-    if (this.rolSeleccionada) {
-      this.form.patchValue({
-        nombre: this.rolSeleccionada.nombre,
-        estado: this.rolSeleccionada.estado,
-      });
-    }
-   }
-  constructor(public bsModalRef: BsModalRef,private rolesService: RolesService,
-    public fb: FormBuilder,) {
+
+  constructor(public bsModalRef: BsModalRef, private rolesService: RolesService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
+
+  ngOnInit() {
+    this.rolesService.obtenerRol(this.rolSeleccionada!).subscribe(rol => {
+      this.rol = rol;
+      this.form.patchValue({
+        nombre: this.rol.nombre,
+        estado: this.rol.estado == '1' ? 'Activo' : 'Inactivo',
+      });
+    })
+  }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
   }
+
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
+
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
+
   guardarRol() {
-    if (!this.rolSeleccionada || this.form.invalid) {
+    if (!this.rol || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-  
     const rolActualizada: Iroles = {
-      rolesId: this.rolSeleccionada.rolesId,
+      rolId: this.rol.rolId,
       nombre: this.form.value.nombre,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-  
+
     this.rolesService.actualizarRol(rolActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {

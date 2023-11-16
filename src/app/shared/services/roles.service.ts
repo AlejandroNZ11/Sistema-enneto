@@ -18,7 +18,7 @@ export class RolesService {
     return this.http.get<DataRoles>(this.apiUrl + `/Rol/GetAllRol?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   crearRoll(rol: roles): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Rol/SaveMenu', rol).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Rol/SaveRol', rol).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -32,7 +32,7 @@ export class RolesService {
     return this.http.delete<successResponse>(this.apiUrl + `/Rol/DeleteRol/${rolesId}`);
   }
   actualizarRol(rol: Iroles): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Rol/${rol.rolesId}`, rol).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Rol/UpdateRol/${rol.rolId}`, rol).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

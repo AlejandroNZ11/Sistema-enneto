@@ -57,7 +57,7 @@ export class RolComponent implements OnInit{
     } else if (accion.accion == 'Editar') {
       this.editarRol(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarRol(accion.fila.rolesId)
+      this.eliminarRol(accion.fila.rolId)
     }
   }
 

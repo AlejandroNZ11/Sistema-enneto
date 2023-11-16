@@ -4,7 +4,7 @@ export class roles {
     nombre = "";
   }
   export interface Iroles {
-    rolesId: string;
+    rolId: string;
     nombre: string;
     estado: string; 
   }
