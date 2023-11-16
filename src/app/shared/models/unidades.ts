@@ -3,6 +3,9 @@ export class unidad {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = "";
     nombre = ""; 
+    descripcion= "";
+    estado="";
+    siglas="";
   }
   export interface DataUnidad {
     totalData: number;
@@ -15,3 +18,9 @@ export class unidad {
     descripcion: string;
     estado:string;
   }
+
+  export class UnidadResponse {
+    nombre = ""; 
+    descripcion= "";
+    siglas="";
+}

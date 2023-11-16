@@ -49,7 +49,9 @@ export class AgregarUnidadesComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Unidad.nombre = this.form.get("nombre")?.value;this.bsModalRef 
+    this.Unidad.nombre = this.form.get("nombre")?.value;this.bsModalRef
+    this.Unidad.descripcion = this.form.get("descripcion")?.value;this.bsModalRef
+    this.Unidad.siglas = this.form.get("siglas")?.value;this.bsModalRef
     console.log(this.Unidad);
     this.unidadService.crearUnidad(this.Unidad).subscribe(
       (response)=>{
