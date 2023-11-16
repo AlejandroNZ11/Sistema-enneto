@@ -18,8 +18,11 @@ export class EditarProductoComponent {
   public mostrarErrores = false;
   constructor(public bsModalRef: BsModalRef, private OperacionesService: OperacionesService, public fb: FormBuilder) {
     this.form = this.fb.group({
+      id: ['', Validators.required],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
+      fecha: ['', Validators.required],
+      stock: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
