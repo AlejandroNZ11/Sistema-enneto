@@ -12,7 +12,7 @@ export class Usuario {
     rolId = "";
     loginUsuario = "";
     passwordUsuario = "";
-    fechaRegistro: Date | string = "";
+    fechaRegistro = "";
 }
 
 export interface DataUsuario {
