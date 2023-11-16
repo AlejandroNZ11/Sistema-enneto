@@ -113,9 +113,10 @@
                                 <div class="form-group local-forms">
                                 <label>Rol <span class="login-danger">*</span></label>
                                 <mat-select formControlName="rolId" class="form-control select" placeholder="Seleccionar Rol">
-                                    <mat-option value="rol1">Rol 1</mat-option>
-                                    <mat-option value="rol2">Rol 2</mat-option>
-                                    <mat-option value="rol2">Rol 3</mat-option>
+                                    <mat-option value="Doctor">Doctor</mat-option>
+                                    <mat-option value="Administrador">Administrador</mat-option>
+                                    <mat-option value="Secretaria">Secretaria</mat-option>
+                                    <mat-option value="Asistente">Asistente</mat-option>
                                 </mat-select>
                                   <div *ngIf="isInvalid('rol') || mostrarErrores" class="invalid-feedback">
                                     <div *ngIf="isRequerido('rol') || mostrarErrores">Debe seleccionar un rol*</div>
