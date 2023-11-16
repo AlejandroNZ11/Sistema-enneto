@@ -56,6 +56,7 @@ export class AgregarUsuarioComponent {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleFileInput(event: any) {
     const file = event.target.files[0];
     this.form.get('foto')?.setValue(file);
