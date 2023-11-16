@@ -23,4 +23,17 @@ export class EditarProductoComponent {
       estado: ['Activo', Validators.required],
     });
   }
+  ngOnInit() {
+    this.OperacionesService.obtenerProducto(this.productoSeleccionado!).subscribe(producto => {
+      this.producto = producto;
+      this.form.patchValue({
+        id: this.producto.id,
+        nombre: this.producto.nombre,
+        descripcion: this.producto.descripcion,
+        fecha:this.producto.fecha,
+        stock:this.producto.stock,
+        estado: this.producto.estado == '1' ? 'Activo' : 'Inactivo',
+      });
+    })
+  }
 }
