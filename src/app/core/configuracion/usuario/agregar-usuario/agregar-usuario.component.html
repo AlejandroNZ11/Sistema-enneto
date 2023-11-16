@@ -37,7 +37,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
-                                    <input formControlName="telefono" class="form-control" type="text"
+                                    <input formControlName="telefono" class="form-control" type="number"
                                         [ngClass]="{'is-invalid': isInvalid('telefono')}">
                                     <div *ngIf="isInvalid('telefono') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('telefono')|| mostrarErrores">
@@ -74,7 +74,7 @@
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumentoId" class="form-control select"
-                                        placeholder="Seleccionar Tipo de Documento">
+                                        placeholder="Seleccionar">
                                         <mat-option value="dni">DNI</mat-option>
                                         <mat-option value="ruc">RUC</mat-option>
                                         <mat-option value="pasaporte">Pasaporte</mat-option>
@@ -91,13 +91,35 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Número de Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" class="form-control" type="text"
+                                    <input formControlName="documento" class="form-control" type="number"
                                         [ngClass]="{'is-invalid': isInvalid('documento')}">
                                     <div *ngIf="isInvalid('documento') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('documento')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Foto <span class="login-danger">*</span></label>
+                                    <input formControlName="foto" type="file" accept="image/*" (change)="handleFileInput($event)" class="form-control">
+                                    <div *ngIf="isInvalid('foto') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('foto') || mostrarErrores">Debe seleccionar una foto*</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                <label>Rol <span class="login-danger">*</span></label>
+                                <mat-select formControlName="rolId" class="form-control select" placeholder="Seleccionar Rol">
+                                    <mat-option value="rol1">Rol 1</mat-option>
+                                    <mat-option value="rol2">Rol 2</mat-option>
+                                    <mat-option value="rol2">Rol 3</mat-option>
+                                </mat-select>
+                                  <div *ngIf="isInvalid('rol') || mostrarErrores" class="invalid-feedback">
+                                    <div *ngIf="isRequerido('rol') || mostrarErrores">Debe seleccionar un rol*</div>
+                                </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
@@ -115,15 +137,17 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Contraseña <span class="login-danger">*</span></label>
-                                    <input formControlName="passwordUsuario" class="form-control" type="password"
-                                        [ngClass]="{'is-invalid': isInvalid('passwordUsuario')}">
+                                    <div class="input-group">
+                                        <input formControlName="passwordUsuario" id="passwordInput" class="form-control" type="password">
+                                        <button type="button" class="btn btn-outline-secondary" (click)="togglePasswordVisibility()">
+                                            <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword}"></i>
+                                        </button>
+                                    </div>
                                     <div *ngIf="isInvalid('passwordUsuario') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('passwordUsuario')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
+                                        <div *ngIf="isRequerido('passwordUsuario') || mostrarErrores">Debe completar el campo*</div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>

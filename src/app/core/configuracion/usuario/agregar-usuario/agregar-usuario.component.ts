@@ -16,6 +16,7 @@ export class AgregarUsuarioComponent {
   usuario: Usuario = new Usuario();
   form!: FormGroup;
   public mostrarErrores = false;
+  showPassword = false;
 
   constructor(public bsModalRef: BsModalRef, private usuarioService: UsuarioService, public fb: FormBuilder) {
     this.form = this.fb.group({
@@ -26,7 +27,7 @@ export class AgregarUsuarioComponent {
       email: ['', [Validators.required, Validators.email]],
       tipoDocumentoId: ['', Validators.required],
       documento: ['', Validators.required],
-      foto: [''],
+      foto: [null, Validators.required],
       rolId: ['', Validators.required],
       loginUsuario: ['', Validators.required],
       passwordUsuario: ['', Validators.required],
@@ -55,6 +56,11 @@ export class AgregarUsuarioComponent {
     });
   }
 
+  handleFileInput(event: any) {
+    const file = event.target.files[0];
+    this.form.get('foto')?.setValue(file);
+  }
+
   crearUsuario() {
     if (this.form.invalid) {
       this.isTouched();
@@ -68,6 +74,8 @@ export class AgregarUsuarioComponent {
     this.usuario.email = this.form.get('email')?.value;
     this.usuario.tipoDocumentoId = this.form.get('tipoDocumentoId')?.value;
     this.usuario.documento = this.form.get('documento')?.value;
+    this.usuario.foto = this.form.get('foto')?.value;
+    this.usuario.rolId = this.form.get('rolId')?.value;
 
     this.usuarioService.crearUsuario(this.usuario).subscribe(
       (response) => {
@@ -81,5 +89,20 @@ export class AgregarUsuarioComponent {
       (error) => {
         console.error(error);
       });
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+    const passwordControl = this.form.get('passwordUsuario');
+        if (passwordControl) {
+            const inputType = this.showPassword ? 'text' : 'password';
+            passwordControl.get('passwordUsuario')?.setValue('');
+            passwordControl.get('passwordUsuario')?.setValidators([Validators.required]);
+            passwordControl.get('passwordUsuario')?.updateValueAndValidity();
+
+            const inputElement = document.getElementById('passwordInput');
+            if (inputElement) {
+            inputElement.setAttribute('type', inputType);
+      }
+    }
   }
 }
