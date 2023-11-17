@@ -48,6 +48,8 @@ export class EditarProductoComponent {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
-
+  Cancelar() {
+    this.bsModalRef.hide();
+  }
   
 }
