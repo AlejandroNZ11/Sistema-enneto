@@ -3,6 +3,7 @@ export class categoria {
     usuarioId = "";
     nombre= "";
     descripcion= "";
+    estado= "";
 }
 export interface Icategoria {
     categoriaMaterialesId: string;

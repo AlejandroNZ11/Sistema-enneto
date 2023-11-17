@@ -17,6 +17,7 @@ export class AlergiasService {
   obtenerAlergias(clinicaId: string, page: number, rows: number): Observable<DataAlergias> {
     return this.http.get<DataAlergias>(this.apiUrl + `/Alergias/GetAllAlergia?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
+  
   crearAlergia(alergia: alergias): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Alergias/SaveAlergia', alergia).pipe(
       catchError(error => {
@@ -25,8 +26,14 @@ export class AlergiasService {
       })
     );
   }
+  obtenerAlergia( alergiasId: string): Observable<Ialergias> {
+    return this.http.get<Ialergias>(this.apiUrl + `/Alergias/GetAlergia/${alergiasId}`);
+  }
+  eliminarAlergia( especialidadId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Alergias/DeleteAlergia/${especialidadId}`);
+  }
   actualizarAlergia(alergia: Ialergias): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Alergias/${alergia.alergiasId}`, alergia).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Alergias/UpdateAlergia/${alergia.alergiaId}`, alergia).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
