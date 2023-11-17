@@ -41,7 +41,6 @@ export class usuarioResponse {
     apellido = "";
     nombre = "";
     email = "";
-    rolId = "";
     loginUsuario = "";
     fechaRegistro = "";
 }
