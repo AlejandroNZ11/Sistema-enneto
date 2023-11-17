@@ -12,6 +12,43 @@
                 </div>
             </div>
         </div>
+        <div class="page-table-header mb-2">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="doctor-table-blk">
+                        <div class="doctor-search-blk">
+                            <div class="top-nav-search table-search-blk">
+                                <input [(ngModel)]="fechaDesde" style='height:48px' class="form-control"
+                                    type="text" placeholder="Desde" matInput [matDatepicker]="picker"
+                                    (ngModelChange)="aplicarFiltro()">
+                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                            </div>
+                            <div class="top-nav-search table-search-blk">
+                                <input [(ngModel)]="fechaHasta" style='height:48px' class="form-control"
+                                    type="text" placeholder="Hasta" matInput [matDatepicker]="picker2"
+                                    (ngModelChange)="aplicarFiltro()">
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
+                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                            </div>
+                            <div class="form-group mx-3 mt-3">
+                                <div class="dropdown">
+                                    <select class="form-control select custom-select">
+                                        <option value="default">--Rol--</option>
+                                        <option value="value1"><i class="fa fa-ellipsis-v"></i> Doctor</option>
+                                        <option value="value2"><i class="fa fa-ellipsis-v"></i> Administrador</option>
+                                        <option value="value3"><i class="fa fa-ellipsis-v"></i> Secretaria</option>
+                                        <option value="value3"><i class="fa fa-ellipsis-v"></i> Asistente</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
