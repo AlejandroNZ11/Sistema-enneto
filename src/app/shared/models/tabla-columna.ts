@@ -14,6 +14,7 @@ import { rolResponse } from "./rol";
 import { MarcaResponse } from "./marca";
 import { PresentacionResponse } from "./presentacion";
 import { UnidadResponse } from "./unidades";
+import { usuarioResponse } from "./usuario";
 
 
 export interface Accion<T = any> {
@@ -50,6 +51,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Marca': clase = new MarcaResponse(); break;
     case 'Presentacion': clase = new PresentacionResponse(); break;
     case 'Unidad': clase = new UnidadResponse(); break;
+    case 'Usuario': clase = new usuarioResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
