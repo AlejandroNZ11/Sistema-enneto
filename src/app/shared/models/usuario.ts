@@ -40,14 +40,8 @@ export interface IUsuario {
 export class usuarioResponse {
     apellido = "";
     nombre = "";
-    telefono = "";
-    direccion = "";
     email = "";
-    tipoDocumentoId = "";
-    documento = "";
-    foto = "";
     rolId = "";
     loginUsuario = "";
-    passwordUsuario = "";
     fechaRegistro = "";
 }
