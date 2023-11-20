@@ -10,12 +10,14 @@ import { ProveedorComponent } from './proveedor/proveedor.component';
 import { OperacionesComponent } from './operaciones.component';
 import { OperacionesRoutingModule } from './operaciones-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MarcasMaterialesComponent } from './marcas-materiales/marcas-materiales.component';
 
 
 
 @NgModule({
   declarations: [
-    OperacionesComponent
+    OperacionesComponent,
+    MarcasMaterialesComponent
   ],
   imports: [
     CommonModule,
