@@ -51,5 +51,18 @@ export class EditarProductoComponent {
   Cancelar() {
     this.bsModalRef.hide();
   }
-  
+  guardarPorducto() {
+    if (!this.producto|| this.form.invalid) {
+      this.mostrarErrores = true;
+      return;
+    }
+    const productoActualizado: Iproducto = {
+      id: this.producto.id,
+      nombre: this.form.value.nombre,
+      descripcion: this.form.value.descripcion,
+      fecha:this.form.value.fecha,
+      stock:this.form.value.stock,
+      estado:this.form.value.estado,
+    };
+  }
 }
