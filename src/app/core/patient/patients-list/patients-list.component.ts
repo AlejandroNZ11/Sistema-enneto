@@ -8,6 +8,9 @@ import Swal from 'sweetalert2';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { PacienteListData, PacienteList, PacienteRequest } from 'src/app/shared/models/paciente';
 import { environment } from 'src/environments/environments';
+import { TipoPacienteService } from 'src/app/shared/services/tipo-paciente.service';
+import { ItipoPaciente } from 'src/app/shared/models/tipoPaciente';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-patients-list',
@@ -35,30 +38,39 @@ export class PatientsListComponent implements OnInit {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
+  tiposPacientes!: ItipoPaciente[];
+  isLoading = false;
 
-  constructor(public data : DataService, public pacienteService: PacienteService){
+  constructor(public data: DataService, public pacienteService: PacienteService, public tipoPacienteService: TipoPacienteService) {
 
   }
   ngOnInit() {
+    this.tipoPacienteService.obtenerTipoPacientes().subscribe(data => { this.tiposPacientes = data; })
     this.obtenerDatosPacientesSinFiltro();
   }
   private obtenerDatosPacientesSinFiltro(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
-    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize).subscribe((data: PacienteListData) => {
-      this.totalData = data.totalData;
-      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-        const serialNumber = index + 1;
-        this.serialNumberArray.push(serialNumber);
-      }
-      this.patientsList = data.data;
-      this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
+    this.isLoading = true;
+    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe((data: PacienteListData) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.patientsList = data.data;
+        this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+      });
   }
   obtenerDatosPacientesConFiltro(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
+    this.isLoading = true;
     let fechaInicioFormateado = undefined
     let fechaFinFormateado = undefined
     let paciente = undefined
@@ -75,7 +87,10 @@ export class PatientsListComponent implements OnInit {
     if (this.tipoPaciente != "") {
       tipoPaciente = this.tipoPaciente;
     }
-    this.pacienteService.obtenerPacientes(environment.clinicaId, this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
       .subscribe((data: PacienteListData) => {
         this.totalData = data.totalData;
         for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
@@ -87,11 +102,18 @@ export class PatientsListComponent implements OnInit {
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
   }
-  formatoFecha(fecha:string) :string{
-    const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
+  limpiarCampos() {
+    this.fechaInicio = '';
+    this.fechaFin = '';
+    this.paciente = '';
+    this.tipoPaciente = '';
+    this.obtenerDatosPacientesSinFiltro();
+  }
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}-${mes}-${anio}`;
   }
-  
+
   eliminar(pacienteId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
@@ -120,7 +142,7 @@ export class PatientsListComponent implements OnInit {
 
   }
 
-  
+
 
   public sortData(sort: Sort) {
     const data = this.patientsList.slice();
@@ -129,9 +151,9 @@ export class PatientsListComponent implements OnInit {
       this.patientsList = data;
     } else {
       this.patientsList = data.sort((a, b) => {
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
-         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
         return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
       });

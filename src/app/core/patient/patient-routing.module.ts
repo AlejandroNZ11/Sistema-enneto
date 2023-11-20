@@ -55,7 +55,7 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'editar-paciente',
+      path: 'editar-paciente/:pacienteId',
       loadChildren: () =>
         import('./edit-patient/edit-patient.module').then(
           (m) => m.EditPatientModule

@@ -7,7 +7,7 @@ export class PacienteRequest {
     Edad = '';
     Ocupacion = '';
     Direccion = '';
-    GradoInstruccionId = '';
+    EstudioId = '';
     PaisId = '';
     DepartamentoId = '';
     ProvinciaId = '';
@@ -16,7 +16,7 @@ export class PacienteRequest {
     TipoPacienteId = '';
     EstadoCivil = '';
     Sexo = '';
-    FormaEnteroClinica = '';
+    InformacionClinicaId = '';
     NombreContacto = '';
     TipoHistoria = '';
     AseguradoraId = '';
@@ -39,14 +39,14 @@ export interface PacienteList {
     edad: string;
     ocupacion: string;
     direccion: string;
-    gradoInstruccionId: string;
+    estudioId: string;
     paisId: string;
     ubigeo: string;
     celular: string;
     tipoPacienteId: string;
     estadoCivil: string;
     sexo: string;
-    formaEnteroClinica: string;
+    informacionClinicaId: string;
     nombreContacto: string;
     tipoHistoria: string;
     aseguradoraId: string;
@@ -65,36 +65,35 @@ export interface PacienteListData {
 }
 export interface PacienteEditar {
     pacienteId: string;
-    nombre: string;
-    apellido: string;
+    nombres: string;
+    apellidos: string;
+    fechaNacimiento: Date;
+    tipoDocumentoId: string;
+    numeroDocumento: string;
     edad: string;
     ocupacion: string;
     direccion: string;
-    lugarNacimiento: string;
-    informacionClinica: string;
-    sexo: string;
-    foto: string;
-    estadoCivil: string;
-    afiliacion: string;
-    email: string;
-    observacion: string;
-    estudios: string;
-    fechaNacimiento: Date;
-    pacienteAlergias: string;
-    titulo: string;
-    detalleOdontograma: string;
-    celular: string;
-    tipoDocumento: string;
-    numeroDocumento: string;
+    estudioId: string;
     paisId: string;
-    departamentoId: string;
-    provinciaId: string;
-    distritoId: string;
+    ubigeo: string;
+    celular: string;
     tipoPacienteId: string;
-    historia: string;
-    empresa: string;
-    fechaRegistro: string;
+    estadoCivil: string;
+    sexo: string;
+    informacionClinicaId: string;
+    nombreContacto: string;
+    tipoHistoria: string;
+    aseguradoraId: string;
+    empresaId: string;
+    email: string;
+    fotoPaciente: string;
+    titulo: string;
+    observacion: string;
+    sedeId: string;
+    fechaRegistro: Date;
     estado: string;
+    clinicaId: string;
+    usuarioId: string;
 }
 export interface PacienteByDNI {
     apellido_materno: string

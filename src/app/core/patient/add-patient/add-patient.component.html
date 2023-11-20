@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.addPatient">Pacientes</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.registroPac">Pacientes</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">Agregar Paciente</li>
                     </ul>
@@ -157,17 +157,17 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Grado de Instruccion <span class="login-danger">*</span></label>
-                                        <mat-select formControlName="gradoInstruccionId"
-                                            [(ngModel)]="paciente.GradoInstruccionId" class="form-control select"
+                                        <mat-select formControlName="estudioId"
+                                            [(ngModel)]="paciente.EstudioId" class="form-control select"
                                             placeholder="Seleccione Grado de Instruccion"
-                                            [ngClass]="{'is-invalid': isInvalid('gradoInstruccionId') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of gradosInstruccion" [value]="data.value">
-                                                {{data.name}}
+                                            [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of gradosInstruccion" [value]="data.estudioId">
+                                                {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('gradoInstruccionId') && isFormSubmitted"
+                                        <div *ngIf="isInvalid('estudioId') && isFormSubmitted"
                                             class="invalid-feedback">
-                                            <div *ngIf="isRequerido('gradoInstruccionId')">
+                                            <div *ngIf="isRequerido('estudioId')">
                                                 Debe completar el campo*
                                             </div>
                                         </div>
@@ -179,8 +179,8 @@
                                         <mat-select formControlName="estadoCivil" [(ngModel)]="paciente.EstadoCivil"
                                             class="form-control select" placeholder="Seleccione Estado Civil"
                                             [ngClass]="{'is-invalid': isInvalid('estadoCivil') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of estadosCiviles" [value]="data.value">
-                                                {{data.name}}
+                                            <mat-option *ngFor="let data of estadosCiviles" [value]="data.siglas">
+                                                {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('estadoCivil') && isFormSubmitted"
@@ -343,8 +343,8 @@
                                             [(ngModel)]="paciente.TipoPacienteId" class="form-control select"
                                             placeholder="Seleccione Tipo Paciente"
                                             [ngClass]="{'is-invalid': isInvalid('tipoPacienteId') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of tiposPacientes" [value]="data.value">
-                                                {{data.name}}
+                                            <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
+                                                {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoPacienteId') && isFormSubmitted"
@@ -376,17 +376,17 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Entero de la Clinica<span class="login-danger">*</span></label>
-                                        <mat-select formControlName="formaEnteroClinica"
-                                            [(ngModel)]="paciente.FormaEnteroClinica" class="form-control select"
+                                        <mat-select formControlName="informacionClinica"
+                                            [(ngModel)]="paciente.InformacionClinicaId" class="form-control select"
                                             placeholder="Seleccione una Opcion"
-                                            [ngClass]="{'is-invalid': isInvalid('formaEnteroClinica') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of infoClinicas" [value]="data.value">
+                                            [ngClass]="{'is-invalid': isInvalid('informacionClinica') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of infoClinicas" [value]="data.informacionClinicaId">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('formaEnteroClinica') && isFormSubmitted"
+                                        <div *ngIf="isInvalid('informacionClinica') && isFormSubmitted"
                                             class="invalid-feedback">
-                                            <div *ngIf="isRequerido('formaEnteroClinica')">
+                                            <div *ngIf="isRequerido('informacionClinica')">
                                                 Debe completar el campo*
                                             </div>
                                         </div>
@@ -417,8 +417,8 @@
                                         <mat-select formControlName="empresaId" [(ngModel)]="paciente.EmpresaId"
                                             class="form-control select" placeholder="Seleccione una Opcion"
                                             [ngClass]="{'is-invalid': isInvalid('empresaId') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of empresas" [value]="data.value">
-                                                {{data.name}}
+                                            <mat-option *ngFor="let data of empresas" [value]="data.empresaId">
+                                                {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('empresaId') && isFormSubmitted" class="invalid-feedback">

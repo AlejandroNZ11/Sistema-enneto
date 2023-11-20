@@ -47,13 +47,21 @@
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                       </div>
                       <div class="top-nav-search table-search-blk">
-                        <input class="form-control" placeholder="Tipo Paciente" [(ngModel)]="tipoPaciente">
+                        <mat-select [(ngModel)]="tipoPaciente" class="form-control select"
+                          placeholder="Seleccione Tipo Paciente">
+                          <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
+                            {{data.nombre}}
+                          </mat-option>
+                        </mat-select>
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                       </div>
                       <div class="add-group">
                         <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2"><img
                             src="assets/img/icons/plus.svg" alt=""></a>
                         <a (click)="obtenerDatosPacientesConFiltro()" href="javascript:;"
+                          class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/search-normal.svg"
+                            alt=""></a>
+                        <a (click)="limpiarCampos()" href="javascript:;"
                           class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
                             alt=""></a>
                       </div>
@@ -62,16 +70,16 @@
                 </div>
                 <div class="col-auto text-end float-end ms-auto download-grp">
                   <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
-                  <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
                   <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
-
                 </div>
               </div>
             </div>
+            <div *ngIf="isLoading" class="spinner-container">
+              <div class="custom-spinner"></div>
+          </div>
             <!-- /Table Header -->
 
-            <div class="table-responsive">
+            <div *ngIf="!isLoading" class="table-responsive">
               <table matSort (matSortChange)="sortData($event)"
                 class="table border-0 custom-table comman-table datatable mb-0">
                 <thead>
@@ -95,7 +103,9 @@
                       {{data.nombres}} {{data.apellidos}}
                     </td>
                     <td>{{data.edad}}</td>
-                    <td>{{data.tipoPacienteId}}</td>
+                    <td><button class="custom-badge status-red" *ngIf="data.tipoPacienteId=='1'">Clasico</button>
+                      <button class="custom-badge status-orange" *ngIf="data.tipoPacienteId=='2'">VIP</button>
+                    </td>
                     <td>{{data.numeroDocumento}}</td>
                     <td>{{data.direccion}}</td>
                     <td>{{formatoFecha(data.fechaRegistro)}}</td>

@@ -4,48 +4,48 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { PacienteByDNIResponse, PacienteListData, PacienteRequest, PacienteList } from '../models/paciente';
+import { PacienteByDNIResponse, PacienteListData, PacienteRequest, PacienteList, PacienteEditar } from '../models/paciente';
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class PacienteService {
-    apiUrl = environment.apiURL;
-    constructor(public http: HttpClient) { }
-    
-    obtenerPacientes(clinicaId: string, page: number, rows: number,
-        fechaInicio?: string, fechaFin?: string, paciente?: string, tipoPaciente?: string): Observable<PacienteListData> {
-        let url = `${this.apiUrl}/Pacientes/GetAllPaciente?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
-        if (fechaInicio) {
-          url += `&fechaInicio=${fechaInicio}`;
-        }
-        if (fechaFin) {
-          url += `&fechaFin=${fechaFin}`;
-        }
-        if (paciente) {
-          url += `&paciente=${paciente}`;
-        }
-        if (tipoPaciente) {
-          url += `&tipoPaciente${tipoPaciente}`;
-        }
-        return this.http.get<PacienteListData>(url);
-      }
-    getPaciente(IdEntidad: string): Observable<PacienteByDNIResponse> {
-		let url = `?IdEntidad=${IdEntidad}`;
-		return this.http.get<PacienteByDNIResponse>(this.apiUrl + `/Pacientes/dni/${IdEntidad}`);
-	}
-    crearPaciente(paciente: FormData): Observable<successResponse> {
-        return this.http.post<successResponse>(this.apiUrl + '/Pacientes/SavePaciente', paciente).pipe(
-            catchError(error => {
-                Swal.fire('Error', error.error, 'warning');
-                return throwError(() => error);
-            })
-        );
+  apiUrl = environment.apiURL;
+  constructor(public http: HttpClient) { }
+
+  obtenerPacientes(page: number, rows: number,
+    fechaInicio?: string, fechaFin?: string, paciente?: string, tipoPaciente?: string): Observable<PacienteListData> {
+    let url = `${this.apiUrl}/Pacientes/GetAllPaciente?page=${page}&rows=${rows}`;
+    if (fechaInicio) {
+      url += `&FechaInicio=${fechaInicio}`;
     }
-    obtenerPaciente(pacienteId: string): Observable<PacienteList> {
-        return this.http.get<PacienteList>(this.apiUrl + `/Pacientes/GetPaciente/${pacienteId}`);
+    if (fechaFin) {
+      url += `&FechaFin=${fechaFin}`;
     }
-    eliminarPaciente(pacienteId: string): Observable<successResponse> {
-        return this.http.delete<successResponse>(this.apiUrl + `/Pacientes/DeletePaciente/${pacienteId}`);
+    if (paciente) {
+      url += `&Paciente=${paciente}`;
     }
+    if (tipoPaciente) {
+      url += `&TipoPacienteId=${tipoPaciente}`;
+    }
+    return this.http.get<PacienteListData>(url);
+  }
+  getPaciente(IdEntidad: string): Observable<PacienteByDNIResponse> {
+    let url = `?IdEntidad=${IdEntidad}`;
+    return this.http.get<PacienteByDNIResponse>(this.apiUrl + `/Pacientes/GetPacienteByDni/${IdEntidad}`);
+  }
+  crearPaciente(paciente: FormData): Observable<successResponse> {
+    return this.http.post<successResponse>(this.apiUrl + '/Pacientes/SavePaciente', paciente).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
+  }
+  obtenerPaciente(pacienteId: string): Observable<PacienteEditar> {
+    return this.http.get<PacienteEditar>(this.apiUrl + `/Pacientes/GetPaciente/${pacienteId}`);
+  }
+  eliminarPaciente(pacienteId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Pacientes/DeletePaciente/${pacienteId}`);
+  }
 }
 
