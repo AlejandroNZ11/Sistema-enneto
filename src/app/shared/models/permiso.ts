@@ -28,8 +28,8 @@ export interface IPermiso {
 export class permisoResponse {
     modulo = '';
     cargo = '';
-    leer = false;
-    insertar = false;
-    actualizar = false;
-    anular = false;
+    leer = '';
+    insertar = '';
+    actualizar = '';
+    anular = '';
 }
