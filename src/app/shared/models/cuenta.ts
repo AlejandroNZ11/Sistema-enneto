@@ -9,8 +9,8 @@ export class cuenta {
     data: Icuenta[];
   }
   export interface Icuenta {
-    cuentaId: string;
+    cuentaPagarId: string;
     nombre: string;
-    balance: number;
+    total: 0;
     estado:string;
   }

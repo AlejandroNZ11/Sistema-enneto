@@ -29,7 +29,7 @@ export class EditarCuentaComponent implements OnInit {
     if (this.cuentaSeleccionada) {
       this.form.patchValue({
         nombre: this.cuentaSeleccionada.nombre,
-        balance: this.cuentaSeleccionada.balance,
+        balance: this.cuentaSeleccionada.total,
         estado: this.cuentaSeleccionada.estado,
       });
     }
@@ -56,9 +56,9 @@ export class EditarCuentaComponent implements OnInit {
     }
   
     const cuentaActualizada: Icuenta = {
-      cuentaId: this.cuentaSeleccionada.cuentaId,
+      cuentaPagarId: this.cuentaSeleccionada.cuentaPagarId,
       nombre: this.form.value.nombre,
-      balance: this.form.value.balance,
+      total: this.form.value.balance,
       estado: this.form.value.estado,
     };
   

@@ -15,10 +15,10 @@ export class CuentaService {
   constructor(public http: HttpClient,) { }
 
   obtenerCuentas(clinicaId: string, page: number, rows: number): Observable<DataCuenta> {
-    return this.http.get<DataCuenta>(this.apiUrl + `/Cuentas/GetAllCuenta?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataCuenta>(this.apiUrl + `/CuentasPagar/GetAllCuentaPagar?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   crearCuenta(cuenta: cuenta): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Cuentas/SaveCuenta', cuenta).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/CuentasPagar/SaveCuentaPagar', cuenta).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -26,13 +26,13 @@ export class CuentaService {
     );
   }
   obtenerCuenta( cuentaId: string): Observable<Icuenta> {
-    return this.http.get<Icuenta>(this.apiUrl + `/Cuentas/GetCuenta/${cuentaId}`);
+    return this.http.get<Icuenta>(this.apiUrl + `/CuentasPagar/GetCuentaPagar${cuentaId}`);
   }
   eliminarCuenta( cuentaId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Cuentas/DeleteCuenta/${cuentaId}`);
+    return this.http.delete<successResponse>(this.apiUrl + `/CuentasPagar/DeleteCuentaPagar/${cuentaId}`);
   }
   actualizarCuenta(cuenta: Icuenta): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Cuentas/${cuenta.cuentaId}`, cuenta).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/CuentasPagar/UpdateCuentaPagar/${cuenta.cuentaPagarId}`, cuenta).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
