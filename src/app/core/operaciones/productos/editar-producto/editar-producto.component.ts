@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Iproducto } from 'src/app/shared/models/producto';
 import { routes } from 'src/app/shared/routes/routes';
 import { OperacionesService } from 'src/app/shared/services/operaciones.service';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-editar-producto',
   templateUrl: './editar-producto.component.html',
@@ -64,5 +65,17 @@ export class EditarProductoComponent {
       stock:this.form.value.stock,
       estado:this.form.value.estado,
     };
+    this.OperacionesService.actualizarProducto(productoActualizado).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }
