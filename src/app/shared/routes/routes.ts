@@ -139,9 +139,8 @@ export class routes {
   public static get especialidadCat(): string {
     return this.baseUrl + '/catalogo/especialidad';
   }
-
   public static get clienteCat(): string {
-    return this.baseUrl + '/catalogo/cliente';
+    return this.baseUrl + '/catalogo/clientes';
   }
   public static get apoderadoCat(): string {
     return this.baseUrl + '/catalogo/apoderado';
