@@ -10,6 +10,7 @@ import { environment as env } from 'src/environments/environments';
 import { FormsModule } from '@angular/forms';
 import { TablaComponent } from './common-component/tabla/tabla.component';
 import { TablaModule } from './common-component/tabla/tabla.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { TablaModule } from './common-component/tabla/tabla.module';
     SharedModule,
     FormsModule ,
     TablaModule,
+    MatCheckboxModule,
     AuthModule.forRoot({
       domain: env.domain,
       clientId: env.clientId,
