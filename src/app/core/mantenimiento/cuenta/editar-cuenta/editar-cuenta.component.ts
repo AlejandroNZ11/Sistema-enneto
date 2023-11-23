@@ -20,7 +20,7 @@ export class EditarCuentaComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private cuentaService: CuentaService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      balance: ['', Validators.required],
+      total: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
@@ -29,7 +29,7 @@ export class EditarCuentaComponent implements OnInit {
     if (this.cuentaSeleccionada) {
       this.form.patchValue({
         nombre: this.cuentaSeleccionada.nombre,
-        balance: this.cuentaSeleccionada.total,
+        total: this.cuentaSeleccionada.total,
         estado: this.cuentaSeleccionada.estado,
       });
     }
@@ -58,8 +58,8 @@ export class EditarCuentaComponent implements OnInit {
     const cuentaActualizada: Icuenta = {
       cuentaPagarId: this.cuentaSeleccionada.cuentaPagarId,
       nombre: this.form.value.nombre,
-      total: this.form.value.balance,
-      estado: this.form.value.estado,
+      total: this.form.value.total,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
   
     this.cuentaService.actualizarCuenta(cuentaActualizada).subscribe(

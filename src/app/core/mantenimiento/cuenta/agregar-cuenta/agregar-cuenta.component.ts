@@ -23,7 +23,7 @@ export class AgregarCuentaComponent implements OnInit{
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      total: ['', Validators.required],
     });
   }
 
@@ -49,7 +49,6 @@ export class AgregarCuentaComponent implements OnInit{
       return;
     }
     this.Cuenta.nombre = this.form.get("nombre")?.value;
-    this.Cuenta.descripcion = this.form.get("descripcion")?.value;
     console.log(this.Cuenta);
     this.cuentaService.crearCuenta(this.Cuenta).subscribe(
       (response)=>{
