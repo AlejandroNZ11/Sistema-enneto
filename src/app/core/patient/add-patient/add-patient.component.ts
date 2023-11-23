@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -57,7 +59,7 @@ export class AddPatientComponent implements OnInit {
   distritos!: Idistrito[];
   departamento!: string;
   provincia!: string;
-  edad!:number;
+  edad!: number;
   aseguradoras!: Iaseguradoras[];
   estadosCiviles!: IestadoCivil[];
   tiposPacientes!: ItipoPaciente[];
@@ -86,7 +88,7 @@ export class AddPatientComponent implements OnInit {
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
       fechaNacimiento: ['', [Validators.required, this.fechaNacimientoValidator()]],
       edad: [{ value: '', disabled: true }, [Validators.maxLength(2), Validators.minLength(1), Validators.required]],
-      ocupacion: ['', [Validators.required, Validators.maxLength(100)]],
+      ocupacion: ['', [Validators.maxLength(100)]],
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       estudioId: ['', [Validators.required, Validators.maxLength(100)]],
       paisId: ['', [Validators.required, Validators.maxLength(100)]],
@@ -98,7 +100,7 @@ export class AddPatientComponent implements OnInit {
       estadoCivil: ['', [Validators.required, Validators.maxLength(100)]],
       sexo: [getCheckedSexo, [Validators.required]],
       informacionClinica: ['', [Validators.required, Validators.maxLength(100)]],
-      nombreContacto: ['', [Validators.required, Validators.maxLength(100)]],
+      nombreContacto: ['', [Validators.maxLength(100)]],
       tipoHistoria: ['', [Validators.required, Validators.maxLength(100)]],
       aseguradoraId: ['', [Validators.maxLength(100)]],
       empresaId: ['', [Validators.maxLength(100)]],
@@ -109,8 +111,8 @@ export class AddPatientComponent implements OnInit {
     })
   }
   sexo_LISTA = [
-    { name: 'Masculino', value: 'Masculino', checked: false },
-    { name: 'Femenino', value: 'Femenino', checked: false },
+    { name: 'Masculino', value: 'M', checked: false },
+    { name: 'Femenino', value: 'F', checked: false },
   ]
   historiaPaciente_LISTA = [
     { name: 'ANTIGUO', value: 'A' },
@@ -222,7 +224,6 @@ export class AddPatientComponent implements OnInit {
   }
   isCantidadNroDocumento(controlName: string) {
     const control = this.form.get(controlName);
-    console.log(this.cantidad);
     if (control && control.value) {
       const cantidadCorrecta = this.cantidad;
       return control.value.length !== cantidadCorrecta;
@@ -295,6 +296,7 @@ export class AddPatientComponent implements OnInit {
     } else {
       this.paciente.Sexo = 'F'
     }
+    
     this.paciente.UsuarioId = this.usuarioId;
     const formData = new FormData();
     formData.append('TipoDocumentoId', this.paciente.TipoDocumentoId);
@@ -302,17 +304,17 @@ export class AddPatientComponent implements OnInit {
     formData.append('Apellidos', this.paciente.Apellidos);
     formData.append('Nombres', this.paciente.Nombres);
     formData.append('FechaNacimiento', this.paciente.FechaNacimiento.toISOString().split('T')[0]);
-    formData.append('Edad',this.paciente.Edad);
+    formData.append('Edad', this.paciente.Edad);
     formData.append('Estado', 'A');
-    formData.append('Ocupacion', this.paciente.Ocupacion);
+    if (this.paciente.Ocupacion) { formData.append('Ocupacion', this.paciente.Ocupacion); }
     formData.append('Direccion', this.paciente.Direccion);
-    formData.append('PaisId', this.paciente.PaisId);
-    formData.append('Ubigeo', this.paciente.Ubigeo);
+    formData.append('PaisId', this.paciente.PaisId.toString());
+    formData.append('Ubigeo', this.paciente.Ubigeo.toString());
     formData.append('Celular', this.paciente.Celular);
     formData.append('TipoPacienteId', this.paciente.TipoPacienteId);
     formData.append('EstadoCivil', this.paciente.EstadoCivil);
     formData.append('Sexo', this.paciente.Sexo);
-    formData.append('NombreContacto', this.paciente.NombreContacto);
+    if (this.paciente.NombreContacto) { formData.append('NombreContacto', this.paciente.NombreContacto); }
     formData.append('TipoHistoria', this.paciente.TipoHistoria);
     if (this.paciente.AseguradoraId) { formData.append('AseguradoraId', this.paciente.AseguradoraId); }
     if (this.paciente.EmpresaId) { formData.append('EmpresaId', this.paciente.EmpresaId); }

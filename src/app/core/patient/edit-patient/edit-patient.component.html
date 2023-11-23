@@ -8,7 +8,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.registroPac">Pacientes</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Agregar Paciente</li>
+                        <li class="breadcrumb-item active">Editar Paciente</li>
                     </ul>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form (ngSubmit)="actualizarPaciente()" [formGroup]="form">
-                            <div class="row">
+                            <div *ngIf="pacienteEditar" class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
                                         <h4>Datos del Paciente</h4>
@@ -42,7 +42,7 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Nombres <span class="login-danger">*</span></label>
-                                        <input formControlName="nombres" [(ngModel)]="pacienteEditar!.nombres"
+                                        <input formControlName="nombres" [(ngModel)]="pacienteEditar.nombres"
                                             class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('nombres') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('nombres') && isFormSubmitted" class="invalid-feedback">
@@ -67,9 +67,9 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Nombre Contacto <span class="login-danger">*</span></label>
+                                        <label>Nombre Contacto <span class="login-danger"></span></label>
                                         <input formControlName="nombreContacto"
-                                            [(ngModel)]="pacienteEditar!.nombreContacto" class="form-control"
+                                            [(ngModel)]="pacienteEditar!.contactoEmergencia" class="form-control"
                                             type="email"
                                             [ngClass]="{'is-invalid': isInvalid('nombreContacto') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('nombreContacto') && isFormSubmitted"
@@ -129,16 +129,14 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Grado de Instruccion <span class="login-danger">*</span></label>
-                                        <mat-select formControlName="estudioId"
-                                            [(ngModel)]="pacienteEditar!.estudioId" class="form-control select"
-                                            placeholder="Seleccione Grado de Instruccion"
+                                        <mat-select formControlName="estudioId" [(ngModel)]="pacienteEditar!.estudioId"
+                                            class="form-control select" placeholder="Seleccione Grado de Instruccion"
                                             [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
                                             <mat-option *ngFor="let data of gradosInstruccion" [value]="data.estudioId">
                                                 {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('estudioId') && isFormSubmitted"
-                                            class="invalid-feedback">
+                                        <div *ngIf="isInvalid('estudioId') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('estudioId')">
                                                 Debe completar el campo*
                                             </div>
@@ -149,7 +147,7 @@
                                     <div class="form-group local-forms">
                                         <label>Estado Civil <span class="login-danger">*</span></label>
                                         <mat-select formControlName="estadoCivil"
-                                            [(ngModel)]="pacienteEditar!.estadoCivil" class="form-control select"
+                                            [(ngModel)]="pacienteEditar!.estadoCivilId" class="form-control select"
                                             placeholder="Seleccione Estado Civil"
                                             [ngClass]="{'is-invalid': isInvalid('estadoCivil') && isFormSubmitted}">
                                             <mat-option *ngFor="let data of estadosCiviles" [value]="data.siglas">
@@ -353,8 +351,8 @@
                                     <div class="form-group local-forms">
                                         <label>Entero de la Clinica<span class="login-danger">*</span></label>
                                         <mat-select formControlName="informacionClinicaId"
-                                            [(ngModel)]="pacienteEditar!.informacionClinicaId" class="form-control select"
-                                            placeholder="Seleccione una Opcion"
+                                            [(ngModel)]="pacienteEditar!.informacionClinicaId"
+                                            class="form-control select" placeholder="Seleccione una Opcion"
                                             [ngClass]="{'is-invalid': isInvalid('informacionClinicaId') && isFormSubmitted}">
                                             <mat-option *ngFor="let data of infoClinicas"
                                                 [value]="data.informacionClinicaId">
@@ -461,8 +459,8 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
-                                        <button class="btn btn-primary submit-form me-2">Guardar</button>
-                                        <button [routerLink]="routes.patientsList"
+                                        <button (click)="actualizarPaciente()"  class="btn btn-primary submit-form me-2">Guardar</button>
+                                        <button [routerLink]="routes.registroPac"
                                             class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>

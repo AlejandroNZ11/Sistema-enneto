@@ -50,15 +50,14 @@
                                         <label>Nro. Documento <span class="login-danger">*</span></label>
                                         <div class="input-group">
                                             <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
-                                                [(ngModel)]="paciente.NumeroDocumento" class="form-control" type="text"
-                                                [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
-                                                [maxLength]='cantidad'>
-                                            <span class="icon-inside" *ngIf="paciente.TipoDocumentoId === '01'">
-                                                <i class="fa fa-search" (click)="obtenerPaciente()"></i>
-                                            </span>
+                                                   [(ngModel)]="paciente.NumeroDocumento" class="form-control" type="text"
+                                                   [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
+                                                   [maxLength]='cantidad'>
                                         </div>
-                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
-                                            class="invalid-feedback">
+                                        <span class="icon-outside" *ngIf="paciente.TipoDocumentoId === '01'">
+                                            <i class="fa fa-search" (click)="obtenerPaciente()"></i>
+                                        </span>
+                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('numeroDocumento')">
                                                 Debe completar el campo*
                                             </div>
@@ -96,7 +95,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Nombre Contacto <span class="login-danger">*</span></label>
+                                        <label>Nombre Contacto <span class="login-danger"></span></label>
                                         <input formControlName="nombreContacto" [(ngModel)]="paciente.NombreContacto"
                                             class="form-control" type="email"
                                             [ngClass]="{'is-invalid': isInvalid('nombreContacto') && isFormSubmitted}">
@@ -195,10 +194,10 @@
                                     <div class="form-group local-forms">
                                         <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
                                         <input formControlName="fechaNacimiento" [(ngModel)]="paciente.FechaNacimiento"
-                                            style='height:48px' class="form-control datetimepicker" type="text"
-                                            placeholder="" matInput [matDatepicker]="picker"
-                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
-                                            (ngModelChange)="actualizarEdad()">
+                                        style='height:48px' class="form-control datetimepicker" type="text"
+                                        placeholder="" matInput [matDatepicker]="picker"
+                                        [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
+                                        (ngModelChange)="actualizarEdad()">
                                         <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
@@ -325,7 +324,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Ocupacion <span class="login-danger">*</span></label>
+                                        <label>Ocupacion <span class="login-danger"></span></label>
                                         <input formControlName="ocupacion" [(ngModel)]="paciente.Ocupacion"
                                             class="form-control"
                                             [ngClass]="{'is-invalid': isInvalid('ocupacion') && isFormSubmitted}">
@@ -482,7 +481,7 @@
                                 <div class="col-12">
                                     <div class="doctor-submit text-end">
                                         <button class="btn btn-primary submit-form me-2">Guardar</button>
-                                        <button [routerLink]="routes.patientsList"
+                                        <button [routerLink]="routes.registroPac"
                                             class="btn btn-primary cancel-form">Cancel</button>
                                     </div>
                                 </div>

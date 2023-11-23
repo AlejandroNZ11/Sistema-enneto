@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +24,7 @@ import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { TipoPacienteService } from 'src/app/shared/services/tipo-paciente.service';
 import { UbicacionService } from 'src/app/shared/services/ubicacion.service';
 import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
+import Swal from 'sweetalert2';
 interface data {
   value: string;
 }
@@ -63,13 +66,14 @@ export class EditPatientComponent implements OnInit {
   gradosInstruccion!: IgradoInstruccion[];
   empresas!: Iempresa[];
   sedeId!: string;
+  usuarioId!: string;
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
       apellidos: ['', [Validators.required, Validators.maxLength(100)]],
       fechaNacimiento: ['', [Validators.required, this.fechaNacimientoValidator()]],
       edad: [{ value: '', disabled: true }, [Validators.maxLength(2), Validators.minLength(1), Validators.required]],
-      ocupacion: ['', [Validators.required, Validators.maxLength(100)]],
+      ocupacion: ['', [Validators.maxLength(100)]],
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       estudioId: ['', [Validators.required, Validators.maxLength(100)]],
       paisId: ['', [Validators.required, Validators.maxLength(100)]],
@@ -81,14 +85,15 @@ export class EditPatientComponent implements OnInit {
       estadoCivil: ['', [Validators.required, Validators.maxLength(100)]],
       sexo: ['', [Validators.required]],
       informacionClinicaId: ['', [Validators.required, Validators.maxLength(100)]],
-      nombreContacto: ['', [Validators.required, Validators.maxLength(100)]],
+      nombreContacto: ['', [Validators.maxLength(100)]],
       tipoHistoria: ['', [Validators.required, Validators.maxLength(100)]],
       aseguradoraId: ['', [Validators.maxLength(100)]],
-      empresaId: ['', [, Validators.maxLength(100)]],
+      empresaId: ['', [Validators.maxLength(100)]],
       email: ['', [Validators.maxLength(100), Validators.email]],
       fotoPaciente: ['', []],
-      titulo: ['', Validators.required],
-      observacion: ['', [, Validators.maxLength(100)]],
+      titulo: ['', []],
+      observacion: ['', [Validators.maxLength(100)]],
+      estado: ['', [Validators.required]],
     })
     this.ubicacionService.obtenerPaises().subscribe(data => { this.paises = data; })
     this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
@@ -101,31 +106,38 @@ export class EditPatientComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.pacienteId = params['pacienteId'];
     })
+    this.usuarioId = this.user.usuario.personalId.toString();
     this.sedeId = this.user.selectedSucursal.id.toString();
-    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe((paciente: PacienteEditar) => {
-      if (paciente) {
-        this.pacienteEditar = paciente;
-        this.imagenTempFoto = this.pacienteEditar.fotoPaciente;
-        this.sexoPaciente = this.pacienteEditar.sexo;
-        if (this.pacienteEditar.estado == "A") {
-          this.estadoPaciente = 1
-        } else {
-          this.estadoPaciente = 0
+    if (this.pacienteId != '') {
+      this.pacienteService.obtenerPaciente(this.pacienteId).subscribe(async (paciente: PacienteEditar) => {
+        if (paciente) {
+          this.pacienteEditar = paciente;
+          this.imagenTempFoto = this.pacienteEditar.foto;
+          this.sexoPaciente = this.pacienteEditar.sexo;
+          if (this.pacienteEditar.estado == "A") {
+            this.estadoPaciente = 1
+          } else {
+            this.estadoPaciente = 0
+          }
+          switch (this.pacienteEditar.tipoDocumentoId) {
+            case '01': this.tipoDocumento = 'DNI'; break;
+            case '06': this.tipoDocumento = 'RUC'; break;
+            case '07': this.tipoDocumento = 'PASAPORTE'; break;
+            case '04': this.tipoDocumento = 'CARNET EXTRANJERIA'; break;
+            case '00': this.tipoDocumento = 'OTROS'; break;
+          }
+          this.nroDocumento = paciente.numeroDocumento;
         }
-        switch (this.pacienteEditar.tipoDocumentoId) {
-          case '01': this.tipoDocumento = 'DNI'; break;
-          case '06': this.tipoDocumento = 'RUC'; break;
-          case '07': this.tipoDocumento = 'PASAPORTE'; break;
-          case '04': this.tipoDocumento = 'CARNET EXTRANJERIA'; break;
-          case '00': this.tipoDocumento = 'OTROS'; break;
-        }
-        this.nroDocumento = this.pacienteEditar.numeroDocumento;
-      }
-    })
+        const departamentoId = (this.pacienteEditar!.ubigeo.substring(0, 2));
+        const provinciaId = (this.pacienteEditar!.ubigeo.substring(0, 4));
+        this.cargarUbicacion(departamentoId, provinciaId);
+      })
+    }
   }
+
   sexo_LISTA = [
-    { name: 'Masculino', value: 'Masculino', checked: false },
-    { name: 'Femenino', value: 'Femenino', checked: false },
+    { name: 'Masculino', value: 'M', checked: false },
+    { name: 'Femenino', value: 'F', checked: false },
   ]
   historiaPaciente_LISTA = [
     { name: 'ANTIGUO', value: 'A' },
@@ -142,21 +154,44 @@ export class EditPatientComponent implements OnInit {
     { name: 'CARNET EXTRANJERIA', value: '04' },
     { name: 'OTROS', value: '00' },
   ]
-  actualizarProvincias() {
+  actualizarProvincias(id?: string) {
     if (this.departamento) {
-      const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento)!.departamentoId;
-      this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
-        this.provincias = data;
-      })
+      if (id) {
+        this.ubicacionService.obtenerProvincias(id).subscribe(data => {
+          this.provincias = data;
+        })
+      } else {
+        const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento!.toString())!.departamentoId;
+        this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
+          this.provincias = data;
+        })
+      }
     }
   }
-  actualizarDistritos() {
+  actualizarDistritos(id?: string) {
     if (this.provincia) {
-      const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia)!.provinciaId;
-      this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
-        this.distritos = data;
-      })
+      if (id) {
+        this.ubicacionService.obtenerDistritos(id).subscribe(data => {
+          this.distritos = data;
+        })
+      } else {
+        const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia!.toString())!.provinciaId;
+        this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
+          this.distritos = data;
+        })
+      }
     }
+  }
+
+  cargarUbicacion(departamento: string, provincia: string) {
+    this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
+    this.ubicacionService.obtenerProvincias(departamento).subscribe(data => {
+      this.provincias = data;
+      this.provincia = this.provincias.find(prov => prov.provinciaId === provincia)!.nombre;
+      this.ubicacionService.obtenerDistritos(provincia).subscribe(data => {
+        this.distritos = data;
+      });
+    })
   }
   deleteIconFunc() {
     this.deleteIcon = !this.deleteIcon
@@ -170,7 +205,6 @@ export class EditPatientComponent implements OnInit {
       const edadFecha: Date = new Date(edadMilisegundos);
       const edad: number = Math.abs(edadFecha.getUTCFullYear() - 1970);
       this.pacienteEditar.edad = edad.toString();
-      console.log(edad);
     } else {
       this.pacienteEditar.edad = '';
     }
@@ -263,8 +297,14 @@ export class EditPatientComponent implements OnInit {
     } else {
       this.pacienteEditar.estado = 'I'
     }
+    this.pacienteEditar.usuarioId = this.usuarioId;
     const formData = new FormData();
-    if (this.imagenSubirFoto) { formData.append('FotoPaciente', this.imagenSubirFoto, this.imagenSubirFoto.name) }
+    if (this.otraFoto) {
+      if (this.imagenSubirFoto) { formData.append('FotoPaciente', this.imagenSubirFoto, this.imagenSubirFoto.name) }
+    } else {
+      formData.append('FotoPaciente', this.pacienteEditar.foto)
+    }
+    formData.append('PacienteId', this.pacienteEditar.pacienteId);
     if (this.pacienteEditar.aseguradoraId) { formData.append('AseguradoraId', this.pacienteEditar.aseguradoraId); }
     if (this.pacienteEditar.observacion) { formData.append('Observacion', this.pacienteEditar.observacion); }
     if (this.pacienteEditar.titulo) { formData.append('Titulo', this.pacienteEditar.titulo); }
@@ -274,22 +314,41 @@ export class EditPatientComponent implements OnInit {
     formData.append('NumeroDocumento', this.pacienteEditar.numeroDocumento);
     formData.append('Apellidos', this.pacienteEditar.apellidos);
     formData.append('Nombres', this.pacienteEditar.nombres);
-    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toISOString().split('T')[0]);
+    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toString().split('T')[0]);
     formData.append('Edad', this.pacienteEditar.edad);
     formData.append('Ocupacion', this.pacienteEditar.ocupacion);
     formData.append('Direccion', this.pacienteEditar.direccion);
     formData.append('EstudioId', this.pacienteEditar.estudioId);
-    formData.append('PaisId', this.pacienteEditar.paisId);
-    formData.append('Ubigeo', this.pacienteEditar.ubigeo);
+    formData.append('PaisId', this.pacienteEditar.paisId.toString());
+    formData.append('Ubigeo', this.pacienteEditar.ubigeo.toString());
     formData.append('Celular', this.pacienteEditar.celular);
     formData.append('TipoPacienteId', this.pacienteEditar.tipoPacienteId);
-    formData.append('EstadoCivil', this.pacienteEditar.estadoCivil);
+    formData.append('EstadoCivilId', this.pacienteEditar.estadoCivilId);
     formData.append('Sexo', this.pacienteEditar.sexo);
     formData.append('InformacionClinicaId', this.pacienteEditar.informacionClinicaId);
-    formData.append('NombreContacto', this.pacienteEditar.nombreContacto);
+    formData.append('NombreContacto', this.pacienteEditar.contactoEmergencia);
     formData.append('TipoHistoria', this.pacienteEditar.tipoHistoria);
     formData.append('SedeId', this.sedeId);
     formData.append('ClinicaId', this.pacienteEditar.clinicaId);
     formData.append('UsuarioId', this.pacienteEditar.usuarioId);
+    formData.append('Estado', this.pacienteEditar.estado);
+    this.pacienteService.actualizarPaciente(formData, this.pacienteEditar.pacienteId).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire({
+            title: 'Actualizando...',
+            allowOutsideClick: false,
+          })
+          Swal.showLoading();
+          Swal.close();
+          Swal.fire('Correcto', 'Paciente actualizado en el sistema correctamente.', 'success');
+          this.router.navigate(['/paciente/registro']);
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }

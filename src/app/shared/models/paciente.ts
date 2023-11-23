@@ -8,10 +8,10 @@ export class PacienteRequest {
     Ocupacion = '';
     Direccion = '';
     EstudioId = '';
-    PaisId = '';
+    PaisId = 173;
     DepartamentoId = '';
     ProvinciaId = '';
-    Ubigeo = '';
+    Ubigeo = 0;
     Celular = '';
     TipoPacienteId = '';
     EstadoCivil = '';
@@ -67,7 +67,7 @@ export interface PacienteEditar {
     pacienteId: string;
     nombres: string;
     apellidos: string;
-    fechaNacimiento: Date;
+    fechaNacimiento: string;
     tipoDocumentoId: string;
     numeroDocumento: string;
     edad: string;
@@ -78,15 +78,15 @@ export interface PacienteEditar {
     ubigeo: string;
     celular: string;
     tipoPacienteId: string;
-    estadoCivil: string;
+    estadoCivilId: string;
     sexo: string;
     informacionClinicaId: string;
-    nombreContacto: string;
+    contactoEmergencia: string;
     tipoHistoria: string;
     aseguradoraId: string;
     empresaId: string;
     email: string;
-    fotoPaciente: string;
+    foto: string;
     titulo: string;
     observacion: string;
     sedeId: string;
@@ -103,7 +103,7 @@ export interface PacienteByDNI {
     direccion_completa: string
     nombres: string
     numero: number
-};
+}
 
 export interface PacienteByDNIResponse {
     data: PacienteByDNI

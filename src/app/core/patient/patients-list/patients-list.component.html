@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <div class="page-wrapper">
   <div class="content">
 
@@ -6,7 +7,7 @@
       <div class="row">
         <div class="col-sm-12">
           <ul class="breadcrumb">
-            <li class="breadcrumb-item"><a [routerLink]="routes.patientsList">Patients </a></li>
+            <li class="breadcrumb-item"><a [routerLink]="routes.patientsList">Pacientes </a></li>
             <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
             <li class="breadcrumb-item active">Lista Pacientes</li>
           </ul>
@@ -76,7 +77,7 @@
             </div>
             <div *ngIf="isLoading" class="spinner-container">
               <div class="custom-spinner"></div>
-          </div>
+            </div>
             <!-- /Table Header -->
 
             <div *ngIf="!isLoading" class="table-responsive">
@@ -130,9 +131,9 @@
               <div class="table_footer">
                 <div class="col-sm-12 col-md-5">
                   <div class="dataTables_info">
-                    Showing {{ serialNumberArray[0] }} to
-                    {{ serialNumberArray[serialNumberArray.length - 1] }} of
-                    {{ totalData }} entries
+                    Mostrando {{ serialNumberArray[0] }} a
+                    {{ serialNumberArray[serialNumberArray.length - 1] }} de
+                    {{ totalData }} entradas
                   </div>
                 </div>
 
