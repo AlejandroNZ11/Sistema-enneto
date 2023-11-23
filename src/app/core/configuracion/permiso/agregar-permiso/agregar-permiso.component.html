@@ -83,25 +83,49 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
-                                        <mat-option value="activo">Activo</mat-option>
-                                        <mat-option value="inactivo">Inactivo</mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('estado') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('estado')|| mostrarErrores">
-                                            Debe seleccionar un estado*
-                                        </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="read">Leer: </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="read" formControlName="read" value="1" checked="checked"> Si
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="read" formControlName="read" value="0" checked="checked"> No
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="insert">Insertar: </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="insert" formControlName="insert" value="1" checked="checked"> Si
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="insert" formControlName="insert" value="0" checked="checked"> No
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="update">Actualizar: </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="update" formControlName="update" value="1" checked="checked"> Si
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="update" formControlName="update" value="0" checked="checked"> No
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <label for="delete">Anular: </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="delete" formControlName="delete" value="1" checked="checked"> Si
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="delete" formControlName="delete" value="0" checked="checked"> No
+                                    </label>
+                                </div>
+                                <div class="col-12">
+                                    <div class="doctor-submit text-end">
+                                        <button type="submit" (click)="crearPermiso()" class="btn btn-primary submit-form me-2">Guardar</button>
+                                        <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="doctor-submit text-end">
-                                <button type="submit" (click)="crearPermiso()" class="btn btn-primary submit-form me-2">Guardar</button>
-                                <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
                             </div>
                         </div>
                     </form>

@@ -21,10 +21,10 @@ export class AgregarPermisoComponent {
     this.form = this.fb.group({
       modulo: ['', Validators.required],
       cargo: ['', Validators.required],
-      leer: [false],
-      insertar: [false],
-      actualizar: [false],
-      anular: [false]
+      read: [false],
+      insert: [false],
+      update: [false],
+      delete: [false]
     });
   }
 
@@ -56,10 +56,10 @@ export class AgregarPermisoComponent {
 
     this.permiso.modulo = this.form.get('modulo')?.value;
     this.permiso.cargo = this.form.get('cargo')?.value;
-    this.permiso.leer = this.form.get('leer')?.value;
-    this.permiso.insertar = this.form.get('insertar')?.value;
-    this.permiso.actualizar = this.form.get('actualizar')?.value;
-    this.permiso.anular = this.form.get('anular')?.value;
+    this.permiso.read = this.form.get('leer')?.value;
+    this.permiso.insert = this.form.get('insertar')?.value;
+    this.permiso.update = this.form.get('actualizar')?.value;
+    this.permiso.delete = this.form.get('anular')?.value;
 
     this.permisoService.crearPermiso(this.permiso).subscribe(
       (response) => {
