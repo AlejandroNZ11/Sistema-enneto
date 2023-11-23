@@ -30,7 +30,7 @@ exports: [
     MatIconModule
 ],
 providers:[
-    {provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
+    {provide: MAT_DATE_LOCALE, useValue: 'es-PE'},
 ]
 })
 

@@ -12,11 +12,84 @@
                 </div>
             </div>
         </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="menuId">Búsqueda por menú:</label>
+                    <select name="menuId" class="form-control select2 input-sm select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                        <option value="" data-select2-id="3">--Todos--</option>
+                    <option value="1" data-select2-id="17">Inicio (ver tu cuenta)</option>
+                    <option value="2" data-select2-id="18">Inicio (ver tutorial)</option>
+                    <option value="3" data-select2-id="19">Citas (agenda)</option>
+                    <option value="4" data-select2-id="20">Citas (registrar)</option>
+                    <option value="5" data-select2-id="21">Tratamientos (registrar)</option>
+                    <option value="6" data-select2-id="22">Tratamientos (ver reporte de comprobantes)</option>
+                    <option value="7" data-select2-id="23">Tarifario (ver registro)</option>
+                    <option value="8" data-select2-id="24">Procedimiento (registro de CIE10)</option>
+                    <option value="9" data-select2-id="25">Historia ( ver movimiento)</option>
+                    <option value="10" data-select2-id="26">Reportes</option>
+                    <option value="11" data-select2-id="27">Paciente (ver registro)</option>
+                    <option value="12" data-select2-id="28">Doctor (ver registro)</option>
+                    <option value="13" data-select2-id="29">Mantenimiento (registro tipo de pago)</option>
+                    <option value="14" data-select2-id="30">Mantenimiento (registro moneda)</option>
+                    <option value="15" data-select2-id="31">Mantenimiento (registro banco)</option>
+                    <option value="16" data-select2-id="32">Mantenimiento (registro tarjeta)</option>
+                    <option value="17" data-select2-id="33">Catalogo (registro de unidad medida)</option>
+                    <option value="18" data-select2-id="34">Catalogo (registro de tipo concepto)</option>
+                    <option value="19" data-select2-id="35">Catalogo (registro de categoria)</option>
+                    <option value="20" data-select2-id="36">Catalogo (registro de especialidad)</option>
+                    <option value="21" data-select2-id="37">Catalogo (registro de tipo citado)</option>
+                    <option value="22" data-select2-id="38">Catalogo (registro de alergia)</option>
+                    <option value="23" data-select2-id="39">Usuario (ver registro de usuarios)</option>
+                    <option value="24" data-select2-id="40">Usuario (ver registro de cargos)</option>
+                    <option value="25" data-select2-id="41">Usuario (ver registro de permisos)</option>
+                    <option value="26" data-select2-id="42">Configuracion (mi clinica)</option>
+                    <option value="27" data-select2-id="43">Configuracion (registro de tipo documento)</option>
+                    <option value="28" data-select2-id="44">Historia (ver historia general)</option>
+                    <option value="29" data-select2-id="45">Comisiones (procesar)</option>
+                    <option value="30" data-select2-id="46">Reportes (recomendados)</option>
+                    <option value="31" data-select2-id="47">Citas(preagenda)</option>
+                    <option value="32" data-select2-id="48">Citas(control)</option>
+                    <option value="33" data-select2-id="49">Reportes(cobros generales)</option>
+                    <option value="34" data-select2-id="50">Cobros(cobros)</option>
+                    <option value="35" data-select2-id="51">Administracion (registro gastos)</option>
+                    <option value="36" data-select2-id="52">Graficos (productividad)</option>
+                    <option value="37" data-select2-id="53">Cmr (ver reporte cmr)</option>
+                    <option value="38" data-select2-id="54">Graficos (control)</option>
+                    <option value="39" data-select2-id="55">Movimientos (marcar)</option>
+                    <option value="40" data-select2-id="56">Movimientos (categorías materiales)</option>
+                    <option value="41" data-select2-id="57">Movimientos (presentacion materiales)</option>
+                    <option value="42" data-select2-id="58">Movimientos (tipo materiales)</option>
+                    <option value="43" data-select2-id="59">Movimientos (tipo unidades)</option>
+                    <option value="44" data-select2-id="60">Movimientos (proveedores)</option>
+                    <option value="45" data-select2-id="61">Movimientos (productos)</option>
+                    <option value="46" data-select2-id="62">Movimientos (ventas)</option>
+                    <option value="47" data-select2-id="63">Movimientos (inventarios)</option>
+                    <option value="48" data-select2-id="64">Movimientos (compras)</option>
+                    <option value="49" data-select2-id="65">Caja (correcciones)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="rolId">Búsqueda por rol:</label>
+                    <select name="rolId" class="form-control select2 input-sm select2-hidden-accessible" tabindex="-1" aria-hidden="true">
+                        <option value="" data-select2-id="6">--Todos--</option>
+                        <option value="1" data-select2-id="70">Doctor</option>
+                        <option value="2" data-select2-id="71">Administrador</option>
+                        <option value="3" data-select2-id="72">Secretaria</option>
+                        <option value="4" data-select2-id="73">Asistente</option>
+                        <option value="5" data-select2-id="74">No especifica</option>
+                        <option value="6" data-select2-id="75">rol</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <app-tabla [total]="totalData" [data]="listPermisos"  [indice]="serialNumberArray" [columns]="columnas"
+                        <app-tabla [total]="totalData" [data]="listPermisos" [indice]="serialNumberArray" [columns]="columnas"
                             [titulo]="'Lista de Permisos'" [accion]="acciones" (action)="onAction($event)"
                             (MoreData)="getMoreData($event)">
                         </app-tabla>

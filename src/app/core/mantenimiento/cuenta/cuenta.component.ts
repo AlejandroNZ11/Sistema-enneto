@@ -128,7 +128,7 @@ export class CuentaComponent implements OnInit{
   }
   editarCuenta(cuenta: Icuenta) {
     this.bsModalRef = this.modalService.show(EditarCuentaComponent);
-    this.bsModalRef.content.cuentaSeleccionada = cuenta.cuentaId;
+    this.bsModalRef.content.cuentaSeleccionada = cuenta.cuentaPagarId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });

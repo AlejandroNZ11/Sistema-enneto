@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { PacienteByDNIResponse, PacienteListData, PacienteRequest, PacienteList, PacienteEditar } from '../models/paciente';
+import { PacienteByDNIResponse, PacienteListData, PacienteEditar } from '../models/paciente';
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +22,7 @@ export class PacienteService {
       url += `&FechaFin=${fechaFin}`;
     }
     if (paciente) {
-      url += `&Paciente=${paciente}`;
+      url += `&Nombres=${paciente}`;
     }
     if (tipoPaciente) {
       url += `&TipoPacienteId=${tipoPaciente}`;
@@ -30,7 +30,6 @@ export class PacienteService {
     return this.http.get<PacienteListData>(url);
   }
   getPaciente(IdEntidad: string): Observable<PacienteByDNIResponse> {
-    let url = `?IdEntidad=${IdEntidad}`;
     return this.http.get<PacienteByDNIResponse>(this.apiUrl + `/Pacientes/GetPacienteByDni/${IdEntidad}`);
   }
   crearPaciente(paciente: FormData): Observable<successResponse> {
@@ -46,6 +45,14 @@ export class PacienteService {
   }
   eliminarPaciente(pacienteId: string): Observable<successResponse> {
     return this.http.delete<successResponse>(this.apiUrl + `/Pacientes/DeletePaciente/${pacienteId}`);
+  }
+  actualizarPaciente(paciente: FormData, pacienteId: string): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Pacientes/UpdatePaciente/${pacienteId}`, paciente).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
   }
 }
 

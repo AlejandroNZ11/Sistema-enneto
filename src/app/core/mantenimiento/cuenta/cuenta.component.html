@@ -62,7 +62,7 @@
                                     <tr>
                                         <th mat-sort-header="id">   Codigo</th>
                                         <th mat-sort-header="nombre">Nombre</th>
-                                        <th mat-sort-header="balance">Balance Inicial</th>
+                                        <th mat-sort-header="total">Balance Inicial</th>
                                         <th mat-sort-header="estado">Estado</th>
                                         <th></th>
                                     </tr>
@@ -71,7 +71,7 @@
                                     <tr *ngFor="let data of ListCuenta let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td>{{data.nombre}}</td>
-                                        <td>{{data.balance}}</td>
+                                        <td>{{data.total}}</td>
                                         <td><button class="custom-badge status-green"
                                                 *ngIf="data.estado==='1'">Activo</button></td>
                                         <td><button class="custom-badge status-blue"
@@ -86,7 +86,7 @@
                                                         (click)="editarCuenta(data)"><i
                                                             class="fa-solid fa-pen-to-square m-r-5"></i> Edit</a>
                                                     <a class="dropdown-item" href="javascript:void(0);"
-                                                        (click)="eliminarCuenta(data.cuentaId)"><i
+                                                        (click)="eliminarCuenta(data.cuentaPagarId)"><i
                                                             class="fa fa-trash-alt m-r-5"></i> Delete</a>
                                                 </div>
                                             </div>

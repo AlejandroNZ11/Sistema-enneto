@@ -30,6 +30,9 @@ export class PermisoComponent implements OnInit {
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
 
+  busquedaMenu: string[] = [];
+  busquedaRol: string[] = [];
+  
   constructor(private modalService: BsModalService, public permisoService: PermisoService) { }
 
   ngOnInit() {

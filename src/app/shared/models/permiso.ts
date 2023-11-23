@@ -1,12 +1,14 @@
 export class Permiso {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = '';
+    menuId = '';
+    rolId = '';
     modulo = '';
     cargo = '';
-    leer = '';
-    insertar = '';
-    actualizar = '';
-    anular = '';
+    read = '';
+    insert = '';
+    update = '';
+    delete = '';
 }
 
 export interface DataPermiso {
@@ -16,13 +18,14 @@ export interface DataPermiso {
 
 export interface IPermiso {
     permisoId: string;
+    menuId: string;
+    rolId: string;
     modulo: string;
     cargo: string;
-    leer: string;
-    insertar: string;
-    actualizar: string;
-    anular: string;
-    estado: string;
+    read: string;
+    insert: string;
+    update: string;
+    delete: string;
 }
 
 export class permisoResponse {

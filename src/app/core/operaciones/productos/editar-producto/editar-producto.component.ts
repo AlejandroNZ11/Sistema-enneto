@@ -52,7 +52,7 @@ export class EditarProductoComponent {
   Cancelar() {
     this.bsModalRef.hide();
   }
-  guardarPorducto() {
+  guardarProducto() {
     if (!this.producto|| this.form.invalid) {
       this.mostrarErrores = true;
       return;
