@@ -1,1 +1,134 @@
-<p>editar-permiso works!</p>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Editar Permiso</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-10">
+                                <div class="form-group local-forms">
+                                    <label>Módulo <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="modulo" class="form-control select" placeholder="Seleccionar un Módulo">
+                                        <mat-option value="inicio">Inicio (ver cuenta)</mat-option>
+                                        <mat-option value="inicio">Inicio (ver tutorial)</mat-option>
+                                        <mat-option value="citas">Citas (agenda)</mat-option>
+                                        <mat-option value="citas">Citas (registrar)</mat-option>
+                                        <mat-option value="tratamiento">Tratamiento (registrar)</mat-option>
+                                        <mat-option value="tratamiento">Tratamiento (ver reporte de comprobantes)</mat-option>
+                                        <mat-option value="tarifario">Tarifario (ver registro)</mat-option>
+                                        <mat-option value="Procedimiento">Procedimiento (registro de CIE10)</mat-option>
+                                        <mat-option value="historia">Historia (ver movimiento)</mat-option>
+                                        <mat-option value="reportes">Reportes</mat-option>
+                                        <mat-option value="paciente">Paciente (ver registro)</mat-option>
+                                        <mat-option value="doctor">Doctor (ver registro)</mat-option>
+                                        <mat-option value="mantenimiento">Mantenimiento (resgistro tipo de pago)</mat-option>
+                                        <mat-option value="mantenimiento">Mantenimiento (resgistro moneda)</mat-option>
+                                        <mat-option value="mantenimiento">Mantenimiento (resgistro banco)</mat-option>
+                                        <mat-option value="mantenimiento">Mantenimiento (resgistro tarjeta)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de unidad medida)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de tipo concepto)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de categoria)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de especialidad)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de tipo citado)</mat-option>
+                                        <mat-option value="catalago">Catalago (resgistro de alergia)</mat-option>
+                                        <mat-option value="usuario">Usuario (ver registro de usuarios)</mat-option>
+                                        <mat-option value="usuario">Usuario (ver registro de cargos)</mat-option>
+                                        <mat-option value="usuario">Usuario (ver registro de permisos)</mat-option>
+                                        <mat-option value="configuracion">Configuracion (mi clinica)</mat-option>
+                                        <mat-option value="configuracion">Configuracion (registro de tipo documento)</mat-option>
+                                        <mat-option value="historia">Historia (ver histora general)</mat-option>
+                                        <mat-option value="comisiones">Comisiones (procesar)</mat-option>
+                                        <mat-option value="reportes">Reportes (recomendados)</mat-option>
+                                        <mat-option value="citas">Citas (preagenda)</mat-option>
+                                        <mat-option value="citas">Citas (control)</mat-option>
+                                        <mat-option value="reportes">Reportes (cobros generales)</mat-option>
+                                        <mat-option value="cobros">Cobros (cobros)</mat-option>
+                                        <mat-option value="administracion">Administracion (registro gastos)</mat-option>
+                                        <mat-option value="graficos">Graficos (productividad)</mat-option>
+                                        <mat-option value="cmr">Cmr (ver reporte cmr)</mat-option>
+                                        <mat-option value="graficos">Graficos (control)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (marcar)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (categoria materiales)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (presentacion materiales)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (tipo materiales)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (tipo unidades)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (proveedores)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (productos)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (ventas)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (inventarios)</mat-option>
+                                        <mat-option value="movimientos">Movimientos (compras)</mat-option>
+                                        <mat-option value="caja">Caja (correcciones)</mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('modulo')" class="invalid-feedback">
+                                        Debe seleccionar un módulo*
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Cargo <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="cargo" class="form-control select" placeholder="Seleccionar un Cargo">
+                                        <mat-option value="Doctor">Doctor</mat-option>
+                                        <mat-option value="Administrador">Administrador</mat-option>
+                                        <mat-option value="Secretaria">Secretaria</mat-option>
+                                        <mat-option value="Asistente">Asistente</mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('cargo')" class="invalid-feedback">
+                                        Debe seleccionar un cargo*
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="read">Leer: <span class="login-danger">*</span></label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    Si<input type="radio" name="read" value="1" checked="checked">
+                                </label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    No<input type="radio" name="read" value="0" checked="checked">
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="read">Insertar: <span class="login-danger">*</span></label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    Si<input type="radio" name="insert" value="1" checked="checked">
+                                </label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    No<input type="radio" name="insert" value="0" checked="checked">
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="read">Actualizar: <span class="login-danger">*</span></label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    Si<input type="radio" name="update" value="1" checked="checked">
+                                </label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    No<input type="radio" name="update" value="0" checked="checked">
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label for="read">Anular: <span class="login-danger">*</span></label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    Si<input type="radio" name="delete" value="1" checked="checked">
+                                </label>
+                                <label class="radio-inline" style="margin-left: 5px;">
+                                    No<input type="radio" name="delete" value="0" checked="checked">
+                                </label>
+                            </div>
+                            <div class="col-12">
+                                <div class="doctor-submit text-end">
+                                    <button type="submit" (click)="guardarPermiso()" class="btn btn-primary submit-form me-2">Guardar</button>
+                                    <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
