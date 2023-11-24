@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
@@ -205,6 +206,7 @@ export class EditPatientComponent implements OnInit {
       const edadFecha: Date = new Date(edadMilisegundos);
       const edad: number = Math.abs(edadFecha.getUTCFullYear() - 1970);
       this.pacienteEditar.edad = edad.toString();
+      console.log(edad);
     } else {
       this.pacienteEditar.edad = '';
     }
@@ -314,7 +316,7 @@ export class EditPatientComponent implements OnInit {
     formData.append('NumeroDocumento', this.pacienteEditar.numeroDocumento);
     formData.append('Apellidos', this.pacienteEditar.apellidos);
     formData.append('Nombres', this.pacienteEditar.nombres);
-    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toString().split('T')[0]);
+    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toISOString().split('T')[0]);
     formData.append('Edad', this.pacienteEditar.edad);
     formData.append('Ocupacion', this.pacienteEditar.ocupacion);
     formData.append('Direccion', this.pacienteEditar.direccion);

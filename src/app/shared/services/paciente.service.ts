@@ -22,7 +22,7 @@ export class PacienteService {
       url += `&FechaFin=${fechaFin}`;
     }
     if (paciente) {
-      url += `&Nombres=${paciente}`;
+      url += `&NombreCompleto=${paciente}`;
     }
     if (tipoPaciente) {
       url += `&TipoPacienteId=${tipoPaciente}`;

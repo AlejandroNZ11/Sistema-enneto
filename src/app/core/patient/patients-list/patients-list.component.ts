@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection, apiResultFormat } from 'src/app/shared/models/models';
+import { pageSelection} from 'src/app/shared/models/models';
 import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
 import Swal from 'sweetalert2';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { PacienteListData, PacienteList, PacienteRequest } from 'src/app/shared/models/paciente';
-import { environment } from 'src/environments/environments';
 import { TipoPacienteService } from 'src/app/shared/services/tipo-paciente.service';
 import { ItipoPaciente } from 'src/app/shared/models/tipoPaciente';
 import { finalize } from 'rxjs';
@@ -75,16 +74,16 @@ export class PatientsListComponent implements OnInit {
     let fechaFinFormateado = undefined
     let paciente = undefined
     let tipoPaciente = undefined
-    if (this.fechaInicio != "") {
-      fechaInicioFormateado = new Date(this.fechaInicio)?.toISOString().split('T')[0];
+    if (this.fechaInicio) {
+      fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
     }
-    if (this.fechaFin != "") {
-      fechaFinFormateado = new Date(this.fechaFin)?.toISOString().split('T')[0];
+    if (this.fechaFin) {
+      fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
     }
-    if (this.paciente != "") {
+    if (this.paciente) {
       paciente = this.paciente;
     }
-    if (this.tipoPaciente != "") {
+    if (this.tipoPaciente) {
       tipoPaciente = this.tipoPaciente;
     }
     this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)

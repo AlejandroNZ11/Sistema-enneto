@@ -50,6 +50,7 @@
                       <div class="top-nav-search table-search-blk">
                         <mat-select [(ngModel)]="tipoPaciente" class="form-control select"
                           placeholder="Seleccione Tipo Paciente">
+                          <mat-option [value]="null">(TODOS)</mat-option>
                           <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
                             {{data.nombre}}
                           </mat-option>
@@ -60,9 +61,6 @@
                         <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2"><img
                             src="assets/img/icons/plus.svg" alt=""></a>
                         <a (click)="obtenerDatosPacientesConFiltro()" href="javascript:;"
-                          class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/search-normal.svg"
-                            alt=""></a>
-                        <a (click)="limpiarCampos()" href="javascript:;"
                           class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
                             alt=""></a>
                       </div>
@@ -99,7 +97,9 @@
                 <tbody>
                   <tr *ngFor="let data of patientsList let i = index">
                     <td>{{serialNumberArray[i]}}</td>
-                    <td class="profile-image"><img width="28" height="28" [src]="data.fotoPaciente"
+                    <td class="profile-image"><img width="28" height="28" *ngIf="data.fotoPaciente"
+                        [src]="data.fotoPaciente" class="rounded-circle m-r-5">
+                      <img width="28" height="28" *ngIf="!data.fotoPaciente" src="assets/img/user.jpg"
                         class="rounded-circle m-r-5">
                       {{data.nombres}} {{data.apellidos}}
                     </td>

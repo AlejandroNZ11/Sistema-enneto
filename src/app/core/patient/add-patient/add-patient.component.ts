@@ -29,6 +29,7 @@ import { IgradoInstruccion } from 'src/app/shared/models/estudio';
 import { Iempresa } from 'src/app/shared/models/empresa';
 import { EmpresaService } from 'src/app/shared/services/empresa.service';
 import { EmpresaPacienteService } from 'src/app/shared/services/empresa-paciente.service';
+import { DatePipe } from '@angular/common';
 
 interface data {
   value: string;
@@ -283,7 +284,6 @@ export class AddPatientComponent implements OnInit {
       this.imagenTempFoto = null;
     }
   }
-
   /* C R E A R - P A C I E N T E */
   crearPaciente() {
     if (this.form.invalid) {
@@ -296,7 +296,7 @@ export class AddPatientComponent implements OnInit {
     } else {
       this.paciente.Sexo = 'F'
     }
-    
+
     this.paciente.UsuarioId = this.usuarioId;
     const formData = new FormData();
     formData.append('TipoDocumentoId', this.paciente.TipoDocumentoId);

@@ -67,7 +67,7 @@ export interface PacienteEditar {
     pacienteId: string;
     nombres: string;
     apellidos: string;
-    fechaNacimiento: string;
+    fechaNacimiento: Date;
     tipoDocumentoId: string;
     numeroDocumento: string;
     edad: string;

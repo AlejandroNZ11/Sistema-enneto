@@ -50,14 +50,15 @@
                                         <label>Nro. Documento <span class="login-danger">*</span></label>
                                         <div class="input-group">
                                             <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
-                                                   [(ngModel)]="paciente.NumeroDocumento" class="form-control" type="text"
-                                                   [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
-                                                   [maxLength]='cantidad'>
+                                                [(ngModel)]="paciente.NumeroDocumento" class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
+                                                [maxLength]='cantidad'>
                                         </div>
                                         <span class="icon-outside" *ngIf="paciente.TipoDocumentoId === '01'">
                                             <i class="fa fa-search" (click)="obtenerPaciente()"></i>
                                         </span>
-                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
+                                            class="invalid-feedback">
                                             <div *ngIf="isRequerido('numeroDocumento')">
                                                 Debe completar el campo*
                                             </div>
@@ -156,16 +157,14 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Grado de Instruccion <span class="login-danger">*</span></label>
-                                        <mat-select formControlName="estudioId"
-                                            [(ngModel)]="paciente.EstudioId" class="form-control select"
-                                            placeholder="Seleccione Grado de Instruccion"
+                                        <mat-select formControlName="estudioId" [(ngModel)]="paciente.EstudioId"
+                                            class="form-control select" placeholder="Seleccione Grado de Instruccion"
                                             [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
                                             <mat-option *ngFor="let data of gradosInstruccion" [value]="data.estudioId">
                                                 {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
-                                        <div *ngIf="isInvalid('estudioId') && isFormSubmitted"
-                                            class="invalid-feedback">
+                                        <div *ngIf="isInvalid('estudioId') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('estudioId')">
                                                 Debe completar el campo*
                                             </div>
@@ -194,13 +193,13 @@
                                     <div class="form-group local-forms">
                                         <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
                                         <input formControlName="fechaNacimiento" [(ngModel)]="paciente.FechaNacimiento"
-                                        style='height:48px' class="form-control datetimepicker" type="text"
-                                        placeholder="" matInput [matDatepicker]="picker"
-                                        [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
-                                        (ngModelChange)="actualizarEdad()">
-                                        <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker"
+                                            [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
+                                            (ngModelChange)="actualizarEdad()">
                                         <mat-datepicker-toggle matIconSuffix [for]="picker"
                                             matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                                         <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted"
                                             class="invalid-feedback">
                                             <div *ngIf="isRequerido('fechaNacimiento')">
@@ -274,8 +273,7 @@
                                             class="form-control select" placeholder="Seleccione Departamento"
                                             [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarProvincias()">
-                                            <mat-option *ngFor="let data of departamentos"
-                                                [value]="data.nombre">
+                                            <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
@@ -342,7 +340,8 @@
                                             [(ngModel)]="paciente.TipoPacienteId" class="form-control select"
                                             placeholder="Seleccione Tipo Paciente"
                                             [ngClass]="{'is-invalid': isInvalid('tipoPacienteId') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
+                                            <mat-option *ngFor="let data of tiposPacientes"
+                                                [value]="data.tipoPacienteId">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
@@ -379,7 +378,8 @@
                                             [(ngModel)]="paciente.InformacionClinicaId" class="form-control select"
                                             placeholder="Seleccione una Opcion"
                                             [ngClass]="{'is-invalid': isInvalid('informacionClinica') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of infoClinicas" [value]="data.informacionClinicaId">
+                                            <mat-option *ngFor="let data of infoClinicas"
+                                                [value]="data.informacionClinicaId">
                                                 {{data.nombre}}
                                             </mat-option>
                                         </mat-select>
@@ -459,7 +459,7 @@
                                             <input formControlName="fotoPaciente" type="file" accept="image/*"
                                                 name="image" id="fotoPaciente" (change)="cargarImagenFoto($event)"
                                                 class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
+                                            <label for="fotoPaciente" class="upload">Choose File</label>
                                         </div>
                                         <div class="upload-images upload-size"
                                             [ngClass]="{'d-none':deleteIcon === false}"

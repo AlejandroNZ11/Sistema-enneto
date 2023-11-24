@@ -18,7 +18,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <form (ngSubmit)="actualizarPaciente()" [formGroup]="form">
+                        <form [formGroup]="form">
                             <div *ngIf="pacienteEditar" class="row">
                                 <div class="col-12">
                                     <div class="form-heading">
@@ -165,10 +165,9 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
-                                        <input formControlName="fechaNacimiento"
-                                            [(ngModel)]="pacienteEditar!.fechaNacimiento" style='height:48px'
-                                            class="form-control datetimepicker" type="text" placeholder="" matInput
-                                            [matDatepicker]="picker"
+                                        <input formControlName="fechaNacimiento" [(ngModel)]="pacienteEditar!.fechaNacimiento"
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker"
                                             [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarEdad()">
                                         <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
@@ -297,7 +296,7 @@
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Ocupacion <span class="login-danger">*</span></label>
+                                        <label>Ocupacion <span class="login-danger"></span></label>
                                         <input formControlName="ocupacion" [(ngModel)]="pacienteEditar!.ocupacion"
                                             class="form-control"
                                             [ngClass]="{'is-invalid': isInvalid('ocupacion') && isFormSubmitted}">
@@ -438,7 +437,7 @@
                                             <input formControlName="fotoPaciente" type="file" accept="image/*"
                                                 name="image" id="foto" (change)="cargarImagenFoto($event)"
                                                 class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
+                                            <label for="fotoPaciente" class="upload">Choose File</label>
                                         </div>
                                         <div class="upload-images upload-size"
                                             [ngClass]="{'d-none':deleteIcon === false}"

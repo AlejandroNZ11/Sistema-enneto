@@ -48,14 +48,14 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'agregar-paciente',
+      path: 'agregar',
       loadChildren: () =>
         import('./add-patient/add-patient.module').then(
           (m) => m.AddPatientModule
         ),
     },
     {
-      path: 'editar-paciente/:pacienteId',
+      path: 'editar/:pacienteId',
       loadChildren: () =>
         import('./edit-patient/edit-patient.module').then(
           (m) => m.EditPatientModule
