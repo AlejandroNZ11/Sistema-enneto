@@ -32,6 +32,12 @@ export class PermisoComponent implements OnInit {
 
   busquedaMenu: string[] = [];
   busquedaRol: string[] = [];
+  buscar (){
+    //
+  }
+  searchDataValue(){
+    //
+  }
   
   constructor(private modalService: BsModalService, public permisoService: PermisoService) { }
 
