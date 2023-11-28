@@ -27,4 +27,13 @@ export class EditarProveedorComponent {
       estado: ['Activo', Validators.required],
     });
   }
+  ngOnInit() {
+    this.ProveedorService.obtenerProveedor(this.proveedorSeleccionado!).subscribe(proveedor => {
+      this.proveedor = proveedor;
+      this.form.patchValue({
+        ruc: this.proveedor.ruc,
+       
+      });
+    })
+  }
 }
