@@ -22,8 +22,15 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumento" class="form-control select">
+                                    <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
                                         <mat-option value="DNI">DNI</mat-option>
                                         <mat-option value="CÉDULA">CÉDULA</mat-option>
                                     </mat-select>
@@ -35,7 +42,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" class="form-control" type="text"
+                                    <input formControlName="documento" class="form-control" type="number"
                                         [ngClass]="{'is-invalid': isInvalid('documento')}">
                                     <div *ngIf="isInvalid('documento')" class="invalid-feedback">
                                         Debe completar el campo*
@@ -55,7 +62,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
-                                    <input formControlName="telefono" class="form-control" type="text"
+                                    <input formControlName="telefono" class="form-control" type="number"
                                         [ngClass]="{'is-invalid': isInvalid('telefono')}">
                                     <div *ngIf="isInvalid('telefono')" class="invalid-feedback">
                                         Debe completar el campo*

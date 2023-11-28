@@ -16,9 +16,9 @@ export interface DataApoderado {
 
 export interface IApoderado {
     apoderadoId: string;
-    tipoDocumento: number;
-    nombre: string;
+    tipoDocumento: string;
     documento: string;
+    nombre: string;
     direccion: string;
     telefono: string;
     estado: string;
