@@ -12,5 +12,10 @@ export class cuenta {
     cuentaPagarId: string;
     nombre: string;
     total: 0;
-    estado:string;
+    estado: string;
+  }
+
+  export class cuentaResponse {
+    nombre = "";
+    total = "";
   }
