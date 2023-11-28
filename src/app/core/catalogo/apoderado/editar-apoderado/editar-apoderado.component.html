@@ -22,8 +22,17 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumento" class="form-control select">
+                                    <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
                                         <mat-option value="DNI">DNI</mat-option>
                                         <mat-option value="Cédula">Cédula</mat-option>
                                     </mat-select>
@@ -35,7 +44,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('documento')}">
+                                    <input formControlName="documento" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('documento')}">
                                     <div *ngIf="isInvalid('documento') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('documento')">Debe completar el campo*</div>
                                     </div>
@@ -50,7 +59,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono</label>
-                                    <input formControlName="telefono" class="form-control" type="text">
+                                    <input formControlName="telefono" class="form-control" type="number">
                                 </div>
                             </div>
                         </div>

@@ -59,6 +59,7 @@ export class AgregarApoderadoComponent  {
     this.Apoderado.documento = this.form.get('documento')?.value;
     this.Apoderado.direccion = this.form.get('direccion')?.value;
     this.Apoderado.telefono = this.form.get('telefono')?.value;
+    this.Apoderado.estado= this.form.get('estado')?.value;
 
     this.apoderadoService.crearApoderado(this.Apoderado).subscribe(
       (response) => {
