@@ -36,4 +36,16 @@ export class EditarProveedorComponent {
       });
     })
   }
+  isInvalid(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.touched;
+  }
+
+  isRequerido(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.errors && control.errors['required'];
+  }
+  Cancelar() {
+    this.bsModalRef.hide();
+  }
 }
