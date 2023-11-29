@@ -1,0 +1,31 @@
+.mat-select {
+    font-size: 12px;
+    min-width: 125px;
+    height: 15px;
+}
+
+.custom-table {
+    font-size: 10px;
+}
+
+.custom-table td:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table_footer {
+    font-size: 12px;
+}
+
+.radio-group {
+    margin-top: 10px;
+}
+
+.busqueda {
+    margin-top: 25px;
+}
+
+.radio-label {
+    margin-right: 10px;
+}

@@ -29,6 +29,17 @@ export class PacienteService {
     }
     return this.http.get<PacienteListData>(url);
   }
+  obtenerPacientesCumpleanios(page: number, rows: number,
+    dia?: string, mes?: string): Observable<PacienteListData> {
+    let url = `${this.apiUrl}/Pacientes/GetAllPaciente?page=${page}&rows=${rows}`;
+    if (dia && mes) {
+      url += `&MesCumple=${mes}&DiaCumple=${dia}`;
+    }
+    if (mes && !dia) {
+      url += `&MesCumple=${mes}`;
+    }
+    return this.http.get<PacienteListData>(url);
+  }
   getPaciente(IdEntidad: string): Observable<PacienteByDNIResponse> {
     return this.http.get<PacienteByDNIResponse>(this.apiUrl + `/Pacientes/GetPacienteByDni/${IdEntidad}`);
   }

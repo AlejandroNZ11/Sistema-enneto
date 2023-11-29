@@ -206,7 +206,6 @@ export class EditPatientComponent implements OnInit {
       const edadFecha: Date = new Date(edadMilisegundos);
       const edad: number = Math.abs(edadFecha.getUTCFullYear() - 1970);
       this.pacienteEditar.edad = edad.toString();
-      console.log(edad);
     } else {
       this.pacienteEditar.edad = '';
     }

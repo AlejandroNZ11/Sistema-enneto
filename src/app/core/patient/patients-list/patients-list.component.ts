@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { MatTableDataSource } from "@angular/material/table";
-import { pageSelection} from 'src/app/shared/models/models';
+import { pageSelection } from 'src/app/shared/models/models';
 import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
 import Swal from 'sweetalert2';
@@ -10,6 +11,8 @@ import { PacienteListData, PacienteList, PacienteRequest } from 'src/app/shared/
 import { TipoPacienteService } from 'src/app/shared/services/tipo-paciente.service';
 import { ItipoPaciente } from 'src/app/shared/models/tipoPaciente';
 import { finalize } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CumpleaniosComponent } from '../cumpleanios/cumpleanios.component';
 
 @Component({
   selector: 'app-patients-list',
@@ -39,8 +42,8 @@ export class PatientsListComponent implements OnInit {
   public totalPages = 0;
   tiposPacientes!: ItipoPaciente[];
   isLoading = false;
-
-  constructor(public data: DataService, public pacienteService: PacienteService, public tipoPacienteService: TipoPacienteService) {
+  bsModalRef?: BsModalRef;
+  constructor(private modalService: BsModalService, public data: DataService, public pacienteService: PacienteService, public tipoPacienteService: TipoPacienteService) {
 
   }
   ngOnInit() {
@@ -138,10 +141,20 @@ export class PatientsListComponent implements OnInit {
         return;
       }
     })
-
   }
 
-
+  modalCumpleanios() {
+    const initialState = {
+      // Puedes pasar cualquier dato inicial que necesites al componente del modal
+    };
+    const modalOptions = {
+      class: 'modal-lg', // Puedes ajustar el tamaño del modal aquí (modal-sm, modal-lg, etc.)
+      ignoreBackdropClick: true, // Evitar que el modal se cierre haciendo clic en el fondo
+      initialState,
+    };
+    this.bsModalRef = this.modalService.show(CumpleaniosComponent, modalOptions),
+      this.bsModalRef.onHidden?.subscribe(() => { });
+  }
 
   public sortData(sort: Sort) {
     const data = this.patientsList.slice();
