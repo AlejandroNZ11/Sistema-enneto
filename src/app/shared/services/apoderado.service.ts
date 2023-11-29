@@ -22,11 +22,12 @@ export class ApoderadoService {
   crearApoderado(apoderado: Apoderado): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/Apoderados/SaveApoderado`, apoderado).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        console.error('Error en la solicitud:', error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el apoderado', 'warning');
         return throwError(() => error);
       })
     );
-  }
+  }  
 
   obtenerApoderado(apoderadoId: string): Observable<IApoderado> {
     return this.http.get<IApoderado>(`${this.apiUrl}/Apoderados/GetApoderado/${apoderadoId}`);
