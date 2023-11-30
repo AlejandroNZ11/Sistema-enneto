@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Iproveedor } from 'src/app/shared/models/proveedor';
 import { routes } from 'src/app/shared/routes/routes';
 import { ProveedorService } from 'src/app/shared/services/proveedor.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-proveedor',
@@ -47,5 +48,32 @@ export class EditarProveedorComponent {
   }
   Cancelar() {
     this.bsModalRef.hide();
+  }
+  guardarProveedor() {
+    if (!this.proveedor|| this.form.invalid) {
+      this.mostrarErrores = true;
+      return;
+    }
+    const proveedorActualizado: Iproveedor = {
+      ruc: this.proveedor.ruc,
+      nombre: this.form.value.nombre,
+      direccion: this.form.value.direccion,
+      telefono:this.form.value.telefono,
+      contacto:this.form.value.contacto,
+      correo:this.form.value.correo,
+      
+    };
+    this.ProveedorService.actualizarProveedor(proveedorActualizado).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }
