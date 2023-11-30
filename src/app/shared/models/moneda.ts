@@ -14,3 +14,8 @@ export interface IMoneda {
     descripcion: string;
     estado: string;
 }
+
+export class monedaResponse {
+    descripcion = "";
+}
+
