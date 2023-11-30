@@ -59,7 +59,7 @@ export class EditarMonedaComponent implements OnInit {
       return;
     }
     const monedaActualizada: IMoneda = {
-      monedaId: this.moneda.monedaId,
+      tipoMonedaId: this.moneda.tipoMonedaId,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
     };

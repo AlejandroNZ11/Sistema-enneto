@@ -79,7 +79,7 @@ export class MonedaComponent implements OnInit {
 
   editarMoneda(moneda: IMoneda) {
     const initialState = {
-      monedaSeleccionada: moneda.monedaId
+      monedaSeleccionada: moneda.tipoMonedaId
     };
     this.bsModalRef = this.modalService.show(EditarMonedaComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
@@ -87,7 +87,7 @@ export class MonedaComponent implements OnInit {
     });
   }
 
-  eliminarMoneda(monedaId: string) {
+  eliminarMoneda(tipoMonedaId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
@@ -95,7 +95,7 @@ export class MonedaComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.monedaService.eliminarMoneda(monedaId).subscribe(
+        this.monedaService.eliminarMoneda(tipoMonedaId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Moneda Eliminada en el sistema correctamente.', 'success');

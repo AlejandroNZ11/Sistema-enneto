@@ -28,16 +28,16 @@ export class MonedaService {
     );
   }
 
-  obtenerMoneda(monedaId: string): Observable<IMoneda> {
-    return this.http.get<IMoneda>(`${this.apiUrl}/TiposMonedas/GetTipoMoneda/${monedaId}`);
+  obtenerMoneda(tipoMonedaId: string): Observable<IMoneda> {
+    return this.http.get<IMoneda>(`${this.apiUrl}/TiposMonedas/GetTipoMoneda/${tipoMonedaId}`);
   }
 
-  eliminarMoneda(monedaId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(`${this.apiUrl}/TiposMonedas/DeleteTipoMoneda/${monedaId}`);
+  eliminarMoneda(tipoMonedaId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(`${this.apiUrl}/TiposMonedas/DeleteTipoMoneda/${tipoMonedaId}`);
   }
 
   actualizarMoneda(moneda: IMoneda): Observable<successResponse> {
-    return this.http.put<successResponse>(`${this.apiUrl}/TiposMonedas/UpdateTipoMoneda/${moneda.monedaId}`, moneda).pipe(
+    return this.http.put<successResponse>(`${this.apiUrl}/TiposMonedas/UpdateTipoMoneda/${moneda.tipoMonedaId}`, moneda).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

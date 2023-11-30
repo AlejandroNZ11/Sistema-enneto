@@ -10,7 +10,7 @@ export interface DataMoneda {
 }
 
 export interface IMoneda {
-    monedaId: string;
+    tipoMonedaId: string;
     descripcion: string;
     estado: string;
 }
