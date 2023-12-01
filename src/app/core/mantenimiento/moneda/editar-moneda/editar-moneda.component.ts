@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { MonedaService } from 'src/app/shared/services/moneda.service';
 import { IMoneda } from 'src/app/shared/models/moneda';
 import { routes } from 'src/app/shared/routes/routes';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,25 +12,31 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-moneda.component.scss']
 })
 export class EditarMonedaComponent implements OnInit {
-  monedaSeleccionada: IMoneda | null = null;
+  moneda: IMoneda | undefined;
   public routes = routes;
+  monedaSeleccionada: any;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private monedaService: MonedaService, public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef,
+    private monedaService: MonedaService,
+    public fb: FormBuilder
+  ) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
-      estado: ['Activo', Validators.required],
+      estado: ['', Validators.required],
     });
   }
 
   ngOnInit() {
-    if (this.monedaSeleccionada) {
+    this.monedaService.obtenerMoneda(this.monedaSeleccionada!).subscribe(moneda => {
+      this.moneda = moneda;
       this.form.patchValue({
-        descripcion: this.monedaSeleccionada.descripcion,
-        estado: this.monedaSeleccionada.estado,
+        descripcion: this.moneda.descripcion,
+        estado: this.moneda.estado,
       });
-    }
+    });
   }
 
   isInvalid(controlName: string) {
@@ -48,13 +54,12 @@ export class EditarMonedaComponent implements OnInit {
   }
 
   guardarMoneda() {
-    if (!this.monedaSeleccionada || this.form.invalid) {
+    if (!this.moneda || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-
     const monedaActualizada: IMoneda = {
-      monedaId: this.monedaSeleccionada.monedaId,
+      tipoMonedaId: this.moneda.tipoMonedaId,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
     };
