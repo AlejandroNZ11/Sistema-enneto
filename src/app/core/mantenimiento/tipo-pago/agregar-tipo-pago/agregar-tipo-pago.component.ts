@@ -22,7 +22,6 @@ export class AgregarTipoPagoComponent {
     this.form = this.fb.group({
       metodoPago: ['', Validators.required],
       descripcion: ['', Validators.required],
-      estado: [''],
     });
   }
 
@@ -54,12 +53,11 @@ export class AgregarTipoPagoComponent {
 
     this.TipoPago.metodoPago = this.form.get("metodoPago")?.value;
     this.TipoPago.descripcion = this.form.get("descripcion")?.value;
-    this.TipoPago.estado = this.form.get("estado")?.value;
 
     this.tipoPagoService.crearTipoPago(this.TipoPago).subscribe(
       (response) => {
         if (response.isSuccess) {
-          Swal.fire(response.message, '', 'success');
+          Swal.fire('Correcto', response.message, 'success');
           this.bsModalRef.hide();
         } else {
           console.error(response.message);
