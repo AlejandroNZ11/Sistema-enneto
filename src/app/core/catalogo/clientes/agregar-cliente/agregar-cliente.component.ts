@@ -28,7 +28,7 @@ export class AgregarClienteComponent implements OnInit {
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       documento: ['', Validators.required],
-      tipoDocumentoId: ['', Validators.required],
+      tipoDocumento: ['', Validators.required],
       nombre: ['', Validators.required],
       direccion: ['', Validators.required],
       contacto: ['', Validators.required],
@@ -37,13 +37,6 @@ export class AgregarClienteComponent implements OnInit {
     });
     
   }
-  tipoDocumento_LISTA = [
-    { name: 'DNI', value: '01' },
-    { name: 'RUC', value: '06' },
-    { name: 'PASAPORTE', value: '07' },
-    { name: 'CARNET EXTRANJERIA', value: '04' },
-    { name: 'OTROS', value: '00' },
-  ]
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -72,6 +65,7 @@ export class AgregarClienteComponent implements OnInit {
     this.Cliente.contacto = this.form.get("contacto")?.value;
     this.Cliente.telefono = this.form.get("telefono")?.value;
     this.Cliente.email = this.form.get("email")?.value;
+    this.Cliente.tipodocumento = this.form.get("tipodocumento")?.value;
     console.log(this.Cliente);
     this.service.crearClientes(this.Cliente).subscribe(
       (response) => {
@@ -86,28 +80,5 @@ export class AgregarClienteComponent implements OnInit {
         console.error(error);
       });
   }
-  actualizarCantidad() {
-    this.form.get('numeroDocumento')!.setValue('');
-    const tipoDocumento = this.form.get('tipoDocumentoId')!.value;
-    let maxCaracteres = 0;
-    switch (tipoDocumento) {
-      case '01':
-        maxCaracteres = 8;
-        break;
-      case '06':
-        maxCaracteres = 11;
-        break;
-      default:
-        maxCaracteres = 12;
-        break;
-    }
-    this.cantidad = maxCaracteres;
-    this.form.get('numeroDocumento')?.setValidators([
-      Validators.required,
-      Validators.maxLength(maxCaracteres),
-      Validators.minLength(maxCaracteres),
-      Validators.pattern('^[0-9]+$')
-    ]);
-    this.form.get('numeroDocumento')?.updateValueAndValidity();
-  }
+  
 }

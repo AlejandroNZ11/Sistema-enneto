@@ -10,7 +10,7 @@
                                     <h4>Nuevo Cliente</h4>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-10">
                                 <div class="form-group local-forms">
                                     <label>Nombres <span class="login-danger">*</span></label>
                                     <input formControlName="nombre" class="form-control" type="text"
@@ -22,24 +22,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-9 col-xl-3">
+                            <div class="col-12 col-md-6 col-xl-8">
                                 <div class="form-group local-forms">
-                                    <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumentoId" [(ngModel)]="paciente.TipoDocumentoId" class="form-control select"
-                                        placeholder="Seleccione Tipo de Documento"
-                                        [ngClass]="{'is-invalid': isInvalid('tipoDocumentoId') && isFormSubmitted}"
-                                        (ngModelChange)="actualizarCantidad()">
-                                        <mat-option *ngFor="let data of tipoDocumento_LISTA" [value]="data.value">
-                                            {{data.name}}
-                                        </mat-option>
+                                    <label>Tipo de documento <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Selecciona un tipo de documento">
+                                        <mat-option value="DNI">DNI</mat-option>
+                                        <mat-option value="RUC">RUC</mat-option>
+                                        <mat-option value="PASAPORTE">PASAPORTE</mat-option>
+                                        <mat-option value="CARNET DE EXTANJERIA">CARNET DE EXTANJERIA</mat-option>
+                                        <mat-option value="OTROS">OTROS</mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('tipoDocumentoId') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('tipoDocumentoId')">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Documento <span class="login-danger">*</span></label>
@@ -52,7 +47,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Direccion <span class="login-danger">*</span></label>
                                     <input formControlName="direccion" class="form-control" type="text"
@@ -64,7 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Contacto <span class="login-danger">*</span></label>
                                     <input formControlName="contacto" class="form-control" type="text"
@@ -76,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Telefono <span class="login-danger">*</span></label>
                                     <input formControlName="telefono" class="form-control" type="text"
@@ -88,7 +83,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Email <span class="login-danger">*</span></label>
                                     <input formControlName="email" class="form-control" type="text"
@@ -100,7 +95,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
                                     <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
