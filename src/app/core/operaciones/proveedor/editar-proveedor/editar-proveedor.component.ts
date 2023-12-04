@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarProveedorComponent {
   proveedor!: Iproveedor;
-  proveedorseleccionado: any;
+  proveedorSeleccionado: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -29,10 +29,11 @@ export class EditarProveedorComponent {
     });
   }
   ngOnInit() {
-    this.ProveedorService.obtenerProveedor(this.proveedorseleccionado!).subscribe(proveedor => {
+    this.ProveedorService.obtenerProveedor(this.proveedorSeleccionado!).subscribe(proveedor => {
       this.proveedor = proveedor;
       this.form.patchValue({
         ruc: this.proveedor.ruc,
+        nombre:this.proveedor.nombre,
        
       });
     })

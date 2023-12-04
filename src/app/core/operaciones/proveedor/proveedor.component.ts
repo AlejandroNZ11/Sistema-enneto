@@ -10,6 +10,7 @@ import { AgregarProveedorComponent } from './agregar-proveedor/agregar-proveedor
 import Swal from 'sweetalert2';
 import { environment as env } from 'src/environments/environments';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { EditarProveedorComponent } from './editar-proveedor/editar-proveedor.component';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
@@ -98,7 +99,36 @@ export class ProveedorComponent {
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
+  editarProveedor(proveedor: Iproveedor) {
+    const initialState = {
+      proveedorSeleccionado: proveedor.ruc
+    };
+    this.bsModalRef = this.modalService.show(EditarProveedorComponent, { initialState });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      this.getTableData(this.currentPage, this.pageSize);
+    });
+  }
+  public searchData(value: any): void {
+    this.dataSource.filter = value.trim().toLowerCase();
+    this.ListProveedor = this.dataSource.filteredData;
+  }
   
+  
+  public sortData(sort: Sort) {
+    const data = this.ListProveedor.slice();
+
+    if (!sort.active || sort.direction === '') {
+      this.ListProveedor = data;
+    } else {
+      this.ListProveedor = data.sort((a, b) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const aValue = (a as any)[sort.active];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const bValue = (b as any)[sort.active];
+        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+      });
+    }
+  }
 
 
 

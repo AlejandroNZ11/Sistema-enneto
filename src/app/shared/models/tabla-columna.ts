@@ -61,6 +61,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Permiso': clase = new permisoResponse(); break;
     case 'Cuenta': clase = new cuentaResponse(); break;
     case 'Moneda': clase = new monedaResponse(); break;
+    case 'Proveedor': clase = new monedaResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
