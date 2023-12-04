@@ -21,3 +21,11 @@ export class proveedor {
     correo: string;
 
   }
+  export class proveedorResponse {
+    ruc ="";
+    nombre = "";
+    direccion = "";
+    telefono="";
+    contacto="";
+    correo="";
+  }

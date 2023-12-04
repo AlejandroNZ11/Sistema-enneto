@@ -58,7 +58,7 @@ export class MonedaComponent implements OnInit {
     } else if (accion.accion == 'Editar') {
       this.editarMoneda(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarMoneda(accion.fila.monedaId)
+      this.eliminarMoneda(accion.fila.tipoMonedaId)
     }
   }
 

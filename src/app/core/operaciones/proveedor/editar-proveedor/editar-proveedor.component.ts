@@ -33,6 +33,7 @@ export class EditarProveedorComponent {
       this.proveedor = proveedor;
       this.form.patchValue({
         ruc: this.proveedor.ruc,
+        nombre:this.proveedor.nombre,
        
       });
     })

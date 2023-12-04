@@ -9,156 +9,126 @@ import { ProveedorService } from 'src/app/shared/services/proveedor.service';
 import { AgregarProveedorComponent } from './agregar-proveedor/agregar-proveedor.component';
 import Swal from 'sweetalert2';
 import { environment as env } from 'src/environments/environments';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { EditarProveedorComponent } from './editar-proveedor/editar-proveedor.component';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
   styleUrls: ['./proveedor.component.scss']
 })
 export class ProveedorComponent {
-public routes = routes
-public ListProveedor: Array<Iproveedor> = [];
-proveedorSeleccionado: proveedor = new proveedor();
-dataSource!: MatTableDataSource<Iproveedor>;
-public showFilter = false;
-public searchDataValue = '';
-public lastIndex = 0;
-public pageSize = 10;
-public totalData = 0;
-public skip = 0;
-public limit: number = this.pageSize;
-public pageIndex = 0;
-public serialNumberArray: Array<number> = [];
-public currentPage = 1;
-public pageNumberArray: Array<number> = [];
-public pageSelection: Array<pageSelection> = [];
-public totalPages = 0;
-bsModalRef?: BsModalRef;
-constructor(private modalService: BsModalService, public proveedorService: ProveedorService) {
-}
-ngOnInit(){
-  this.getTableData();
-}
-
-
-private getTableData(): void {
-  this.ListProveedor = [];
-  this.serialNumberArray = [];
-  this.proveedorService.obtenerProveedores(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataProveedor) => {
-    this.totalData = data.totalData;
-    for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-      const serialNumber = index + 1;
-      this.serialNumberArray.push(serialNumber);
-    }
-    this.ListProveedor = data.data;
-    this.dataSource = new MatTableDataSource<Iproveedor>(this.ListProveedor);
-    this.calculateTotalPages(this.totalData, this.pageSize);
-  });
-}
-
-public searchData(value: any): void {
-  this.dataSource.filter = value.trim().toLowerCase();
-  this.ListProveedor = this.dataSource.filteredData;
-}
-public sortData(sort: Sort) {
-  const data = this.ListProveedor.slice();
-
-  if (!sort.active || sort.direction === '') {
-    this.ListProveedor = data;
-  } else {
-    this.ListProveedor = data.sort((a, b) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const aValue = (a as any)[sort.active];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const bValue = (b as any)[sort.active];
-      return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+  public routes = routes;
+  ListProveedor: Array<Iproveedor> = [];
+  columnas: string[] = []
+  acciones: string[] = []
+  proveedorSeleccionado: proveedor = new proveedor();
+  dataSource!: MatTableDataSource<Iproveedor>;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
+  bsModalRef?: BsModalRef;
+  limit: number = this.pageSize;
+  constructor(private modalService: BsModalService, public ProveedorService: ProveedorService) {
+  }
+  ngOnInit(): void {
+    this.columnas = getEntityPropiedades('Proveedor');
+    this.acciones = ['Editar', 'Eliminar'];
+  }
+  
+  private getTableData(currentPage: number, pageSize: number): void {
+    this.ListProveedor = [];
+    this.serialNumberArray = [];
+    this.ProveedorService.obtenerProveedores(env.clinicaId, currentPage, pageSize).subscribe((data: DataProveedor) => {
+      this.totalData = data.totalData
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.ListProveedor = data.data;
+      this.dataSource = new MatTableDataSource<Iproveedor>(this.ListProveedor);
     });
   }
-}
-public getMoreData(event: string): void {
-  if (event == 'next') {
-    this.currentPage++;
-    this.pageIndex = this.currentPage - 1;
-    this.limit += this.pageSize;
-    this.skip = this.pageSize * this.pageIndex;
-    this.getTableData();
-  } else if (event == 'previous') {
-    this.currentPage--;
-    this.pageIndex = this.currentPage - 1;
-    this.limit -= this.pageSize;
-    this.skip = this.pageSize * this.pageIndex;
-    this.getTableData();
-  }
-}
-public moveToPage(pageNumber: number): void {
-  this.currentPage = pageNumber;
-  this.skip = this.pageSelection[pageNumber - 1].skip;
-  this.limit = this.pageSelection[pageNumber - 1].limit;
-  if (pageNumber > this.currentPage) {
-    this.pageIndex = pageNumber - 1;
-  } else if (pageNumber < this.currentPage) {
-    this.pageIndex = pageNumber + 1;
-  }
-  this.getTableData();
-} 
+  eliminarProveedor(proveedorId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.ProveedorService.eliminarProveedor(proveedorId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Proveedor Eliminado en el sistema correctamente.', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
 
+  }
 
-crearProveedor() {
-  this.bsModalRef = this.modalService.show(AgregarProveedorComponent),
+  crearProveedor() {
+    this.bsModalRef = this.modalService.show(AgregarProveedorComponent),
+      this.bsModalRef.onHidden?.subscribe(() => {
+        this.getTableData(this.currentPage, this.pageSize);
+      });
+  }
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearProveedor();
+    }  else if (accion.accion == 'Eliminar') {
+      this.eliminarProveedor(accion.fila.diagnosticoId)
+    }
+  }
+
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
+  }
+  editarProveedor(proveedor: Iproveedor) {
+    const initialState = {
+      proveedorSeleccionado: proveedor.ruc
+    };
+    this.bsModalRef = this.modalService.show(EditarProveedorComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
-}
-eliminarProveedor(ruc:string){
-  Swal.fire({
-    title: '¿Estas seguro que deseas eliminar?',
-    showDenyButton: true,
-    confirmButtonText: 'Eliminar',
-    denyButtonText: `Cancelar`,
-  }).then((result) => {
-    if(result.isConfirmed){
-      this.proveedorService.eliminarProveedor(ruc).subscribe(
-        (response) => {
-          if (response.isSuccess) {
-            Swal.fire('Correcto', 'Proveedor Eliminado en el sistema correctamente.', 'success');
-            this.getTableData();
-            return;
-          } else {
-            console.error(response.message);
-          }
-        },
-        (error) => {
-          console.error(error);
-        });
-    }else{
-      return;
+  }
+  public searchData(value: any): void {
+    this.dataSource.filter = value.trim().toLowerCase();
+    this.ListProveedor = this.dataSource.filteredData;
+  }
+  
+  
+  public sortData(sort: Sort) {
+    const data = this.ListProveedor.slice();
+
+    if (!sort.active || sort.direction === '') {
+      this.ListProveedor = data;
+    } else {
+      this.ListProveedor = data.sort((a, b) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const aValue = (a as any)[sort.active];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const bValue = (b as any)[sort.active];
+        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+      });
     }
-  })
-
-
-  
-  
-}
-public PageSize(): void {
-  this.pageSelection = [];
-  this.limit = this.pageSize;
-  this.skip = 0;
-  this.currentPage = 1;
-  this.getTableData();
-}
-private calculateTotalPages(totalData: number, pageSize: number): void {
-  this.pageNumberArray = [];
-  this.totalPages = totalData / pageSize;
-  if (this.totalPages % 1 != 0) {
-    this.totalPages = Math.trunc(this.totalPages + 1);
   }
-  for (let i = 1; i <= this.totalPages; i++) {
-    const limit = pageSize * i;
-    const skip = limit - pageSize;
-    this.pageNumberArray.push(i);
-    this.pageSelection.push({ skip: skip, limit: limit });
-  }
-}
-
 
 
 

@@ -13,18 +13,15 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nombre <span class="login-danger">*</span></label>
-                                    <input formControlName="nombre" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
-                                    <div *ngIf="isInvalid('nombre')" class="invalid-feedback">
-                                        Debe completar el campo*
-                                    </div>
+                                    <input formControlName="nombre" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
-                                    </mat-select>
+                                    <label>Dirección <span class="login-danger">*</span></label>
+                                    <input formControlName="direccion" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('direccion')}">
+                                    <div *ngIf="isInvalid('direccion')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
@@ -32,53 +29,42 @@
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
                                         <mat-option value="DNI">DNI</mat-option>
-                                        <mat-option value="CÉDULA">CÉDULA</mat-option>
+                                        <mat-option value="RUC">RUC</mat-option>
+                                        <mat-option value="PASAPORTE">PASAPORTE</mat-option>
+                                        <mat-option value="CARNET EXTRANJERIA">CARNET DE EXTRANJERIA</mat-option>
+                                        <mat-option value="OTROS">OTROS</mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('tipoDocumento')" class="invalid-feedback">
-                                        Debe seleccionar un tipo de documento*
-                                    </div>
+                                    <div *ngIf="isInvalid('tipoDocumento')" class="invalid-feedback">Debe seleccionar un tipo de documento*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" class="form-control" type="number"
-                                        [ngClass]="{'is-invalid': isInvalid('documento')}">
-                                    <div *ngIf="isInvalid('documento')" class="invalid-feedback">
-                                        Debe completar el campo*
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Dirección <span class="login-danger">*</span></label>
-                                    <input formControlName="direccion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('direccion')}">
-                                    <div *ngIf="isInvalid('direccion')" class="invalid-feedback">
-                                        Debe completar el campo*
-                                    </div>
+                                    <input formControlName="documento" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('documento')}">
+                                    <div *ngIf="isInvalid('documento')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
-                                    <input formControlName="telefono" class="form-control" type="number"
-                                        [ngClass]="{'is-invalid': isInvalid('telefono')}">
-                                    <div *ngIf="isInvalid('telefono')" class="invalid-feedback">
-                                        Debe completar el campo*
-                                    </div>
+                                    <input formControlName="telefono" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('telefono')}">
+                                    <div *ngIf="isInvalid('telefono')" class="invalid-feedback">Debe completar el campo*</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true"></mat-select>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="col-12">
-                        <div class="doctor-submit text-end">
-                            <button type="submit" (click)="crearApoderado()"
-                                    class="btn btn-primary submit-form me-2">Guardar</button>
-                            <button type="submit" (click)="Cancelar()"
-                                    class="btn btn-primary cancel-form">Cancelar</button>
+                        <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button type="submit" (click)="crearApoderado()" class="btn btn-primary submit-form me-2">Guardar</button>
+                                <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
