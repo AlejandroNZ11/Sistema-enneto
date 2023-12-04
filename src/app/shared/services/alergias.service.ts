@@ -29,8 +29,8 @@ export class AlergiasService {
   obtenerAlergia( alergiasId: string): Observable<Ialergias> {
     return this.http.get<Ialergias>(this.apiUrl + `/Alergias/GetAlergia/${alergiasId}`);
   }
-  eliminarAlergia( especialidadId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Alergias/DeleteAlergia/${especialidadId}`);
+  eliminarAlergia( alergiaId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Alergias/DeleteAlergia/${alergiaId}`);
   }
   actualizarAlergia(alergia: Ialergias): Observable<successResponse> {
     return this.http.put<successResponse>(this.apiUrl + `/Alergias/UpdateAlergia/${alergia.alergiaId}`, alergia).pipe(

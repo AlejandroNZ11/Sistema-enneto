@@ -13,6 +13,6 @@ export interface DataAlergias {
   totalData: number;
   data: Ialergias[];
 }
-export class alergiaResponse {
+export class alergiaResponse { 
   nombre = "";
 }
