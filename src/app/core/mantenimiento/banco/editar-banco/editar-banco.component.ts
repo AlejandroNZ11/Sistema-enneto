@@ -28,7 +28,7 @@ export class EditarBancoComponent implements OnInit {
   ngOnInit() {
     this.bancoService.obtenerBanco(this.bancoSeleccionada!).subscribe(banco => {
       this.banco = banco;
-      this.form.patchValue({
+      this.form.patchValue({  
         descripcion: this.banco.descripcion,
         estado: this.banco.estado == '1' ? 'Activo' : 'Inactivo',
       });
