@@ -36,11 +36,3 @@ export interface IUsuario {
     fechaRegistro: string;
     estado: string;
 }
-
-export class usuarioResponse {
-    apellido = "";
-    nombre = "";
-    email = "";
-    loginUsuario = "";
-    fechaRegistro = "";
-}

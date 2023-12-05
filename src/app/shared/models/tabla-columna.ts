@@ -14,7 +14,6 @@ import { rolResponse } from "./rol";
 import { MarcaResponse } from "./marca";
 import { PresentacionResponse } from "./presentacion";
 import { UnidadResponse } from "./unidades";
-import { usuarioResponse } from "./usuario";
 import { ClienteResponse } from "./clientes";
 import { alergiaResponse } from "./alergia";
 import { permisoResponse } from "./permiso";
@@ -55,7 +54,6 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Marca': clase = new MarcaResponse(); break;
     case 'Presentacion': clase = new PresentacionResponse(); break;
     case 'Unidad': clase = new UnidadResponse(); break;
-    case 'Usuario': clase = new usuarioResponse(); break;
     case 'Clientes': clase = new ClienteResponse(); break;
     case 'Alergia': clase = new alergiaResponse(); break;
     case 'Permiso': clase = new permisoResponse(); break;
