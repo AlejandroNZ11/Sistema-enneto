@@ -22,7 +22,7 @@ export class AgregarAlergiasComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private service: AlergiasService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
     });
   }
 
@@ -42,12 +42,13 @@ export class AgregarAlergiasComponent implements OnInit{
       control.markAsTouched();
     });
   }
+  
   crearAlergia() {
     if (this.form.invalid) {
       this.isTouched()      
       return;
     }
-    this.Alergia.nombre = this.form.get("descripcion")?.value;
+    this.Alergia.nombre = this.form.get("nombre")?.value;
     console.log(this.Alergia);
     this.service.crearAlergia(this.Alergia).subscribe(
       (response)=>{

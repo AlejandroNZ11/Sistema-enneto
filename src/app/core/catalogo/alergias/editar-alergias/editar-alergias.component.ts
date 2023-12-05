@@ -51,7 +51,14 @@ export class EditarAlergiasComponent  implements OnInit{
       //Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
       return;
     }
-    this.AlergiasService.actualizarAlergia(this.Alergia).subscribe(
+    const alergiaActualizada: Ialergias = {
+      alergiaId: this.Alergia.alergiaId,
+      nombre: this.form.value.nombre,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+    };
+
+    this.Alergia.nombre = this.form.get("nombre")?.value;
+    this.AlergiasService.actualizarAlergia(this.Alergia || alergiaActualizada).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
