@@ -73,7 +73,7 @@ export class UnidadesComponent implements OnInit{
   }
   editarUnidad(unidad: Iunidad) {
     this.bsModalRef = this.modalService.show(EditarUnidadesComponent);
-    this.bsModalRef.content.unidadSeleccionada = unidad.unidadId;
+    this.bsModalRef.content.unidad = unidad.unidadId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -89,7 +89,7 @@ export class UnidadesComponent implements OnInit{
         this.UnidadService.eliminarUnidad(unidadId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Unidad Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

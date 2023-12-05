@@ -12,29 +12,33 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-unidades.component.scss']
 })
 export class EditarUnidadesComponent implements OnInit {
-  unidadSeleccionada: Iunidad | null = null;
+  unidadSeleccionada ?: string;
+  Unidad!: Iunidad;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private unidadService: UnidadesService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private unidadService: UnidadesService, 
+    public fb: FormBuilder) {
     this.form = this.fb.group({
+      nombre:  ['', Validators.required],
       siglas: ['', Validators.required],
       descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
 
-  ngOnInit() {
-    if (this.unidadSeleccionada) {
-      this.form.patchValue({
-        siglas: this.unidadSeleccionada.siglas,
-        descripcion: this.unidadSeleccionada.descripcion,
-        estado: this.unidadSeleccionada.estado,
+  ngOnInit(): void { 
+    this.unidadService.obtenerUnidad(this.unidadSeleccionada!).subscribe(unidades => {
+    this.Unidad = unidades;
+    this.form.patchValue({
+      nombre: this.Unidad.nombre,
+      siglas: this.Unidad.siglas,
+      descripcion: this.Unidad.descripcion,
+      estado: this.Unidad.estado== '1' ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
-
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -50,19 +54,19 @@ export class EditarUnidadesComponent implements OnInit {
   }
 
   guardarUnidad() {
-    if (!this.unidadSeleccionada || this.form.invalid) {
+    if (!this.Unidad || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
   
     const unidadActualizada: Iunidad = {
-      unidadId: this.unidadSeleccionada.unidadId,
+      unidadId: this.Unidad.unidadId,
       nombre: this.form.value.nombre,
       siglas: this.form.value.siglas,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-  
+    this.Unidad.nombre = this.form.get("nombre")?.value;
     this.unidadService.actualizarUnidad(unidadActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
