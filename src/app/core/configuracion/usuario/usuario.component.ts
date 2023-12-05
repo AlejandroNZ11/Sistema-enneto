@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
-import Swal from 'sweetalert2';
-import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import { UsuarioService } from 'src/app/shared/services/usuario.service';
 import { AgregarUsuarioComponent } from './agregar-usuario/agregar-usuario.component';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component';
 import { DataUsuario, IUsuario, Usuario } from 'src/app/shared/models/usuario';
 import { environment as env } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuario',
@@ -17,34 +18,42 @@ import { environment as env } from 'src/environments/environments';
 })
 export class UsuarioComponent implements OnInit {
   public routes = routes;
-  ListUsuario: Array<IUsuario> = [];
-  columnas: string[] = [];
-  acciones: string[] = [];
+  public ListUsuario: Array<IUsuario> = [];
   usuarioSeleccionado: Usuario = new Usuario();
   dataSource!: MatTableDataSource<IUsuario>;
-  pageSize = PageSize.size;
-  totalData = 0;
-  skip = 0;
-  serialNumberArray: Array<number> = [];
-  currentPage = 1;
+  public showFilter = false;
+  public searchDataValue = '';
+  public lastIndex = 0;
+  public pageSize = 10;
+  public totalData = 0;
+  public skip = 0;
+  public limit: number = this.pageSize;
+  public pageIndex = 0;
+  public serialNumberArray: Array<number> = [];
+  public currentPage = 1;
+  public pageNumberArray: Array<number> = [];
+  public pageSelection: Array<pageSelection> = [];
+  public totalPages = 0;
   bsModalRef?: BsModalRef;
-  limit: number = this.pageSize;
 
-  fechaDesde: Date | null = null;
-  fechaHasta: Date | null = null;
+  public fechaInicio = '';
+  public fechaFin = '';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public tiposUsuarios: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public tipoUsuario: any = null;
 
-  constructor(private modalService: BsModalService, public usuarioService: UsuarioService) {}
-
-  ngOnInit() {
-    this.columnas = getEntityPropiedades('Usuario');
-    this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
+  constructor(private modalService: BsModalService, public usuarioService: UsuarioService) {
   }
 
-  private getTableData(currentPage: number, pageSize: number): void {
+  ngOnInit() {
+    this.getTableData();
+  }
+
+  private getTableData(): void {
     this.ListUsuario = [];
     this.serialNumberArray = [];
-    this.usuarioService.obtenerUsuarios(env.clinicaId, currentPage, pageSize).subscribe((data: DataUsuario) => {
+    this.usuarioService.obtenerUsuarios(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataUsuario) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -52,41 +61,93 @@ export class UsuarioComponent implements OnInit {
       }
       this.ListUsuario = data.data;
       this.dataSource = new MatTableDataSource<IUsuario>(this.ListUsuario);
+      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
 
-  onAction(accion: Accion) {
-    if (accion.accion == 'Crear') {
-      this.crearUsuario();
-    } else if (accion.accion == 'Editar') {
-      this.editarUsuario(accion.fila);
-    } else if (accion.accion == 'Eliminar') {
-      this.eliminarUsuario(accion.fila.usuarioId);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public searchData(value: any): void {
+    this.dataSource.filter = value.trim().toLowerCase();
+    this.ListUsuario = this.dataSource.filteredData;
+  }
+
+  public sortData(sort: Sort) {
+    const data = this.ListUsuario.slice();
+    if (!sort.active || sort.direction === '') {
+      this.ListUsuario = data;
+    } else {
+      this.ListUsuario = data.sort((a, b) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const aValue = (a as any)[sort.active];
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const bValue = (b as any)[sort.active];
+        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
+      });
     }
   }
 
-  getMoreData(pag: Paginacion) {
-    this.getTableData(pag.page, pag.size);
-    this.currentPage = pag.page;
-    this.pageSize = pag.size;
-    this.skip = pag.skip;
-    this.limit = pag.limit;
+  public getMoreData(event: string): void {
+    if (event == 'next') {
+      this.currentPage++;
+      this.pageIndex = this.currentPage - 1;
+      this.limit += this.pageSize;
+      this.skip = this.pageSize * this.pageIndex;
+      this.getTableData();
+    } else if (event == 'previous') {
+      this.currentPage--;
+      this.pageIndex = this.currentPage - 1;
+      this.limit -= this.pageSize;
+      this.skip = this.pageSize * this.pageIndex;
+      this.getTableData();
+    }
+  }
+
+  public moveToPage(pageNumber: number): void {
+    this.currentPage = pageNumber;
+    this.skip = this.pageSelection[pageNumber - 1].skip;
+    this.limit = this.pageSelection[pageNumber - 1].limit;
+    if (pageNumber > this.currentPage) {
+      this.pageIndex = pageNumber - 1;
+    } else if (pageNumber < this.currentPage) {
+      this.pageIndex = pageNumber + 1;
+    }
+    this.getTableData();
+  }
+
+  public PageSize(): void {
+    this.pageSelection = [];
+    this.limit = this.pageSize;
+    this.skip = 0;
+    this.currentPage = 1;
+    this.getTableData();
+  }
+
+  private calculateTotalPages(totalData: number, pageSize: number): void {
+    this.pageNumberArray = [];
+    this.totalPages = totalData / pageSize;
+    if (this.totalPages % 1 != 0) {
+      this.totalPages = Math.trunc(this.totalPages + 1);
+    }
+    for (let i = 1; i <= this.totalPages; i++) {
+      const limit = pageSize * i;
+      const skip = limit - pageSize;
+      this.pageNumberArray.push(i);
+      this.pageSelection.push({ skip: skip, limit: limit });
+    }
   }
 
   crearUsuario() {
     this.bsModalRef = this.modalService.show(AgregarUsuarioComponent);
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      this.getTableData();
     });
   }
 
   editarUsuario(usuario: IUsuario) {
-    const initialState = {
-      usuarioSeleccionado: usuario.usuarioId
-    };
-    this.bsModalRef = this.modalService.show(EditarUsuarioComponent, { initialState });
+    this.bsModalRef = this.modalService.show(EditarUsuarioComponent);
+    this.bsModalRef.content.usuarioSeleccionado = usuario.usuarioId;
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      this.getTableData();
     });
   }
 
@@ -102,7 +163,7 @@ export class UsuarioComponent implements OnInit {
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Usuario eliminado en el sistema correctamente.', 'success');
-              this.getTableData(this.currentPage, this.pageSize);
+              this.getTableData();
               return;
             } else {
               console.error(response.message);
@@ -116,9 +177,4 @@ export class UsuarioComponent implements OnInit {
       }
     });
   }
-  
-  aplicarFiltro() {
-    // Implementa lógica de filtrado según tus necesidades
-  }
 }
-
