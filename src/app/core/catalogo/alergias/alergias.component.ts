@@ -94,7 +94,7 @@ export class AlergiasComponent implements OnInit{
         this.alergiaService.eliminarAlergia(AlergiaId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Alergia Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

@@ -4,6 +4,7 @@ export class banco {
     usuarioId = "";
     nombre = "";
     descripcion = "";
+    bancoId= "";
   }
   export interface DataBancos {
     totalData: number;

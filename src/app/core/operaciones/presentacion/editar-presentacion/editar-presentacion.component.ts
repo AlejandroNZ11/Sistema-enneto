@@ -11,29 +11,30 @@ import Swal from 'sweetalert2';
   templateUrl: './editar-presentacion.component.html',
   styleUrls: ['./editar-presentacion.component.scss']
 })
-export class EditarPresentacionComponent {
+export class EditarPresentacionComponent implements OnInit {
   presentacion!: Ipresentacion;
-  presentacionSeleccionada: any;
+  presentacionSeleccionada ?: string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private presentacionService: PresentacionService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private presentacionService: PresentacionService, 
+    public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void { 
     this.presentacionService.obtenerPresentacion(this.presentacionSeleccionada!).subscribe(presentacion => {
-      this.presentacion = presentacion;
-      this.form.patchValue({
+    this.presentacion = presentacion;
+    this.form.patchValue({
         nombre: this.presentacion.nombre,
         estado: this.presentacion.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
-  }
+  } 
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -50,17 +51,11 @@ export class EditarPresentacionComponent {
   }
 
   guardarPresentacion() {
-    if (!this.presentacion || this.form.invalid) {
+    if (this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-    const presentacionActualizada: Ipresentacion = {
-      presentacionId: this.presentacion.presentacionId,
-      nombre: this.form.value.nombre,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
-    };
-
-    this.presentacionService.actualizarPresentacion(presentacionActualizada).subscribe(
+    this.presentacionService.actualizarPresentacion(this.presentacion).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
