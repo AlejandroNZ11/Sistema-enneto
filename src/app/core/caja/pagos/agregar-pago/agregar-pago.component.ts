@@ -50,8 +50,8 @@ export class AgregarPagoComponent implements OnInit {
       this.isTouched()      
       return;
     }
-    this.Pago.monto = parseFloat(this.form.get("monto")?.value);
-    this.Pago.numeroPago = parseFloat(this.form.get("numeroPago")?.value);
+    this.Pago.monto = this.form.get("monto")?.value;
+    this.Pago.numeroPago = this.form.get("numeroPago")?.value;
     this.Pago.fechaRegistro = this.form.get("fechaRegistro")?.value;
     this.Pago.fechaVencimiento = this.form.get("fechaVencimiento")?.value;
     console.log(this.Pago);
