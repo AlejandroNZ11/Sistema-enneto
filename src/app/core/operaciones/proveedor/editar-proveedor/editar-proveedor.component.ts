@@ -34,6 +34,10 @@ export class EditarProveedorComponent {
       this.form.patchValue({
         ruc: this.proveedor.ruc,
         nombre:this.proveedor.nombre,
+        direccion:this.proveedor.direccion,
+        telefono:this.proveedor.telefono,
+        contacto:this.proveedor.contacto,
+        correo:this.proveedor.correo,
        
       });
     })
