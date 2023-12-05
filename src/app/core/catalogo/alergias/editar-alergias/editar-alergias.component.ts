@@ -30,7 +30,7 @@ export class EditarAlergiasComponent  implements OnInit{
   constructor(public bsModalRef: BsModalRef,private AlergiasService: AlergiasService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
@@ -46,7 +46,7 @@ export class EditarAlergiasComponent  implements OnInit{
     this.bsModalRef.hide()
   }
   guardarAlergia() {
-    if (this.form.invalid) {
+    if (!this.Alergia ||this.form.invalid) {
       this.mostrarErrores = true;
       //Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
       return;
