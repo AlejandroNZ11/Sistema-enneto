@@ -38,6 +38,7 @@ export class EditarProveedorComponent {
         telefono:this.proveedor.telefono,
         contacto:this.proveedor.contacto,
         correo:this.proveedor.correo,
+        estado: this.proveedor.estado == '1' ? 'Activo' : 'Inactivo',
        
       });
     })
@@ -66,6 +67,7 @@ export class EditarProveedorComponent {
       telefono:this.form.value.telefono,
       contacto:this.form.value.contacto,
       correo:this.form.value.correo,
+      estado:this.form.value.estado,
       
     };
     this.ProveedorService.actualizarProveedor(proveedorActualizado).subscribe(

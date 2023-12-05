@@ -19,6 +19,7 @@ export class proveedor {
     telefono : string;
     contacto : string;
     correo: string;
+    estado:string;
 
   }
   export class proveedorResponse {
@@ -28,4 +29,5 @@ export class proveedor {
     telefono="";
     contacto="";
     correo="";
+    estado=  "";
   }
