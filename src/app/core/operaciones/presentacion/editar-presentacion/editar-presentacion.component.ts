@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarPresentacionComponent implements OnInit {
   presentacion!: Ipresentacion;
-  presentacionSeleccionada ?: string;
+  presentacionSeleccionada?: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -55,7 +55,15 @@ export class EditarPresentacionComponent implements OnInit {
       this.mostrarErrores = true;
       return;
     }
-    this.presentacionService.actualizarPresentacion(this.presentacion).subscribe(
+
+    const presentacionActualizada: Ipresentacion = {
+      presentacionId: this.presentacion.presentacionId,
+      nombre: this.form.value.nombre,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+    };
+
+    this.presentacion.nombre = this.form.get("nombre")?.value;
+    this.presentacionService.actualizarPresentacion(this.presentacion ||presentacionActualizada ).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

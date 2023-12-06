@@ -74,7 +74,10 @@ export class CuentaComponent implements OnInit{
       });
   }
   editarCuenta(cuenta: Icuenta) {
-    this.bsModalRef = this.modalService.show(EditarCuentaComponent);
+    const initialState = {
+      cuentaSeleccionada: cuenta.cuentaPagarId
+    };
+    this.bsModalRef = this.modalService.show(EditarCuentaComponent, { initialState });
     this.bsModalRef.content.cuentaSeleccionada = cuenta.cuentaPagarId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);

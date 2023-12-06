@@ -17,7 +17,7 @@ export class EditarProveedorComponent {
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
-  constructor(public bsModalRef: BsModalRef, private ProveedorService: ProveedorService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private ProveedorServicio: ProveedorService, public fb: FormBuilder) {
     this.form = this.fb.group({
       ruc: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -29,7 +29,7 @@ export class EditarProveedorComponent {
     });
   }
   ngOnInit() {
-    this.ProveedorService.obtenerProveedor(this.proveedorSeleccionado!).subscribe(proveedor => {
+    this.ProveedorServicio.obtenerProveedor(this.proveedorSeleccionado!).subscribe(proveedor => {
       this.proveedor = proveedor;
       this.form.patchValue({
         ruc: this.proveedor.ruc,
@@ -70,7 +70,7 @@ export class EditarProveedorComponent {
       estado:this.form.value.estado,
       
     };
-    this.ProveedorService.actualizarProveedor(proveedorActualizado).subscribe(
+    this.ProveedorServicio.actualizarProveedor(proveedorActualizado).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

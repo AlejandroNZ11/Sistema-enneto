@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-cuenta.component.scss']
 })
 export class EditarCuentaComponent implements OnInit {
-  cuentaSeleccionada: Icuenta | null = null;
+  cuentaSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -61,7 +61,7 @@ export class EditarCuentaComponent implements OnInit {
       total: this.form.value.total,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-  
+    
     this.cuentaService.actualizarCuenta(cuentaActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
