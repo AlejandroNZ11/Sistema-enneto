@@ -13,11 +13,13 @@ import Swal from 'sweetalert2';
 })
 export class EditarCuentaComponent implements OnInit {
   cuentaSeleccionada: any;
+  cuenta!: Icuenta;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private cuentaService: CuentaService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private cuentaService: CuentaService, 
+    public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       total: ['', Validators.required],
@@ -26,13 +28,14 @@ export class EditarCuentaComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.cuentaSeleccionada) {
+    this.cuentaService.obtenerCuenta(this.cuentaSeleccionada!).subscribe(cuenta=> {
+      this.cuenta=cuenta;
       this.form.patchValue({
-        nombre: this.cuentaSeleccionada.nombre,
-        total: this.cuentaSeleccionada.total,
-        estado: this.cuentaSeleccionada.estado,
+        nombre: this.cuenta.nombre,
+        total: this.cuenta.total,
+        estado: this.cuenta.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
 
   isInvalid(controlName: string) {
@@ -50,13 +53,12 @@ export class EditarCuentaComponent implements OnInit {
   }
 
   guardarCuenta() {
-    if (!this.cuentaSeleccionada || this.form.invalid) {
+    if (!this.cuenta || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-  
     const cuentaActualizada: Icuenta = {
-      cuentaPagarId: this.cuentaSeleccionada.cuentaPagarId,
+      cuentaPagarId: this.cuenta.cuentaPagarId,
       nombre: this.form.value.nombre,
       total: this.form.value.total,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',

@@ -26,7 +26,7 @@ export class CuentaService {
     );
   }
   obtenerCuenta( cuentaId: string): Observable<Icuenta> {
-    return this.http.get<Icuenta>(this.apiUrl + `/CuentasPagar/GetCuentaPagar${cuentaId}`);
+    return this.http.get<Icuenta>(this.apiUrl + `/CuentasPagar/GetCuentaPagar/${cuentaId}`);
   }
   eliminarCuenta( cuentaId: string): Observable<successResponse> {
     return this.http.delete<successResponse>(this.apiUrl + `/CuentasPagar/DeleteCuentaPagar/${cuentaId}`);
