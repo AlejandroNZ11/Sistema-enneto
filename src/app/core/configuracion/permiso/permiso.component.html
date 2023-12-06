@@ -12,87 +12,208 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="menuId">Búsqueda por menú:</label>
-                    <select name="menuId" class="form-control select2 input-sm select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                        <option value="" data-select2-id="3">--Todos--</option>
-                    <option value="1" data-select2-id="17">Inicio (ver tu cuenta)</option>
-                    <option value="2" data-select2-id="18">Inicio (ver tutorial)</option>
-                    <option value="3" data-select2-id="19">Citas (agenda)</option>
-                    <option value="4" data-select2-id="20">Citas (registrar)</option>
-                    <option value="5" data-select2-id="21">Tratamientos (registrar)</option>
-                    <option value="6" data-select2-id="22">Tratamientos (ver reporte de comprobantes)</option>
-                    <option value="7" data-select2-id="23">Tarifario (ver registro)</option>
-                    <option value="8" data-select2-id="24">Procedimiento (registro de CIE10)</option>
-                    <option value="9" data-select2-id="25">Historia ( ver movimiento)</option>
-                    <option value="10" data-select2-id="26">Reportes</option>
-                    <option value="11" data-select2-id="27">Paciente (ver registro)</option>
-                    <option value="12" data-select2-id="28">Doctor (ver registro)</option>
-                    <option value="13" data-select2-id="29">Mantenimiento (registro tipo de pago)</option>
-                    <option value="14" data-select2-id="30">Mantenimiento (registro moneda)</option>
-                    <option value="15" data-select2-id="31">Mantenimiento (registro banco)</option>
-                    <option value="16" data-select2-id="32">Mantenimiento (registro tarjeta)</option>
-                    <option value="17" data-select2-id="33">Catalogo (registro de unidad medida)</option>
-                    <option value="18" data-select2-id="34">Catalogo (registro de tipo concepto)</option>
-                    <option value="19" data-select2-id="35">Catalogo (registro de categoria)</option>
-                    <option value="20" data-select2-id="36">Catalogo (registro de especialidad)</option>
-                    <option value="21" data-select2-id="37">Catalogo (registro de tipo citado)</option>
-                    <option value="22" data-select2-id="38">Catalogo (registro de alergia)</option>
-                    <option value="23" data-select2-id="39">Usuario (ver registro de usuarios)</option>
-                    <option value="24" data-select2-id="40">Usuario (ver registro de cargos)</option>
-                    <option value="25" data-select2-id="41">Usuario (ver registro de permisos)</option>
-                    <option value="26" data-select2-id="42">Configuracion (mi clinica)</option>
-                    <option value="27" data-select2-id="43">Configuracion (registro de tipo documento)</option>
-                    <option value="28" data-select2-id="44">Historia (ver historia general)</option>
-                    <option value="29" data-select2-id="45">Comisiones (procesar)</option>
-                    <option value="30" data-select2-id="46">Reportes (recomendados)</option>
-                    <option value="31" data-select2-id="47">Citas(preagenda)</option>
-                    <option value="32" data-select2-id="48">Citas(control)</option>
-                    <option value="33" data-select2-id="49">Reportes(cobros generales)</option>
-                    <option value="34" data-select2-id="50">Cobros(cobros)</option>
-                    <option value="35" data-select2-id="51">Administracion (registro gastos)</option>
-                    <option value="36" data-select2-id="52">Graficos (productividad)</option>
-                    <option value="37" data-select2-id="53">Cmr (ver reporte cmr)</option>
-                    <option value="38" data-select2-id="54">Graficos (control)</option>
-                    <option value="39" data-select2-id="55">Movimientos (marcar)</option>
-                    <option value="40" data-select2-id="56">Movimientos (categorías materiales)</option>
-                    <option value="41" data-select2-id="57">Movimientos (presentacion materiales)</option>
-                    <option value="42" data-select2-id="58">Movimientos (tipo materiales)</option>
-                    <option value="43" data-select2-id="59">Movimientos (tipo unidades)</option>
-                    <option value="44" data-select2-id="60">Movimientos (proveedores)</option>
-                    <option value="45" data-select2-id="61">Movimientos (productos)</option>
-                    <option value="46" data-select2-id="62">Movimientos (ventas)</option>
-                    <option value="47" data-select2-id="63">Movimientos (inventarios)</option>
-                    <option value="48" data-select2-id="64">Movimientos (compras)</option>
-                    <option value="49" data-select2-id="65">Caja (correcciones)</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="rolId">Búsqueda por rol:</label>
-                    <select name="rolId" class="form-control select2 input-sm select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                        <option value="" data-select2-id="6">--Todos--</option>
-                        <option value="1" data-select2-id="70">Doctor</option>
-                        <option value="2" data-select2-id="71">Administrador</option>
-                        <option value="3" data-select2-id="72">Secretaria</option>
-                        <option value="4" data-select2-id="73">Asistente</option>
-                        <option value="5" data-select2-id="74">No especifica</option>
-                        <option value="6" data-select2-id="75">rol</option>
-                    </select>
-                </div>
-            </div>
-        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <app-tabla [total]="totalData" [data]="listPermisos" [indice]="serialNumberArray" [columns]="columnas"
-                            [titulo]="'Lista de Permisos'" [accion]="acciones" (action)="onAction($event)"
-                            (MoreData)="getMoreData($event)">
-                        </app-tabla>
+                        <!-- Table Header -->
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk">
+                                        <h3>Lista de Permisos</h3>
+                                        <div class="doctor-search-blk">
+                                            <div class="top-nav-search table-search-blk">
+                                                <mat-select [(ngModel)]="menuId" class="form-control select" placeholder="Búsqueda de Menú">
+                                                    <mat-option value="" disabled>Búsqueda de Menú</mat-option>
+                                                    <mat-option value="inicio">Inicio (ver cuenta)</mat-option>
+                                                    <mat-option value="inicio">Inicio (ver tutorial)</mat-option>
+                                                    <mat-option value="citas">Citas (agenda)</mat-option>
+                                                    <mat-option value="citas">Citas (registrar)</mat-option>
+                                                    <mat-option value="tratamiento">Tratamiento (registrar)</mat-option>
+                                                    <mat-option value="tratamiento">Tratamiento (ver reporte de comprobantes)</mat-option>
+                                                    <mat-option value="tarifario">Tarifario (ver registro)</mat-option>
+                                                    <mat-option value="Procedimiento">Procedimiento (registro de CIE10)</mat-option>
+                                                    <mat-option value="historia">Historia (ver movimiento)</mat-option>
+                                                    <mat-option value="reportes">Reportes</mat-option>
+                                                    <mat-option value="paciente">Paciente (ver registro)</mat-option>
+                                                    <mat-option value="doctor">Doctor (ver registro)</mat-option>
+                                                    <mat-option value="mantenimiento">Mantenimiento (resgistro tipo de pago)</mat-option>
+                                                    <mat-option value="mantenimiento">Mantenimiento (resgistro moneda)</mat-option>
+                                                    <mat-option value="mantenimiento">Mantenimiento (resgistro banco)</mat-option>
+                                                    <mat-option value="mantenimiento">Mantenimiento (resgistro tarjeta)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de unidad medida)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de tipo concepto)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de categoria)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de especialidad)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de tipo citado)</mat-option>
+                                                    <mat-option value="catalago">Catalago (resgistro de alergia)</mat-option>
+                                                    <mat-option value="usuario">Usuario (ver registro de usuarios)</mat-option>
+                                                    <mat-option value="usuario">Usuario (ver registro de cargos)</mat-option>
+                                                    <mat-option value="usuario">Usuario (ver registro de permisos)</mat-option>
+                                                    <mat-option value="configuracion">Configuracion (mi clinica)</mat-option>
+                                                    <mat-option value="configuracion">Configuracion (registro de tipo documento)</mat-option>
+                                                    <mat-option value="historia">Historia (ver histora general)</mat-option>
+                                                    <mat-option value="comisiones">Comisiones (procesar)</mat-option>
+                                                    <mat-option value="reportes">Reportes (recomendados)</mat-option>
+                                                    <mat-option value="citas">Citas (preagenda)</mat-option>
+                                                    <mat-option value="citas">Citas (control)</mat-option>
+                                                    <mat-option value="reportes">Reportes (cobros generales)</mat-option>
+                                                    <mat-option value="cobros">Cobros (cobros)</mat-option>
+                                                    <mat-option value="administracion">Administracion (registro gastos)</mat-option>
+                                                    <mat-option value="graficos">Graficos (productividad)</mat-option>
+                                                    <mat-option value="cmr">Cmr (ver reporte cmr)</mat-option>
+                                                    <mat-option value="graficos">Graficos (control)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (marcar)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (categoria materiales)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (presentacion materiales)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (tipo materiales)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (tipo unidades)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (proveedores)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (productos)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (ventas)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (inventarios)</mat-option>
+                                                    <mat-option value="movimientos">Movimientos (compras)</mat-option>
+                                                    <mat-option value="caja">Caja (correcciones)</mat-option>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="top-nav-search table-search-blk">
+                                                <mat-select [(ngModel)]="rolId" class="form-control select" placeholder="Búsqueda de Rol">
+                                                    <mat-option value="" disabled>Búsqueda de Rol</mat-option>
+                                                    <mat-option value="Doctor">Doctor</mat-option>
+                                                    <mat-option value="Administrador">Administrador</mat-option>
+                                                    <mat-option value="Secretaria">Secretaria</mat-option>
+                                                    <mat-option value="Asistente">Asistente</mat-option>
+                                                    <mat-option value="No especifica">No especifica</mat-option>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="add-group">
+                                                <a (click)="crearPermiso()" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
+                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt=""></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp">
+                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-02.svg" alt=""></a>
+                                    <a href="javascript:;" class="me-2"><img src="assets/img/icons/pdf-icon-03.svg" alt=""></a>
+                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table matSort (matSortChange)="sortData($event)"
+                            class="table border-0 custom-table comman-table datatable mb-0">
+                            <thead>
+                                <tr>
+                                    <th mat-sort-header="permisoId">Nº</th>
+                                    <th mat-sort-header="modulo">Módulo</th>
+                                    <th mat-sort-header="cargo">Cargo</th>
+                                    <th mat-sort-header="read">Leer</th>
+                                    <th mat-sort-header="insert">Insertar</th>
+                                    <th mat-sort-header="update">Actualizar</th>
+                                    <th mat-sort-header="delete">Anular</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of listPermisos let i = index">
+                                    <td>{{serialNumberArray[i]}}</td>
+                                    <td>{{data.modulo}}</td>
+                                    <td>{{data.cargo}}</td>
+                                    <td>{{data.read}}</td>
+                                    <td>{{data.insert}}</td>
+                                    <td>{{data.update}}</td>
+                                    <td>{{data.delete}}</td>
+                                    <td class="text-end">
+                                        <div class="dropdown dropdown-action">
+                                            <a href="javascript:void(0);" class="action-icon dropdown-toggle"
+                                                data-bs-toggle="dropdown" aria-expanded="false"><i
+                                                    class="fa fa-ellipsis-v"></i></a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a class="dropdown-item" (click)="editarPermiso(data)"><i
+                                                        class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"
+                                                    (click)="eliminarPermiso(data.permisoId)"><i
+                                                        class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="table_footer">
+                            <div class="col-sm-12 col-md-5">
+                                <div class="dataTables_info">
+                                    Mostrando {{ serialNumberArray[0] }} a
+                                    {{ serialNumberArray[serialNumberArray.length - 1] }} de
+                                    {{ totalData }} entradas
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-7">
+                                <div class="pagination_section">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{ disabled: currentPage === 1 }">
+                                            <a (click)="getMoreData('previous')" class="page-link"
+                                                href="javascript:void(0);" tabindex="-1">Antes</a>
+                                        </li>
+                                        <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                                            <li class="page-item" [class.active]="item === currentPage" [ngClass]="
+                                                (pageNumberArray[currentPage - 2] > item &&
+                                                    item !== 1 &&
+                                                    pageNumberArray.length > 6) ||
+                                                (pageNumberArray[currentPage] < item &&
+                                                    item !== 1 &&
+                                                    pageNumberArray.length > 6 &&
+                                                    pageNumberArray.length !== item)
+                                                ? 'hide-page-no'
+                                                : 'show-page-no'">
+                                                <a (click)="moveToPage(item)" class="page-link"
+                                                    href="javascript:void(0);">
+                                                    {{ item }}
+                                                </a>
+                                            </li>
+                                            <li class="page-item" *ngIf="
+                                                i === 0 &&
+                                                pageNumberArray.length > 6 &&
+                                                currentPage > 2
+                                                " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                                                <a class="page-link" href="javascript:void(0);">
+                                                    ...
+                                                </a>
+                                            </li>
+                                            <li *ngIf="
+                                                i === pageNumberArray.length - 2 &&
+                                                pageNumberArray.length > 6
+                                                " [hidden]="
+                                                currentPage >=
+                                                    pageNumberArray[pageNumberArray.length - 2] ||
+                                                totalData <
+                                                    serialNumberArray[serialNumberArray.length - 1]
+                                                " class="page-item" (click)="moveToPage(currentPage + 2)">
+                                                <a class="page-link" href="javascript:void(0);">
+                                                    ...
+                                                </a>
+                                            </li>
+                                        </ng-container>
+                                        <li class="page-item" [ngClass]="{
+                                            disabled:
+                                            currentPage ===
+                                                pageNumberArray[pageNumberArray.length - 1] ||
+                                                listPermisos.length === 0
+                                            }">
+                                            <a (click)="getMoreData('next')" class="page-link"
+                                                href="javascript:void(0);">Siguiente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
