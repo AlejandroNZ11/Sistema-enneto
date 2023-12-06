@@ -12,13 +12,13 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-pago.component.scss']
 })
 export class EditarPagoComponent implements OnInit {
-  pagoSeleccionada ?: string;
+  pagoSeleccionada?: string;
   Pago!: PagosResponse;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
   ngOnInit(): void { }
-  constructor(public bsModalRef: BsModalRef,private pagosService: PagosService,
+  constructor(public bsModalRef: BsModalRef, private pagosService: PagosService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       monto: ['', Validators.required],
@@ -45,7 +45,7 @@ export class EditarPagoComponent implements OnInit {
       return;
     }
     this.Pago.monto = this.form.value.nombre;
-    this.Pago.numeroPago = this.form.value.numeroPago;  
+    this.Pago.numeroPago = this.form.value.numeroPago;
     this.Pago.fechaRegistro = this.form.value.fechaRegistro;
     this.Pago.fechaVencimiento = this.form.value.fechaVencimiento;
   
