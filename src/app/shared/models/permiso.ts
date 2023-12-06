@@ -27,12 +27,3 @@ export interface IPermiso {
     update: string;
     delete: string;
 }
-
-export class permisoResponse {
-    modulo = '';
-    cargo = '';
-    leer = '';
-    insertar = '';
-    actualizar = '';
-    anular = '';
-}
