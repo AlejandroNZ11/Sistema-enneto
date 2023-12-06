@@ -95,7 +95,7 @@ export class EspecialidadesComponent implements OnInit {
         this.especialidadService.eliminarEspecialidad(especialidadId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Especialidad Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

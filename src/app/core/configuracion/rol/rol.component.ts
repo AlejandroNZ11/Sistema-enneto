@@ -75,7 +75,10 @@ export class RolComponent implements OnInit{
       });
   }
   editarRol(roles: Iroles) {
-    this.bsModalRef = this.modalService.show(EditarRolesComponent);
+    const initialState = {
+      rolSeleccionada: roles.rolId
+    };
+    this.bsModalRef = this.modalService.show(EditarRolesComponent, { initialState });
     this.bsModalRef.content.rolSeleccionada = roles.nombre;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);

@@ -40,8 +40,8 @@
             <tr *ngFor="let data of dataSource let i = index">
                 <td>{{serialNumberArray[i]}}</td>
                 <td *ngFor="let nombre of columnas">{{getValue(data,nombre)}}</td>
-                <td *ngIf="data.estado==='1'|| data.estado ===0"><button class="custom-badge status-green">Activo</button></td>
-                <td *ngIf="data.estado==='0'|| data.estado ===1"><button class="custom-badge status-blue">Inactivo</button></td>
+                <td *ngIf="data.estado==='A'|| data.estado ==='1' || data.estado ===1"><button class="custom-badge status-green">Activo</button></td>
+                <td *ngIf="data.estado==='I'|| data.estado ==='0' || data.estado ===0"><button class="custom-badge status-blue">Inactivo</button></td>
                 <td class="text-end">
                     <div class="dropdown dropdown-action">
                         <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
