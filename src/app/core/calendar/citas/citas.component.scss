@@ -1,0 +1,40 @@
+.busqueda {
+    margin-top: 5px;
+}
+
+.custom-modal-dialog {
+    max-width: 50%;
+    width: auto;
+}
+
+.buscar {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+}
+
+.clear-icon {
+    cursor: pointer;
+    color: #888;
+}
+
+.clear-icon:hover {
+    color: #f00;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    font-size: 12px;
+}
+
+li {
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}

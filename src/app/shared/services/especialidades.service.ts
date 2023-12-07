@@ -24,6 +24,9 @@ export class EspecialidadesService {
       })
     );
   }
+  obtenerListaEspecialidad(): Observable<Iespecialidad[]> {
+    return this.http.get<Iespecialidad[]>(this.apiUrl + `/Especialidades/GetEspecialidadList`);
+  }
   obtenerEspecialidad( especialidadId: string): Observable<Iespecialidad> {
     return this.http.get<Iespecialidad>(this.apiUrl + `/Especialidades/GetEspecialidad/${especialidadId}`);
   }

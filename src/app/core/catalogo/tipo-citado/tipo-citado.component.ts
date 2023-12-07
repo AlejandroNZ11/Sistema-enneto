@@ -9,6 +9,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { environment as env } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tipo-citado',
@@ -134,6 +135,33 @@ export class TipoCitadoComponent implements OnInit{
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData();
     });
+  }
+  eliminarTipoCitado(tipoCitadoId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.tipoCitadoService.eliminarTipoCitado(tipoCitadoId).subscribe(
+          (response: { isSuccess: any; message: any; }) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Tipo Citado Eliminado en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
+
   }
 }
 

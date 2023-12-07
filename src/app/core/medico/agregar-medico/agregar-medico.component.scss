@@ -2,23 +2,18 @@
     position: relative;
 }
 
-.icon-inside {
-    z-index: 2;  
+.icon-outside {
+    cursor: pointer;
     position: absolute;
-    right: 10px; /* Ajusta la posición según sea necesario */
     top: 50%;
     transform: translateY(-50%);
+    right: 0px;
+    z-index: 2;
 }
-
-.icon-inside i {
-    cursor: pointer;
-    padding: 5px;
-}
-
-.input-group {
-    position: relative;  
-}
-
 .form-control {
-    z-index: 1; 
+    flex: 1;
+    margin-right: 22.5px; /* Ajusta el espacio a la derecha del campo de entrada */
+}
+.input-group {
+    position: relative;
 }

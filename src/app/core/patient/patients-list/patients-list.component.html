@@ -50,7 +50,7 @@
                       <div class="top-nav-search table-search-blk">
                         <mat-select [(ngModel)]="tipoPaciente" class="form-control select"
                           placeholder="Seleccione Tipo Paciente">
-                          <mat-option [value]="null">(TODOS)</mat-option>
+                          <mat-option value="--TODOS--">--TODOS--</mat-option>
                           <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
                             {{data.nombre}}
                           </mat-option>

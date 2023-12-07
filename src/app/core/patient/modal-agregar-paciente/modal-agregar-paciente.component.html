@@ -1,0 +1,402 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Agregar Paciente</h4>
+    </div>
+    <div class="modal-body">
+        <div class="content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form [formGroup]="form">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Tipo de Documento <span class="login-danger">*</span></label>
+                                            <mat-select formControlName="tipoDocumentoId"
+                                                [(ngModel)]="paciente.TipoDocumentoId" class="form-control select"
+                                                placeholder="Seleccione Tipo de Documento"
+                                                [ngClass]="{'is-invalid': isInvalid('tipoDocumentoId') && isFormSubmitted}"
+                                                (ngModelChange)="actualizarCantidad()">
+                                                <mat-option *ngFor="let data of tipoDocumento_LISTA"
+                                                    [value]="data.value">
+                                                    {{data.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('tipoDocumentoId') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('tipoDocumentoId')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Nro. Documento <span class="login-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input (input)="soloNumeros($event)" formControlName="numeroDocumento"
+                                                    [(ngModel)]="paciente.NumeroDocumento" class="form-control"
+                                                    type="text"
+                                                    [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
+                                                    [maxLength]='cantidad'>
+                                            </div>
+                                            <span class="icon-outside" *ngIf="paciente.TipoDocumentoId === '01'">
+                                                <i class="fa fa-search" (click)="obtenerPaciente()"></i>
+                                            </span>
+                                            <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('numeroDocumento')">
+                                                    Debe completar el campo*
+                                                </div>
+                                                <div *ngIf="isCantidadNroDocumento('numeroDocumento')">
+                                                    Debe ingresar la cantidad correcta: {{cantidad}}*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Nombres <span class="login-danger">*</span></label>
+                                            <input formControlName="nombres" [(ngModel)]="paciente.Nombres"
+                                                class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('nombres') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('nombres') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('nombres')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Apellidos <span class="login-danger">*</span></label>
+                                            <input formControlName="apellidos" [(ngModel)]="paciente.Apellidos"
+                                                class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('apellidos') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('apellidos') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('apellidos')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Nombre Contacto <span class="login-danger"></span></label>
+                                            <input formControlName="nombreContacto"
+                                                [(ngModel)]="paciente.NombreContacto" class="form-control" type="email"
+                                                [ngClass]="{'is-invalid': isInvalid('nombreContacto') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('nombreContacto') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('nombreContacto')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Dirección <span class="login-danger">*</span></label>
+                                            <input formControlName="direccion" [(ngModel)]="paciente.Direccion"
+                                                class="form-control"
+                                                [ngClass]="{'is-invalid': isInvalid('direccion') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('direccion') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('direccion')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Correo<span class="login-danger"></span></label>
+                                            <input formControlName="email" [(ngModel)]="paciente.Email"
+                                                class="form-control" type="email"
+                                                [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('email') && isFormSubmitted" class="invalid-feedback">
+                                                <div *ngIf="isRequerido('email')">
+                                                    Debe completar el campo*
+                                                </div>
+                                                <div *ngIf="isEmail('email')">
+                                                    Debe ingresar un correo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Grado de Instruccion <span class="login-danger">*</span></label>
+                                            <mat-select formControlName="estudioId" [(ngModel)]="paciente.EstudioId"
+                                                class="form-control select"
+                                                placeholder="Seleccione Grado de Instruccion"
+                                                [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of gradosInstruccion"
+                                                    [value]="data.estudioId">
+                                                    {{data.descripcion}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('estudioId') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('estudioId')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Celular <span class="login-danger">*</span></label>
+                                            <input (input)="soloNumeros($event)" formControlName="celular"
+                                                [(ngModel)]="paciente.Celular" class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
+                                                pattern="[0-9]*" maxlength="9">
+                                            <div *ngIf="isInvalid('celular') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('celular')">
+                                                    Debe completar el campo*
+                                                </div>
+                                                <div *ngIf="isCantidadExacta('celular')">
+                                                    Debe ingresar la cantidad correcta: 9*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group select-gender">
+                                            <label class="gen-label">Sexo<span class="login-danger">*</span></label>
+                                            <div *ngFor="let item of sexo_LISTA; let i = index"
+                                                class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" [value]="item.value" [checked]="item.checked"
+                                                        formControlName="sexo" class="form-check-input"
+                                                        [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                                            <input formControlName="fechaNacimiento"
+                                                [(ngModel)]="paciente.FechaNacimiento" style='height:48px'
+                                                class="form-control datetimepicker" type="text" placeholder="" matInput
+                                                [matDatepicker]="picker"
+                                                [ngClass]="{'is-invalid': isInvalid('fechaNacimiento') && isFormSubmitted}"
+                                                (ngModelChange)="actualizarEdad()">
+                                            <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                                matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                            <div *ngIf="isInvalid('fechaNacimiento') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('fechaNacimiento')">
+                                                    Debe completar el campo*
+                                                </div>
+                                                <div *ngIf="isFechaNacimientoMayorActual()">
+                                                    Fecha no valida*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-3">
+                                        <div class="form-group local-forms">
+                                            <label class="gen-label">Edad <span class="login-danger">*</span></label>
+                                            <input formControlName="edad" [(ngModel)]="paciente.Edad"
+                                                class="form-control" type="text"
+                                                [ngClass]="{'is-invalid': isInvalid('edad') && isFormSubmitted}">
+                                            <div *ngIf="isInvalid('edad') && isFormSubmitted" class="invalid-feedback">
+                                                <div *ngIf="isRequerido('edad')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-3">
+                                        <div class="form-group local-forms">
+                                            <label>Sede<span class="login-danger">*</span></label>
+                                            <input class="form-control" type="text" name="sede" formControlName="sede">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Estado Civil <span class="login-danger">*</span></label>
+                                            <mat-select formControlName="estadoCivil" [(ngModel)]="paciente.EstadoCivil"
+                                                class="form-control select" placeholder="Seleccione Estado Civil"
+                                                [ngClass]="{'is-invalid': isInvalid('estadoCivil') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of estadosCiviles" [value]="data.siglas">
+                                                    {{data.descripcion}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('estadoCivil') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('estadoCivil')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Pais<span class="login-danger">*</span></label>
+                                            <mat-select formControlName="paisId" [(ngModel)]="paciente.PaisId"
+                                                class="form-control select" placeholder="Seleccione País"
+                                                [ngClass]="{'is-invalid': isInvalid('paisId') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of paises" [value]="data.paisId">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('paisId') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('paisId')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="form-group local-forms">
+                                            <label>Departamento<span class="login-danger">*</span></label>
+                                            <mat-select formControlName="departamento" [(ngModel)]="departamento"
+                                                class="form-control select" placeholder="Seleccione Departamento"
+                                                [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
+                                                (ngModelChange)="actualizarProvincias()">
+                                                <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('departamento') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('departamento')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="form-group local-forms">
+                                            <label>Provincia <span class="login-danger">*</span></label>
+                                            <mat-select formControlName="provincia" [(ngModel)]="provincia"
+                                                class="form-control select" placeholder="Seleccione Provincia"
+                                                [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
+                                                (ngModelChange)="actualizarDistritos()">
+                                                <mat-option *ngFor="let data of provincias" [value]="data.nombre">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('provincia') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('provincia')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-4">
+                                        <div class="form-group local-forms">
+                                            <label>Distrito<span class="login-danger">*</span></label>
+                                            <mat-select formControlName="ubigeo" [(ngModel)]="paciente.Ubigeo"
+                                                class="form-control select" placeholder="Seleccione Distrito"
+                                                [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('ubigeo') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('ubigeo')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Tipo Paciente <span class="login-danger">*</span></label>
+                                            <mat-select formControlName="tipoPacienteId"
+                                                [(ngModel)]="paciente.TipoPacienteId" class="form-control select"
+                                                placeholder="Seleccione Tipo Paciente"
+                                                [ngClass]="{'is-invalid': isInvalid('tipoPacienteId') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of tiposPacientes"
+                                                    [value]="data.tipoPacienteId">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('tipoPacienteId') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('tipoPacienteId')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Entero de la Clinica<span class="login-danger">*</span></label>
+                                            <mat-select formControlName="informacionClinica"
+                                                [(ngModel)]="paciente.InformacionClinicaId" class="form-control select"
+                                                placeholder="Seleccione una Opcion"
+                                                [ngClass]="{'is-invalid': isInvalid('informacionClinica') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of infoClinicas"
+                                                    [value]="data.informacionClinicaId">
+                                                    {{data.nombre}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('informacionClinica') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('informacionClinica')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group local-forms">
+                                            <label>Historia<span class="login-danger">*</span></label>
+                                            <mat-select formControlName="tipoHistoria"
+                                                [(ngModel)]="paciente.TipoHistoria" class="form-control select"
+                                                placeholder="Seleccione una Opcion"
+                                                [ngClass]="{'is-invalid': isInvalid('tipoHistoria') && isFormSubmitted}">
+                                                <mat-option *ngFor="let data of historiaPaciente_LISTA"
+                                                    [value]="data.value">
+                                                    {{data.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="isInvalid('tipoHistoria') && isFormSubmitted"
+                                                class="invalid-feedback">
+                                                <div *ngIf="isRequerido('tipoHistoria')">
+                                                    Debe completar el campo*
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-xl-6">
+                                        <div class="form-group select-gender">
+                                            <label class="gen-label">Estado<span class="login-danger">*</span></label>
+                                            <div *ngFor="let item of estado_LISTA; let i = index"
+                                                class="form-check-inline">
+                                                <label class="form-check-label">
+                                                    <input type="radio" [value]="item.value" [checked]="item.checked"
+                                                        class="form-check-input" [disabled]="true">{{item.name}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="doctor-submit text-end">
+                                            <button class="btn btn-primary submit-form me-2" (click)="crearPaciente()">Guardar</button>
+                                            <button (click)="bsModalRef.hide()"
+                                                class="btn btn-primary cancel-form">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

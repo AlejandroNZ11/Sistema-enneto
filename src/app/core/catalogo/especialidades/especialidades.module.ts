@@ -22,6 +22,6 @@ import { CoreModule } from '../../core.module';
     EspecialidadesRoutingModule,
     SharedModule,
     CoreModule,
-  ]
+  ],
 })
 export class EspecialidadesModule { }

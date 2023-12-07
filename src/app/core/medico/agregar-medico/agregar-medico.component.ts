@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { DataEspecialidad, Iespecialidad } from 'src/app/shared/models/especialidades';
@@ -7,6 +8,9 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { DataTipoDocumento, ITipoDocumento } from 'src/app/shared/models/tipodocumento';
+import { TipoDocumentoService } from 'src/app/shared/services/tipo-documento.service';
+import { environment } from 'src/environments/environments';
 
 interface data {
   value: string;
@@ -18,8 +22,9 @@ interface data {
 })
 export class AgregarMedicoComponent implements OnInit {
 
-  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService, public router: Router) { }
+  constructor(public formBuilder: FormBuilder, public medicoService: MedicoService, public especialidadService: EspecialidadesService, public router: Router, public tipoDocService: TipoDocumentoService) { }
   especialidad_LISTA: Array<Iespecialidad> = [];
+  tipoDoc_LISTA: Array<ITipoDocumento> = [];
   doctor: MedicoRequest = new MedicoRequest();
   form!: FormGroup;
   cantidad!: number;
@@ -33,8 +38,11 @@ export class AgregarMedicoComponent implements OnInit {
   public especialidades !: string[];
   public deleteIcon = true;
   ngOnInit(): void {
-    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6", 1, 100).subscribe((data: DataEspecialidad) => {
-      this.especialidad_LISTA = data.data;
+    this.especialidadService.obtenerListaEspecialidad().subscribe((data: Iespecialidad[]) => {
+      this.especialidad_LISTA = data;
+    });
+    this.tipoDocService.obtenerTiposDocumento(environment.clinicaId, 1, 100).subscribe((data: DataTipoDocumento) => {
+      this.tipoDoc_LISTA = data.data;
     });
     this.isFormSubmitted = false;
     let getCheckedSexo = null
@@ -55,8 +63,10 @@ export class AgregarMedicoComponent implements OnInit {
       sexo: [getCheckedSexo, [Validators.required]],
       especialidades: ['', [Validators.required]],
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
-      foto: ['', Validators.required],
-      firma: ['', Validators.required]
+      foto: [''],
+      firma: [''],
+      rne: ['', [Validators.maxLength(5)]],
+      color: ['', [Validators.required]]
     })
   }
   sexo_LISTA = [
@@ -67,13 +77,7 @@ export class AgregarMedicoComponent implements OnInit {
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
   ]
-  tipoDoc_LISTA: data[] = [
-    { value: 'DNI', },
-    { value: 'RUC' },
-    { value: 'PASAPORTE' },
-    { value: 'CARNET EXTRANJERIA' },
-    { value: 'OTROS' },
-  ];
+
   obtenerCliente() {
     if (this.doctor.NumeroDocumento) {
       this.medicoService.getMedico(this.doctor.NumeroDocumento).subscribe(medico => {
@@ -98,7 +102,7 @@ export class AgregarMedicoComponent implements OnInit {
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
     let maxCaracteres = 0;
     switch (tipoDocumento) {
-      case 'DNI':
+      case 'Documento Nacional de Identidad':
         maxCaracteres = 8;
         break;
       case 'RUC':
@@ -235,17 +239,14 @@ export class AgregarMedicoComponent implements OnInit {
     }
     this.doctor.Especialidades = this.especialidades;
     switch (this.form.get('tipoDocumento')!.value) {
-      case 'DNI': this.doctor.TipoDocumento = '01'; break;
+      case 'Documento Nacional de Identidad': this.doctor.TipoDocumento = '01'; break;
       case 'RUC': this.doctor.TipoDocumento = '06'; break;
       case 'PASAPORTE': this.doctor.TipoDocumento = '07'; break;
       case 'CARNET EXTRANJERIA': this.doctor.TipoDocumento = '04'; break;
       case 'OTROS': this.doctor.TipoDocumento = '00'; break;
     }
-
+    /*this.doctor.TipoDocumento = this.tipoDoc_LISTA.find(tipoDoc => tipoDoc.descripcion === this.tipoDocumento)!.tipoDocumentoId;*/
     const formData = new FormData();
-    formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
-    formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name)
-
     for (let i = 0; i < this.doctor.Especialidades.length; i++) {
       formData.append('Especialidades', this.doctor.Especialidades[i]);
     }
@@ -264,6 +265,10 @@ export class AgregarMedicoComponent implements OnInit {
     formData.append('Sexo', this.doctor.Sexo);
     formData.append('ClinicaId', this.doctor.ClinicaId);
     formData.append('UsuarioId', this.doctor.UsuarioId);
+    formData.append('Color', this.doctor.Color);
+    if (this.doctor.Rne) { formData.append('Rne', this.doctor.Rne); }
+    if (this.imagenSubirFoto) { formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name) }
+    if (this.imagenSubirFirma) { formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name) }
     this.medicoService.crearMedico(formData).subscribe(
       (response) => {
         if (response.isSuccess) {
