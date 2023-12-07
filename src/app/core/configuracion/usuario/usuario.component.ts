@@ -36,12 +36,10 @@ export class UsuarioComponent implements OnInit {
   public totalPages = 0;
   bsModalRef?: BsModalRef;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public rolId: any = null;
   public fechaInicio = '';
   public fechaFin = '';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public tiposUsuarios: any[] = [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public tipoUsuario: any = null;
 
   constructor(private modalService: BsModalService, public usuarioService: UsuarioService) {
   }

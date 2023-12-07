@@ -72,8 +72,10 @@ export class UnidadesComponent implements OnInit{
       });
   }
   editarUnidad(unidad: Iunidad) {
-    this.bsModalRef = this.modalService.show(EditarUnidadesComponent);
-    this.bsModalRef.content.unidad = unidad.unidadId;
+    const initialState = {
+      unidadSeleccionada: unidad.unidadId
+    }
+    this.bsModalRef = this.modalService.show(EditarUnidadesComponent, {initialState});
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });

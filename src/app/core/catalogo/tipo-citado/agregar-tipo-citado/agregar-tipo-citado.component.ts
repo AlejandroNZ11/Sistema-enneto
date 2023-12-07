@@ -1,7 +1,9 @@
+/* eslint-disable @angular-eslint/no-empty-lifecycle-method */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
+import { tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
 import Swal from 'sweetalert2';

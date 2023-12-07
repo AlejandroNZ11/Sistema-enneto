@@ -16,9 +16,9 @@ import { PresentacionResponse } from "./presentacion";
 import { UnidadResponse } from "./unidades";
 import { ClienteResponse } from "./clientes";
 import { alergiaResponse } from "./alergia";
-import { permisoResponse } from "./permiso";
 import { cuentaResponse } from "./cuenta";
 import { monedaResponse } from "./moneda";
+import { TipomaterialesResponse } from "./tipo-materiales";
 
 export interface Accion<T = any> {
   accion: string;
@@ -56,10 +56,10 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Unidad': clase = new UnidadResponse(); break;
     case 'Clientes': clase = new ClienteResponse(); break;
     case 'Alergia': clase = new alergiaResponse(); break;
-    case 'Permiso': clase = new permisoResponse(); break;
     case 'Cuenta': clase = new cuentaResponse(); break;
     case 'Moneda': clase = new monedaResponse(); break;
     case 'Proveedor': clase = new monedaResponse(); break;
+    case 'Tipomateriales': clase= new TipomaterialesResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);

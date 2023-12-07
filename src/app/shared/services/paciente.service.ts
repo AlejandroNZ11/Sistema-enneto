@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { PacienteByDNIResponse, PacienteListData, PacienteEditar } from '../models/paciente';
+import { PacienteByDNIResponse, PacienteListData, PacienteEditar, PacienteList } from '../models/paciente';
 @Injectable({
   providedIn: 'root'
 })
@@ -39,6 +39,13 @@ export class PacienteService {
       url += `&MesCumple=${mes}`;
     }
     return this.http.get<PacienteListData>(url);
+  }
+  obtenerPacientesNombre(nombre?: string): Observable<PacienteList[]> {
+    let url = `${this.apiUrl}/Pacientes/GetPacienteList?`;
+    if (nombre) {
+      url += `NombreCompleto=${nombre}`;
+    }
+    return this.http.get<PacienteList[]>(url);
   }
   getPaciente(IdEntidad: string): Observable<PacienteByDNIResponse> {
     return this.http.get<PacienteByDNIResponse>(this.apiUrl + `/Pacientes/GetPacienteByDni/${IdEntidad}`);

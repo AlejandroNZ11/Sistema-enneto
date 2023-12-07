@@ -86,7 +86,7 @@ export class PatientsListComponent implements OnInit {
     if (this.paciente) {
       paciente = this.paciente;
     }
-    if (this.tipoPaciente) {
+    if (this.tipoPaciente != '--TODOS--') {
       tipoPaciente = this.tipoPaciente;
     }
     this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)

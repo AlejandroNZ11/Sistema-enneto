@@ -31,8 +31,8 @@
                                             class="form-control select" placeholder="Seleccione Tipo de Documento"
                                             [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarCantidad()">
-                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.value">
-                                                {{data.value}}
+                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.descripcion">
+                                                {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted"
@@ -51,10 +51,11 @@
                                                 [(ngModel)]="doctor.NumeroDocumento" class="form-control" type="text"
                                                 [ngClass]="{'is-invalid': isInvalid('numeroDocumento') && isFormSubmitted}"
                                                 [maxLength]='cantidad'>
-                                                <span class="icon-inside" *ngIf="tipoDocumento === 'DNI'" >
-                                                    <i class="fa fa-search" (click)="obtenerCliente()"></i>
-                                                </span>
                                         </div>
+                                        <span class="icon-outside"
+                                            *ngIf="this.form.get('tipoDocumento')!.value === 'Documento Nacional de Identidad'">
+                                            <i class="fa fa-search" (click)="obtenerCliente()"></i>
+                                        </span>
                                         <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
                                             class="invalid-feedback">
                                             <div *ngIf="isRequerido('numeroDocumento')">
@@ -92,7 +93,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-12 col-xl-5">
+                                <div class="col-12 col-md-12 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Dirección <span class="login-danger">*</span></label>
                                         <input formControlName="direccion" [(ngModel)]="doctor.Direccion"
@@ -121,7 +122,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-6 col-xl-3">
+                                <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Abreviatura <span class="login-danger">*</span></label>
                                         <input formControlName="abreviatura" [(ngModel)]="doctor.Abreviatura"
@@ -134,6 +135,22 @@
                                                 Debe completar el campo*
                                             </div>
                                             <div *ngIf="isCantidad('abreviatura')">
+                                                Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>RNE <span class="login-danger"></span></label>
+                                        <input formControlName="rne" [(ngModel)]="doctor.Rne" class="form-control"
+                                            type="text" maxlength="5" (input)="soloNumeros($event)"
+                                            [ngClass]="{'is-invalid': isInvalid('rne') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('rne') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('rne')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('rne')">
                                                 Máximo 4 caracteres*
                                             </div>
                                         </div>
@@ -178,7 +195,7 @@
                                 </div>
                                 <div class="col-6 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
-                                        <label>Teléfono <span class="login-danger"></span></label>
+                                        <label>Teléfono <span class="login-danger">*</span></label>
                                         <input (input)="soloNumeros($event)" formControlName="telefono"
                                             [(ngModel)]="doctor.Telefono" class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}"
@@ -202,7 +219,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-12 col-xl-6">
+                                <div class="col-12 col-md-12 col-xl-5">
                                     <div class="form-group local-forms">
                                         <label>Especialidad <span class="login-danger">*</span></label>
                                         <mat-select [(ngModel)]="especialidades" formControlName="especialidades"
@@ -222,7 +239,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-6 col-xl-3">
+                                <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Colegiatura <span class="login-danger">*</span></label>
                                         <input formControlName="colegioMedico" [(ngModel)]="doctor.ColegioMedico"
@@ -236,6 +253,19 @@
                                             </div>
                                             <div *ngIf="isCantidad('colegioMedico')">
                                                 Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Color <span class="login-danger">*</span></label>
+                                        <input formControlName="color" [(ngModel)]="doctor.Color" class="form-control"
+                                            type="color"
+                                            [ngClass]="{'is-invalid': isInvalid('color') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('color') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('color')">
+                                                Debe completar el campo*
                                             </div>
                                         </div>
                                     </div>
@@ -257,7 +287,7 @@
                                         <div class="settings-btn upload-files-avator">
                                             <input formControlName="foto" type="file" accept="image/*" name="image"
                                                 id="foto" (change)="cargarImagenFoto($event)" class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
+                                            <label for="foto" class="upload">Choose File</label>
                                         </div>
                                         <div class="upload-images upload-size"
                                             [ngClass]="{'d-none':deleteIcon === false}"
@@ -278,11 +308,11 @@
                                 </div>
                                 <div class="col-6 col-md-6 col-xl-6">
                                     <div class="form-group local-top-form">
-                                        <label class="local-top">Firma <span class="login-danger">*</span></label>
+                                        <label class="local-top">Firma <span class="login-danger"></span></label>
                                         <div class="settings-btn upload-files-avator">
                                             <input formControlName="firma" type="file" accept="image/*" name="image"
                                                 id="firma" (change)="cargarImagenFirma($event)" class="hide-input">
-                                            <label for="file" class="upload">Choose File</label>
+                                            <label for="firma" class="upload">Choose File</label>
                                         </div>
                                         <div class="upload-images upload-size"
                                             [ngClass]="{'d-none':deleteIcon === false}"

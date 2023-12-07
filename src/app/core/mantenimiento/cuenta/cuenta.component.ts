@@ -78,7 +78,6 @@ export class CuentaComponent implements OnInit{
       cuentaSeleccionada: cuenta.cuentaPagarId
     };
     this.bsModalRef = this.modalService.show(EditarCuentaComponent, { initialState });
-    this.bsModalRef.content.cuentaSeleccionada = cuenta.cuentaPagarId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -94,7 +93,7 @@ export class CuentaComponent implements OnInit{
         this.cuentaService.eliminarCuenta(cuentaId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Cuenta Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

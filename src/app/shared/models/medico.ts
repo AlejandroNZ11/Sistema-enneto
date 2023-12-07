@@ -14,6 +14,8 @@ export class MedicoRequest {
   Email = '';
   FechaNacimiento!: Date;
   Sexo = '';
+  Color = '#000000';
+  Rne = '';
 }
 export interface MedicoList {
   medicoId: string;
@@ -33,6 +35,8 @@ export interface MedicoList {
   sexo: string;
   foto: string;
   firma: string;
+  color: string;
+  rne: string;
 }
 export interface MedicoListData {
   data: MedicoList[];
@@ -60,6 +64,8 @@ export interface MedicoEditar {
   abreviatura: string;
   clinicaId: string;
   usuarioId: string;
+  color: string;
+  rne: string;
 }
 
 export interface MedicoByDNI {
@@ -70,7 +76,7 @@ export interface MedicoByDNI {
   direccion_completa: string
   nombres: string
   numero: number
-};
+}
 
 export interface MedicoByDNIResponse {
   data: MedicoByDNI

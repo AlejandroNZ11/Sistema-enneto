@@ -15,3 +15,8 @@ export class tipomateriales {
     descripcion: string;
     estado:string;
   }
+
+  export class TipomaterialesResponse {
+    nombre = "";
+    descripcion = "";
+  }

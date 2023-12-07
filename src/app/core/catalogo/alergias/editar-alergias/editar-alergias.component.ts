@@ -11,7 +11,7 @@ import {Ialergias } from 'src/app/shared/models/alergia';
   styleUrls: ['./editar-alergias.component.scss']
 })
 export class EditarAlergiasComponent  implements OnInit{
-  alergiaSeleccionada ?: string;
+  alergiaSeleccionada: any;
   Alergia!: Ialergias;
   public routes = routes;
   form: FormGroup;
@@ -56,9 +56,7 @@ export class EditarAlergiasComponent  implements OnInit{
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-
-    this.Alergia.nombre = this.form.get("nombre")?.value;
-    this.AlergiasService.actualizarAlergia(this.Alergia || alergiaActualizada).subscribe(
+    this.AlergiasService.actualizarAlergia(alergiaActualizada).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');

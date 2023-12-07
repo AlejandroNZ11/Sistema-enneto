@@ -76,8 +76,10 @@ export class MarcaComponent implements OnInit{
       });
   }
   editarMarca(marca: Imarca) {
-    this.bsModalRef = this.modalService.show(EditarMarcaComponent);
-    this.bsModalRef.content.marcaSeleccionada = marca.marcaMaterialesId;
+    const initialState = {
+      marcaSeleccionada: marca.marcaMaterialesId
+    }
+    this.bsModalRef = this.modalService.show(EditarMarcaComponent, {initialState});
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -93,7 +95,7 @@ export class MarcaComponent implements OnInit{
         this.marcaService.eliminarMarca(MarcaMaterialId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Marca Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

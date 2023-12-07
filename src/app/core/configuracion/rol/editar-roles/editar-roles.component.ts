@@ -13,12 +13,13 @@ import { Iroles } from 'src/app/shared/models/rol';
 })
 export class EditarRolesComponent  implements OnInit{
   rol!: Iroles;
-  rolSeleccionada: any;
+  rolSeleccionada?: string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private rolesService: RolesService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private rolesService: RolesService, 
+    public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
@@ -59,8 +60,9 @@ export class EditarRolesComponent  implements OnInit{
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-
-    this.rolesService.actualizarRol(rolActualizada).subscribe(
+    
+    this.rol.nombre = this.form.get("nombre")?.value;
+    this.rolesService.actualizarRol(this.rol ||rolActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

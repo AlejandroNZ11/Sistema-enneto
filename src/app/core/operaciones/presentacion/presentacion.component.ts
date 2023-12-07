@@ -75,8 +75,10 @@ export class PresentacionComponent implements OnInit {
       });
   }
   editarPresentacion(presentacion: Ipresentacion) {
-    this.bsModalRef = this.modalService.show(EditarPresentacionComponent);
-    this.bsModalRef.content.presentacionSeleccionada = presentacion.presentacionId;
+    const initialState= {
+      presentacionSeleccionada: presentacion.presentacionId
+    }
+    this.bsModalRef = this.modalService.show(EditarPresentacionComponent, {initialState});
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -92,7 +94,7 @@ export class PresentacionComponent implements OnInit {
         this.presentacionService.eliminarPresentacion(presentacionId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'presentacion Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

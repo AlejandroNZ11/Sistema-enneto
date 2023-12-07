@@ -62,8 +62,8 @@ export class EditarMedicoComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.medicoId = params['medicoId'];
     })
-    this.especialidadService.obtenerEspecialidades("D30C2D1E-E883-4B2D-818A-6813E15046E6", 1, 100).subscribe((data: DataEspecialidad) => {
-      this.especialidad_LISTA = data.data;
+    this.especialidadService.obtenerListaEspecialidad().subscribe((data: Iespecialidad[]) => {
+      this.especialidad_LISTA = data;
     });
     this.medicoService.obtenerMedico(this.medicoId).subscribe((medico: MedicoEditar) => {
       if (medico) {

@@ -93,8 +93,10 @@
                                 <tbody>
                                     <tr *ngFor="let data of doctorsList let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
-                                        <td class="profile-image"><img width="28" height="28" [src]="data.foto"
-                                                class="rounded-circle m-r-5" alt="">
+                                        <td class="profile-image"><img width="28" height="28" *ngIf="data.foto"
+                                                [src]="data.foto" class="rounded-circle m-r-5">
+                                            <img width="28" height="28" *ngIf="!data.foto" src="assets/img/user.jpg"
+                                                class="rounded-circle m-r-5">
                                             {{data.nombre}} {{data.apellido}}
                                         </td>
                                         <td>
@@ -107,9 +109,9 @@
                                         <td>{{data.colegioMedico}}</td>
                                         <td>{{formatoFecha(data.fechaRegistro)}}</td>
                                         <td><button class="custom-badge status-green "
-                                                *ngIf="data.estado=='A'">Activo</button>
+                                                *ngIf="data.estado==='A'">Activo</button>
                                             <button class="custom-badge status-blue "
-                                                *ngIf="data.estado=='I'">Inactivo</button>
+                                                *ngIf="data.estado==='I'">Inactivo</button>
                                         </td>
                                         <td class="text-end">
                                             <div class="dropdown dropdown-action">

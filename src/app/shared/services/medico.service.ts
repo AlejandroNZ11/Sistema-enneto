@@ -37,7 +37,6 @@ export class MedicoService {
     );
   }
   getMedico(IdEntidad: string): Observable<MedicoByDNIResponse> {
-		let url = `?IdEntidad=${IdEntidad}`;
 		return this.http.get<MedicoByDNIResponse>(this.apiUrl + `/Medicos/dni/${IdEntidad}`);
 	}
   obtenerMedico(medicoId: string): Observable<MedicoEditar> {
