@@ -15,7 +15,7 @@ export class UsuarioService {
   constructor(public http: HttpClient) {}
 
   obtenerUsuarios(clinicaId: string, page: number, rows: number): Observable<DataUsuario> {
-    return this.http.get<DataUsuario>(`${this.apiUrl}/Usuarios/GetAllUsuarios?clinicaId=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataUsuario>(`${this.apiUrl}/Usuarios/GetAllUsuario?clinicaId=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
   crearUsuario(usuario: Usuario): Observable<successResponse> {

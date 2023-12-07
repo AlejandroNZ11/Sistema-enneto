@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataEspecialidad, especialidad } from 'src/app/shared/models/especialidades';
+import { DataEspecialidad, especialidad,especialidadResponse } from 'src/app/shared/models/especialidades';
 import { routes } from 'src/app/shared/routes/routes';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';

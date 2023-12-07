@@ -43,12 +43,12 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="top-nav-search table-search-blk">
-                                                <mat-select [(ngModel)]="tipoUsuario" class="form-control select"
-                                                    placeholder="Seleccione Tipo Usuario">
-                                                    <mat-option [value]="null">(TODOS)</mat-option>
-                                                    <mat-option *ngFor="let data of tiposUsuarios" [value]="data.tipoUsuarioId">
-                                                        {{data.nombre}}
-                                                    </mat-option>
+                                                <mat-select [(ngModel)]="rolId" class="form-control select" placeholder="Búsqueda de Cargo">
+                                                    <mat-option value="Doctor">Doctor</mat-option>
+                                                    <mat-option value="Administrador">Administrador</mat-option>
+                                                    <mat-option value="Secretaria">Secretaria</mat-option>
+                                                    <mat-option value="Asistente">Asistente</mat-option>
+                                                    <mat-option value="No especifica">No especifica</mat-option>
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
