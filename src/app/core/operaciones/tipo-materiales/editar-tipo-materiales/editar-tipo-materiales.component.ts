@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-materiales.component.scss']
 })
 export class EditarTipoMaterialesComponent implements OnInit {
-  tipomaterialesSeleccionada: Itipomateriales | null = null;
+  TipomaterialesSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -26,11 +26,11 @@ export class EditarTipoMaterialesComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.tipomaterialesSeleccionada) {
+    if (this.TipomaterialesSeleccionada) {
       this.form.patchValue({
-        nombre: this.tipomaterialesSeleccionada.nombre,
-        descripcion: this.tipomaterialesSeleccionada.descripcion,
-        estado: this.tipomaterialesSeleccionada.estado,
+        nombre: this.TipomaterialesSeleccionada.nombre,
+        descripcion: this.TipomaterialesSeleccionada.descripcion,
+        estado: this.TipomaterialesSeleccionada.estado,
       });
     }
   }
@@ -50,13 +50,13 @@ export class EditarTipoMaterialesComponent implements OnInit {
   }
 
   guardarTipomateriales() {
-    if (!this.tipomaterialesSeleccionada || this.form.invalid) {
+    if (!this.TipomaterialesSeleccionada || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
   
     const tipomaterialesActualizada: Itipomateriales = {
-      tipomaterialesId: this.tipomaterialesSeleccionada.tipomaterialesId,
+      tipomaterialesId: this.TipomaterialesSeleccionada.tipomaterialesId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado,
