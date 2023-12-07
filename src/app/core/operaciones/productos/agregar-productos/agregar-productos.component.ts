@@ -57,6 +57,7 @@ export class AgregarProductosComponent {
     this.Producto.descripcion = this.form.get("descripcion")?.value;
     this.Producto.fecha = this.form.get("fecha")?.value;
     this.Producto.stock = this.form.get("stock")?.value;
+    
 
     console.log(this.Producto);
     this.ProductosService.crearProducto(this.Producto).subscribe(
