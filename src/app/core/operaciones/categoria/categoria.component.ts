@@ -1,13 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { CategoriaOpService } from 'src/app/shared/services/categoria-op.service';
 import { AgregarCategoriaComponent } from './agregar-categoria/agregar-categoria.component';
 import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.component';
-import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria-op';
+import { DataCategoriaM, IcategoriaM, categoriaM } from 'src/app/shared/models/categoria-op';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
@@ -19,11 +17,11 @@ import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shar
 })
 export class CategoriaComponent implements OnInit{
   public routes = routes;
-  ListCategoria: Array<Icategoria> = [];
+  ListCategoriaM: Array<IcategoriaM> = [];
   columnas: string[] = []
   acciones: string[] = []
-  categoriaSeleccionada: categoria = new categoria();
-  dataSource!: MatTableDataSource<Icategoria>;
+  categoriaMSeleccionada: categoriaM = new categoriaM();
+  dataSource!: MatTableDataSource<IcategoriaM>;
   pageSize = PageSize.size;
   totalData = 0;
   skip = 0;
@@ -31,23 +29,23 @@ export class CategoriaComponent implements OnInit{
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  constructor(private modalService: BsModalService, public categoriaService: CategoriaOpService) {
+  constructor(private modalService: BsModalService, public categoriaMService: CategoriaOpService) {
   }
   ngOnInit() {
     this.columnas = getEntityPropiedades('categoria');
     this.acciones = ['Editar', 'Eliminar'];
   }
   private getTableData(currentPage: number, pageSize: number): void {
-    this.ListCategoria = [];
+    this.ListCategoriaM = [];
     this.serialNumberArray = [];
-    this.categoriaService.obtenerCategorias(env.clinicaId, currentPage, pageSize).subscribe((data: DataCategoria) => {
+    this.categoriaMService.obtenerCategorias(env.clinicaId, currentPage, pageSize).subscribe((data: DataCategoriaM) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListCategoria = data.data;
-      this.dataSource = new MatTableDataSource<Icategoria>(this.ListCategoria);
+      this.ListCategoriaM = data.data;
+      this.dataSource = new MatTableDataSource<IcategoriaM>(this.ListCategoriaM);
     });
   }
 
@@ -75,7 +73,7 @@ export class CategoriaComponent implements OnInit{
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarCategoria(categoria: Icategoria) {
+  editarCategoria(categoria: IcategoriaM) {
     const initialState = {
       categoriaSeleccionada: categoria.categoriaMaterialesId
     };
@@ -93,10 +91,10 @@ export class CategoriaComponent implements OnInit{
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.categoriaService.eliminarCategoria(categoriaMaterialesId).subscribe(
+        this.categoriaMService.eliminarCategoria(categoriaMaterialesId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Categoria Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

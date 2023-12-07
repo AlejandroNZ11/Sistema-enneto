@@ -11,24 +11,38 @@
                                     <h4>Editar Categoria</h4>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
+
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Descripcion <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" [(ngModel)]="categoriaSeleccionada"
-                                        class="form-control" type="text"
+                                    <input formControlName="descripcion" class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('descripcion')}">
                                     <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('descripcion')">
                                             Debe completar el campo*
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
-                                <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
-                                    </mat-select>
                                 </div>
                             </div>
                         </div>
