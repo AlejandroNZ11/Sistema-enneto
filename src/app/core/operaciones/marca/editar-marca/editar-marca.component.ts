@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarMarcaComponent implements OnInit {
   marca!: Imarca;
-  marcaSeleccionada: any;
+  marcaSeleccionada ?:string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

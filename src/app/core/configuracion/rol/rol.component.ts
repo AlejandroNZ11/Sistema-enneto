@@ -96,7 +96,7 @@ export class RolComponent implements OnInit{
         this.rolService.eliminarRol(rolesId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Rol Eliminado en el sistema correctamente.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
