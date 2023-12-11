@@ -52,7 +52,7 @@ export class ProveedorComponent {
   }
   eliminarProveedor(proveedorId: string) {
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
@@ -61,7 +61,7 @@ export class ProveedorComponent {
         this.ProveedorService.eliminarProveedor(proveedorId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Proveedor Eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', 'El proveedor fue eliminado correctamente del sistema', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
