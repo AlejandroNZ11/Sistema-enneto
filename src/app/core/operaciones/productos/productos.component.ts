@@ -88,7 +88,7 @@ export class ProductosComponent {
   }
   eliminarProducto(productoId: string) {
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
@@ -97,7 +97,7 @@ export class ProductosComponent {
         this.OperacionesService.eliminarProducto(productoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Producto Eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', 'El producto fue eliminado del sistema correctamente.', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

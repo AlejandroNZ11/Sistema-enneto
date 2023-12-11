@@ -25,7 +25,7 @@ export class EditarProveedorComponent {
       telefono: ['', Validators.required],
       contacto: ['', Validators.required],
       correo: ['', Validators.required],
-      estado: ['Activo', Validators.required],
+      estado: ['', Validators.required],
     });
   }
   ngOnInit() {

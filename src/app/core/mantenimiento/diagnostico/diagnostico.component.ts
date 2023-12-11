@@ -68,7 +68,7 @@ export class DiagnosticoComponent {
   }
   eliminarDiagnostico(diagnosticoId: string) {
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
@@ -77,7 +77,7 @@ export class DiagnosticoComponent {
         this.DiagnosticoService.eliminarDiagnostico(diagnosticoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', 'El diagnostico fue eliminado del sistema correctamente.', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
