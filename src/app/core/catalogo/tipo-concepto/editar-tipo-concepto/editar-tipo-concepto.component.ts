@@ -12,7 +12,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-concepto.component.scss']
 })
 export class EditarTipoConceptoComponent implements OnInit{
-  tipoConceptoSeleccionado ?: string;
+  
+  tipoConceptoSeleccionada ?: string;
   tipoConcepto!: ItipoConcepto;
   public routes = routes;
   form: FormGroup;

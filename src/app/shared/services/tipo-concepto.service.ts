@@ -25,6 +25,9 @@ export class TipoConceptoService {
     );
   }
 
+  eliminarTipoConcepto( especialidadId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${especialidadId}`);
+  }
   actualizarTipoConcepto(tipoConcepto: ItipoConcepto): Observable<successResponse> {
     return this.http.put<successResponse>(this.apiUrl + `/TiposConceptos/${tipoConcepto.tipoConceptoId}`, tipoConcepto).pipe(
       catchError(error => {

@@ -12,3 +12,7 @@ export interface DataTipoConcepto {
     totalData: number;
     data: ItipoConcepto[];
 }
+
+export class TipoConcepto {
+    nombre="";
+}
