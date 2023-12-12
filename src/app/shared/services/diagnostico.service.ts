@@ -18,7 +18,7 @@ export class DiagnosticoService {
     return this.http.get<DataDiagnostico>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + 'Especialidades/SaveEspecialidad', diagnostico).pipe(
+    return this.http.post<successResponse>(this.apiUrl + 'PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -27,13 +27,13 @@ export class DiagnosticoService {
   }
   ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
   obtenerDiagnostico( diagnosticoId: string): Observable<Idiagnostico> {
-    return this.http.get<Idiagnostico>(this.apiUrl + `/Especialidades/GetEspecialidad/${diagnosticoId}`);
+    return this.http.get<Idiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${diagnosticoId}`);
   }
   eliminarDiagnostico( diagnosticoId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${diagnosticoId}`);
+    return this.http.delete<successResponse>(this.apiUrl + `/PacientesDiagnosticos/DeletePacienteDiagnostico/${diagnosticoId}`);
   }
   actualizarDiagnostico(diagnostico: Idiagnostico): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${diagnostico.diagnosticoId}`, diagnostico).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnostico.diagnosticoId}`, diagnostico).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
