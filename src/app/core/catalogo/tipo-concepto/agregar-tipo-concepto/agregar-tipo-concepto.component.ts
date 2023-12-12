@@ -21,7 +21,7 @@ export class AgregarTipoConceptoComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private service: TipoConceptoService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
     });
   }
 
@@ -46,7 +46,7 @@ export class AgregarTipoConceptoComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.tipoConcepto.nombre = this.form.get("descripcion")?.value;
+    this.tipoConcepto.nombre = this.form.get("nombre")?.value;
     console.log(this.tipoConcepto);
     this.service.crearTipoConcepto(this.tipoConcepto).subscribe(
       (response)=>{

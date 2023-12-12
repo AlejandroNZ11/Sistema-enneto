@@ -24,12 +24,15 @@ export class TipoConceptoService {
       })
     );
   }
+  obtenerTipoConcepto( tipoConceptoId: string): Observable<ItipoConcepto> {
+    return this.http.get<ItipoConcepto>(this.apiUrl + `/TiposConceptos/GetTipoConcepto/${tipoConceptoId}`);
+  }
 
-  eliminarTipoConcepto( especialidadId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${especialidadId}`);
+  eliminarTipoConcepto( TiposConceptoId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/TiposConceptos/DeleteTipoConcepto/${TiposConceptoId}`);
   }
   actualizarTipoConcepto(tipoConcepto: ItipoConcepto): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/TiposConceptos/${tipoConcepto.tipoConceptoId}`, tipoConcepto).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/TiposConceptos/UpdateTipoConcepto/${tipoConcepto.tipoConceptoId}`, tipoConcepto).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

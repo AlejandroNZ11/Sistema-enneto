@@ -74,9 +74,9 @@ export class TipoConceptoComponent implements OnInit{
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarTipoConcepto(tipoconcepto: ItipoConcepto) {
+  editarTipoConcepto(tipoConcepto: ItipoConcepto) {
     const initialState = {
-      tipoConceptoSeleccionada: tipoconcepto.tipoConceptoId
+      tipoConceptoSeleccionada: tipoConcepto.tipoConceptoId
     };
     this.bsModalRef = this.modalService.show(EditarTipoConceptoComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
