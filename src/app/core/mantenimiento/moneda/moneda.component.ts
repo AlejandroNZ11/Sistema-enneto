@@ -107,6 +107,7 @@ export class MonedaComponent implements OnInit {
           },
           (error) => {
             console.error(error);
+            Swal.fire('Error', 'Ocurrió un error al actualizar la moneda', 'error');
           });
       } else {
         return;

@@ -13,10 +13,13 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Descripción Moneda <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('descripcion')}">
+                                    <label>Descripción <span class="login-danger">*</span></label>
+                                    <input formControlName="descripcion" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
                                     <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('descripcion')">Debe completar el campo*</div>
+                                        <div *ngIf="isRequerido('descripcion') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
                                     </div>
                                 </div>
                             </div>
