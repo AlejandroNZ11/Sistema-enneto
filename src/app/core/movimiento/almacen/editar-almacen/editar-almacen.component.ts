@@ -57,7 +57,7 @@ export class EditarAlmacenComponent implements OnInit {
     const AlmacenActualizado: Ialmacen = {
       almacenId: this.almacen.almacenId,
       nombreAlmacen: this.almacen.almacenId,
-      sedeId: this.almacen.almacenId,
+      sedeId: 1,
       estado: this.form.value.estado == '1' ? '1' : '0',
     };
 

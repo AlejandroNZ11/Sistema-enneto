@@ -17,8 +17,8 @@ export class AlmacenService {
     obtenerAlmacenes(clinicaId: string, page: number, rows: number): Observable<DataAlmacen> {
         return this.http.get<DataAlmacen>(this.apiUrl + `/Almacenes/GetAllAlmacen?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
-    crearAlmacen(Almacen: almacen): Observable<successResponse> {
-        return this.http.post<successResponse>(this.apiUrl + '/Almacenes/SaveAlmacen', Almacen).pipe(
+    crearAlmacen(almacen: almacen): Observable<successResponse> {
+        return this.http.post<successResponse>(this.apiUrl + '/Almacenes/SaveAlmacen', almacen).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');
                 return throwError(() => error);
