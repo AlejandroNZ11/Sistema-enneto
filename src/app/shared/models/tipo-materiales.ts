@@ -4,13 +4,14 @@ export class tipomateriales {
     usuarioId = "";
     nombre = "";
     descripcion = "";
+    estado= "";
   }
   export interface DataTipomateriales {
     totalData: number;
     data: Itipomateriales[];
   }
   export interface Itipomateriales {
-    tipomaterialesId: string;
+    tipomaterialId: string;
     nombre: string;
     descripcion: string;
     estado:string;

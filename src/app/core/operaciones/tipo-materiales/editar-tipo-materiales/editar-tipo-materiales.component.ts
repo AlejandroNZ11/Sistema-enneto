@@ -12,27 +12,30 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-materiales.component.scss']
 })
 export class EditarTipoMaterialesComponent implements OnInit {
-  TipomaterialesSeleccionada: any;
+
+  tipomaterial!: Itipomateriales;
+  TipomaterialesSeleccionada ?:string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private tipomaterialesService: TipomaterialesService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private tipomaterialService: TipomaterialesService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: ['', Validators.required], 
+      descripcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
 
   ngOnInit() {
-    if (this.TipomaterialesSeleccionada) {
+    this.tipomaterialService.obtenerTipomateriale(this.TipomaterialesSeleccionada!).subscribe(tipomaterial => {
+      this.tipomaterial = tipomaterial;
       this.form.patchValue({
-        nombre: this.TipomaterialesSeleccionada.nombre,
-        descripcion: this.TipomaterialesSeleccionada.descripcion,
-        estado: this.TipomaterialesSeleccionada.estado,
+        nombre: this.tipomaterial.nombre,
+        descripcion: this.tipomaterial.descripcion,
+        estado: this.tipomaterial.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    }
+    })
   }
 
   isInvalid(controlName: string) {
@@ -49,20 +52,19 @@ export class EditarTipoMaterialesComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  guardarTipomateriales() {
-    if (!this.TipomaterialesSeleccionada || this.form.invalid) {
+  guardarTipoMaterial() {
+    if (!this.tipomaterial || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-  
-    const tipomaterialesActualizada: Itipomateriales = {
-      tipomaterialesId: this.TipomaterialesSeleccionada.tipomaterialesId,
+    const tipomaterialActualizada: Itipomateriales = {
+      tipomaterialId: this.tipomaterial.tipomaterialId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-  
-    this.tipomaterialesService.actualizarTipomateriales(tipomaterialesActualizada).subscribe(
+
+    this.tipomaterialService.actualizarTipomateriales(tipomaterialActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

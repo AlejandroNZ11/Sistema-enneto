@@ -56,7 +56,7 @@ export class TipoMaterialesComponent implements OnInit{
     } else if (accion.accion == 'Editar') {
       this.editarTipomateriales(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarTipomateriales(accion.fila.tipomaterialesId)
+      this.eliminarTipomateriales(accion.fila.tipomaterialId)
     }
   }
 
@@ -74,16 +74,16 @@ export class TipoMaterialesComponent implements OnInit{
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarTipomateriales(Tipomateriales: Itipomateriales) {
+  editarTipomateriales(tipomaterial: Itipomateriales) {
     const initialState = {
-      TipomaterialesSeleccionada: Tipomateriales.tipomaterialesId
+      TipomaterialesSeleccionada: tipomaterial.tipomaterialId
     };
     this.bsModalRef = this.modalService.show(EditarTipoMaterialesComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
   }
-  eliminarTipomateriales(TipomaterialesId: string) {
+  eliminarTipomateriales(tipoMaterialId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
@@ -91,7 +91,7 @@ export class TipoMaterialesComponent implements OnInit{
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.TipomaterialesService.eliminarTipomateriales(TipomaterialesId).subscribe(
+        this.TipomaterialesService.eliminarTipomateriales(tipoMaterialId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire(response.message, '', 'success');
