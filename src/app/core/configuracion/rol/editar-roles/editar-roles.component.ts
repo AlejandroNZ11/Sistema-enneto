@@ -13,13 +13,12 @@ import { Iroles } from 'src/app/shared/models/rol';
 })
 export class EditarRolesComponent  implements OnInit{
   rol!: Iroles;
-  rolSeleccionada?: string;
+  rolSeleccionada ?:string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private rolesService: RolesService, 
-    public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private rolService: RolesService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
@@ -27,7 +26,7 @@ export class EditarRolesComponent  implements OnInit{
   }
 
   ngOnInit() {
-    this.rolesService.obtenerRol(this.rolSeleccionada!).subscribe(rol => {
+    this.rolService.obtenerRol(this.rolSeleccionada!).subscribe(rol => {
       this.rol = rol;
       this.form.patchValue({
         nombre: this.rol.nombre,
@@ -60,9 +59,8 @@ export class EditarRolesComponent  implements OnInit{
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-    
-    this.rol.nombre = this.form.get("nombre")?.value;
-    this.rolesService.actualizarRol(this.rol ||rolActualizada).subscribe(
+
+    this.rolService.actualizarRol(rolActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
@@ -75,5 +73,4 @@ export class EditarRolesComponent  implements OnInit{
         console.error(error);
       });
   }
-}
-
+} 

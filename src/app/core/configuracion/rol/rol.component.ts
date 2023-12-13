@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { RolesService } from 'src/app/shared/services/roles.service';
 import { AgregarRolesComponent } from './agregar-roles/agregar-roles.component';
@@ -74,12 +72,11 @@ export class RolComponent implements OnInit{
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarRol(roles: Iroles) {
+  editarRol(rol: Iroles) {
     const initialState = {
-      rolSeleccionada: roles.rolId
+      rolSeleccionada: rol.rolId
     };
     this.bsModalRef = this.modalService.show(EditarRolesComponent, { initialState });
-    this.bsModalRef.content.rolSeleccionada = roles.nombre;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
