@@ -15,7 +15,8 @@ export class DiagnosticoService {
   constructor(public http: HttpClient,) { }
 
   obtenerDiagnosticos(clinicaId: string, page: number, rows: number): Observable<DataDiagnostico> {
-    return this.http.get<DataDiagnostico>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataDiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetAllPacienteDiagnostico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + 'PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(

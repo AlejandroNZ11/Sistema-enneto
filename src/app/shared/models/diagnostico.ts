@@ -12,12 +12,14 @@ export class diagnostico {
   }
   export interface Idiagnostico {
     diagnosticoId: string;
+    pacienteId:string
     nombre: string;
     diagnostico: string;
     estado: string;
   }
    
   export class DiagnosticoResponse {
+    pacienteId = "";
       nombre= "";
       diagnostico = "";
   

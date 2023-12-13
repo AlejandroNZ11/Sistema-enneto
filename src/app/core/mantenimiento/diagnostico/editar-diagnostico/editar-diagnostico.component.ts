@@ -56,9 +56,11 @@ export class EditarDiagnosticoComponent {
     }
     const diagnosticoActualizado: Idiagnostico = {
       diagnosticoId: this.diagnostico.diagnosticoId,
+      pacienteId:this.diagnostico.pacienteId,
       nombre: this.form.value.nombre,
       diagnostico: this.form.value.diagnostico,
       estado: this.form.value.diagnostico,
+
     };
 
     this.DiagnosticoService.actualizarDiagnostico(diagnosticoActualizado).subscribe(
