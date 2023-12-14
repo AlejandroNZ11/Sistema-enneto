@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-heading">
-                                    <h4>Editar Especialidad</h4>
+                                    <h4>Editar Sede</h4>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
@@ -37,18 +37,68 @@
                                 <div class="form-group local-forms">
                                     <label>Codigo <span class="login-danger">*</span></label>
                                     <input formControlName="codigo" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('codigo')}">
-                                    <div *ngIf="isInvalid('codigo') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('codigo')">
+                                        [ngClass]="{'is-invalid': validarLongitudCodigo() || isInvalid('codigo')}">
+                                    <div *ngIf="validarLongitudCodigo() || isInvalid('codigo') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="validarLongitudCodigo() || isRequerido('codigo') || mostrarErrores">
+                                            El código debe contener exactamente 4 caracteres.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Departamento<span class="login-danger">*</span></label>
+                                    <mat-select formControlName="departamento" [(ngModel)]="departamento"
+                                        class="form-control select" placeholder="Departamento"
+                                        [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
+                                        (ngModelChange)="actualizarProvincias()">
+                                        <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('departamento') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('departamento')">
                                             Debe completar el campo*
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-
-
-
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Provincia <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="provincia" [(ngModel)]="provincia"
+                                        class="form-control select" placeholder="Provincia"
+                                        [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
+                                        (ngModelChange)="actualizarDistritos()">
+                                        <mat-option *ngFor="let data of provincias" [value]="data.nombre">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('provincia') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('provincia')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Distrito<span class="login-danger">*</span></label>
+                                    <mat-select formControlName="ubigeo" [(ngModel)]="sede.ubigeo"
+                                        class="form-control select" placeholder="Distrito"
+                                        [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('ubigeo') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('ubigeo')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Direccion <span class="login-danger">*</span></label>
@@ -61,9 +111,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </form>
                     <div class="col-12">

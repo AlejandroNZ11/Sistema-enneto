@@ -80,7 +80,6 @@ export class BancoComponent implements OnInit{
       bancoSeleccionada:banco.bancoId
     }
     this.bsModalRef = this.modalService.show(EditarBancoComponent, {initialState});
-    this.bsModalRef.content.bancoSeleccionada = banco.bancoId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });

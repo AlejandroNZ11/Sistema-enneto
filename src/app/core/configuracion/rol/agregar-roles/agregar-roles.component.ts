@@ -47,7 +47,8 @@ export class AgregarRolesComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Roles.nombre = this.form.get("nombre")?.value;
+    this.Roles.nombre = this.form.get("nombre")?.value; 
+    this.Roles.estado = 1
     console.log(this.Roles);
     this.rolService.crearRoll(this.Roles).subscribe(
       (response)=>{
