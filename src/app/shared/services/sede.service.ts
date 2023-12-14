@@ -29,7 +29,7 @@ export class SedeService {
     return this.http.get<Isede>(this.apiUrl + `/Sede/GetSede/${sedeId}`);
   }
   eliminarSede( sedeId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Sede/DeleteSede/${sedeId}`);
+    return this.http.delete<successResponse>(this.apiUrl + `/Sede/DeleteRol/${sedeId}`);
   }
   actualizarSede(sede: Isede): Observable<successResponse> {
     return this.http.put<successResponse>(this.apiUrl + `/Sede/UpdateSede/${sede.sedeId}`, sede).pipe(
