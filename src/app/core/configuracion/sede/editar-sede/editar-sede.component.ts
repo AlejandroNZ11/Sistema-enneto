@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-sede.component.scss']
 })
 export class EditarSedeComponent implements OnInit {
-  sedeSeleccionada: Isede | null = null;
+  sedeSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;

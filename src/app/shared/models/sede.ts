@@ -17,3 +17,7 @@ export class sede {
     estado:string ;
     descripcion:string;
   }
+
+  export class sedeResponse {
+    nombre = "";
+  }

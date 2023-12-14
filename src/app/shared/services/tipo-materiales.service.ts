@@ -31,7 +31,7 @@ export class TipomaterialesService {
     return this.http.delete<successResponse>(this.apiUrl + `/TiposMateriales/DeleteTipoMaterial/${tipomaterialId}`);
   }
   actualizarTipomateriales(tipomateriales: Itipomateriales): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/TiposMateriales/UpdateTipoMaterial/${tipomateriales.tipomaterialId}`, tipomateriales).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/TiposMateriales/UpdateTipoMaterial/${tipomateriales.tipoMaterialId}`, tipomateriales).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

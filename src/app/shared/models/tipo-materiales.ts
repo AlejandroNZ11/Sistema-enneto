@@ -11,7 +11,7 @@ export class tipomateriales {
     data: Itipomateriales[];
   }
   export interface Itipomateriales {
-    tipomaterialId: string;
+    tipoMaterialId: string;
     nombre: string;
     descripcion: string;
     estado:string;

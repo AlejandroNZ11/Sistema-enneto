@@ -56,7 +56,7 @@ export class TipoMaterialesComponent implements OnInit{
     } else if (accion.accion == 'Editar') {
       this.editarTipomateriales(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarTipomateriales(accion.fila.tipomaterialId)
+      this.eliminarTipomateriales(accion.fila.tipoMaterialId)
     }
   }
 
@@ -76,7 +76,7 @@ export class TipoMaterialesComponent implements OnInit{
   }
   editarTipomateriales(tipomaterial: Itipomateriales) {
     const initialState = {
-      TipomaterialesSeleccionada: tipomaterial.tipomaterialId
+      TipomaterialesSeleccionada: tipomaterial.tipoMaterialId
     };
     this.bsModalRef = this.modalService.show(EditarTipoMaterialesComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {

@@ -58,7 +58,7 @@ export class EditarTipoMaterialesComponent implements OnInit {
       return;
     }
     const tipomaterialActualizada: Itipomateriales = {
-      tipomaterialId: this.tipomaterial.tipomaterialId,
+      tipoMaterialId: this.tipomaterial.tipoMaterialId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',

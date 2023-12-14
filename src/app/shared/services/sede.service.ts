@@ -24,4 +24,19 @@ export class SedeService {
       })
     );
   }
+
+  obtenerSede( sedeId: string): Observable<Isede> {
+    return this.http.get<Isede>(this.apiUrl + `/Sede/GetSede/${sedeId}`);
+  }
+  eliminarSede( sedeId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Sede/DeleteSede/${sedeId}`);
+  }
+  actualizarSede(sede: Isede): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/Sede/UpdateSede/${sede.sedeId}`, sede).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
+  }
 }
