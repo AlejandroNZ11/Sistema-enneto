@@ -4,6 +4,10 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { sede } from 'src/app/shared/models/sede';
 import { routes } from 'src/app/shared/routes/routes';
 import { SedeService } from 'src/app/shared/services/sede.service';
+import { Idepartamento } from 'src/app/shared/models/departamento';
+import { Iprovincia } from 'src/app/shared/models/provincia';
+import { Idistrito } from 'src/app/shared/models/distrito';
+import { UbicacionService } from 'src/app/shared/services/ubicacion.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,28 +16,65 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-sede.component.scss']
 })
 export class AgregarSedeComponent implements OnInit{
-
+  
   Sede: sede = new sede();
   public routes = routes;
-  form!: FormGroup;
-  public mostrarErrores = false;
-  ngOnInit(): void { }
+  
+  constructor(public formBuilder: FormBuilder, public ubicacionService: UbicacionService,public bsModalRef: BsModalRef, private sedeService: SedeService,
+    ) {}
 
-  constructor(public bsModalRef: BsModalRef, private sedeService: SedeService,
-    public fb: FormBuilder,) {
-    this.form = this.fb.group({
+  form!: FormGroup;
+  isFormSubmitted = false;
+  public mostrarErrores = false;
+  departamentos!: Idepartamento[];
+  provincias!: Iprovincia[];
+  distritos!: Idistrito[];
+  departamento!: string;
+  provincia!: string;
+  
+  ngOnInit(): void { 
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+    this.form = this.formBuilder.group({
+      departamento: ['', [Validators.required, Validators.maxLength(100)]],
+      provincia: ['', [Validators.required, Validators.maxLength(100)]],
+      ubigeo: ['', [Validators.required, Validators.maxLength(100)]],
       nombre: ['', Validators.required],
       codigo: ['', Validators.required],
       direccion: ['', Validators.required],
-      ubigeo: ['', Validators.required],
-      
     });
   }
 
+  
+
+  
+
+  actualizarProvincias() {
+    if (this.departamento) {
+      const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento)!.departamentoId;
+      this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
+        this.provincias = data;
+      })
+    }
+  }
+  actualizarDistritos() {
+    if (this.provincia) {
+      const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia)!.provinciaId;
+      this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
+        this.distritos = data;
+      })
+    }
+  }
+  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
   }
+
+  validarLongitudCodigo(): boolean {
+    const control = this.form.get('codigo');
+    return control?.value.length !== 4;
+  }
+
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
@@ -51,7 +92,11 @@ export class AgregarSedeComponent implements OnInit{
       this.isTouched()      
       return;
     }
+    const formData = new FormData();
     this.Sede.nombre = this.form.get("nombre")?.value;
+    this.Sede.codigo = this.form.get("codigo")?.value;
+    this.Sede.direccion = this.form.get("direccion")?.value;
+    formData.append('ubigeo', this.Sede.ubigeo.toString());
     console.log(this.Sede);
     this.sedeService.crearSede(this.Sede).subscribe(
       (response)=>{
