@@ -23,7 +23,7 @@ export class EditarTarjetaComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private tipoTarjetaService: TipoTarjetaService, public fb: FormBuilder) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
-      estado: ['1', Validators.required],
+      estado: ['Activo', Validators.required],
     });
   }
 
@@ -32,7 +32,7 @@ export class EditarTarjetaComponent implements OnInit {
       this.tipoTarjeta = tipoTarjeta;
       this.form.patchValue({
         descripcion: this.tipoTarjeta.descripcion,
-        estado: this.tipoTarjeta.estado == 1 ? '1' : '0',
+        estado: this.tipoTarjeta.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
   }
@@ -60,7 +60,7 @@ export class EditarTarjetaComponent implements OnInit {
     const tipoTarjetaActualizado: ITipoTarjeta = {
       tipoTarjetaId: this.tipoTarjeta.tipoTarjetaId,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado == '1' ?  1: 0,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.tipoTarjetaService.actualizarTipoTarjeta(tipoTarjetaActualizado).subscribe(

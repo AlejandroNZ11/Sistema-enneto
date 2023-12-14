@@ -23,7 +23,6 @@ export class AgregarTarjetaComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private tipoTarjetaService: TipoTarjetaService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-
       descripcion: ['', Validators.required],
     });
   }
@@ -51,6 +50,7 @@ export class AgregarTarjetaComponent implements OnInit {
     }
 
     this.TipoTarjeta.descripcion = this.form.get("descripcion")?.value;
+    this.TipoTarjeta.estado = 1
     console.log(this.TipoTarjeta);
     this.tipoTarjetaService.crearTipoTarjeta(this.TipoTarjeta).subscribe(
       (response) => {

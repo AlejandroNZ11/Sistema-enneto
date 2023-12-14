@@ -62,7 +62,8 @@ export class AgregarMarcaComponent implements OnInit {
       },
       (error)=>{
         console.error(error);
-      });
+      }
+    );
   }
 }
 

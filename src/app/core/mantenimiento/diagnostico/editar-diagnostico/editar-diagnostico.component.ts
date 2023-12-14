@@ -21,7 +21,7 @@ export class EditarDiagnosticoComponent {
   constructor(public bsModalRef: BsModalRef, private DiagnosticoService: DiagnosticoService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      pacienteDiagnosticoId: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
@@ -30,7 +30,7 @@ export class EditarDiagnosticoComponent {
       this.diagnostico = diagnostico;
       this.form.patchValue({
         nombre: this.diagnostico.nombre,
-        diagnostico: this.diagnostico.diagnostico,
+        pacienteDiagnosticoId: this.diagnostico.pacienteDiagnosticoId,
       });
     })
   }
@@ -58,7 +58,7 @@ export class EditarDiagnosticoComponent {
       diagnosticoId: this.diagnostico.diagnosticoId,
       pacienteId:this.diagnostico.pacienteId,
       nombre: this.form.value.nombre,
-      diagnostico: this.form.value.diagnostico,
+      pacienteDiagnosticoId: this.form.value.pacienteDiagnosticoId,
       estado: this.form.value.diagnostico,
 
     };

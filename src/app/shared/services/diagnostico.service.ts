@@ -27,14 +27,14 @@ export class DiagnosticoService {
     );
   }
   ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
-  obtenerDiagnostico( diagnosticoId: string): Observable<Idiagnostico> {
-    return this.http.get<Idiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${diagnosticoId}`);
+  obtenerDiagnostico( pacienteDiagnosticoId: string): Observable<Idiagnostico> {
+    return this.http.get<Idiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${pacienteDiagnosticoId}`);
   }
-  eliminarDiagnostico( diagnosticoId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/PacientesDiagnosticos/DeletePacienteDiagnostico/${diagnosticoId}`);
+  eliminarDiagnostico( pacienteDiagnosticoId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/PacientesDiagnosticos/DeletePacienteDiagnostico/${pacienteDiagnosticoId}`);
   }
   actualizarDiagnostico(diagnostico: Idiagnostico): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnostico.diagnosticoId}`, diagnostico).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnostico.pacienteDiagnosticoId}`, diagnostico).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

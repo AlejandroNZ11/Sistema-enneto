@@ -15,7 +15,7 @@ export class CrearDiagnosticoComponent {
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,private DiagnosticoService :DiagnosticoService) { 
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      diagnostico: ['', Validators.required],
+      pacienteDiagnosticoId: ['', Validators.required],
     });
   }
   Diagnostico: diagnostico = new diagnostico();
@@ -45,7 +45,7 @@ export class CrearDiagnosticoComponent {
       return;
     }
     this.Diagnostico.nombre = this.form.get("nombre")?.value;
-    this.Diagnostico.diagnostico = this.form.get("diagnostico")?.value;
+    this.Diagnostico.pacienteDiagnosticoId = this.form.get("pacienteDiagnosticoId")?.value;
     console.log(this.Diagnostico);
     this.DiagnosticoService.crearDiagnostico(this.Diagnostico).subscribe(
       (response)=>{

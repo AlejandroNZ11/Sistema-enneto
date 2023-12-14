@@ -75,8 +75,10 @@ export class TipoTarjetaComponent implements OnInit {
       });
   }
   editarTipoTarjeta(tipoTarjeta: ITipoTarjeta) {
-    this.bsModalRef = this.modalService.show(EditarTarjetaComponent);
-    this.bsModalRef.content.tipoPagoSeleccionado = tipoTarjeta.tipoTarjetaId;
+    const initialState = {
+      tipoTarjetaSeleccionada: tipoTarjeta.tipoTarjetaId
+    }
+    this.bsModalRef = this.modalService.show(EditarTarjetaComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
