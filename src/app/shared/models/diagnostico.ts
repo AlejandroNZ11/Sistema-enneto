@@ -1,6 +1,8 @@
 export class diagnostico {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
+    pacienteDiagnosticoId= "";
+    pacienteId= "";
     diagnosticoId = "";
     nombre = "";
     diagnostico ="";
@@ -11,15 +13,15 @@ export class diagnostico {
     data: Idiagnostico[];
   }
   export interface Idiagnostico {
-    diagnosticoId: string;
+    pacienteDiagnosticoId: string;
     pacienteId:string
+    diagnosticoId:string
     nombre: string;
-    diagnostico: string;
-    estado: string;
+    estado: number;
   }
    
   export class DiagnosticoResponse {
-    pacienteId = "";
+      pacienteId = "";
       nombre= "";
       diagnostico = "";
   

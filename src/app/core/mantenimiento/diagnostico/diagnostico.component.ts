@@ -59,7 +59,7 @@ export class DiagnosticoComponent {
   }
   editarDiagnostico(diagnostico: Idiagnostico) {
     const initialState = {
-      diagnosticoSeleccionado: diagnostico.diagnosticoId
+      diagnosticoSeleccionado: diagnostico.pacienteDiagnosticoId
     };
     this.bsModalRef = this.modalService.show(EditarDiagnosticoComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
