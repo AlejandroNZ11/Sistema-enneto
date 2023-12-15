@@ -80,7 +80,7 @@ export class PlanesComponent implements OnInit {
     const initialState = {
       planSeleccionado: planes.planId
     };
-    this.bsModalRef = this.modalService.show(EditarPlanComponent, {  });
+    this.bsModalRef = this.modalService.show(EditarPlanComponent, { initialState});
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -96,7 +96,7 @@ export class PlanesComponent implements OnInit {
         this.planesService.eliminarPlan(planId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Plan Eliminado en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

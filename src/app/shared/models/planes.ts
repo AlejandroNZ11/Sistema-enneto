@@ -8,6 +8,7 @@ export class Planes {
     maxPlan = "";
     usuMax = "";
     costoPlan = "";
+    estado!:number;
     
 }
 export interface IPlanes {
@@ -18,7 +19,7 @@ export interface IPlanes {
     maxPlan: string;
     usuMax: string;
     costoPlan: string;
-    estado: number;
+    estado: string;
 }
 export interface DataPlanes {
     data: IPlanes[];
@@ -30,5 +31,7 @@ export class PlanesResponse {
     fechaInicio = "";
     fechaFinContrato = "";
     costoPlan = "";  
+    maxPlan = "";
+    usuMax = "";
 }
 

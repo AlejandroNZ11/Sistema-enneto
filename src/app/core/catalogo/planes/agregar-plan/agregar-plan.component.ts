@@ -24,7 +24,7 @@ export class AgregarPlanComponent {
     this.form = this.fb.group({
       nombrePlan: ['', Validators.required],
       costoPlan: ['', Validators.required],
-      usuPlan: ['', Validators.required],
+      usuMax: ['', Validators.required],
       maxPlan: ['', Validators.required],
       fechaInicio: ['', Validators.required],
       fechaFinContrato: ['', Validators.required],
@@ -56,8 +56,9 @@ export class AgregarPlanComponent {
     this.Plan.fechaFinContrato = this.form.get("fechaFinContrato")?.value;
     this.Plan.costoPlan = this.form.get("costoPlan")?.value;
     this.Plan.maxPlan = this.form.get("maxPlan")?.value;
-    this.Plan.usuMax = this.form.get("usuPlan")?.value;
+    this.Plan.usuMax = this.form.get("usuMax")?.value;
     this.Plan.nombrePlan = this.form.get("nombrePlan")?.value;
+    this.Plan.estado = 1
     console.log(this.Plan);
     this.service.crearPlan(this.Plan).subscribe(
       (response) => {

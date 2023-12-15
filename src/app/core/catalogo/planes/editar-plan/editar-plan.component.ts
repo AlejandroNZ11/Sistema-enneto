@@ -13,37 +13,76 @@ import Swal from 'sweetalert2';
 })
 export class EditarPlanComponent implements OnInit {
   Plan!: IPlanes;
-  PlanSeleccionado: any;
+  planSeleccionado?: string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
 
   constructor(public bsModalRef: BsModalRef, private planService: PlanesService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      nombrePlan: ['', Validators.required],
+      costoPlan: ['', Validators.required],
+      usuMax: ['', Validators.required],
+      maxPlan: ['', Validators.required],
+      fechaInicio: ['', Validators.required],
+      fechaFinContrato: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
 
 ngOnInit() {
+  this.planService.obtenerPlan(this.planSeleccionado!).subscribe(Plan => {
+    this.Plan = Plan;
+    this.form.patchValue({
+      nombrePlan: this.Plan.nombrePlan,
+      costoPlan: this.Plan.costoPlan,
+      usuMax: this.Plan.usuMax,
+      maxPlan: this.Plan.maxPlan,
+      fechaInicio: this.Plan.fechaInicio,
+      fechaFinContrato: this.Plan.fechaFinContrato,
+      estado: this.Plan.estado == '1' ? 'Activo' : 'Inactivo',
+    });
+  })
   }
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
   }
-
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
-
   Cancelar() {
-    this.bsModalRef.hide();
+    this.bsModalRef.hide()
   }
-
   actualizarPlan() {
-   
+    if (!this.Plan || this.form.invalid) {
+      this.mostrarErrores = true;
+      //Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
+      return;
+    }
+    const PlanActualizado: IPlanes = {
+      planId: this.Plan.planId,
+      nombrePlan: this.form.value.nombrePlan,
+      costoPlan: this.form.value.costoPlan,
+      usuMax: this.form.value.usuMax,
+      maxPlan: this.form.value.maxPlan,
+      fechaInicio: this.form.value.fechaInicio,
+      fechaFinContrato: this.form.value.fechaFinContrato,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+    };
+    this.planService.actualizarPlan(PlanActualizado).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
-} 
+}
