@@ -22,7 +22,7 @@ export class AgregarMedidaComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, private service: MedidaService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
     });
   }
 
@@ -47,7 +47,7 @@ export class AgregarMedidaComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Medida.nombre = this.form.get("descripcion")?.value;
+    this.Medida.nombre = this.form.get("nombre")?.value;
     console.log(this.Medida);
     this.service.crearMedida(this.Medida).subscribe(
       (response)=>{

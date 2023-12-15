@@ -24,8 +24,15 @@ export class MedidaService {
       })
     );
   }
+
+  obtenerMedida( medidaId: string): Observable<Imedida> {
+    return this.http.get<Imedida>(this.apiUrl + `/UnidadesMedida/GetUnidadMedida/${medidaId}`);
+  }
+  eliminarMedida( medidaId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/UnidadesMedida/DeleteUnidadMedida/${medidaId}`);
+  }
   actualizarMedida(medida: Imedida): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Medidas/${medida.unidadMedidaId}`, medida).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/UnidadesMedida/UdateUnidadMedida/${medida.unidadMedidaId}`, medida).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
