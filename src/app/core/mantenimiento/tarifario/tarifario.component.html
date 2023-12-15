@@ -1,1 +1,28 @@
-<p>tarifario works!</p>
+<div class="page-wrapper">
+    <div class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.tarifarioMant">Tarifario</a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Lista de Tarifarios</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <app-tabla [total]="totalData" [data]="ListTarifario"  [indice]="serialNumberArray" [columns]="columnas"
+                            [titulo]="'Lista de Tarifarios'" [accion]="acciones" (action)="onAction($event)"
+                            (MoreData)="getMoreData($event)">
+                        </app-tabla>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

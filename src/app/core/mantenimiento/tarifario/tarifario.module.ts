@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { TarifarioComponent } from './tarifario.component';
 import { TarifarioRoutingModule } from './tarifario-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AgregarTarifarioComponent } from './agregar-tarifario/agregar-tarifario.component';
 
 
 
 @NgModule({
   declarations: [
-    TarifarioComponent
+    TarifarioComponent,
+    AgregarTarifarioComponent
   ],
   imports: [
     CommonModule,

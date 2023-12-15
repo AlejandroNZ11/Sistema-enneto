@@ -28,6 +28,10 @@ export class MonedaService {
     );
   }
 
+  obtenerListaMoneda(): Observable<IMoneda[]> {
+    return this.http.get<IMoneda[]>(this.apiUrl + `/TiposMonedas/GetTipoMonedaList`);
+  }
+
   obtenerMoneda(tipoMonedaId: string): Observable<IMoneda> {
     return this.http.get<IMoneda>(`${this.apiUrl}/TiposMonedas/GetTipoMoneda/${tipoMonedaId}`);
   }

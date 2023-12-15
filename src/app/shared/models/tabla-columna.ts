@@ -22,6 +22,7 @@ import { TipomaterialesResponse } from "./tipo-materiales";
 import { TipoConceptoResponce } from "./tipoConcepto";
 import { sedeResponse } from "./sede";
 import { medidaResponse } from "./medida";
+import { tarifario, tarifarioResponse } from "./tarifario";
 
 export interface Accion<T = any> {
   accion: string;
@@ -66,6 +67,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoConcepto': clase= new TipoConceptoResponce(); break;
     case 'Sede': clase = new sedeResponse();break;
     case 'Medida': clase = new medidaResponse();break;
+    case 'Tarifario': clase = new tarifarioResponse();break;
   }
   if (clase) {
     resultados = Object.keys(clase);
