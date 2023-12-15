@@ -27,47 +27,57 @@ export class EditarSedeComponent implements OnInit {
   departamento!: string;
   provincia!: string;
   isFormSubmitted = false;
+  
 
-  constructor(public bsModalRef: BsModalRef,public ubicacionService: UbicacionService, private sedeService: SedeService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, public ubicacionService: UbicacionService, private sedeService: SedeService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      departamento: ['', [Validators.required, Validators.maxLength(100)]],
-      provincia: ['', [Validators.required, Validators.maxLength(100)]],
-      ubigeo: ['', [Validators.required, Validators.maxLength(100)]],
+      
+      ubigeo: ['', Validators.required, ],
       nombre: ['', Validators.required],
       codigo: ['', Validators.required],
       direccion: ['', Validators.required],
+      estado: ['Activo', Validators.required],
     });
+  
   }
+  
 
   ngOnInit() {
     this.sedeService.obtenerSede(this.sedeSeleccionada!).subscribe(sede => {
-      this.sede = sede;
+      this.sede = sede || this.departamentos ;
       this.form.patchValue({
         nombre: this.sede.nombre,
         codigo: this.sede.codigo,
-        direccion: this.sede.direccion,
+        direccion: this.sede.direccion, 
         ubigeo: this.sede.ubigeo,
         estado: this.sede.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    })
+    }) 
+
   }
 
   actualizarProvincias() {
     if (this.departamento) {
-      const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento)!.departamentoId;
-      this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
-        this.provincias = data;
-      })
+      const departamentoSeleccionado = this.departamentos.find(dep => dep.nombre === this.departamento);
+      if (departamentoSeleccionado) {
+        this.ubicacionService.obtenerProvincias(departamentoSeleccionado.departamentoId).subscribe(data => {
+          this.provincias = data;  
+        });
+      }
     }
   }
+  
   actualizarDistritos() {
     if (this.provincia) {
-      const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia)!.provinciaId;
-      this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
-        this.distritos = data;
-      })
+      const provinciaSeleccionada = this.provincias.find(prov => prov.nombre === this.provincia);
+      if (provinciaSeleccionada) {
+        this.ubicacionService.obtenerDistritos(provinciaSeleccionada.provinciaId).subscribe(data => {
+          this.distritos = data;  
+        });
+      }
     }
   }
+  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -87,16 +97,17 @@ export class EditarSedeComponent implements OnInit {
   }
 
   guardarSede() {
-    if (!this.sede || this.form.invalid) {
+    if (!this.sede|| this.departamentos || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
+    
     const sedeActualizada: Isede = {
       sedeId: this.sede.sedeId,
       nombre: this.form.value.nombre,
       codigo: this.form.value.codigo,
       direccion: this.form.value.direccion,
-      ubigeo: this.form.value.ubigeo,
+      ubigeo: this.sede.ubigeo = this.form.get('ubigeo')?.value,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 

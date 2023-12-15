@@ -6,6 +6,7 @@ export class sede {
     ubigeo = "";
     codigo = "";
     direccion = "";
+    estado!: number;
   }
   export interface DataSede {
     totalData: number;
