@@ -12,3 +12,7 @@ export interface DataMedida {
   totalData: number;
   data: Imedida[];
 }
+
+export class medidaResponse {
+  nombre = "";
+}

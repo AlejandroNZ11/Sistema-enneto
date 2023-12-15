@@ -7,28 +7,28 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-heading">
-                                    <h4>Nueva Medida</h4>
+                                    <h4>Nueva Especialidad</h4>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Descripcion <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
-                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('descripcion')|| mostrarErrores">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
                                     <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
                                     </mat-select>
                                 </div>
-                            </div>                          
+                            </div>
                         </div>
                     </form>
                     <div class="col-12">

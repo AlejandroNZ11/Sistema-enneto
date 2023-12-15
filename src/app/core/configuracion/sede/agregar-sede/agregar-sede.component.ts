@@ -44,10 +44,6 @@ export class AgregarSedeComponent implements OnInit{
     });
   }
 
-  
-
-  
-
   actualizarProvincias() {
     if (this.departamento) {
       const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento)!.departamentoId;
@@ -96,6 +92,7 @@ export class AgregarSedeComponent implements OnInit{
     this.Sede.nombre = this.form.get("nombre")?.value;
     this.Sede.codigo = this.form.get("codigo")?.value;
     this.Sede.direccion = this.form.get("direccion")?.value;
+    this.Sede.estado= 1;
     formData.append('ubigeo', this.Sede.ubigeo.toString());
     console.log(this.Sede);
     this.sedeService.crearSede(this.Sede).subscribe(
