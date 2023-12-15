@@ -20,8 +20,10 @@ export class EditarDiagnosticoComponent {
 
   constructor(public bsModalRef: BsModalRef, private DiagnosticoService: DiagnosticoService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      nombre: ['', Validators.required],
       pacienteDiagnosticoId: ['', Validators.required],
+      pacienteId:['', Validators.required],
+      fecha:['', Validators.required],
+      codigoEnfermedad01:['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
@@ -29,8 +31,12 @@ export class EditarDiagnosticoComponent {
     this.DiagnosticoService.obtenerDiagnostico(this.diagnosticoSeleccionado!).subscribe(diagnostico => {
       this.diagnostico = diagnostico;
       this.form.patchValue({
-        nombre: this.diagnostico.nombre,
+        pacienteId: this.diagnostico.pacienteId,
         pacienteDiagnosticoId: this.diagnostico.pacienteDiagnosticoId,
+        fecha: this.diagnostico.fecha,
+        codigoEnfermedad: this.diagnostico.codigoEnfermedad01,
+        estado: this.diagnostico.estado,
+
       });
     })
   }
@@ -55,10 +61,10 @@ export class EditarDiagnosticoComponent {
       return;
     }
     const diagnosticoActualizado: Idiagnostico = {
-      diagnosticoId: this.diagnostico.diagnosticoId,
+      pacienteDiagnosticoId: this.diagnostico.pacienteDiagnosticoId,
       pacienteId:this.diagnostico.pacienteId,
-      nombre: this.form.value.nombre,
-      pacienteDiagnosticoId: this.form.value.pacienteDiagnosticoId,
+      fecha: this.form.value.fecha,
+      codigoEnfermedad01: this.form.value.codigoEnfermedad,
       estado: this.form.value.diagnostico,
 
     };

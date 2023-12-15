@@ -3,9 +3,9 @@ export class diagnostico {
     usuarioId = "";
     pacienteDiagnosticoId= "";
     pacienteId= "";
-    diagnosticoId = "";
-    nombre = "";
-    diagnostico ="";
+    fecha = "";
+    codigoEnfermedad01 = "";
+    
     
   }
   export interface DataDiagnostico {
@@ -15,15 +15,16 @@ export class diagnostico {
   export interface Idiagnostico {
     pacienteDiagnosticoId: string;
     pacienteId:string
-    diagnosticoId:string
-    nombre: string;
+    fecha:string
+    codigoEnfermedad01: string;
     estado: number;
   }
    
   export class DiagnosticoResponse {
+      pacienteDiagnosticoId = "";
       pacienteId = "";
-      nombre= "";
-      diagnostico = "";
+      fecha= "";
+      codigoEnfermedad = "";
   
   }
 

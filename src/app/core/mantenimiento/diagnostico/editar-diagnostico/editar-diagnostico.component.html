@@ -11,26 +11,49 @@
                                     <h4>Editar Diagnostico</h4>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>Nombre <span class="login-danger">*</span></label>
-                                    <input formControlName="nombre" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
-                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('nombre')">
+                                    <label>pacienteDiagnosticoId<span class="login-danger">*</span></label>
+                                    <input formControlName="pacienteDiagnosticoId" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('pacienteDiagnosticoId')}">
+                                    <div *ngIf="isInvalid('pacienteDiagnosticoId') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('pacienteDiagnosticoId')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>Diagnostico <span class="login-danger">*</span></label>
-                                    <input formControlName="diagnostico" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('diagnostico')}">
-                                    <div *ngIf="isInvalid('diagnostico') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('diagnostico')">
+                                    <label>pacienteDiagnosticoId <span class="login-danger">*</span></label>
+                                    <input formControlName="pacienteDiagnosticoId" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('pacienteDiagnosticoId')}">
+                                    <div *ngIf="isInvalid('pacienteDiagnosticoId') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('pacienteDiagnosticoId')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>fecha <span class="login-danger">*</span></label>
+                                    <input formControlName="fecha" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('fecha')}">
+                                    <div *ngIf="isInvalid('fecha') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('fecha')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>codigoEnfermedad <span class="login-danger">*</span></label>
+                                    <input formControlName="codigoEnfermedad" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('codigoEnfermedad')}">
+                                    <div *ngIf="isInvalid('codigoEnfermedad') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('codigoEnfermedad')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
