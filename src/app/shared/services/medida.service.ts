@@ -32,7 +32,7 @@ export class MedidaService {
     return this.http.delete<successResponse>(this.apiUrl + `/UnidadesMedida/DeleteUnidadMedida/${medidaId}`);
   }
   actualizarMedida(medida: Imedida): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/UnidadesMedida/UdateUnidadMedida/${medida.unidadMedidaId}`, medida).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/UnidadesMedida/UpdateUnidadMedida/${medida.unidadMedidaId}`, medida).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
