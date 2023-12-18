@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ITipoGasto } from 'src/app/shared/models/tipogastos';
+import { ITipoGastos } from 'src/app/shared/models/tipogastos';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import Swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-gastos.component.scss']
 })
 export class EditarTipoGastosComponent implements OnInit {
-  tipoGasto!: ITipoGasto;
+  tipoGastos!: ITipoGastos;
   gastoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
@@ -26,11 +26,11 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoGastosService.obtenerTipoGasto(this.gastoSeleccionado!).subscribe(tipoGasto => {
-      this.tipoGasto = tipoGasto;
+    this.tipoGastosService.obtenerTipoGasto(this.gastoSeleccionado!).subscribe(tipoGastos => {
+      this.tipoGastos = tipoGastos;
       this.form.patchValue({
-        nombre: this.tipoGasto.nombre,
-        estado: this.tipoGasto.estado == '1' ? 'Activo' : 'Inactivo',
+        nombre: this.tipoGastos.nombre,
+        estado: this.tipoGastos.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
   }
@@ -50,13 +50,13 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   guardarTipoGasto() {
-    if (!this.tipoGasto || this.form.invalid) {
+    if (!this.tipoGastos || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
 
-    const tipoGastoActualizado: ITipoGasto = {
-      tipoGastoId: this.tipoGasto.tipoGastoId,
+    const tipoGastoActualizado: ITipoGastos = {
+      tipoGastosId: this.tipoGastos.tipoGastosId,
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };

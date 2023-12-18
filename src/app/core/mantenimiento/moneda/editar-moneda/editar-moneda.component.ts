@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 export class EditarMonedaComponent implements OnInit {
   moneda: IMoneda | undefined;
   public routes = routes;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   monedaSeleccionada: any;
   form: FormGroup;
   public mostrarErrores = false;

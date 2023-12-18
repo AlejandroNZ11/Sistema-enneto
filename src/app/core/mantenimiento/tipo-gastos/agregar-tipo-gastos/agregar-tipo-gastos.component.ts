@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { TipoGasto } from 'src/app/shared/models/tipogastos';
+import { TipoGastos } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTipoGastosComponent {
   public routes = routes;
-  tipoGasto: TipoGasto = new TipoGasto();
+  tipoGastos: TipoGastos = new TipoGastos();
   form!: FormGroup;
   public mostrarErrores = false;
 
@@ -49,9 +49,9 @@ export class AgregarTipoGastosComponent {
       return;
     }
 
-    this.tipoGasto.nombre = this.form.get("nombre")?.value;
+    this.tipoGastos.nombre = this.form.get("nombre")?.value;
 
-    this.tipoGastosService.crearTipoGasto(this.tipoGasto).subscribe(
+    this.tipoGastosService.crearTipoGasto(this.tipoGastos).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
