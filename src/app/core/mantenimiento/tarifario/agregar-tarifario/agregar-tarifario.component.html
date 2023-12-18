@@ -1,16 +1,16 @@
 <div class="content">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-20">
             <div class="card">
                 <div class="card-body">
                     <form [formGroup]="form">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-15">
                                 <div class="form-heading">
                                     <h4>Nuevo Tarifario</h4>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-15">
                                 <div class="form-group local-forms">
                                     <label>Descripcion <span class="login-danger">*</span></label>
                                     <input formControlName="descripcion" class="form-control" type="text"
@@ -22,6 +22,75 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Tipo Concepto <span class="login-danger">*</span></label>
+                                    <mat-select [(ngModel)]="tipoconcepto" formControlName="tipoconcepto"
+                                        class="form-control select" placeholder="Seleccione Tipo Concepto"
+                                        [ngClass]="{'is-invalid': isInvalid('tipoconcepto') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of tipoconcepto_LISTA"
+                                            [value]="data.tipoConceptoId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('tipoconcepto') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('tipoconcepto')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Moneda <span class="login-danger">*</span></label>
+                                    <mat-select [(ngModel)]="moneda" formControlName="moneda"
+                                        class="form-control select" placeholder="Seleccione Tipo Moneda"
+                                        [ngClass]="{'is-invalid': isInvalid('moneda') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of moneda_LISTA"
+                                            [value]="data.tipoMonedaId">
+                                            {{data.descripcion}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('moneda') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('moneda')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Costo <span class="login-danger">*</span></label>
+                                    <input formControlName="costo" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('costo')}">
+                                    <div *ngIf="isInvalid('costo') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('costo')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                <label>Fecha de Registro<span class="text-danger">*</span></label>
+                                <input formControlName="fechaRegistro" class="form-control datetimepicker" type="text" matInput
+                                    [matDatepicker]="picker" [disabled]="true" [value]="fechaDeRegistro">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                  <div *ngIf="isInvalid('fechaRegistro')" class="invalid-feedback">
+                                    Debe seleccionar una fecha válida.
+                                </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                            
+                            
+                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>

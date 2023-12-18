@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
 import { tarifario, DataTarifario, Itarifario } from '../models/tarifario';
+import { ItipoConcepto } from '../models/tipoConcepto';
 
 @Injectable({
     providedIn:'root'

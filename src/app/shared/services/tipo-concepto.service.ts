@@ -24,6 +24,11 @@ export class TipoConceptoService {
       })
     );
   }
+
+  obtenerListaTipoConcepto(): Observable<ItipoConcepto[]> {
+    return this.http.get<ItipoConcepto[]>(this.apiUrl + `/TiposConceptos/GetTipoConceptoList`);
+}
+
   obtenerTipoConcepto( tipoConceptoId: string): Observable<ItipoConcepto> {
     return this.http.get<ItipoConcepto>(this.apiUrl + `/TiposConceptos/GetTipoConcepto/${tipoConceptoId}`);
   }
