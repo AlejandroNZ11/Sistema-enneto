@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataTipoGasto, ITipoGasto, TipoGasto } from '../models/tipogastos';
+import { DataTipoGastos, ITipoGastos, TipoGastos } from '../models/tipogastos';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +15,12 @@ export class TipoGastosService {
 
   constructor(public http: HttpClient) { }
 
-  obtenerTipoGastos(clinicaId: string, page: number, rows: number): Observable<DataTipoGasto> {
-    return this.http.get<DataTipoGasto>(`${this.apiUrl}/TipoGastos/GetAllTipoGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  obtenerTipoGastos(clinicaId: string, page: number, rows: number): Observable<DataTipoGastos> {
+    return this.http.get<DataTipoGastos>(`${this.apiUrl}/TipoGastos/GetAllTipoGastos?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
-  crearTipoGasto(tipoGasto: TipoGasto): Observable<successResponse> {
-    return this.http.post<successResponse>(`${this.apiUrl}/TipoGastos/SaveTipoGasto`, tipoGasto).pipe(
+  crearTipoGasto(tipoGastos: TipoGastos): Observable<successResponse> {
+    return this.http.post<successResponse>(`${this.apiUrl}/TipoGastos/SaveTipoGastos`, tipoGastos).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -28,16 +28,16 @@ export class TipoGastosService {
     );
   }
 
-  obtenerTipoGasto(tipoGastoId: string): Observable<ITipoGasto> {
-    return this.http.get<ITipoGasto>(`${this.apiUrl}/TipoGastos/GetTipoGasto/${tipoGastoId}`);
+  obtenerTipoGasto(tipoGastosId: string): Observable<ITipoGastos> {
+    return this.http.get<ITipoGastos>(`${this.apiUrl}/TipoGastos/GetTipoGastos/${tipoGastosId}`);
   }
 
-  eliminarTipoGasto(tipoGastoId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(`${this.apiUrl}/TipoGastos/DeleteTipoGasto/${tipoGastoId}`);
+  eliminarTipoGasto(tipoGastosId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(`${this.apiUrl}/TipoGastos/DeleteTipoGastos/${tipoGastosId}`);
   }
 
-  actualizarTipoGasto(tipoGasto: ITipoGasto): Observable<successResponse> {
-    return this.http.put<successResponse>(`${this.apiUrl}/TipoGastos/${tipoGasto.tipoGastoId}`, tipoGasto).pipe(
+  actualizarTipoGasto(tipoGastos: ITipoGastos): Observable<successResponse> {
+    return this.http.put<successResponse>(`${this.apiUrl}/TipoGastos/${tipoGastos.tipoGastosId}`, tipoGastos).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
