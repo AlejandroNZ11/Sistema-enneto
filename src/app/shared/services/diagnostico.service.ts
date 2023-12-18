@@ -16,10 +16,10 @@ export class DiagnosticoService {
 
   obtenerDiagnosticos(clinicaId: string, page: number, rows: number): Observable<DataDiagnostico> {
     return this.http.get<DataDiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetAllPacienteDiagnostico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
-    ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico
+    ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico ----- clinicaId
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + 'PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/PacientesDiagnosticos/SavePacienteDiagnostico/', diagnostico).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

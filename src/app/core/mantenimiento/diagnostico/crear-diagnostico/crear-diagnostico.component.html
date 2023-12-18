@@ -12,42 +12,6 @@
                             </div>                       
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>pacienteDiagnosticoId<span class="login-danger">*</span></label>
-                                    <input formControlName="pacienteDiagnosticoId" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('pacienteDiagnosticoId')}">
-                                    <div *ngIf="isInvalid('pacienteDiagnosticoId') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('pacienteDiagnosticoId')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
-                                <div class="form-group local-forms">
-                                    <label>pacienteId <span class="login-danger">*</span></label>
-                                    <input formControlName="pacienteId" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('pacienteId')}">
-                                    <div *ngIf="isInvalid('pacienteId') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('pacienteId')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
-                                <div class="form-group local-forms">
-                                    <label>fecha <span class="login-danger">*</span></label>
-                                    <input formControlName="fecha" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('fecha')}">
-                                    <div *ngIf="isInvalid('fecha') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('fecha')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
-                                <div class="form-group local-forms">
                                     <label>codigoEnfermedad <span class="login-danger">*</span></label>
                                     <input formControlName="codigoEnfermedad" class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('codigoEnfermedad')}">
@@ -61,9 +25,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" class="form-control select">
-                                        <mat-option value="Activo">Activo</mat-option>
-                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
                                     </mat-select>
                                 </div>
                             </div>
