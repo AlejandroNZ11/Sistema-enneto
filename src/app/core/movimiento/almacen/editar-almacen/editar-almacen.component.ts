@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarAlmacenComponent implements OnInit {
   almacen!: Ialmacen;
-  almacenSeleccionado: any;
+  AlmacenSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -25,7 +25,7 @@ export class EditarAlmacenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.almacenService.obtenerAlmacen(this.almacenSeleccionado!).subscribe(almacen => {
+    this.almacenService.obtenerAlmacen(this.AlmacenSeleccionada!).subscribe(almacen => {
       this.almacen = almacen;
       this.form.patchValue({
         descripcion: this.almacen.nombreAlmacen,

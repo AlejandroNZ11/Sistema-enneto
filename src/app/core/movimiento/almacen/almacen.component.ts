@@ -19,7 +19,7 @@ import Swal from 'sweetalert2';
 })
 export class AlmacenComponent implements OnInit {
     public routes = routes;
-    public ListAlmacen: Array<Ialmacen> = [];
+    ListAlmacen: Array<Ialmacen> = [];
     AlmacenSeleccionada: almacen = new almacen();
     dataSource!: MatTableDataSource<Ialmacen>;
     columnas: string[] = []
@@ -38,10 +38,10 @@ export class AlmacenComponent implements OnInit {
         this.columnas = getEntityPropiedades('Almacen');
         this.acciones = ['Editar', 'Eliminar'];
     }
-    private getTableData(): void {
+    private getTableData(currentPage: number, pageSize: number): void {
         this.ListAlmacen = [];
         this.serialNumberArray = [];
-        this.almacenService.obtenerAlmacenes(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataAlmacen) => {
+        this.almacenService.obtenerAlmacenes(env.clinicaId, currentPage, pageSize).subscribe((data: DataAlmacen) => {
             this.totalData = data.totalData
             for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
                 const serialNumber = index + 1;
@@ -57,12 +57,12 @@ export class AlmacenComponent implements OnInit {
         } else if (accion.accion == 'Editar') {
             this.editarAlmacen(accion.fila)
         } else if (accion.accion == 'Eliminar') {
-            this.eliminarAlmacen(accion.fila.tipoTarjetaId)
+            this.eliminarAlmacen(accion.fila.almacenId)
         }
     }
 
     getMoreData(pag: Paginacion) {
-        this.getTableData();
+        this.getTableData(pag.page, pag.size);
         this.currentPage = pag.page;
         this.pageSize = pag.size;
         this.skip = pag.skip;
@@ -71,14 +71,16 @@ export class AlmacenComponent implements OnInit {
     crearAlmacen() {
         this.bsModalRef = this.modalService.show(AgregarAlmacenComponent),
             this.bsModalRef.onHidden?.subscribe(() => {
-                this.getTableData();
+                this.getTableData(this.currentPage, this.pageSize);
             });
     }
     editarAlmacen(almacen: Ialmacen) {
-        this.bsModalRef = this.modalService.show(EditarAlmacenComponent);
-        this.bsModalRef.content.tipoPagoSeleccionado = almacen.almacenId;
+        const initialState = {
+        AlmacenSeleccionada: almacen.almacenId
+        };
+        this.bsModalRef = this.modalService.show(EditarAlmacenComponent, { initialState });
         this.bsModalRef.onHidden?.subscribe(() => {
-            this.getTableData();
+            this.getTableData(this.currentPage, this.pageSize);
         });
     }
     eliminarAlmacen(almacenId: string) {
@@ -93,7 +95,7 @@ export class AlmacenComponent implements OnInit {
                     (response) => {
                         if (response.isSuccess) {
                             Swal.fire('Correcto', 'Almacen Eliminado en el sistema correctamente.', 'success');
-                            this.getTableData();
+                            this.getTableData(this.currentPage, this.pageSize);
                             return;
                         } else {
                             console.error(response.message);

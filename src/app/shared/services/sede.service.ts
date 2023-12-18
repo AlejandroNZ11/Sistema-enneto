@@ -24,6 +24,9 @@ export class SedeService {
       })
     );
   }
+  obtenerSedesList(): Observable<Isede[]> {
+    return this.http.get<Isede[]>(this.apiUrl + `/Sede/GetSedeList`);
+  }
 
   obtenerSede( sedeId: string): Observable<Isede> {
     return this.http.get<Isede>(this.apiUrl + `/Sede/GetSede/${sedeId}`);

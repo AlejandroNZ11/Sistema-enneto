@@ -57,43 +57,44 @@
                                     </mat-select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-12 col-xl-5">
-                            <div class="form-group local-forms">
-                                <label>Costo del Plan <span class="login-danger">*</span></label>
-                                <input formControlName="costoPlan" class="form-control" type="text"
-                                    [ngClass]="{'is-invalid': isInvalid('costoPlan')}">
-                                <div *ngIf="isInvalid('costoPlan') || mostrarErrores" class="invalid-feedback">
-                                    <div *ngIf="isRequerido('costoPlan')|| mostrarErrores">
-                                        Debe completar el campo*
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Costo del Plan <span class="login-danger">*</span></label>
+                                    <input formControlName="costoPlan" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('costoPlan')}">
+                                    <div *ngIf="isInvalid('costoPlan') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('costoPlan')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Max Plan <span class="login-danger">*</span></label>
+                                    <input formControlName="maxPlan" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('maxPlan')}">
+                                    <div *ngIf="isInvalid('maxPlan') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('maxPlan')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Usu Plan <span class="login-danger">*</span></label>
+                                    <input formControlName="usuMax" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('usuMax')}">
+                                    <div *ngIf="isInvalid('usuMax') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('usuMax')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-12 col-xl-5">
-                            <div class="form-group local-forms">
-                                <label>Max Plan <span class="login-danger">*</span></label>
-                                <input formControlName="maxPlan" class="form-control" type="text"
-                                    [ngClass]="{'is-invalid': isInvalid('maxPlan')}">
-                                <div *ngIf="isInvalid('maxPlan') || mostrarErrores" class="invalid-feedback">
-                                    <div *ngIf="isRequerido('maxPlan')|| mostrarErrores">
-                                        Debe completar el campo*
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-12 col-xl-12">
-                            <div class="form-group local-forms">
-                                <label>Usu Plan <span class="login-danger">*</span></label>
-                                <input formControlName="usuMax" class="form-control" type="text"
-                                    [ngClass]="{'is-invalid': isInvalid('usuMax')}">
-                                <div *ngIf="isInvalid('usuMax') || mostrarErrores" class="invalid-feedback">
-                                    <div *ngIf="isRequerido('usuMax')|| mostrarErrores">
-                                        Debe completar el campo*
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </form>
                     <div class="col-12">
                         <div class="doctor-submit text-end">
