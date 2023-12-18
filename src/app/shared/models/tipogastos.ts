@@ -1,16 +1,16 @@
-export class TipoGastos {
+export class TipoGasto {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = "";
     nombre = "";
 }
 
-export interface DataTipoGastos {
+export interface DataTipoGasto {
     totalData: number;
-    data: ITipoGastos[];
+    data: ITipoGasto[];
 }
 
-export interface ITipoGastos {
-    tipoGastosId: string;
+export interface ITipoGasto {
+    tipoGastoId: string;
     nombre: string;
     estado: string;
 }
