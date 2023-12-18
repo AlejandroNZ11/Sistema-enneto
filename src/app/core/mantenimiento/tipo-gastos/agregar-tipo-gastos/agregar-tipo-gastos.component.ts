@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { TipoGasto } from 'src/app/shared/models/tipogastos';
+import { ConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTipoGastosComponent {
   public routes = routes;
-  tipoGasto: TipoGasto = new TipoGasto();
+  conceptoGasto: ConceptoGasto = new ConceptoGasto();
   form!: FormGroup;
   public mostrarErrores = false;
 
@@ -43,15 +43,15 @@ export class AgregarTipoGastosComponent {
     });
   }
 
-  crearTipoGasto() {
+  crearConceptoGasto() {
     if (this.form.invalid) {
       this.isTouched();
       return;
     }
 
-    this.tipoGasto.nombre = this.form.get("nombre")?.value;
+    this.conceptoGasto.nombre = this.form.get("nombre")?.value;
 
-    this.tipoGastosService.crearTipoGasto(this.tipoGasto).subscribe(
+    this.tipoGastosService.crearConceptoGasto(this.conceptoGasto).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

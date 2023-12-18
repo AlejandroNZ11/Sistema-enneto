@@ -14,11 +14,7 @@ import { diagnostico } from 'src/app/shared/models/diagnostico';
 export class CrearDiagnosticoComponent {
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,private DiagnosticoService :DiagnosticoService) { 
     this.form = this.fb.group({
-      pacienteDiagnosticoId: ['', Validators.required],
-      pacienteId:['', Validators.required],
-      fecha:['', Validators.required],
       codigoEnfermedad:['', Validators.required],
-      estado: ['Activo', Validators.required],
     });
   }
   Diagnostico: diagnostico = new diagnostico();
@@ -47,10 +43,7 @@ export class CrearDiagnosticoComponent {
       this.isTouched()      
       return;
     }
-    this.Diagnostico.pacienteId= this.form.get("pacienteId")?.value;
-    this.Diagnostico.pacienteDiagnosticoId = this.form.get("pacienteDiagnosticoId")?.value;
-    this.Diagnostico.fecha= this.form.get("fecha")?.value;
-    this.Diagnostico.codigoEnfermedad01= this.form.get("codigoEnfermedad")?.value;
+    this.Diagnostico.codigoEnfermedad= this.form.get("codigoEnfermedad")?.value;
 
     console.log(this.Diagnostico);
     this.DiagnosticoService.crearDiagnostico(this.Diagnostico).subscribe(
