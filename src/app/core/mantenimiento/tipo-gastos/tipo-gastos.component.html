@@ -7,7 +7,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a [routerLink]="routes.tipoGastosMant">Tipos de Gastos</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista de Tipos de Gastos</li>
+                        <li class="breadcrumb-item active">Lista de Gastos</li>
                     </ul>
                 </div>
             </div>
@@ -16,8 +16,8 @@
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <app-tabla [total]="totalData" [data]="ListTipoGasto" [indice]="serialNumberArray" [columns]="columnas"
-                            [titulo]="'Lista de Tipos de Gastos'" [accion]="acciones" (action)="onAction($event)"
+                        <app-tabla [total]="totalData" [data]="ListConceptoGasto" [indice]="serialNumberArray" [columns]="columnas"
+                            [titulo]="'Lista de Gastos'" [accion]="acciones" (action)="onAction($event)"
                             (MoreData)="getMoreData($event)">
                         </app-tabla>
                     </div>
