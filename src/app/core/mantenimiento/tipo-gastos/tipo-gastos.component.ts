@@ -5,7 +5,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { AgregarTipoGastosComponent } from './agregar-tipo-gastos/agregar-tipo-gastos.component';
 import { EditarTipoGastosComponent } from './editar-tipo-gastos/editar-tipo-gastos.component';
-import { DataTipoGasto, ITipoGasto, TipoGasto } from 'src/app/shared/models/tipogastos';
+import { DataTipoGastos, ITipoGastos, TipoGastos } from 'src/app/shared/models/tipogastos';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
@@ -18,11 +18,11 @@ import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shar
 
 export class TipoGastosComponent implements OnInit {
   public routes = routes;
-  ListTipoGasto: Array<ITipoGasto> = [];
+  ListTipoGastos: Array<ITipoGastos> = [];
   columnas: string[] = []
   acciones: string[] = []
-  gastoSeleccionado: TipoGasto = new TipoGasto();
-  dataSource!: MatTableDataSource<ITipoGasto>;
+  gastoSeleccionado: TipoGastos = new TipoGastos();
+  dataSource!: MatTableDataSource<ITipoGastos>;
   pageSize = PageSize.size;
   totalData = 0;
   skip = 0;
@@ -41,16 +41,16 @@ export class TipoGastosComponent implements OnInit {
   }
 
   private getTableData(currentPage: number, pageSize: number): void {
-    this.ListTipoGasto = [];
+    this.ListTipoGastos = [];
     this.serialNumberArray = [];
-    this.tipoGastosService.obtenerTipoGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataTipoGasto) => {
+    this.tipoGastosService.obtenerTipoGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataTipoGastos) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListTipoGasto = data.data;
-      this.dataSource = new MatTableDataSource<ITipoGasto>(this.ListTipoGasto);
+      this.ListTipoGastos = data.data;
+      this.dataSource = new MatTableDataSource<ITipoGastos>(this.ListTipoGastos);
     });
   }
 
@@ -60,7 +60,7 @@ export class TipoGastosComponent implements OnInit {
     } else if (accion.accion == 'Editar') {
       this.editarTipoGasto(accion.fila);
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarTipoGasto(accion.fila.tipoGastoId);
+      this.eliminarTipoGasto(accion.fila.tipoGastosId);
     }
   }
 
@@ -79,9 +79,9 @@ export class TipoGastosComponent implements OnInit {
     });
   }
 
-  editarTipoGasto(tipoGasto: ITipoGasto) {
+  editarTipoGasto(tipoGastos: ITipoGastos) {
     const initialState = {
-      gastoSeleccionado: tipoGasto.tipoGastoId
+      gastoSeleccionado: tipoGastos.tipoGastosId
     };
     this.bsModalRef = this.modalService.show(EditarTipoGastosComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
@@ -89,7 +89,7 @@ export class TipoGastosComponent implements OnInit {
     });
   }
 
-  eliminarTipoGasto(tipoGastoId: string) {
+  eliminarTipoGasto(tipoGastosId: string) {
     Swal.fire({
       title: '¿Estás seguro que deseas eliminar?',
       showDenyButton: true,
@@ -97,7 +97,7 @@ export class TipoGastosComponent implements OnInit {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.tipoGastosService.eliminarTipoGasto(tipoGastoId).subscribe(
+        this.tipoGastosService.eliminarTipoGasto(tipoGastosId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Tipo de Gasto eliminado en el sistema correctamente.', 'success');
