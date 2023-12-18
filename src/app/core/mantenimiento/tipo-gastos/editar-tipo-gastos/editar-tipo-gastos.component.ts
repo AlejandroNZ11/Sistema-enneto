@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ITipoGasto } from 'src/app/shared/models/tipogastos';
+import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import Swal from 'sweetalert2';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-gastos.component.scss']
 })
 export class EditarTipoGastosComponent implements OnInit {
-  tipoGasto!: ITipoGasto;
+  conceptoGasto!: IConceptoGasto;
   gastoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
@@ -26,11 +26,11 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoGastosService.obtenerTipoGasto(this.gastoSeleccionado!).subscribe(tipoGasto => {
-      this.tipoGasto = tipoGasto;
+    this.tipoGastosService.obtenerConceptoGasto(this.gastoSeleccionado!).subscribe(conceptoGasto => {
+      this.conceptoGasto = conceptoGasto;
       this.form.patchValue({
-        nombre: this.tipoGasto.nombre,
-        estado: this.tipoGasto.estado == '1' ? 'Activo' : 'Inactivo',
+        nombre: this.conceptoGasto.nombre,
+        estado: this.conceptoGasto.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
   }
@@ -49,19 +49,19 @@ export class EditarTipoGastosComponent implements OnInit {
     this.bsModalRef.hide();
   }
 
-  guardarTipoGasto() {
-    if (!this.tipoGasto || this.form.invalid) {
+  guardarConceptoGasto() {
+    if (!this.conceptoGasto || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
 
-    const tipoGastoActualizado: ITipoGasto = {
-      tipoGastoId: this.tipoGasto.tipoGastoId,
+    const conceptoGastoActualizado: IConceptoGasto = {
+      conceptoGastoId: this.conceptoGasto.conceptoGastoId,
       nombre: this.form.value.nombre,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
-    this.tipoGastosService.actualizarTipoGasto(tipoGastoActualizado).subscribe(
+    this.tipoGastosService.actualizarConceptoGasto(conceptoGastoActualizado).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

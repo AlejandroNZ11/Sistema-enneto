@@ -1,20 +1,21 @@
-export class TipoGasto {
+export class ConceptoGasto {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = "";
     nombre = "";
+    estado = "";
 }
 
-export interface DataTipoGasto {
+export interface DataConceptoGasto {
     totalData: number;
-    data: ITipoGasto[];
+    data: IConceptoGasto[];
 }
 
-export interface ITipoGasto {
-    tipoGastoId: string;
+export interface IConceptoGasto {
+    conceptoGastoId: string;
     nombre: string;
     estado: string;
 }
 
-export class tipoGastosResponse {
+export class conceptoGastosResponse {
     nombre = "";
 }
