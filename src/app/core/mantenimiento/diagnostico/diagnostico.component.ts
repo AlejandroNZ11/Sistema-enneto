@@ -18,7 +18,7 @@ import { EditarDiagnosticoComponent } from './editar-diagnostico/editar-diagnost
 })
 export class DiagnosticoComponent {
   public routes = routes;
-  ListDiagnostico1: Array<Idiagnostico> = [];
+  ListDiagnostico: Array<Idiagnostico> = [];
   columnas: string[] = []
   acciones: string[] = []
   diagnosticoSeleccionado: diagnostico = new diagnostico();
@@ -38,7 +38,7 @@ export class DiagnosticoComponent {
   }
   
   private getTableData(currentPage: number, pageSize: number): void {
-    this.ListDiagnostico1 = [];
+    this.ListDiagnostico = [];
     this.serialNumberArray = [];
     this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
       this.totalData = data.totalData
@@ -46,8 +46,8 @@ export class DiagnosticoComponent {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListDiagnostico1 = data.data;
-      this.dataSource = new MatTableDataSource<Idiagnostico>(this.ListDiagnostico1);
+      this.ListDiagnostico = data.data;
+      this.dataSource = new MatTableDataSource<Idiagnostico>(this.ListDiagnostico);
     });
   }
   
@@ -96,17 +96,17 @@ export class DiagnosticoComponent {
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
-    this.ListDiagnostico1 = this.dataSource.filteredData;
+    this.ListDiagnostico = this.dataSource.filteredData;
   }
   
   
   public sortData(sort: Sort) {
-    const data = this.ListDiagnostico1.slice();
+    const data = this.ListDiagnostico.slice();
 
     if (!sort.active || sort.direction === '') {
-      this.ListDiagnostico1 = data;
+      this.ListDiagnostico = data;
     } else {
-      this.ListDiagnostico1 = data.sort((a, b) => {
+      this.ListDiagnostico = data.sort((a, b) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
