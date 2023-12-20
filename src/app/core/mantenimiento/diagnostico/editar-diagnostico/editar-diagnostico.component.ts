@@ -21,7 +21,7 @@ export class EditarDiagnosticoComponent {
   constructor(public bsModalRef: BsModalRef, private DiagnosticoService: DiagnosticoService, public fb: FormBuilder) {
     this.form = this.fb.group({
       codigoEnfermedad:['', Validators.required],
-      estado: ['Activo', Validators.required],
+      estado: ['', Validators.required],
     });
   }
   ngOnInit() {
@@ -29,7 +29,7 @@ export class EditarDiagnosticoComponent {
       this.diagnostico = diagnostico;
       this.form.patchValue({
         codigoEnfermedad: this.diagnostico.codigoEnfermedad01,
-        estado: this.diagnostico.estado == '1' ? 'Activo' : 'Inactivo',
+        estado: this.diagnostico.estado,
 
       });
     })
@@ -58,8 +58,8 @@ export class EditarDiagnosticoComponent {
       pacienteDiagnosticoId: this.diagnostico.pacienteDiagnosticoId,
       pacienteId:this.diagnostico.pacienteId,
       fecha: this.form.value.fecha,
-      codigoEnfermedad01: this.form.value.codigoEnfermedad,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+      codigoEnfermedad01: this.form.value.codigoEnfermedad01,
+      estado: this.form.value.estado,
 
     };
 

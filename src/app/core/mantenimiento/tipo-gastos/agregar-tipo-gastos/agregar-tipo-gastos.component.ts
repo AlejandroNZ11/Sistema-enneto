@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { ConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
@@ -13,11 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTipoGastosComponent {
   public routes = routes;
-  conceptoGasto: ConceptoGasto = new ConceptoGasto();
-  form!: FormGroup;
+  public form!: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService, public fb: FormBuilder) {
+  constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService,
+    public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
     });
@@ -45,23 +45,24 @@ export class AgregarTipoGastosComponent {
 
   crearConceptoGasto() {
     if (this.form.invalid) {
-      this.isTouched();
-      return;
+        this.isTouched()      
+        return;
     }
+    const nuevoConceptoGasto = new ConceptoGasto();
+    nuevoConceptoGasto.nombre = this.form.get("nombre")?.value;
 
-    this.conceptoGasto.nombre = this.form.get("nombre")?.value;
-
-    this.tipoGastosService.crearConceptoGasto(this.conceptoGasto).subscribe(
-      (response) => {
-        if (response.isSuccess) {
-          Swal.fire(response.message, '', 'success');
-          this.bsModalRef.hide();
-        } else {
-          console.error(response.message);
+    this.tipoGastosService.crearConceptoGasto(nuevoConceptoGasto).subscribe(
+        (response) => {
+            if (response.isSuccess) {
+                Swal.fire(response.message, '', 'success');
+                this.bsModalRef.hide();
+            } else {
+                console.error(response.message);
+            }
+        },
+        (error) => {
+            console.error(error);
         }
-      },
-      (error) => {
-        console.error(error);
-      });
+    );
   }
 }

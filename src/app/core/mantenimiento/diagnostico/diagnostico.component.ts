@@ -57,11 +57,9 @@ export class DiagnosticoComponent {
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarDiagnostico(diagnostico: Idiagnostico) {
-    const initialState = {
-      diagnosticoSeleccionado: diagnostico.pacienteDiagnosticoId
-    };
-    this.bsModalRef = this.modalService.show(EditarDiagnosticoComponent, { initialState });
+  editarDiagnostico(marca: Idiagnostico) {
+    this.bsModalRef = this.modalService.show(EditarDiagnosticoComponent);
+    this.bsModalRef.content.marcaSeleccionada = marca.pacienteDiagnosticoId;
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
@@ -118,6 +116,8 @@ export class DiagnosticoComponent {
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
+    } else if (accion.accion == 'Editar') {
+      this.editarDiagnostico(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
       this.eliminarDiagnostico(accion.fila.diagnosticoId)
     }
