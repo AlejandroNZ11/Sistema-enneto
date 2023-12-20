@@ -4,6 +4,8 @@ export class tarifario {
     descripcion = "";
     tipoconcepto?: string[];
     moneda?: string[];
+    medida?: string[];
+    unidad?: string[];
 }
 
 export interface DataTarifario {

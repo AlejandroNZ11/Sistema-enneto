@@ -24,7 +24,9 @@ export class MedidaService {
       })
     );
   }
-
+  obtenerListaMedida(): Observable<Imedida[]> {
+    return this.http.get<Imedida[]>(this.apiUrl + `/UnidadesMedida/GetUnidadMedidaList`);
+  }
   obtenerMedida( medidaId: string): Observable<Imedida> {
     return this.http.get<Imedida>(this.apiUrl + `/UnidadesMedida/GetUnidadMedida/${medidaId}`);
   }
