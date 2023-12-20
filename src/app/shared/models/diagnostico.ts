@@ -13,7 +13,7 @@ export class diagnostico {
     pacienteId:string
     fecha:string
     codigoEnfermedad01: string;
-    estado: string;
+    estado: number;
   }
 
   export class DiagnosticoResponse {

@@ -13,10 +13,10 @@
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>codigoEnfermedad <span class="login-danger">*</span></label>
-                                    <input formControlName="codigoEnfermedad" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('codigoEnfermedad')}">
-                                    <div *ngIf="isInvalid('codigoEnfermedad') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('codigoEnfermedad')|| mostrarErrores">
+                                    <input formControlName="codigoEnfermedad01" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('codigoEnfermedad01')}">
+                                    <div *ngIf="isInvalid('codigoEnfermedad01') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('codigoEnfermedad01')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
@@ -29,7 +29,6 @@
                                     </mat-select>
                                 </div>
                             </div>
-                           
                         </div>
                     </form>
                     <div class="col-12">
