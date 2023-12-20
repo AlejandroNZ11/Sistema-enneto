@@ -19,6 +19,10 @@ export class TipoGastosService {
     return this.http.get<DataConceptoGasto>(`${this.apiUrl}/ConceptosGastos/GetAllConceptoGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
+  obtenerConceptoGastoList(): Observable<IConceptoGasto[]> {
+    return this.http.get<IConceptoGasto[]>(`${this.apiUrl}/ConceptosGastos/GetConceptoGastoList`);
+  }
+
   crearConceptoGasto(conceptoGasto: ConceptoGasto): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/ConceptosGastos/SaveConceptosGastos`, conceptoGasto).pipe(
       catchError(error => {
