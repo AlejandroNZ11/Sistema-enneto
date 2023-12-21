@@ -6,6 +6,11 @@ import { ItipoConcepto } from 'src/app/shared/models/tipoConcepto';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
 import { IMoneda } from 'src/app/shared/models/moneda';
 import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { Imedida } from 'src/app/shared/models/medida';
+import { MedidaService } from 'src/app/shared/services/medida.service';
+import { Iunidad } from 'src/app/shared/models/unidades';
+import { UnidadesService } from 'src/app/shared/services/unidades.service';
+
 import { routes } from 'src/app/shared/routes/routes';
 import { TarifarioService } from 'src/app/shared/services/tarifario.service';
 import Swal from 'sweetalert2';
@@ -22,11 +27,15 @@ export class AgregarTarifarioComponent {
     public TipoConceptoService: TipoConceptoService,
     private tarifarioService: TarifarioService,
     public monedaservice: MonedaService,
+    public medidaservice: MedidaService,
+    public unidadservice: UnidadesService
     
     ) { }
 
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   moneda_LISTA: Array<IMoneda> = [];
+  unidad_LISTA: Array<Iunidad> = [];
+  medida_LISTA: Array<Imedida> = [];
   Tarifario: tarifario = new tarifario();
   public routes = routes;
   fechaDeRegistro: Date = new Date();
@@ -35,6 +44,8 @@ export class AgregarTarifarioComponent {
   isFormSubmitted = false;
   public tipoconcepto !: string[];
   public moneda !: string[];
+  public unidad !: string [];
+  public medida !: string [];
   
   ngOnInit(): void {
     
@@ -45,13 +56,23 @@ export class AgregarTarifarioComponent {
     this.monedaservice.obtenerListaMoneda().subscribe((data: IMoneda[]) => {
       this.moneda_LISTA = data;
     });
+
+    this.medidaservice.obtenerListaMedida().subscribe((data: Imedida[]) => {
+      this.medida_LISTA = data;
+    });
+
+    this.unidadservice.obtenerListaEspecialidad().subscribe((data: Iunidad []) => {
+      this.unidad_LISTA = data;
+    });
+
     this.isFormSubmitted = false;
     this.form = this.formBuilder.group({
     tipoConcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
     moneda: ['', [Validators.required]],
     costo: ['', [Validators.required]],
-
+    medida: ['', [Validators.required]],
+    unidad: ['', [Validators.required]],
 
     
     })
@@ -84,11 +105,14 @@ export class AgregarTarifarioComponent {
     
     this.Tarifario.moneda = this.moneda;
     this.Tarifario.tipoconcepto = this.tipoconcepto;
-    
+    this.Tarifario.medida = this.medida;
+    this.Tarifario.unidad = this.unidad;
     
     this.Tarifario.moneda = this.form.get("moneda")?.value;
     this.Tarifario.tipoconcepto = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
+    this.Tarifario.medida = this.form.get("medida")?.value;
+    this.Tarifario.unidad = this.form.get("unidad")?.value;
     
     console.log(this.Tarifario);
     this.tarifarioService.crearTarifario(this.Tarifario).subscribe(

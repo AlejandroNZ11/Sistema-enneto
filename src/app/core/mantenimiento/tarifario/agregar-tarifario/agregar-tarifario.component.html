@@ -86,8 +86,44 @@
                                 </div>
                             </div>
                             
-                            
-                            
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Unidades <span class="login-danger">*</span></label>
+                                    <mat-select [(ngModel)]="unidad" formControlName="unidad"
+                                        class="form-control select" placeholder="Seleccione Tipo Unidad"
+                                        [ngClass]="{'is-invalid': isInvalid('unidad') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of unidad_LISTA"
+                                            [value]="data.unidadId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('unidad') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('unidad')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Medida <span class="login-danger">*</span></label>
+                                    <mat-select [(ngModel)]="medida" formControlName="medida"
+                                        class="form-control select" placeholder="Seleccione Tipo Medida"
+                                        [ngClass]="{'is-invalid': isInvalid('medida') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of medida_LISTA"
+                                            [value]="data.unidadMedidaId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('medida') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('medida')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             
                             
                             
