@@ -19,13 +19,13 @@ export class DiagnosticoService {
     ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico ----- clinicaId
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(
-      catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
-        return throwError(() => error);
-      })
+    return this.http.post<successResponse>(`${this.apiUrl}/PacientesDiagnosticos/SavePacienteDiagnostico`, diagnostico).pipe(
+        catchError(error => {
+            Swal.fire('Error', error.error, 'warning');
+            return throwError(() => error);
+        })
     );
-  }
+}
   ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
   obtenerDiagnostico( pacienteDiagnosticoId: string): Observable<Idiagnostico> {
     return this.http.get<Idiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${pacienteDiagnosticoId}`);

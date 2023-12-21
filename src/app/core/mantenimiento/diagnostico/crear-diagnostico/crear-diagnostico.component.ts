@@ -12,16 +12,19 @@ import { diagnostico } from 'src/app/shared/models/diagnostico';
   styleUrls: ['./crear-diagnostico.component.scss']
 })
 export class CrearDiagnosticoComponent {
+  
+  Diagnostico: diagnostico = new diagnostico();
+  public routes = routes;
+  form!: FormGroup;
+  public mostrarErrores = false;
+  ngOnInit(): void { }
+  diagnosticoService: any;
+
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,private DiagnosticoService :DiagnosticoService) { 
     this.form = this.fb.group({
       codigoEnfermedad01:['', Validators.required],
     });
   }
-  Diagnostico: diagnostico = new diagnostico();
-  public routes = routes;
-  form!: FormGroup;
-  public mostrarErrores = false;
-
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
