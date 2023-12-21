@@ -21,6 +21,8 @@ export class EditarAlmacenComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private almacenService: AlmacenService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombreAlmacen: ['', Validators.required],
+      descipcion: ['', Validators.required],
+      sede: ['', Validators.required],
     });
   }
 
