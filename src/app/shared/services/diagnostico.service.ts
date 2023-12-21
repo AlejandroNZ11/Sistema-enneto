@@ -19,7 +19,7 @@ export class DiagnosticoService {
     ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico ----- clinicaId
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(`${this.apiUrl}/PacientesDiagnosticos/SavePacienteDiagnostico`, diagnostico).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(
         catchError(error => {
             Swal.fire('Error', error.error, 'warning');
             return throwError(() => error);
