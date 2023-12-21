@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTipoGastosComponent {
   public routes = routes;
+  conceptoGasto: ConceptoGasto = new ConceptoGasto();
   public form!: FormGroup;
   public mostrarErrores = false;
 
@@ -48,10 +49,9 @@ export class AgregarTipoGastosComponent {
         this.isTouched()      
         return;
     }
-    const nuevoConceptoGasto = new ConceptoGasto();
-    nuevoConceptoGasto.nombre = this.form.get("nombre")?.value;
+    this.conceptoGasto.nombre = this.form.get("nombre")?.value;
 
-    this.tipoGastosService.crearConceptoGasto(nuevoConceptoGasto).subscribe(
+    this.tipoGastosService.crearConceptoGasto(this.conceptoGasto).subscribe(
         (response) => {
             if (response.isSuccess) {
                 Swal.fire(response.message, '', 'success');
