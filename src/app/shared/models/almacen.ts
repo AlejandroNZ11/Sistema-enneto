@@ -4,7 +4,6 @@ export class almacen {
     estado = "";
     sedeId = "";
     nombreAlmacen = "";
-    descripcion = "";
 }
 export interface Ialmacen {
     almacenId: string;
@@ -18,5 +17,5 @@ export interface DataAlmacen {
 }
 
 export class AlmacenResponse {
-    descripcion = "";
+    nombreAlmacen = "";
 }    
