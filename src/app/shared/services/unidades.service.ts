@@ -24,7 +24,7 @@ export class UnidadesService {
       })
     );
   }
-  obtenerListaEspecialidad(): Observable<Iunidad[]> {
+  obtenerListaUnidades(): Observable<Iunidad[]> {
     return this.http.get<Iunidad[]>(this.apiUrl + `/Unidades/GetUnidadList`);
   }
 

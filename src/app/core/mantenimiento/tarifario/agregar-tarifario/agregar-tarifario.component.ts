@@ -10,7 +10,6 @@ import { Imedida } from 'src/app/shared/models/medida';
 import { MedidaService } from 'src/app/shared/services/medida.service';
 import { Iunidad } from 'src/app/shared/models/unidades';
 import { UnidadesService } from 'src/app/shared/services/unidades.service';
-
 import { routes } from 'src/app/shared/routes/routes';
 import { TarifarioService } from 'src/app/shared/services/tarifario.service';
 import Swal from 'sweetalert2';
@@ -61,7 +60,7 @@ export class AgregarTarifarioComponent {
       this.medida_LISTA = data;
     });
 
-    this.unidadservice.obtenerListaEspecialidad().subscribe((data: Iunidad []) => {
+    this.unidadservice.obtenerListaUnidades().subscribe((data: Iunidad []) => {
       this.unidad_LISTA = data;
     });
 
@@ -73,7 +72,7 @@ export class AgregarTarifarioComponent {
     costo: ['', [Validators.required]],
     medida: ['', [Validators.required]],
     unidad: ['', [Validators.required]],
-
+    fechaDeRegistro: ['', [Validators.required]],
     
     })
   }
@@ -113,6 +112,8 @@ export class AgregarTarifarioComponent {
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
     this.Tarifario.medida = this.form.get("medida")?.value;
     this.Tarifario.unidad = this.form.get("unidad")?.value;
+    this.Tarifario.fechaRegistro = this.form.get("fechaRegistro")?.value;
+
     
     console.log(this.Tarifario);
     this.tarifarioService.crearTarifario(this.Tarifario).subscribe(

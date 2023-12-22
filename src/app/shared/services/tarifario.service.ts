@@ -15,10 +15,10 @@ export class TarifarioService {
     constructor(public http: HttpClient,) {}
 
     obtenerTarifarios(clinicaId: string, page: number, rows: number): Observable<DataTarifario> {
-        return this.http.get<DataTarifario>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+        return this.http.get<DataTarifario>(this.apiUrl + `/Tarifarios/GetAllTarifario?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
     crearTarifario(tarifario: tarifario): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', tarifario).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Tarifarios/SaveTarifario', tarifario).pipe(
         catchError(error => {
             Swal.fire('Error', error.error, 'warning');
             return throwError(() => error);
@@ -27,13 +27,13 @@ export class TarifarioService {
     }
     
     obtenerTarifario( tarifarioId: string): Observable<Itarifario> {
-        return this.http.get<Itarifario>(this.apiUrl + `/Especialidades/GetEspecialidad/${tarifarioId}`);
+        return this.http.get<Itarifario>(this.apiUrl + `/Tarifarios/GetTarifario/${tarifarioId}`);
     }
     eliminarTarifario( tarifarioId: string): Observable<successResponse> {
-        return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${tarifarioId}`);
+        return this.http.delete<successResponse>(this.apiUrl + `/Tarifarios/DeleteTarifario/${tarifarioId}`);
     }
     actualizarTarifario(tarifario: Itarifario): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Especialidades/UpdateEspecialidad/${tarifario.tarifarioId}`, tarifario).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Tarifarios/UpdateTarifario/${tarifario.tarifarioId}`, tarifario).pipe(
         catchError(error => {
             Swal.fire('Error', error.error, 'warning');
             return throwError(() => error);
