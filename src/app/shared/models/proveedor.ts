@@ -16,10 +16,9 @@ export class proveedor {
     ruc : string;
     nombre : string;
     direccion : string;
-    telefono : string;
+    telefono : number;
     contacto : string;
     correo: string;
-    estado:string;
 
   }
   export class proveedorResponse {
@@ -29,5 +28,4 @@ export class proveedor {
     telefono="";
     contacto="";
     correo="";
-    estado=  "";
   }
