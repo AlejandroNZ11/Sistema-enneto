@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarTipoGastosComponent implements OnInit {
   conceptoGasto!: IConceptoGasto;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gastoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
@@ -26,7 +27,7 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoGastosService.obtenerConceptoGasto(this.gastoSeleccionado!).subscribe(conceptoGasto => {
+    this.tipoGastosService.obtenerConceptoGasto(this.gastoSeleccionado).subscribe(conceptoGasto => {
       this.conceptoGasto = conceptoGasto;
       this.form.patchValue({
         nombre: this.conceptoGasto.nombre,

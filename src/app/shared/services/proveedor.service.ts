@@ -22,7 +22,7 @@ export class ProveedorService {
     return this.http.get<Iproveedor>(this.apiUrl + `/Especialidades/GetEspecialidad/${proveedorRuc}`);
   }
   crearProveedor(proveedor: proveedor): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', proveedor).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Proveedor/SaveProveedor', proveedor).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

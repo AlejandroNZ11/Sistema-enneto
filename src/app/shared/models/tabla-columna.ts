@@ -22,7 +22,9 @@ import { TipomaterialesResponse } from "./tipo-materiales";
 import { TipoConceptoResponce } from "./tipoConcepto";
 import { sedeResponse } from "./sede";
 import { medidaResponse } from "./medida";
-import { tarifario, tarifarioResponse } from "./tarifario";
+import { tarifarioResponse } from "./tarifario";
+import { consentimientoResponse } from "./consentimiento";
+import { ConsentimientoComponent } from "src/app/core/catalogo/consentimiento/consentimiento.component";
 
 export interface Accion<T = any> {
   accion: string;
@@ -68,6 +70,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Sede': clase = new sedeResponse();break;
     case 'Medida': clase = new medidaResponse();break;
     case 'Tarifario': clase = new tarifarioResponse();break;
+    case 'Consentimiento': clase = new consentimientoResponse();break;
   }
   if (clase) {
     resultados = Object.keys(clase);
