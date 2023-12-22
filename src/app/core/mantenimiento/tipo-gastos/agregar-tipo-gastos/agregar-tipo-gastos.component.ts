@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { ConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { routes } from 'src/app/shared/routes/routes';
+import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,10 +11,12 @@ import Swal from 'sweetalert2';
   templateUrl: './agregar-tipo-gastos.component.html',
   styleUrls: ['./agregar-tipo-gastos.component.scss']
 })
+
 export class AgregarTipoGastosComponent {
-  public routes = routes;
+
   conceptoGasto: ConceptoGasto = new ConceptoGasto();
-  public form!: FormGroup;
+  public routes = routes;
+  form!: FormGroup;
   public mostrarErrores = false;
 
   constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService,
@@ -46,23 +48,23 @@ export class AgregarTipoGastosComponent {
 
   crearConceptoGasto() {
     if (this.form.invalid) {
-        this.isTouched()      
-        return;
+      this.isTouched();
+      return;
     }
+
     this.conceptoGasto.nombre = this.form.get("nombre")?.value;
 
     this.tipoGastosService.crearConceptoGasto(this.conceptoGasto).subscribe(
-        (response) => {
-            if (response.isSuccess) {
-                Swal.fire(response.message, '', 'success');
-                this.bsModalRef.hide();
-            } else {
-                console.error(response.message);
-            }
-        },
-        (error) => {
-            console.error(error);
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
         }
-    );
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }

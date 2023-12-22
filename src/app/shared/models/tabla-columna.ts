@@ -4,7 +4,7 @@ import { tipoDocumentoResponse } from "./tipodocumento";
 import { TipoTarjetaResponse } from "./tipotarjeta";
 import { tipoPagoResponse } from "./tipopago";
 import { DiagnosticoResponse } from "./diagnostico";
-import { conceptoGastosResponse } from "./tipogastos";
+import { ConceptoGastosResponse } from "./tipogastos";
 import { CategoriaResponse } from "./categoria-op";
 import { PlanesResponse } from "./planes";
 import { AlmacenResponse } from "./almacen";
@@ -50,7 +50,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoDocumento': clase = new tipoDocumentoResponse(); break;
     case 'TipoPago': clase = new tipoPagoResponse(); break;
     case 'Diagnostico' : clase = new DiagnosticoResponse(); break;
-    case 'TipoGastos' : clase = new conceptoGastosResponse(); break;
+    case 'TipoGastos' : clase = new ConceptoGastosResponse(); break;
     case 'categoria' : clase = new CategoriaResponse(); break;
     case 'Planes': clase = new PlanesResponse(); break;
     case 'Almacen': clase = new AlmacenResponse(); break;

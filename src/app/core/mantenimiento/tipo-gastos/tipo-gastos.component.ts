@@ -15,13 +15,12 @@ import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shar
   templateUrl: './tipo-gastos.component.html',
   styleUrls: ['./tipo-gastos.component.scss']
 })
-
 export class TipoGastosComponent implements OnInit {
   public routes = routes;
   ListConceptoGasto: Array<IConceptoGasto> = [];
-  columnas: string[] = []
-  acciones: string[] = []
-  gastoSeleccionado: ConceptoGasto = new ConceptoGasto();
+  columnas: string[] = [];
+  acciones: string[] = [];
+  conceptoGastoSeleccionado: ConceptoGasto = new ConceptoGasto();
   dataSource!: MatTableDataSource<IConceptoGasto>;
   pageSize = PageSize.size;
   totalData = 0;
@@ -30,7 +29,7 @@ export class TipoGastosComponent implements OnInit {
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  
+
   constructor(private modalService: BsModalService, public tipoGastosService: TipoGastosService) {
   }
 
@@ -81,7 +80,7 @@ export class TipoGastosComponent implements OnInit {
 
   editarConceptoGasto(conceptoGasto: IConceptoGasto) {
     const initialState = {
-      gastoSeleccionado: conceptoGasto.conceptoGastoId
+      conceptoGastoSeleccionado: conceptoGasto.conceptoGastoId
     };
     this.bsModalRef = this.modalService.show(EditarTipoGastosComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
@@ -100,7 +99,7 @@ export class TipoGastosComponent implements OnInit {
         this.tipoGastosService.eliminarConceptoGasto(conceptoGastoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo de Gasto eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', 'Concepto de Gasto eliminado en el sistema correctamente.', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

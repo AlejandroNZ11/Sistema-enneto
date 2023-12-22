@@ -16,7 +16,7 @@ export class TipoGastosService {
   constructor(public http: HttpClient) { }
 
   obtenerConceptoGastos(clinicaId: string, page: number, rows: number): Observable<DataConceptoGasto> {
-    return this.http.get<DataConceptoGasto>(`${this.apiUrl}/ConceptosGastos/GetAllConceptoGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataConceptoGasto>(`${this.apiUrl}/ConceptosGastos/GetAllConceptoGasto?clinicaId=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
   obtenerConceptoGastoList(): Observable<IConceptoGasto[]> {
@@ -41,7 +41,7 @@ export class TipoGastosService {
   }
 
   actualizarConceptoGasto(conceptoGasto: IConceptoGasto): Observable<successResponse> {
-    return this.http.put<successResponse>(`${this.apiUrl}/ConceptosGastos/${conceptoGasto.conceptoGastoId}`, conceptoGasto).pipe(
+    return this.http.put<successResponse>(`${this.apiUrl}/ConceptosGastos/UpdateConceptoGasto/${conceptoGasto.conceptoGastoId}`, conceptoGasto).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

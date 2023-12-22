@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
-import { routes } from 'src/app/shared/routes/routes';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,13 +12,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-gastos.component.scss']
 })
 export class EditarTipoGastosComponent implements OnInit {
-  conceptoGasto!: IConceptoGasto;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  gastoSeleccionado: any;
-  public routes = routes;
+  conceptoGasto!:IConceptoGasto;
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  conceptoGastoSeleccionado: any;
   form: FormGroup;
   public mostrarErrores = false;
-
+  public routes = routes;
   constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -27,11 +26,11 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoGastosService.obtenerConceptoGasto(this.gastoSeleccionado).subscribe(conceptoGasto => {
+    this.tipoGastosService.obtenerConceptoGasto(this.conceptoGastoSeleccionado!.conceptoGastoId).subscribe(conceptoGasto => {
       this.conceptoGasto = conceptoGasto;
       this.form.patchValue({
         nombre: this.conceptoGasto.nombre,
-        estado: this.conceptoGasto.estado == '1' ? 'Activo' : 'Inactivo',
+        estado: this.conceptoGasto.estado,
       });
     });
   }
@@ -51,15 +50,15 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   guardarConceptoGasto() {
-    if (!this.conceptoGasto || this.form.invalid) {
+    if (!this.conceptoGastoSeleccionado || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
 
     const conceptoGastoActualizado: IConceptoGasto = {
-      conceptoGastoId: this.conceptoGasto.conceptoGastoId,
+      conceptoGastoId: this.conceptoGastoSeleccionado.conceptoGastoId,
       nombre: this.form.value.nombre,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+      estado: this.form.value.estado,
     };
 
     this.tipoGastosService.actualizarConceptoGasto(conceptoGastoActualizado).subscribe(

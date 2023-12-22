@@ -16,6 +16,6 @@ export interface IConceptoGasto {
     estado: string;
 }
 
-export class conceptoGastosResponse {
+export class ConceptoGastosResponse {
     nombre = "";
 }
