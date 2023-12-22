@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarAlmacenComponent implements OnInit {
   almacen!: Ialmacen;
-  AlmacenSeleccionada: any;
+  AlmacenSeleccionada?: string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -21,8 +21,9 @@ export class EditarAlmacenComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private almacenService: AlmacenService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombreAlmacen: ['', Validators.required],
-      descipcion: ['', Validators.required],
       sede: ['', Validators.required],
+      descipcion: ['', Validators.required],
+      estado: ['Activo', Validators.required],
     });
   }
 
@@ -30,8 +31,8 @@ export class EditarAlmacenComponent implements OnInit {
     this.almacenService.obtenerAlmacen(this.AlmacenSeleccionada!).subscribe(almacen => {
       this.almacen = almacen;
       this.form.patchValue({
-        descripcion: this.almacen.nombreAlmacen,
-        estado: this.almacen.estado == '1' ? '1' : '0',
+        nombreAlmacen: this.almacen.nombreAlmacen,
+        estado: this.almacen.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
   }
@@ -56,14 +57,14 @@ export class EditarAlmacenComponent implements OnInit {
       return;
     }
 
-    const AlmacenActualizado: Ialmacen = {
+    const AlmacenActualizada: Ialmacen = {
       almacenId: this.almacen.almacenId,
-      nombreAlmacen: this.almacen.almacenId,
-      sedeId: 1,
-      estado: this.form.value.estado == '1' ? '1' : '0',
+      nombreAlmacen: this.almacen.nombreAlmacen,
+      sedeId:this.almacen.sedeId,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
-    this.almacenService.actualizarAlmacen(AlmacenActualizado).subscribe(
+    this.almacenService.actualizarAlmacen(AlmacenActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

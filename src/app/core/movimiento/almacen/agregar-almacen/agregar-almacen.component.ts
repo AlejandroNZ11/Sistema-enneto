@@ -40,7 +40,6 @@ export class AgregarAlmacenComponent implements OnInit {
     this.isFormSubmitted = false;
     this.form = this.formBuilder.group({
       sedes: ['', Validators.required],
-      descripcion: ['', Validators.required],
       nombreAlmacen: ['', Validators.required],
     });
   }
@@ -72,7 +71,6 @@ export class AgregarAlmacenComponent implements OnInit {
       return;
     }
     this.Almacen.sedeId = this.form.get("sedes")?.value;
-    this.Almacen.descripcion = this.form.get("descripcion")?.value;
     this.Almacen.nombreAlmacen = this.form.get("nombreAlmacen")?.value;
     console.log(this.Almacen);
     const formData = new FormData();

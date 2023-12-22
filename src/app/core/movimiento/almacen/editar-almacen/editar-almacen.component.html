@@ -11,6 +11,7 @@
                                     <h4>Editar Almacen</h4>
                                 </div>
                             </div>
+                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nombre del Almacen <span class="login-danger">*</span></label>
@@ -18,18 +19,6 @@
                                         [ngClass]="{'is-invalid': isInvalid('nombreAlmacen')}">
                                     <div *ngIf="isInvalid('nombreAlmacen') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('nombreAlmacen') || mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Descripcion<span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
-                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('descripcion') || mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
