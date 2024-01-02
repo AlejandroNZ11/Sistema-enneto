@@ -50,7 +50,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoDocumento': clase = new tipoDocumentoResponse(); break;
     case 'TipoPago': clase = new tipoPagoResponse(); break;
     case 'Diagnostico' : clase = new DiagnosticoResponse(); break;
-    case 'TipoGastos' : clase = new ConceptoGastosResponse(); break;
+    case 'ConceptoGasto' : clase = new ConceptoGastosResponse(); break;
     case 'categoria' : clase = new CategoriaResponse(); break;
     case 'Planes': clase = new PlanesResponse(); break;
     case 'Almacen': clase = new AlmacenResponse(); break;
