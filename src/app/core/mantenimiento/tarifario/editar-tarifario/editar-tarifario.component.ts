@@ -12,6 +12,8 @@ import { MedidaService } from 'src/app/shared/services/medida.service';
 import { MonedaService } from 'src/app/shared/services/moneda.service';
 import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Itarifario } from 'src/app/shared/models/tarifario';
 
 interface data {
   value: string;
@@ -34,6 +36,7 @@ export class EditarTarifarioComponent implements OnInit {
     public tipoconceptoservice: TipoConceptoService,
     public router: Router,
     private route: ActivatedRoute,
+    public bsModalRef: BsModalRef,
   ){}
 
   medida_LISTA: Array<Imedida> = [];
@@ -43,6 +46,11 @@ export class EditarTarifarioComponent implements OnInit {
   form!: FormGroup;
   isFormSubmitted = false;
   tarifarioId = "";
+  public mostrarErrores = false;
+  medida: Array<string> = [];
+  moneda: Array<string> = [];
+  unidad: Array<string> = [];
+  tipoconcepto: Array<string> = [];
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -94,5 +102,43 @@ export class EditarTarifarioComponent implements OnInit {
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
+  }
+
+
+  Cancelar() {
+    this.bsModalRef.hide();
+  }
+
+
+  guardarTarifario() {
+    if (!this.tarifarioId || this.form.invalid) {
+      this.mostrarErrores = true;
+      return;
+    }
+    
+    const tarifarioActualizada: Itarifario = {
+      tarifarioId: this.tarifarioId,
+      medida: this.form.value.medida,
+      moneda: this.form.value.moneda,
+      unidad: this.form.value.unidad,
+      tipoconcepto: this.form.value.tipoConcepto,
+      costo: this.form.value.costo,
+      fechaRegistro: this.form.value.fechaRegistro,
+      descripcion: this.form.value.descripcion,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+    };
+
+    this.tarifarioservice.actualizarTarifario(tarifarioActualizada).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire(response.message, '', 'success');
+          this.bsModalRef.hide();
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
   }
 }

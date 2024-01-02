@@ -37,7 +37,6 @@ export class AgregarTarifarioComponent {
   medida_LISTA: Array<Imedida> = [];
   Tarifario: tarifario = new tarifario();
   public routes = routes;
-  fechaDeRegistro: Date = new Date();
   form!: FormGroup;
   public mostrarErrores = false;
   isFormSubmitted = false;

@@ -77,7 +77,7 @@
                                 <div class="form-group local-forms">
                                 <label>Fecha de Registro<span class="text-danger">*</span></label>
                                 <input formControlName="fechaRegistro" class="form-control datetimepicker" type="text" matInput
-                                    [matDatepicker]="picker" [disabled]="true" [value]="fechaDeRegistro">
+                                    [matDatepicker]="picker" >
                                 <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
                                 <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                                   <div *ngIf="isInvalid('fechaRegistro')" class="invalid-feedback">
