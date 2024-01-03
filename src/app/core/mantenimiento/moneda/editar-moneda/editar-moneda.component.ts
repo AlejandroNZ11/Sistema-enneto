@@ -35,7 +35,7 @@ export class EditarMonedaComponent implements OnInit {
       this.moneda = moneda;
       this.form.patchValue({
         descripcion: this.moneda.descripcion,
-        estado: this.moneda.estado,
+        estado: this.moneda.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
   }
