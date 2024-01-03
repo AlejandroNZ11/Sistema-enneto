@@ -67,7 +67,7 @@
                             <li *ngFor="let medico of listMedicos">
                                 <input class="form-check-input" type="checkbox" [id]="medico.medicoId"
                                     [style.background]="medico.color"
-                                    [(ngModel)]=" medicosSeleccionados[medico.medicoId]" (change)="filtrarCitas()" />
+                                    [(ngModel)]=" medicosSeleccionados[medico.medicoId]" (change)="filtrarCitas()"/>
                                 <label [for]="medico.medicoId">{{ medico.nombre }} {{ medico.apellido }}</label>
                             </li>
                         </ul>

@@ -19,17 +19,20 @@ export interface DataCitaMedica {
     data: IcitaMedica[];
 }
 export interface IcitaMedica {
+    citaMedicaId:string;
     pacienteId: string;
     medicoId: string;
     especialidadId: string;
     sedeId: string;
     motivoConsulta: string;
     tipoCitadoId: string;
-    fecha: Date;
+    fecha: string;
     observacion: string;
     estado: string;
     horaInicio: string;
     horaFin: string;
+    clinicaId: string;
+    usuarioId: string;
 }
 export interface IcitaMedicaCalendario {
     id: string;
@@ -37,5 +40,6 @@ export interface IcitaMedicaCalendario {
     end: Date;
     title: string;
     backgroundColor: string;
+    borderColor:string;
     medicoId: string;
 }

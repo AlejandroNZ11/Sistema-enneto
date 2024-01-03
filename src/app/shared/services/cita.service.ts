@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environments';
-import { DataCitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
+import { DataCitaMedica, IcitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
 import { Observable, catchError, throwError } from 'rxjs';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -22,6 +22,18 @@ export class CitaService {
       url += `&fechaFin=${fechaFin}`;
     }
     return this.http.get<DataCitaMedica>(url);
+  }
+  obtenerCitaMedica(citaMedicaId: string): Observable<IcitaMedica> {
+    const url = `${this.apiUrl}/CitasMedicas/GetCitaMedica/${citaMedicaId}`;
+    return this.http.get<IcitaMedica>(url);
+  }
+  actualizarPaciente(cita: IcitaMedica, citaMedicaId: string): Observable<successResponse> {
+    return this.http.put<successResponse>(this.apiUrl + `/CitasMedicas/UpdateCitaMedica/${citaMedicaId}`, cita).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
   }
   obtenerCitasMedicasCalendario(fechaInicio: string, fechaFin: string, medico?: string, estado?: string, especialidad?: string): Observable<IcitaMedicaCalendario[]> {
     let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;

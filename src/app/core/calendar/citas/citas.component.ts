@@ -51,27 +51,14 @@ export class CitasComponent implements OnInit {
   sede = '';
   isFormSubmitted = false;
   modalRef?: BsModalRef;
+  inicio!: string;
+  fin!: string;
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, public modalService: BsModalService, private medicoService: MedicoService) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }
-  handleDateClick(arg: any) {
-    console.log(arg);
-    console.log(arg.event.id);
-    const initialState = {
-      citaId: arg.event.id
-    };
-    const modalOptions = {
-      class: 'modal-lg',
-      ignoreBackdropClick: true,
-      initialState: Object.assign({}, initialState) as Partial<EditarCitaComponent>,
-    };
-    this.modalRef = this.modalService.show(EditarCitaComponent, modalOptions),
-      this.modalRef.onHidden?.subscribe(() => { });
-  }
   ngOnInit(): void {
-    this.events = this.citas;
     this.options = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       headerToolbar: {
@@ -80,7 +67,7 @@ export class CitasComponent implements OnInit {
         right: 'timeGridWeek,timeGridDay',
       },
       initialView: 'timeGridWeek',
-      editable: true,
+      editable: false, 
       selectable: true,
       selectMirror: true,
       dayMaxEvents: true,
@@ -88,9 +75,9 @@ export class CitasComponent implements OnInit {
       themeSystem: 'bootstrap5',
       eventClick: this.handleDateClick.bind(this),
       datesSet: (info: any) => {
-        const inicio = new Date(info.start).toISOString().split('T')[0]
-        const fin = new Date(info.end).toISOString().split('T')[0]
-        this.citaMedicaService.obtenerCitasMedicasCalendario(inicio, fin).subscribe(data => this.citas = data);
+        this.inicio = new Date(info.start).toISOString().split('T')[0]
+        this.fin = new Date(info.end).toISOString().split('T')[0]
+        this.obtenerCitasMedicas()
       },
       select: (info: any) => {
         if (info.startStr && info.endStr) {
@@ -104,7 +91,7 @@ export class CitasComponent implements OnInit {
             initialState: { ...initialState } as Partial<AgregarCitaComponent>,
           };
           this.modalRef = this.modalService.show(AgregarCitaComponent, modalOptions);
-          this.modalRef.onHidden?.subscribe(() => { });
+          this.modalRef.onHidden?.subscribe(() => { this.obtenerCitasMedicas() });
         }
       }
     }
@@ -113,16 +100,39 @@ export class CitasComponent implements OnInit {
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidades = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstados = data; })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
-    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => { this.listMedicos = data.data; })
+    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => {
+      this.listMedicos = data.data; this.listMedicos.forEach(medico => {
+        this.medicosSeleccionados[medico.medicoId] = true;
+      });
+      this.filtrarCitas();
+    })
+    this.events = this.citas;
+  }
+  handleDateClick(arg: any) {
+    const initialState = {
+      citaId: arg.event.id
+    };
+    const modalOptions = {
+      class: 'modal-lg',
+      ignoreBackdropClick: true,
+      initialState: Object.assign({}, initialState) as Partial<EditarCitaComponent>,
+    };
+    this.modalRef = this.modalService.show(EditarCitaComponent, modalOptions);
+    this.modalRef.onHidden?.subscribe(() => { this.obtenerCitasMedicas() });
   }
   filtrarCitas() {
     const medicosSeleccionadosIds = Object.keys(this.medicosSeleccionados).filter(id => this.medicosSeleccionados[id]);
-    const citasFiltradas = this.citas.filter(cita => medicosSeleccionadosIds.includes(cita.medicoId.toString()));
-    $('#fullcalendar').fullCalendar('removeEvents');
-    $('#fullcalendar').fullCalendar('addEventSource', citasFiltradas);
+    if (Array.isArray(this.citas)) {
+      const citasFiltradas = this.citas.filter(cita => medicosSeleccionadosIds.includes(cita.medicoId.toString()));
+      this.events = citasFiltradas;
+    }
   }
-  obtenerCitas() {
-    return this.citas;
+  obtenerCitasMedicas() {
+    this.citaMedicaService.obtenerCitasMedicasCalendario(this.inicio, this.fin).subscribe((data) => {
+      this.citas = data;
+      this.filtrarCitas();
+      this.events = this.citas;
+    })
   }
   buscarPacientes() {
     const searchInput = this.multiPacienteSearchInput.nativeElement.value

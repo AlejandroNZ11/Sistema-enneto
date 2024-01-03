@@ -64,8 +64,8 @@
                                     </div>
                                     <div class="form-group col-lg-4">
                                         <label>Hora Fin<span class="login-danger">*</span></label>
-                                        <input formControlName="horaFin" [(ngModel)]="horaFin"
-                                            class="form-control" type="time"
+                                        <input formControlName="horaFin" [(ngModel)]="horaFin" class="form-control"
+                                            type="time"
                                             [ngClass]="{'is-invalid': isInvalid('horaFin') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('horaFin') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('horaFin')">
@@ -95,7 +95,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-lg-3 busqueda">
-                                        <button class="btn btn-primary" (click)="registrarPaciente()">Registrar Paciente</button>
+                                        <button class="btn btn-primary" (click)="registrarPaciente()">Registrar
+                                            Paciente</button>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -164,17 +165,17 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-12">
-                                        <mat-checkbox>Enviar por Correo</mat-checkbox>
+                                        <mat-checkbox>Notificar al correo del paciente</mat-checkbox>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-6"> </div>
                                     <div class="form-group col-lg-6">
                                         <div class="doctor-submit text-end">
-                                            <button class="btn btn-primary submit-form me-2"
-                                                (click)="guardarCita()">Guardar</button>
                                             <button type="submit" (click)="cerrar()"
-                                                class="btn btn-primary cancel-form">Cancelar</button>
+                                                class="btn btn-primary cancel-form me-2">Cancelar</button>
+                                            <button class="btn btn-primary submit-form"
+                                                (click)="guardarCita()">Guardar</button>
                                         </div>
                                     </div>
                                 </div>

@@ -42,8 +42,8 @@ export class AgregarCitaComponent implements OnInit {
   isFormSubmitted = false;
   fechaInicio!: string;
   fechaFin!: string;
-  horaInicio!:string;
-  horaFin!:string;
+  horaInicio!: string;
+  horaFin!: string;
   modalRef?: BsModalRef;
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
@@ -98,7 +98,7 @@ export class AgregarCitaComponent implements OnInit {
     });
   }
   registrarPaciente() {
-    const initialState = { };
+    const initialState = {};
     const modalOptions = {
       class: 'modal-lg',
       ignoreBackdropClick: true,
@@ -122,17 +122,19 @@ export class AgregarCitaComponent implements OnInit {
   }
   cerrar() { this.bsModalRef.hide() }
   guardarCita() {
-    this.citaNueva.fecha = new Date(this.fechaInicio).toISOString().split('T')[0]
-    this.citaNueva.horaInicio = new Date(`${this.citaNueva.fecha}T${this.horaInicio}`).toISOString().split('.')[0]
-    this.citaNueva.horaFin = new Date(`${this.citaNueva.fecha}T${this.horaFin}`).toISOString().split('.')[0]
-    this.citaNueva.sedeId = this.user.selectedSucursal.id.toString();
-    console.log(this.citaNueva);
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();
       return;
     }
-    console.log(this.citaNueva);
+    this.citaNueva.fecha = new Date(this.fechaInicio).toISOString().split('T')[0]
+    const fechaInicioLocal = new Date(this.citaNueva.fecha + 'T' + this.horaInicio);
+    const fechaFinLocal = new Date(this.citaNueva.fecha + 'T' + this.horaFin);
+    fechaInicioLocal.setMinutes(fechaInicioLocal.getMinutes() - fechaInicioLocal.getTimezoneOffset());
+    fechaFinLocal.setMinutes(fechaFinLocal.getMinutes() - fechaFinLocal.getTimezoneOffset());
+    this.citaNueva.horaInicio = fechaInicioLocal.toISOString().split('.')[0];
+    this.citaNueva.horaFin = fechaFinLocal.toISOString().split('.')[0];
+    this.citaNueva.sedeId = this.user.selectedSucursal.id.toString();
     this.citaMedicaService.crearCitaMedica(this.citaNueva).subscribe(
       (response) => {
         if (response.isSuccess) {
