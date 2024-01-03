@@ -3,6 +3,53 @@
 }
 
 .custom-modal-dialog {
-    max-width: 50%; /* 80% del ancho disponible */
-    width: auto; /* Ajusta el ancho automáticamente según el contenido */
+    max-width: 50%;
+    width: auto;
+}
+
+.cita {
+    color: #2e37a4;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.para {
+    color: #00d3c7;
+    margin-left: 10px;
+}
+
+.whatsapp {
+    background-color: green;
+    border-color: green;
+    margin-left: 10px;
+    margin-right: 5px;
+    :hover{
+        background-color: greenyellow;
+        border-color: greenyellow;
+        cursor: pointer;
+    }
+}
+
+.historia {
+    background-color: orange;
+    border-color: orange;
+    margin-left: 5px;
+    margin-right: 5px;
+    :hover{
+        background-color: yellow;
+        border-color: yellow;
+        cursor: pointer;
+    }
+}
+
+.clonar {
+    background-color: goldenrod;
+    border-color: goldenrod;
+    margin-left: 5px;
+    margin-right: 5px;
+    :hover{
+        background-color: orange;
+        border-color: orange;
+        cursor: pointer;
+    }
 }

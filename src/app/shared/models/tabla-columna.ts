@@ -25,6 +25,7 @@ import { medidaResponse } from "./medida";
 import { tarifarioResponse } from "./tarifario";
 import { consentimientoResponse } from "./consentimiento";
 import { ConsentimientoComponent } from "src/app/core/catalogo/consentimiento/consentimiento.component";
+import { proveedorResponse } from "./proveedor";
 
 export interface Accion<T = any> {
   accion: string;
@@ -64,7 +65,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Alergia': clase = new alergiaResponse(); break;
     case 'Cuenta': clase = new cuentaResponse(); break;
     case 'Moneda': clase = new monedaResponse(); break;
-    case 'Proveedor': clase = new monedaResponse(); break;
+    case 'Proveedor': clase = new proveedorResponse(); break;
     case 'Tipomateriales': clase= new TipomaterialesResponse(); break;
     case 'TipoConcepto': clase= new TipoConceptoResponce(); break;
     case 'Sede': clase = new sedeResponse();break;

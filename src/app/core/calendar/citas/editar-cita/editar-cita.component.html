@@ -2,169 +2,191 @@
     <h4 class="modal-title">Editar Cita</h4>
 </div>
 <div class="modal-body">
-    <div class="content">
+    <div *ngIf="citaEditar" class="content">
         <div class="row">
             <div class="col-sm-12">
+                <div class="cita">Cita médica para: <span class="para">{{pacienteseleccionado}}</span></div>
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body mt-2">
                         <form [formGroup]="form">
                             <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label>Especialidad<span class="login-danger">*</span></label>
-                                    <mat-select formControlName="especialidad" [(ngModel)]="citaNueva.especialidadId"
-                                        class="form-control select" placeholder="Seleccione Especialidad"
-                                        [ngClass]="{'is-invalid': isInvalid('especialidad') && isFormSubmitted}">
-                                        <mat-option *ngFor="let especialidad of listEspecialidadesCitas"
-                                            [value]="especialidad.especialidadId">
-                                            {{especialidad.nombre}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('especialidad') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('especialidad')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms ">
+                                        <label>Fecha<span class="login-danger">*</span></label>
+                                        <input formControlName="fecha" [(ngModel)]="citaEditar.fecha"
+                                            style='height:48px' class="form-control datetimepicker" type="text"
+                                            placeholder="" matInput [matDatepicker]="picker"
+                                            [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}">
+                                        <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                            matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                        <div *ngIf="isInvalid('fecha') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fecha')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
-                                    <label>Médico<span class="login-danger">*</span></label>
-                                    <mat-select formControlName="medico" [(ngModel)]="citaNueva.medicoId"
-                                        class="form-control select" placeholder="Seleccione Medico"
-                                        [ngClass]="{'is-invalid': isInvalid('medico') && isFormSubmitted}">
-                                        <mat-option *ngFor="let medico of listMedicos" [value]="medico.medicoId">
-                                            {{medico.nombre}} {{medico.apellido}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('medico') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('medico')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms ">
+                                        <label>Hora Inicio<span class="login-danger">*</span></label>
+                                        <input formControlName="horaInicio" [(ngModel)]="citaEditar.horaInicio"
+                                            class="form-control" type="time"
+                                            [ngClass]="{'is-invalid': isInvalid('horaInicio') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('horaInicio') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('horaInicio')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label>Fecha<span class="login-danger">*</span></label>
-                                    <input class="form-control" type="text" name="fechaActual" formControlName="fecha">
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Hora Inicio<span class="login-danger">*</span></label>
-                                    <input formControlName="horaInicio" [(ngModel)]="citaNueva.horaInicio"
-                                        class="form-control" type="time"
-                                        [ngClass]="{'is-invalid': isInvalid('horaInicio') && isFormSubmitted}">
-                                    <div *ngIf="isInvalid('horaInicio') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('horaInicio')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms ">
+                                        <label>Hora Fin<span class="login-danger">*</span></label>
+                                        <input formControlName="horaFin" [(ngModel)]="citaEditar.horaFin"
+                                            class="form-control" type="time"
+                                            [ngClass]="{'is-invalid': isInvalid('horaFin') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('horaFin') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('horaFin')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Hora Fin<span class="login-danger">*</span></label>
-                                    <input formControlName="horaFin" [(ngModel)]="citaNueva.horaFin"
-                                        class="form-control" type="time"
-                                        [ngClass]="{'is-invalid': isInvalid('horaFin') && isFormSubmitted}">
-                                    <div *ngIf="isInvalid('horaFin') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('horaFin')">
-                                            Debe completar el campo*
+                                <div class="col-lg-6">
+                                    <div class="form-group local-forms">
+                                        <label>Especialidad<span class="login-danger">*</span></label>
+                                        <mat-select formControlName="especialidad"
+                                            [(ngModel)]="citaEditar.especialidadId" class="form-control select"
+                                            placeholder="Seleccione Especialidad"
+                                            [ngClass]="{'is-invalid': isInvalid('especialidad') && isFormSubmitted}">
+                                            <mat-option *ngFor="let especialidad of listEspecialidadesCitas"
+                                                [value]="especialidad.especialidadId">
+                                                {{especialidad.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('especialidad') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('especialidad')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-9">
-                                    <label>Buscar Paciente<span class="login-danger">*</span></label>
-                                    <mat-select formControlName="paciente" [(ngModel)]="citaNueva.pacienteId"
-                                        class="form-control select" placeholder="Seleccione Paciente"
-                                        [ngClass]="{'is-invalid': isInvalid('paciente') && isFormSubmitted}">
-                                        <mat-option *ngFor="let paciente of listPacientes"
-                                            [value]="paciente.pacienteId">
-                                            {{paciente.nombres}} {{paciente.apellidos}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('paciente') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('paciente')">
-                                            Debe completar el campo*
+                                <div class="col-lg-6">
+                                    <div class="form-group local-forms">
+                                        <label>Médico<span class="login-danger">*</span></label>
+                                        <mat-select formControlName="medico" [(ngModel)]="citaEditar!.medicoId"
+                                            class="form-control select" placeholder="Seleccione Medico"
+                                            [ngClass]="{'is-invalid': isInvalid('medico') && isFormSubmitted}">
+                                            <mat-option *ngFor="let medico of listMedicos" [value]="medico.medicoId">
+                                                {{medico.nombre}} {{medico.apellido}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('medico') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('medico')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-3 busqueda">
-                                    <button class="btn btn-primary">Registrar Paciente</button>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-4">
-                                    <label>Sede<span class="login-danger">*</span></label>
-                                    <input class="form-control" type="text" name="sede" formControlName="sede">
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Tipo Citado</label>
-                                    <mat-select formControlName="tipoCitado" [(ngModel)]="citaNueva.tipoCitadoId"
-                                        class="form-control select" placeholder="Seleccione Tipo Citado"
-                                        [ngClass]="{'is-invalid': isInvalid('tipoCitado') && isFormSubmitted}">
-                                        <mat-option value=0>Nuevo</mat-option>
-                                        <mat-option value=1>Reingreso</mat-option>
-                                        <mat-option value=2>Continuador</mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('tipoCitado') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('tipoCitado')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms">
+                                        <label>Sede</label>
+                                        <input formControlName="sede" [(ngModel)]="sede" class="form-control"
+                                            type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('sede') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('sede') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('sede')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-4">
-                                    <label>Estado<span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" [(ngModel)]="citaNueva.estado"
-                                        class="form-control select" placeholder="Seleccione Estado"
-                                        [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
-                                        <mat-option *ngFor="let estado of listEstadosCitas"
-                                            [value]="estado.tipoCitadoId">
-                                            {{estado.nombre}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <div *ngIf="isInvalid('estado') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('estado')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms">
+                                        <label>Tipo Citado</label>
+                                        <mat-select formControlName="estado" [(ngModel)]="citaEditar.estado"
+                                            class="form-control select" placeholder="Seleccione Tipo Citado"
+                                            [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
+                                            <mat-option value=0>Nuevo</mat-option>
+                                            <mat-option value=1>Reingreso</mat-option>
+                                            <mat-option value=2>Continuador</mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('estado') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('estado')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6">
-                                    <label>Motivo Consulta</label>
-                                    <input formControlName="motivoConsulta" [(ngModel)]="citaNueva.motivoConsulta"
-                                        class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('motivoConsulta') && isFormSubmitted}">
-                                    <div *ngIf="isInvalid('motivoConsulta') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('motivoConsulta')">
-                                            Debe completar el campo*
+                                <div class="col-lg-4">
+                                    <div class="form-group local-forms">
+                                        <label>Estado<span class="login-danger">*</span></label>
+                                        <mat-select formControlName="tipoCitado" [(ngModel)]="citaEditar.tipoCitadoId"
+                                            class="form-control select" placeholder="Seleccione Estado"
+                                            [ngClass]="{'is-invalid': isInvalid('tipoCitado') && isFormSubmitted}">
+                                            <mat-option *ngFor="let estado of listEstadosCitas"
+                                                [value]="estado.tipoCitadoId">
+                                                {{estado.nombre}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <div *ngIf="isInvalid('tipoCitado') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('tipoCitado')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-lg-6">
-                                    <label>Observación</label>
-                                    <textarea formControlName="observacion" [(ngModel)]="citaNueva.observacion"
-                                        class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}"></textarea>
-                                    <div *ngIf="isInvalid('observacion') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('observacion')">
-                                            Debe completar el campo*
+                                <div class="col-lg-6">
+                                    <div class="form-group local-forms">
+                                        <label>Motivo Consulta</label>
+                                        <input formControlName="motivoConsulta" [(ngModel)]="citaEditar.motivoConsulta"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('motivoConsulta') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('motivoConsulta') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('motivoConsulta')">
+                                                Debe completar el campo*
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-12">
-                                    <mat-checkbox>Enviar por Correo</mat-checkbox>
+                                <div class="col-lg-6">
+                                    <div class="form-group local-forms">
+                                        <label>Observación</label>
+                                        <textarea formControlName="observacion" [(ngModel)]="citaEditar.observacion"
+                                            class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}"></textarea>
+                                        <div *ngIf="isInvalid('observacion') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('observacion')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-lg-6"> </div>
-                                <div class="form-group col-lg-6">
-                                    <div class="doctor-submit text-end">
-                                        <button class="btn btn-primary submit-form me-2"
-                                            (click)="guardarCita()">Guardar</button>
-                                        <button type="submit" (click)="cerrar()"
-                                            class="btn btn-primary cancel-form">Cancelar</button>
+                                <div class="col-lg-12">
+                                    <div class="form-group col-lg-12">
+                                        <mat-checkbox>Notificar al correo del paciente</mat-checkbox>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group local-forms">
+                                        <div class="doctor-submit text-end">
+                                            <button (click)="cerrar()"
+                                                class="btn btn-primary cancel-form">Cancelar</button>
+                                            <button class="btn btn-primary submit-form whatsapp"
+                                                (click)="actualizar()">Whatsapp</button>
+                                            <button class="btn btn-primary submit-form historia"
+                                                (click)="actualizar()">Historia</button>
+                                            <button class="btn btn-primary submit-form clonar"
+                                                (click)="actualizar()">Clonar</button>
+                                            <button class="btn btn-primary submit-form "
+                                                (click)="actualizar()">Guardar</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
