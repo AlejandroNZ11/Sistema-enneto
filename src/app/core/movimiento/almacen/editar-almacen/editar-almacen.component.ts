@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Ialmacen } from 'src/app/shared/models/almacen';
+import { Isede } from 'src/app/shared/models/sede';
 import { routes } from 'src/app/shared/routes/routes';
 import { AlmacenService } from 'src/app/shared/services/almacen.service';
+import { SedeService } from 'src/app/shared/services/sede.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -17,24 +19,29 @@ export class EditarAlmacenComponent implements OnInit {
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
+  sede_LISTA: Array<Isede> = [];
+  public sedes!: string[];
+  isFormSubmitted = false;
 
-  constructor(public bsModalRef: BsModalRef, private almacenService: AlmacenService, public fb: FormBuilder) {
-    this.form = this.fb.group({
+  constructor(public bsModalRef: BsModalRef, private almacenService: AlmacenService, public formBuilder: FormBuilder, public sedeService: SedeService) {
+    this.form = this.formBuilder.group({
       nombreAlmacen: ['', Validators.required],
       sede: ['', Validators.required],
       descipcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
-  }
+  } 
 
   ngOnInit() {
-    this.almacenService.obtenerAlmacen(this.AlmacenSeleccionada!).subscribe(almacen => {
-      this.almacen = almacen;
-      this.form.patchValue({
-        nombreAlmacen: this.almacen.nombreAlmacen,
-        estado: this.almacen.estado == '1' ? 'Activo' : 'Inactivo',
-      });
-    })
+    this.sedeService.obtenerSedesList().subscribe((data: Isede[]) => {
+      this.sede_LISTA = data;
+    });
+    this.isFormSubmitted = false;
+    this.form = this.formBuilder.group({
+      sedes: ['', Validators.required],
+      nombreAlmacen: ['', Validators.required],
+      estado: ['Activo', Validators.required],
+    });
   }
 
   isInvalid(controlName: string) {
