@@ -7,7 +7,7 @@
             <div class="col-sm-12">
                 <div class="cita">Cita médica para: <span class="para">{{pacienteseleccionado}}</span></div>
                 <div class="card">
-                    <div class="card-body mt-2">
+                    <div class="card-body mt-2 pb-0">
                         <form [formGroup]="form">
                             <div class="row">
                                 <div class="col-lg-4">
@@ -173,17 +173,17 @@
                                         <mat-checkbox>Notificar al correo del paciente</mat-checkbox>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12 botones">
                                     <div class="form-group local-forms">
                                         <div class="doctor-submit text-end">
                                             <button (click)="cerrar()"
-                                                class="btn btn-primary cancel-form">Cancelar</button>
+                                                class="btn btn-primary cancel-form ">Cancelar</button>
                                             <button class="btn btn-primary submit-form whatsapp"
                                                 (click)="actualizar()">Whatsapp</button>
                                             <button class="btn btn-primary submit-form historia"
-                                                (click)="actualizar()">Historia</button>
+                                                (click)="irHistoria()">Historia</button>
                                             <button class="btn btn-primary submit-form clonar"
-                                                (click)="actualizar()">Clonar</button>
+                                                (click)="clonar()">Clonar</button>
                                             <button class="btn btn-primary submit-form "
                                                 (click)="actualizar()">Guardar</button>
                                         </div>
