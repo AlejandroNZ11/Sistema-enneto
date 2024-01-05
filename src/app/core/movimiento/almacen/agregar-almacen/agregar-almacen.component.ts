@@ -70,13 +70,11 @@ export class AgregarAlmacenComponent implements OnInit {
       this.isTouched()
       return;
     }
+    this.Almacen.sedeId =this.sedes;
     this.Almacen.sedeId = this.form.get("sedes")?.value;
     this.Almacen.nombreAlmacen = this.form.get("nombreAlmacen")?.value;
     console.log(this.Almacen);
     const formData = new FormData();
-    for (let i = 0; i < this.Almacen.sedeId.length; i++) {
-      formData.append('Sedes', this.Almacen.sedeId[i]);
-    }
     this.almacenService.crearAlmacen(this.Almacen).subscribe(
       (response) => {
         if (response.isSuccess) {
