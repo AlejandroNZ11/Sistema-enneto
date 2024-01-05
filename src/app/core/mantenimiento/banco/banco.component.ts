@@ -95,7 +95,7 @@ export class BancoComponent implements OnInit{
         this.bancoService.eliminarBanco(bancoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Banco eliminado con éxito.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
@@ -105,6 +105,7 @@ export class BancoComponent implements OnInit{
           (error) => {
             console.error(error);
           });
+          
       }else{
         return;
       }
