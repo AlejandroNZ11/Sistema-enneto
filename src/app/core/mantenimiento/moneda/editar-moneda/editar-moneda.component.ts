@@ -62,7 +62,7 @@ export class EditarMonedaComponent implements OnInit {
     const monedaActualizada: IMoneda = {
       tipoMonedaId: this.moneda.tipoMonedaId,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.monedaService.actualizarMoneda(monedaActualizada).subscribe(
