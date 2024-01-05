@@ -36,7 +36,7 @@ export class AgregarBancoComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
