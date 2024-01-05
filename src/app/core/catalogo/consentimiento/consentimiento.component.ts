@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
-//import { }
+import { AgregarConsentimientoComponent } from './agregar-consentimiento/agregar-consentimiento.component';
 //import { }
 import { DataConsentimiento, Iconsentimiento, consentimiento } from 'src/app/shared/models/consentimiento';
 import Swal from 'sweetalert2';
@@ -57,7 +57,7 @@ export class ConsentimientoComponent implements OnInit {
 
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
-      //this.crearConsentimiento();
+      this.crearConsentimiento();
     } else if (accion.accion == 'Editar') {
       //this.editarConsentimiento(accion.fila)
     } else if (accion.accion == 'Eliminar') {
@@ -73,12 +73,12 @@ export class ConsentimientoComponent implements OnInit {
     this.limit = pag.limit;
   }
 
-  // crearConsentimiento() {
-  //   this.bsModalRef = this.modalService.show(AgregarConsentimientoComponent),
-  //     this.bsModalRef.onHidden?.subscribe(() => {
-  //       this.getTableData(this.currentPage, this.pageSize);
-  //     });
-  // }
+  crearConsentimiento() {
+  this.bsModalRef = this.modalService.show(AgregarConsentimientoComponent),
+  this.bsModalRef.onHidden?.subscribe(() => {
+  this.getTableData(this.currentPage, this.pageSize);
+    });
+  }
 
   // editarConsentimiento(consentimiento: Iconsentimiento) {
   //   const initialState = {
