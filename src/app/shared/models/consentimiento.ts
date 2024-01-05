@@ -15,6 +15,7 @@ export interface Iconsentimiento {
     consentimientoId : string;
     nombre: string;
     observacion: string;
+    estado: string;
 }
 
 export class consentimientoResponse {

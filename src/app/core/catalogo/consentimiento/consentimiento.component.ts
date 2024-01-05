@@ -5,7 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import { AgregarConsentimientoComponent } from './agregar-consentimiento/agregar-consentimiento.component';
-//import { }
+import { EditarConsentimientoComponent } from './editar-consentimiento/editar-consentimiento.component';
 import { DataConsentimiento, Iconsentimiento, consentimiento } from 'src/app/shared/models/consentimiento';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades  } from 'src/app/shared/models/tabla-columna';
@@ -59,7 +59,7 @@ export class ConsentimientoComponent implements OnInit {
     if (accion.accion == 'Crear') {
       this.crearConsentimiento();
     } else if (accion.accion == 'Editar') {
-      //this.editarConsentimiento(accion.fila)
+      this.editarConsentimiento(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarConsentimiento(accion.fila.consentimientoId)
     }
@@ -80,15 +80,15 @@ export class ConsentimientoComponent implements OnInit {
     });
   }
 
-  // editarConsentimiento(consentimiento: Iconsentimiento) {
-  //   const initialState = {
-  //     consentimientoSeleccionada: consentimiento.consentimientoId
-  //   };
-  //   this.bsModalRef = this.modalService.show(EditarConsentimientoComponent, { initialState });
-  //   this.bsModalRef.onHidden?.subscribe(() => {
-  //     this.getTableData(this.currentPage, this.pageSize);
-  //   });
-  // }
+editarConsentimiento(consentimiento: Iconsentimiento) {
+  const initialState = {
+    consentimientoSeleccionada: consentimiento.consentimientoId
+  };
+  this.bsModalRef = this.modalService.show(EditarConsentimientoComponent, { initialState });
+  this.bsModalRef.onHidden?.subscribe(() => {
+    this.getTableData(this.currentPage, this.pageSize);
+  });
+  }
 
   eliminarConsentimiento(consentimientoId: string) {
     Swal.fire({
