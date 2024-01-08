@@ -49,6 +49,7 @@ export class PatientsListComponent implements OnInit {
   ngOnInit() {
     this.tipoPacienteService.obtenerTipoPacientes().subscribe(data => { this.tiposPacientes = data; })
     this.obtenerDatosPacientesSinFiltro();
+
   }
   private obtenerDatosPacientesSinFiltro(): void {
     this.patientsList = [];
@@ -67,7 +68,9 @@ export class PatientsListComponent implements OnInit {
         this.patientsList = data.data;
         this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
         this.calculateTotalPages(this.totalData, this.pageSize);
+
       });
+
   }
   obtenerDatosPacientesConFiltro(): void {
     this.patientsList = [];

@@ -21,7 +21,7 @@ export class DataService {
     );
   }
   public getPatientsList(): Observable<apiResultFormat> {
-    return this.http.get<apiResultFormat>('assets/json/doctors-list.json').pipe(
+    return this.http.get<apiResultFormat>('assets/json/patients-list.json').pipe(
       map((res: apiResultFormat) => {
         return res;
       })
@@ -362,7 +362,7 @@ export class DataService {
               route: routes.almacenMov,
               base: routes.almacenMov,
             },
-  
+
           ],
         },
         {

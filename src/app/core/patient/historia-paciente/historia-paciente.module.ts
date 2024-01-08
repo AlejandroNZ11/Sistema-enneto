@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { HistoriaPacienteRoutingModule } from './historia-paciente-routing.module';
 import { HistoriaPacienteComponent } from './historia-paciente.component';
-
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -11,7 +11,8 @@ import { HistoriaPacienteComponent } from './historia-paciente.component';
     ],
     imports: [
         CommonModule,
-        HistoriaPacienteRoutingModule
+        HistoriaPacienteRoutingModule,
+        SharedModule
     ]
 })
 export class HistoriaPacienteModule { }

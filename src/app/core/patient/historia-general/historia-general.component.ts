@@ -5,6 +5,13 @@ import { pageSelection, apiResultFormat, patientsList } from 'src/app/shared/mod
 import { Sort } from '@angular/material/sort';
 import { DataService } from 'src/app/shared/data/data.service';
 import { Router } from '@angular/router';
+import { PacienteService } from 'src/app/shared/services/paciente.service';
+import { finalize } from 'rxjs';
+import { PacienteList, PacienteListData } from 'src/app/shared/models/paciente';
+import { UbicacionService } from 'src/app/shared/services/ubicacion.service';
+import { Idepartamento } from 'src/app/shared/models/departamento';
+import { IgradoInstruccion } from 'src/app/shared/models/estudio';
+import { GradoInstruccionService } from 'src/app/shared/services/grado-instruccion.service';
 
 @Component({
   selector: 'app-historia-general',
@@ -13,8 +20,17 @@ import { Router } from '@angular/router';
 })
 export class HistoriaGeneralComponent implements OnInit {
   public routes = routes;
+
+  // variable test
   public patientsList: Array<patientsList> = [];
+   // variable API
+  public patientsListAPI: Array<PacienteList> = [];
+
+  // variable test
   dataSource!: MatTableDataSource<patientsList>;
+  // variable API
+  dataSourceAPI!: MatTableDataSource<PacienteList>;
+
 
   public showFilter = false;
   public searchDataValue = '';
@@ -32,12 +48,115 @@ export class HistoriaGeneralComponent implements OnInit {
   public fechaDesde = '';
   public fechaHasta = '';
 
-  constructor(public data: DataService, private router: Router) {
+  isLoading = false;
+  departamento!: string;
 
+  public paciente = '';
+  public tipoPaciente = '';
+
+  constructor(public data: DataService, private router: Router, public pacienteService: PacienteService, public ubicacionService: UbicacionService, public gradoInstService: GradoInstruccionService) {
   }
+
+  departamentos!: Idepartamento[];
+  gradosInstruccion!: IgradoInstruccion[];
+
   ngOnInit() {
+
+    // Cargar departamentos
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+
+    this.gradoInstService.obtenerGradoInstruccion().subscribe(data => { this.gradosInstruccion = data; })
     this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
+
+  // Traer lista de pacientes
+  private obtenerDatosPacientesSinFiltro(): void {
+    this.patientsList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe((data: PacienteListData) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.patientsListAPI = data.data;
+        this.dataSourceAPI = new MatTableDataSource<PacienteList>(this.patientsListAPI);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+        console.log('Lista de pacientes Historia General:', this.patientsListAPI);
+      });
+  }
+
+  getGradoInstruccion(gradoId: string){
+    return this.gradosInstruccion.find(grad => grad.estudioId === gradoId)?.descripcion || '';
+  }
+
+  getDepartamento(ubigeo: string): string {
+    const departamentoId = ubigeo.substring(0, 2);
+    return this.departamentos.find(dep => dep.departamentoId === departamentoId)?.nombre || '';
+  }
+
+  // Ubicacion del paciente
+  cargarUbicacion(departamento: string, provincia: string) {
+    this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
+  }
+
+
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+
+
+  obtenerDatosPacientesConFiltro(): void {
+    this.patientsList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    let fechaInicioFormateado = undefined
+    let fechaFinFormateado = undefined
+    let paciente = undefined
+    let tipoPaciente = undefined
+    if (this.fechaDesde) {
+      fechaInicioFormateado = new Date(this.fechaDesde).toISOString().split('T')[0];
+      console.log({fechaInicioFormateado})
+    }
+    if (this.fechaHasta) {
+      fechaFinFormateado = new Date(this.fechaHasta).toISOString().split('T')[0];
+      console.log({fechaFinFormateado})
+    }
+    if (this.paciente) {
+      paciente = this.paciente;
+      console.log(paciente)
+
+    }
+    if (this.tipoPaciente != '--TODOS--') {
+      tipoPaciente = this.tipoPaciente;
+    }
+    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe((data: PacienteListData) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.patientsListAPI = data.data;
+
+        this.dataSourceAPI = new MatTableDataSource<PacienteList>(this.patientsListAPI);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+      });
+  }
+
+
+
+  // Método data Json
   private getTableData(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
