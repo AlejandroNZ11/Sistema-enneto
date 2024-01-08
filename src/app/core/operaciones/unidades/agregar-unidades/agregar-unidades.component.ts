@@ -5,6 +5,7 @@ import { unidad } from 'src/app/shared/models/unidades';
 import { routes } from 'src/app/shared/routes/routes';
 import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-unidades',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-unidades.component.scss']
 })
 export class AgregarUnidadesComponent implements OnInit{
-
+  unidadAgregada$: Subject<boolean> = new Subject<boolean>();
   Unidad: unidad = new unidad();
   public routes = routes;
   form!: FormGroup;
@@ -37,6 +38,7 @@ export class AgregarUnidadesComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.unidadAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -57,6 +59,7 @@ export class AgregarUnidadesComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.unidadAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

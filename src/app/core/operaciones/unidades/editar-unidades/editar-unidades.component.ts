@@ -5,6 +5,7 @@ import { Iunidad } from 'src/app/shared/models/unidades';
 import { routes } from 'src/app/shared/routes/routes';
 import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-unidades',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-unidades.component.scss']
 })
 export class EditarUnidadesComponent implements OnInit {
+  unidadEditada$: Subject<boolean> = new Subject<boolean>();
   unidadSeleccionada ?: string;
   Unidad!: Iunidad;
   public routes = routes;
@@ -50,6 +52,7 @@ export class EditarUnidadesComponent implements OnInit {
   }
 
   Cancelar() {
+    this.unidadEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -71,6 +74,7 @@ export class EditarUnidadesComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.unidadEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

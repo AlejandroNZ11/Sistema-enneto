@@ -5,14 +5,14 @@ import { ItipoConcepto } from 'src/app/shared/models/tipoConcepto';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-tipo-concepto',
   templateUrl: './editar-tipo-concepto.component.html',
   styleUrls: ['./editar-tipo-concepto.component.scss']
 })
 export class EditarTipoConceptoComponent implements OnInit{
-  
+  tipoConceptoEditada$: Subject<boolean> = new Subject<boolean>();
   tipoConceptoSeleccionada ?: string;
   tipoConcepto!: ItipoConcepto;
   public routes = routes;
@@ -47,6 +47,7 @@ export class EditarTipoConceptoComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.tipoConceptoEditada$.next(false);
     this.bsModalRef.hide();
   }
   guardarTipoConcepto() {
@@ -64,6 +65,7 @@ export class EditarTipoConceptoComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.tipoConceptoEditada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
