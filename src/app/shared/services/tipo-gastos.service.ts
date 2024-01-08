@@ -44,7 +44,8 @@ export class TipoGastosService {
   actualizarConceptoGasto(conceptoGasto: IConceptoGasto): Observable<successResponse> {
     return this.http.put<successResponse>(`${this.apiUrl}/ConceptosGastos/UpdateConceptoGasto/${conceptoGasto.conceptoGastoId}`, conceptoGasto).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        console.error('Error en actualizarConceptoGasto:', error);
+        Swal.fire('Error', 'Ocurrió un error al actualizar el concepto de gasto', 'warning');
         return throwError(() => error);
       })
     );
