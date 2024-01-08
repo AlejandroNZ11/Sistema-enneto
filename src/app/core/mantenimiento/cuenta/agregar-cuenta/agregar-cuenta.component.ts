@@ -5,6 +5,7 @@ import {  cuenta } from 'src/app/shared/models/cuenta';
 import { routes } from 'src/app/shared/routes/routes';
 import { CuentaService } from 'src/app/shared/services/cuenta.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-cuenta',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-cuenta.component.scss']
 })
 export class AgregarCuentaComponent implements OnInit{
-
+  cuentaAgregada$: Subject<boolean> = new Subject<boolean>();
   Cuenta: cuenta = new cuenta();
   public routes = routes;
   form!: FormGroup;
@@ -44,7 +45,8 @@ export class AgregarCuentaComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
-    this.bsModalRef.hide()
+    this.cuentaAgregada$.next(false);
+    this.bsModalRef.hide();
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
@@ -63,6 +65,7 @@ export class AgregarCuentaComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.cuentaAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
