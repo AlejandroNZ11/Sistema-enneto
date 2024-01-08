@@ -5,6 +5,7 @@ import {  banco } from 'src/app/shared/models/bancos';
 import { routes } from 'src/app/shared/routes/routes';
 import { BancosService } from 'src/app/shared/services/bancos.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-banco',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-banco.component.scss']
 })
 export class AgregarBancoComponent implements OnInit{
-
+  bancoAgregada$: Subject<boolean> = new Subject<boolean>();
   Banco: banco = new banco();
   public routes = routes;
   form!: FormGroup;
@@ -36,6 +37,7 @@ export class AgregarBancoComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.bancoAgregada$.next(true);
     this.bsModalRef.hide();
   }
   isTouched() {
@@ -55,6 +57,7 @@ export class AgregarBancoComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.bancoAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
