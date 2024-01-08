@@ -1,7 +1,8 @@
 export class diagnostico {
-    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';//D30C2D1E-E883-4B2D-818A-6813E15046E6
     usuarioId = "";
-    codigoEnfermedad = "";
+    enfermedadId= "";
+    descripcion = "";
     estado= "";
   }
   export interface DataDiagnostico {
@@ -9,15 +10,15 @@ export class diagnostico {
     data: Idiagnostico[];
   }
   export interface Idiagnostico {
-    pacienteDiagnosticoId: string;
-    pacienteId:string
-    fecha:string
-    codigoEnfermedad01: string;
-    estado: string;
+    enfermedadId: string;
+    descripcion:string
+    estado:string
+    
   }
 
   export class DiagnosticoResponse {
-      codigoEnfermedad = "";
+    enfermedadId= "";
+    descripcion = "";
   
   }
 
