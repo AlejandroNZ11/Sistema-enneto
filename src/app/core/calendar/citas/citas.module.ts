@@ -6,6 +6,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditarCitaComponent } from './editar-cita/editar-cita.component';
 import { AgregarCitaComponent } from './agregar-cita/agregar-cita.component';
+import { ClonarCitaComponent } from './clonar-cita/clonar-cita.component';
 
 
 
@@ -15,6 +16,7 @@ import { AgregarCitaComponent } from './agregar-cita/agregar-cita.component';
     CitasComponent,
     EditarCitaComponent,
     AgregarCitaComponent,
+    ClonarCitaComponent,
   ],
   imports: [
     CommonModule,

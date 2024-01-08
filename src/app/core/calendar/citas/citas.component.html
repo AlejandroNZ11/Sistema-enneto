@@ -17,7 +17,7 @@
                     <div class="col-lg-3">
                         <div class="form-group local-forms">
                             <label for="buscarPor">Especialidad</label>
-                            <mat-select [(ngModel)]="especialidadSeleccionada" class="form-control select">
+                            <mat-select [(ngModel)]="especialidadSeleccionada" (ngModelChange)="actualizarMedicos()" class="form-control select">
                                 <mat-option value="TODOS"> TODOS </mat-option>
                                 <mat-option *ngFor="let especialidad of listEspecialidades"
                                     [value]="especialidad.especialidadId">

@@ -23,24 +23,27 @@ export class EditarAlmacenComponent implements OnInit {
   public sedes!: string[];
   isFormSubmitted = false;
 
-  constructor(public bsModalRef: BsModalRef, private almacenService: AlmacenService, public formBuilder: FormBuilder, public sedeService: SedeService) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private almacenService: AlmacenService, 
+    public formBuilder: FormBuilder, 
+    public sedeService: SedeService) 
+    {
     this.form = this.formBuilder.group({
       nombreAlmacen: ['', Validators.required],
       sede: ['', Validators.required],
-      descipcion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   } 
 
   ngOnInit() {
-    this.sedeService.obtenerSedesList().subscribe((data: Isede[]) => {
-      this.sede_LISTA = data;
-    });
-    this.isFormSubmitted = false;
-    this.form = this.formBuilder.group({
-      sedes: ['', Validators.required],
-      nombreAlmacen: ['', Validators.required],
-      estado: ['Activo', Validators.required],
+    this.almacenService.obtenerAlmacen(this.AlmacenSeleccionada!).subscribe(almacen => {
+      this.almacen = almacen;
+      this.form.patchValue({
+        sedes: this.almacen.sedeId, 
+        nombreAlmacen: this.almacen.nombreAlmacen,
+        estado: this.almacen.estado = '1' ? 'Activo' : 'Inactivo',
+      });
     });
   }
 

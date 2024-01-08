@@ -2,12 +2,12 @@ export class almacen {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
     estado = "";
-    sedeId = "";
+    sedeId?: string[];
     nombreAlmacen = "";
 }
 export interface Ialmacen {
     almacenId: string;
-    sedeId: Number;
+    sedeId: string;
     nombreAlmacen: string;
     estado: string;
 }
@@ -18,4 +18,5 @@ export interface DataAlmacen {
 
 export class AlmacenResponse {
     nombreAlmacen = "";
+    sedeId = "";
 }    

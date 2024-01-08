@@ -21,11 +21,11 @@ export class producto {
 
   }
   export class ProductoResponse {
-    id = "";
+    
     nombre = "";
     descripcion =  "";
     fecha ="";
     stock =  "";
-    estado=  "";
+    
 
 }

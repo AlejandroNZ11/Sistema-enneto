@@ -4,7 +4,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { MedicoByDNI, MedicoByDNIResponse, MedicoEditar, MedicoListData, MedicoRequest } from '../models/medico';
+import { MedicoByDNI, MedicoByDNIResponse, MedicoEditar, MedicoList, MedicoListData, MedicoRequest } from '../models/medico';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,6 +28,15 @@ export class MedicoService {
     }
     return this.http.get<MedicoListData>(url);
   }
+  listaMedicos(especialidad?: string): Observable<MedicoList[]> {
+    if (especialidad == 'TODOS') {
+      const url = `${this.apiUrl}/Medicos/GetMedicoList`;
+      return this.http.get<MedicoList[]>(url);
+    } else {
+      const url = `${this.apiUrl}/Medicos/GetMedicoList?EspecialidadId=${especialidad}`;
+      return this.http.get<MedicoList[]>(url);
+    }
+  }
   crearMedico(doctor: FormData): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Medicos/SaveMedico', doctor).pipe(
       catchError(error => {
@@ -37,8 +46,8 @@ export class MedicoService {
     );
   }
   getMedico(IdEntidad: string): Observable<MedicoByDNIResponse> {
-		return this.http.get<MedicoByDNIResponse>(this.apiUrl + `/Medicos/dni/${IdEntidad}`);
-	}
+    return this.http.get<MedicoByDNIResponse>(this.apiUrl + `/Medicos/dni/${IdEntidad}`);
+  }
   obtenerMedico(medicoId: string): Observable<MedicoEditar> {
     return this.http.get<MedicoEditar>(this.apiUrl + `/Medicos/GetMedico/${medicoId}`);
   }

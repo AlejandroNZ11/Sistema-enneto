@@ -25,8 +25,6 @@ import Swal from 'sweetalert2';
 })
 export class AgregarCitaComponent implements OnInit {
   public routes = routes;
-  options: any;
-  events: any[] = [];
   citaNueva: citaMedica = new citaMedica();
   form!: FormGroup;
   listEspecialidadesCitas!: Iespecialidad[];

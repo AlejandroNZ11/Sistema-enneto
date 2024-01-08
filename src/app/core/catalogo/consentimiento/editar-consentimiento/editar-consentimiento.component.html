@@ -7,28 +7,16 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-heading">
-                                    <h4>Nuevo Diagnostico</h4>
-                                </div>
-                            </div>                 
-                            <div class="col-12 col-md-12 col-xl-12">
-                                <div class="form-group local-forms">
-                                    <label>EnfermedadId <span class="login-danger">*</span></label>
-                                    <input formControlName="EnfermedadId" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('EnfermedadId')}">
-                                    <div *ngIf="isInvalid('EnfermedadId') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('EnfermedadId')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
+                                    <h4>Nuevo Concentimiento</h4>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Descripcion <span class="login-danger">*</span></label>
-                                    <input formControlName="Descripcion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('Descripcion')}">
-                                    <div *ngIf="isInvalid('Descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('Descripcion')|| mostrarErrores">
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
@@ -41,11 +29,24 @@
                                     </mat-select>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Observacion<span class="login-danger">*</span></label>
+                                    <input formControlName="observacion" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('observacion')}">
+                                    <div *ngIf="isInvalid('observacion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('observacion')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
                         </div>
                     </form>
                     <div class="col-12">
                         <div class="doctor-submit text-end">
-                            <button type="submit" (click)="crearDiagnostico()"
+                            <button type="submit" (click)="guardarConsentimiento()"
                                 class="btn btn-primary submit-form me-2">Guardar</button>
                             <button type="submit" (click)="Cancelar()"
                                 class="btn btn-primary cancel-form">Cancelar</button>

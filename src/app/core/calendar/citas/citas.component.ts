@@ -67,12 +67,11 @@ export class CitasComponent implements OnInit {
         right: 'timeGridWeek,timeGridDay',
       },
       initialView: 'timeGridWeek',
-      editable: false, 
+      editable: false,
       selectable: true,
       selectMirror: true,
       dayMaxEvents: true,
       locale: esLocale,
-      themeSystem: 'bootstrap5',
       eventClick: this.handleDateClick.bind(this),
       datesSet: (info: any) => {
         this.inicio = new Date(info.start).toISOString().split('T')[0]
@@ -95,13 +94,21 @@ export class CitasComponent implements OnInit {
         }
       }
     }
-    this.inicializarFormulario();
-    this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidades = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstados = data; })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
-    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => {
-      this.listMedicos = data.data; this.listMedicos.forEach(medico => {
+    this.medicoService.listaMedicos(this.especialidadSeleccionada).subscribe(data => {
+      this.listMedicos = data; this.listMedicos.forEach(medico => {
+        this.medicosSeleccionados[medico.medicoId] = true;
+      });
+      this.filtrarCitas();
+    })
+    this.events = this.citas;
+  }
+  actualizarMedicos() {
+    this.medicoService.listaMedicos(this.especialidadSeleccionada).subscribe(data => {
+      this.listMedicos = data; 
+      this.listMedicos.forEach(medico => {
         this.medicosSeleccionados[medico.medicoId] = true;
       });
       this.filtrarCitas();
@@ -149,21 +156,6 @@ export class CitasComponent implements OnInit {
       }
       return nombres.includes(searchInput) || apellidos.includes(searchInput);
     });
-  }
-  inicializarFormulario() {
-    this.form = this.formBuilder.group({
-      especialidad: ['', [Validators.required, Validators.maxLength(40)]],
-      medico: ['', [Validators.required, Validators.maxLength(40),]],
-      fecha: [{ value: this.citaNueva.fecha, disabled: true }, [Validators.required, Validators.maxLength(10)]],
-      horaInicio: ['', [Validators.required, Validators.maxLength(10)]],
-      horaFin: ['', [Validators.required, Validators.maxLength(10)]],
-      paciente: ['', [Validators.required, Validators.maxLength(100)]],
-      tipoCitado: ['', [Validators.required, Validators.maxLength(40)]],
-      sede: [{ value: this.user.selectedSucursal.nombre, disabled: true }, [Validators.required, Validators.maxLength(10)]],
-      estado: ['', [Validators.required, Validators.maxLength(100)]],
-      motivoConsulta: ['', [Validators.required, Validators.maxLength(100)]],
-      observacion: ['', [Validators.maxLength(100)]],
-    })
   }
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
