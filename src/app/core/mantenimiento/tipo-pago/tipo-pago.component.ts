@@ -21,7 +21,7 @@ export class TipoPagoComponent implements OnInit {
   ListTipoPago: Array<ITipoPago> = [];
   columnas: string[] = []
   acciones: string[] = []
-  documentoSeleccionado: TipoPago = new TipoPago();
+  tipoPagoSeleccionado: TipoPago = new TipoPago();
   dataSource!: MatTableDataSource<ITipoPago>;
   pageSize = PageSize.size;
   totalData = 0;
