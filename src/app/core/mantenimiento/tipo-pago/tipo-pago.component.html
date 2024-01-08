@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.tipoPagoMant">Tipos de Pago</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.tipoPagoMant">Tipos de Pagos</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista de Tipos de Pago</li>
+                        <li class="breadcrumb-item active">Lista de Pagos</li>
                     </ul>
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
                         <app-tabla [total]="totalData" [data]="ListTipoPago" [indice]="serialNumberArray" [columns]="columnas"
-                            [titulo]="'Lista de Tipos de Pago'" [accion]="acciones" (action)="onAction($event)"
+                            [titulo]="'Lista de Pagos'" [accion]="acciones" (action)="onAction($event)"
                             (MoreData)="getMoreData($event)">
                         </app-tabla>
                     </div>

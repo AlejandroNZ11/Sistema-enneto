@@ -28,6 +28,10 @@ export class TipoPagoService {
     );
   }
 
+  obtenerListaPago(): Observable<ITipoPago[]> {
+    return this.http.get<ITipoPago[]>(this.apiUrl + `/TiposPagos/GetTipoPagoList`);
+  }
+
   obtenerTipoPago(tipoPagoId: string): Observable<ITipoPago> {
     return this.http.get<ITipoPago>(`${this.apiUrl}/TiposPagos/GetAllTipoPago/${tipoPagoId}`);
   }

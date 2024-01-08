@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarTipoPagoComponent implements OnInit {
   tipoPago!: ITipoPago;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tipoPagoSeleccionado: any;
   public routes = routes;
   form: FormGroup;
@@ -32,7 +33,7 @@ export class EditarTipoPagoComponent implements OnInit {
       this.form.patchValue({
         metodoPago: this.tipoPago.metodoPago,
         descripcion: this.tipoPago.descripcion,
-        estado: this.tipoPago.estado == 'Activo' ? 'Activo' : 'Inactivo',
+        estado: this.tipoPago.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
   }
@@ -60,7 +61,7 @@ export class EditarTipoPagoComponent implements OnInit {
       tipoPagoId: this.tipoPago.tipoPagoId,
       metodoPago: this.form.value.metodoPago,
       descripcion: this.form.value.descripcion,
-      estado: this.form.value.estado == 'Activo' ? 'Activo' : 'Inactivo',
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.tipoPagoService.actualizarTipoPago(tipoPagoActualizado).subscribe(
