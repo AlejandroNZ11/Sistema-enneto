@@ -18,10 +18,10 @@
             <div class="col-lg-2">
                 <div class="doctor-personals-grp">
                     <div class="card">
-                        <div class="card-body text-center">
+                        <div  class="card-body text-center">
                             <img src="https://newdental.odontoenneto.com//assets/img/background/user.png" class="img-circle " width="150"  style="margin: 0 auto;">
                             <h6>
-                                <b>CARLOS MOISES SMITH TRILLO</b>
+                                <b>{{getNombres()}} {{getApellidos()}}</b>
                             </h6>
                             <h6>H.C 17</h6>
                             <div class="list-group mt-5">
@@ -79,7 +79,7 @@
                 <div class="doctor-personals-grp">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row my-4">
+                            <form [formGroup]="form" class="row my-4">
                                 <div class="col-12">
                                     <div class="form-heading">
                                         <h4>Datos del Paciente</h4>
@@ -88,131 +88,148 @@
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Nombres <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="nombres"  class="form-control" type="text" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Apellidos <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="apellidos" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Fecha Nacimiento <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="fechaNacimiento" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Edad <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="edad" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Documento <span class="login-danger">*</span></label>
-                                        <input class="form-control" >
+                                        <input formControlName="nroDocumento" class="form-control" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Direccion <span class="login-danger">*</span></label>
-                                        <input class="form-control" >
+                                        <input formControlName="direccion" class="form-control" >
                                     </div>
                                 </div>
                                 <div class="col-6 col-md-6 col-xl-4">
                                     <div class="form-group select-gender">
                                         <label class="gen-label">Sexo<span class="login-danger">*</span></label>
-                                        <div  class="form-check-inline">
-                                            <label class="form-check-label">
-                                                <input type="radio"  class="form-check-input ">Masculino
-                                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input type="radio" class="form-check-input ">Femenino
-                                            </label>
-                                        </div>
+                                        <div *ngFor="let item of sexo_LISTA; let i = index" class="form-check-inline">
+                                          <label class="form-check-label">
+                                              <input type="radio" [value]="item.value" formControlName="sexo"
+                                                  class="form-check-input" name="sexo" [id]="item.value"
+                                                  [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
+                                          </label>
+                                      </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Estado Civil <span class="login-danger">*</span></label>
-                                        <select class="form-control form select" >
-                                            <option value="">Casado(a)</option>
-                                            <option value="">Soltero(a)</option>
-                                            <option value="">Viudo(a)</option>
-                                            <option value="">Divorsiado(a)</option>
-                                            </select>
+                                        <mat-select formControlName="estadoCivil"
+                                             class="form-control select"
+                                            placeholder="Seleccione Estado Civil"
+                                            [ngClass]="{'is-invalid': isInvalid('estadoCivil') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of estadosCiviles" [value]="data.siglas">
+                                                {{data.descripcion}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Ocupacion <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="ocupacion" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Grado de instruccion <span class="login-danger">*</span></label>
-                                        <select class="form-control form select">
-                                            <option value="">SECUNDARIA COMPLETA</option>
-                                            <option value="">SUPERIOR</option>
-                                            <option value="">PRIMARIA COMPLETA</option>
-                                            <option value="">NO ESPECIFICA</option>
-                                        </select>
+                                        <mat-select formControlName="estudioId"
+                                            class="form-control select" placeholder="Seleccione Grado de Instruccion"
+                                            [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of gradosInstruccion" [value]="data.estudioId">
+                                                {{data.descripcion}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Telefono <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="celular" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Correo <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="email">
+                                        <input formControlName="email" class="form-control" type="email">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Pais <span class="login-danger">*</span></label>
-                                        <select class="form-control form select">
-                                            <option value="">Perú</option>
-                                            
-                                        </select>
+                                        <mat-select formControlName="paisId"
+                                            class="form-control select" placeholder="Seleccione País"
+                                            [ngClass]="{'is-invalid': isInvalid('paisId') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of paises" [value]="data.paisId">
+                                                {{data.nombre}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Departamento <span class="login-danger">*</span></label>
-                                        <select class="form-control form select">
-                                            <option value="">Lima</option>
-                                            
-                                        </select>
+                                        <mat-select formControlName="departamento" [(ngModel)]="departamento"
+                                            class="form-control select" placeholder="Seleccione Departamento"
+                                            [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
+                                            (ngModelChange)="actualizarProvincias()">
+                                            <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
+                                                {{data.nombre}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Provincia <span class="login-danger">*</span></label>
-                                        <select class="form-control form select">
-                                            <option value="">Lima</option>
-                                            
-                                        </select>
+                                        <mat-select formControlName="provincia" [(ngModel)]="provincia"
+                                            class="form-control select" placeholder="Seleccione Provincia"
+                                            [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
+                                            (ngModelChange)="actualizarDistritos()">
+                                            <mat-option *ngFor="let data of provincias" [value]="data.nombre">
+                                                {{data.nombre}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Distrito <span class="login-danger">*</span></label>
-                                        <select class="form-control form select">
-                                            <option value="">Chorrillos</option>
-                                            
-                                        </select>
+                                        <mat-select formControlName="ubigeo"
+                                            class="form-control select" placeholder="Seleccione Distrito"
+                                            [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
+                                            <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
+                                                {{data.nombre}}
+                                            </mat-option>
+                                        </mat-select>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>En caso de emergencia llamar a <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="contactoEmergencia" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
@@ -224,13 +241,13 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Domicilio <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="domicilioParentesco" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Celular <span class="login-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input formControlName="telefonoParentesco" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-6">
@@ -242,14 +259,14 @@
                                 <div class="col-12 col-md-6 col-xl-6 ">
                                     <div class="form-group local-forms">
                                         <label>Observacion <span class="login-danger">*</span></label>
-                                        <input class="form-control custom-input-height" type="text">
+                                        <input formControlName="observacion" class="form-control custom-input-height" type="text">
                                     </div>
                                 </div>
                                 <div class=" text-end ">
                                     <a  href="javascript:void(0);" class="btn btn-primary btn-rounded"><i
                                             ></i> Guardar</a>
                                 </div>
-                            </div>                                                                                                               
+                            </form>
                         </div>
                     </div>
                 </div>

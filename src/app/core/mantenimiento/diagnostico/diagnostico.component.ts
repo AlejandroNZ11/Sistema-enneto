@@ -10,7 +10,7 @@ import { CrearDiagnosticoComponent } from './crear-diagnostico/crear-diagnostico
 import { Sort } from '@angular/material/sort';
 import { pageSelection } from 'src/app/shared/models/models';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-import { EditarDiagnosticoComponent } from './editar-diagnostico/editar-diagnostico.component';
+
 @Component({
   selector: 'app-diagnostico',
   templateUrl: './diagnostico.component.html',
@@ -34,11 +34,11 @@ export class DiagnosticoComponent {
   }
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('Diagnostico');
-    this.acciones = ['Editar', 'Eliminar'];
+    this.acciones = ['Eliminar'];
   }
   
   private getTableData(currentPage: number, pageSize: number): void {
-    this.ListDiagnostico = [];
+    this.ListDiagnostico= [];
     this.serialNumberArray = [];
     this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
       this.totalData = data.totalData
@@ -57,14 +57,8 @@ export class DiagnosticoComponent {
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  editarDiagnostico(marca: Idiagnostico) {
-    this.bsModalRef = this.modalService.show(EditarDiagnosticoComponent);
-    this.bsModalRef.content.marcaSeleccionada = marca.pacienteDiagnosticoId;
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
-    });
-  }
-  eliminarDiagnostico(diagnosticoId: string) {
+  
+  eliminarDiagnostico1(enfermedadId: string) {
     Swal.fire({
       title: '¿Seguro que deseas eliminar?',
       showDenyButton: true,
@@ -72,7 +66,7 @@ export class DiagnosticoComponent {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.DiagnosticoService.eliminarDiagnostico(diagnosticoId).subscribe(
+        this.DiagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'El diagnostico fue eliminado del sistema correctamente.', 'success');
@@ -116,10 +110,8 @@ export class DiagnosticoComponent {
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
-    } else if (accion.accion == 'Editar') {
-      this.editarDiagnostico(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
-      this.eliminarDiagnostico(accion.fila.diagnosticoId)
+      this.eliminarDiagnostico1(accion.fila.enfermedadId)
     }
   }
 

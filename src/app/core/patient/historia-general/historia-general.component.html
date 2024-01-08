@@ -28,25 +28,24 @@
                                 <div class="doctor-table-blk">
                                     <h3>Lista de Pacientes</h3>
                                     <div class="doctor-search-blk">
-
                                         <div class="top-nav-search table-search-blk">
                                             <input [(ngModel)]="fechaDesde" style='height:48px' class="form-control" type="text" placeholder="Desde" matInput
-                                                [matDatepicker]="picker" (ngModelChange)="aplicarFiltro()">
+                                                [matDatepicker]="picker" >
                                             <mat-datepicker #picker></mat-datepicker>
                                             <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
                                             <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                         </div>
                                         <div class="top-nav-search table-search-blk">
                                             <input [(ngModel)]="fechaHasta" style='height:48px' class="form-control" type="text" placeholder="Hasta" matInput
-                                                [matDatepicker]="picker2" (ngModelChange)="aplicarFiltro()">
+                                                [matDatepicker]="picker2" >
                                             <mat-datepicker #picker2></mat-datepicker>
                                             <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
                                             <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                         </div>
 
                                         <div class="top-nav-search table-search-blk mb-1">
-                                            <input type="text" class="form-control" placeholder="Busca aquí" [(ngModel)]="searchDataValue"
-                                                (ngModelChange)="searchData(searchDataValue)">
+                                            <input type="text" class="form-control" placeholder="Busca aquí" [(ngModel)]="paciente"
+                                                >
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                         <div class="form-group mx-3 mt-3 ">
@@ -58,6 +57,11 @@
                                                     <option value="value3"><i class="fa fa-ellipsis-v"></i> Surquillo</option>
                                                 </select>
                                             </div>
+                                        </div>
+                                        <div class="add-group">
+                                          <a (click)="obtenerDatosPacientesConFiltro()" href="javascript:;"
+                                            class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
+                                              alt=""></a>
                                         </div>
                                     </div>
                                 </div>
@@ -88,35 +92,36 @@
                                             </div>
                                         </th>
                                         <th mat-sort-header="name">Nombre</th>
-                                        <th mat-sort-header="department">Departamentos</th>
-                                        <th mat-sort-header="specialization">Especializacion</th>
+                                        <th mat-sort-header="department">Departamento</th>
+                                        <!-- <th mat-sort-header="specialization">Especializacion</th> -->
+                                        <th mat-sort-header="specialization">DNI</th>
                                         <th mat-sort-header="degree">Grado</th>
                                         <th mat-sort-header="mobile">Celular</th>
                                         <th mat-sort-header="email">Email</th>
                                         <th mat-sort-header="joiningDate">Año de Ingreso</th>
-                                        <th mat-sort-header="joiningDate">Acciones</th>
+                                        <th mat-sort-header="actions">Acciones</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let data of patientsList">
+                                    <tr *ngFor="let data of patientsListAPI">
                                         <td>
                                             <div class="form-check check-tables">
                                                 <input class="form-check-input" type="checkbox" value="something">
                                             </div>
                                         </td>
-                                        <td class="profile-image"><a [routerLink]="routes.profile"><img width="28"
-                                                    height="28" [src]="data.img" class="rounded-circle m-r-5" alt="">
-                                                {{data.name}}</a></td>
-                                        <td>{{data.department}}</td>
-                                        <td>{{data.specialization}}</td>
-                                        <td>{{data.degree}}</td>
-                                        <td><a href="javascript:;">{{data.mobile}}</a></td>
+                                        <td class="profile-image"><a [routerLink]="[routes.HistoriaPaciente, data.pacienteId]"><img width="28"
+                                                    height="28" [src]="data.fotoPaciente" class="rounded-circle m-r-5" alt="">
+                                                {{data.nombres}}</a></td>
+                                        <td>{{getDepartamento(data.ubigeo)}}</td>
+                                        <td>{{data.numeroDocumento}}</td>
+                                        <td>{{getGradoInstruccion(data.estudioId)}}</td>
+                                        <td><a href="javascript:;">{{data.celular}}</a></td>
                                         <td>{{data.email}}</td>
-                                        <td>{{data.joiningDate}}</td>
+                                        <td>{{formatoFecha(data.fechaRegistro)}}</td>
                                         <td class="text-end">
                                         <div class="col-sm-4 col-12 text-end ">
-                                            <a [routerLink]="routes.HistoriaPaciente" href="javascript:void(0);" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Abrir Historial</a>
+                                            <a [routerLink]="[routes.HistoriaPaciente, data.pacienteId]" href="javascript:void(0);" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Abrir Historial</a>
                                         </div>
                                         </td>
                                     </tr>
@@ -203,3 +208,4 @@
         </div>
     </div>
 </div>
+

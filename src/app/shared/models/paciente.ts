@@ -95,6 +95,43 @@ export interface PacienteEditar {
     clinicaId: string;
     usuarioId: string;
 }
+
+
+export interface PacienteEditar {
+    pacienteId: string;
+    nombres: string;
+    apellidos: string;
+    fechaNacimiento: Date;
+    tipoDocumentoId: string;
+    numeroDocumento: string;
+    edad: string;
+    ocupacion: string;
+    direccion: string;
+    estudioId: string;
+    paisId: string;
+    ubigeo: string;
+    celular: string;
+    tipoPacienteId: string;
+    estadoCivilId: string;
+    sexo: string;
+    informacionClinicaId: string;
+    contactoEmergencia: string;
+    tipoHistoria: string;
+    aseguradoraId: string;
+    empresaId: string;
+    email: string;
+    foto: string;
+    titulo: string;
+    observacion: string;
+    sedeId: string;
+    fechaRegistro: Date;
+    estado: string;
+    clinicaId: string;
+    usuarioId: string;
+
+    telefonoParentesco: string;
+    domicilioParentesco: string;
+}
 export interface PacienteByDNI {
     apellido_materno: string
     apellido_paterno: string

@@ -15,30 +15,21 @@ export class DiagnosticoService {
   constructor(public http: HttpClient,) { }
 
   obtenerDiagnosticos(clinicaId: string, page: number, rows: number): Observable<DataDiagnostico> {
-    return this.http.get<DataDiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetAllPacienteDiagnostico?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataDiagnostico>(this.apiUrl + `/Enfermedad/GetAllEnfermedad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico ----- clinicaId
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/PacientesDiagnosticos/SavePacienteDiagnostico', diagnostico).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Enfermedad/SaveEnfermdedad', diagnostico).pipe(
         catchError(error => {
             Swal.fire('Error', error.error, 'warning');
             return throwError(() => error);
         })
     );
-}
+  }
   ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
-  obtenerDiagnostico( pacienteDiagnosticoId: string): Observable<Idiagnostico> {
-    return this.http.get<Idiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${pacienteDiagnosticoId}`);
+  
+  eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
   }
-  eliminarDiagnostico( pacienteDiagnosticoId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/PacientesDiagnosticos/DeletePacienteDiagnostico/${pacienteDiagnosticoId}`);
-  }
-  actualizarDiagnostico(diagnostico: Idiagnostico): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnostico.pacienteDiagnosticoId}`, diagnostico).pipe(
-      catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
-        return throwError(() => error);
-      })
-    );
-  }
+  
 }

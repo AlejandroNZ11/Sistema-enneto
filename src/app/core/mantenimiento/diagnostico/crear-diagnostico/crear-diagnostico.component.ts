@@ -17,12 +17,17 @@ export class CrearDiagnosticoComponent {
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
-  diagnosticoService: any;
+  isFormSubmitted = false;
+  ngOnInit(): void { 
+  }
+
+
+  
 
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,private DiagnosticoService :DiagnosticoService) { 
     this.form = this.fb.group({
-      codigoEnfermedad01:['', Validators.required],
+      EnfermedadId: ['', [Validators.required]],
+      Descripcion:['', Validators.required],
     });
   }
   isInvalid(controlName: string) {
@@ -47,7 +52,9 @@ export class CrearDiagnosticoComponent {
       return;
     }
     
-    this.Diagnostico.codigoEnfermedad = this.form.get("codigoEnfermedad01")?.value;
+
+    this.Diagnostico.enfermedadId = this.form.get("EnfermedadId")?.value;
+    this.Diagnostico.descripcion = this.form.get("Descripcion")?.value;
     console.log(this.Diagnostico);
     this.DiagnosticoService.crearDiagnostico(this.Diagnostico).subscribe(
       (response)=>{

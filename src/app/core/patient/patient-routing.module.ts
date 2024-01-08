@@ -27,7 +27,7 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'patient-profile',
+      path: 'patient-profile/:pacienteId',
       loadChildren: () =>
         import('./patient-profile/patient-profile.module').then(
           (m) => m.PatientProfileModule
@@ -62,7 +62,7 @@ const routes: Routes = [
         ),
     },
   ]}
- 
+
 ];
 
 @NgModule({
