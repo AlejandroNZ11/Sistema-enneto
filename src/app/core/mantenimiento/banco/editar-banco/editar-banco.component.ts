@@ -5,6 +5,7 @@ import { Ibancos } from 'src/app/shared/models/bancos';
 import { routes } from 'src/app/shared/routes/routes';
 import { BancosService } from 'src/app/shared/services/bancos.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-banco',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-banco.component.scss']
 })
 export class EditarBancoComponent implements OnInit {
+  bancoEditada$: Subject<boolean> = new Subject<boolean>();
   banco!: Ibancos;
   bancoSeleccionada: any;
   public routes = routes;
@@ -46,6 +48,7 @@ export class EditarBancoComponent implements OnInit {
   }
 
   Cancelar() {
+    this.bancoEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -64,6 +67,7 @@ export class EditarBancoComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.bancoEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

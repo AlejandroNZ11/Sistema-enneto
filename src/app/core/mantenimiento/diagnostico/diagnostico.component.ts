@@ -58,33 +58,7 @@ export class DiagnosticoComponent {
       });
   }
   
-  eliminarDiagnostico1(enfermedadId: string) {
-    Swal.fire({
-      title: '¿Seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: 'Eliminar',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.DiagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
-          (response) => {
-            if (response.isSuccess) {
-              Swal.fire('Correcto', 'El diagnostico fue eliminado del sistema correctamente.', 'success');
-              this.getTableData(this.currentPage, this.pageSize);
-              return;
-            } else {
-              console.error(response.message);
-            }
-          },
-          (error) => {
-            console.error(error);
-          });
-      } else {
-        return;
-      }
-    })
-
-  }
+ 
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
@@ -111,7 +85,7 @@ export class DiagnosticoComponent {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
     }  else if (accion.accion == 'Eliminar') {
-      this.eliminarDiagnostico1(accion.fila.enfermedadId)
+      this.eliminarDiagnostico(accion.fila.enfermedadId)
     }
   }
 
@@ -121,6 +95,33 @@ export class DiagnosticoComponent {
     this.pageSize = pag.size;
     this.skip = pag.skip;
     this.limit = pag.limit;
+  }
+  eliminarDiagnostico(enfermedadId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.DiagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+            Swal.fire('Error', 'Ocurrió un error al eliminar diagnostico', 'error');
+          });
+      } else {
+        return;
+      }
+    })
   }
 
   

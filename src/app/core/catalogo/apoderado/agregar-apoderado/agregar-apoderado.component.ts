@@ -24,7 +24,7 @@ export class AgregarApoderadoComponent  {
   constructor(public bsModalRef: BsModalRef, private apoderadoService: ApoderadoService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
+      tipoDocumento: [null, Validators.required],
       documento: ['', Validators.required],
       direccion: ['', Validators.required],
       telefono: ['', Validators.required]

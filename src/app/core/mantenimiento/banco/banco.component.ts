@@ -11,6 +11,7 @@ import { DataBancos, Ibancos, banco } from 'src/app/shared/models/bancos';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-banco',
@@ -70,18 +71,29 @@ export class BancoComponent implements OnInit{
   }
 
   crearBanco() {
-    this.bsModalRef = this.modalService.show(AgregarBancoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarBancoComponent);
+  
+    this.bsModalRef.content.bancoAgregada$.subscribe((bancoAgregada: boolean) => {
+      if (bancoAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarBanco(banco: Ibancos) {
     const initialState = {
-      bancoSeleccionada:banco.bancoId
-    }
-    this.bsModalRef = this.modalService.show(EditarBancoComponent, {initialState});
+      bancoSeleccionada: banco.bancoId
+    };
+  
+    this.bsModalRef = this.modalService.show(EditarBancoComponent, { initialState });
+    const bancoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.bancoEditada$ = bancoEditada$;
+    bancoEditada$.subscribe((bancoEditada: boolean) => {
+      if (bancoEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      bancoEditada$.unsubscribe();   
     });
   }
   eliminarBanco(bancoId:string){

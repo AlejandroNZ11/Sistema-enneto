@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
@@ -12,16 +12,21 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-gastos.component.scss']
 })
 export class EditarTipoGastosComponent implements OnInit {
-  conceptoGasto!:IConceptoGasto;
-   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  conceptoGasto: IConceptoGasto | undefined;
+  public routes = routes;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   conceptoGastoSeleccionado: any;
   form: FormGroup;
   public mostrarErrores = false;
-  public routes = routes;
-  constructor(public bsModalRef: BsModalRef, private tipoGastosService: TipoGastosService, public fb: FormBuilder) {
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    private tipoGastosService: TipoGastosService,
+    public fb: FormBuilder
+  ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      estado: ['Activo', Validators.required],
+      estado: ['', Validators.required],
     });
   }
 
@@ -30,7 +35,7 @@ export class EditarTipoGastosComponent implements OnInit {
       this.conceptoGasto = conceptoGasto;
       this.form.patchValue({
         nombre: this.conceptoGasto.nombre,
-        estado: this.conceptoGasto.estado,
+        estado: this.conceptoGasto.estado == 'Activo' ? 'Activo' : 'Inactivo',
       });
     });
   }
@@ -58,7 +63,7 @@ export class EditarTipoGastosComponent implements OnInit {
     const conceptoGastoActualizado: IConceptoGasto = {
       conceptoGastoId: this.conceptoGastoSeleccionado.conceptoGastoId,
       nombre: this.form.value.nombre,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? 'Activo' : 'Inactivo',
     };
 
     this.tipoGastosService.actualizarConceptoGasto(conceptoGastoActualizado).subscribe(

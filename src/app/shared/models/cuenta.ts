@@ -3,6 +3,7 @@ export class cuenta {
     usuarioId = "";
     nombre = "";
     estado = "";
+    total= "";
   }
   export interface DataCuenta {
     totalData: number;
@@ -11,7 +12,7 @@ export class cuenta {
   export interface Icuenta {
     cuentaPagarId: string;
     nombre: string;
-    total: 0;
+    total: number;
     estado: string;
   }
 

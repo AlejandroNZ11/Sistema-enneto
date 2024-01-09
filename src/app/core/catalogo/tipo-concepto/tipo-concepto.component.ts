@@ -9,7 +9,7 @@ import { DataTipoConcepto, ItipoConcepto, tipoConcepto } from 'src/app/shared/mo
 import { environment as env } from 'src/environments/environments';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tipo-concepto',
   templateUrl: './tipo-concepto.component.html',
@@ -69,18 +69,29 @@ export class TipoConceptoComponent implements OnInit{
   }
 
   crearTipoConcepto() {
-    this.bsModalRef = this.modalService.show(AgregarTipoConceptoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarTipoConceptoComponent);
+  
+    this.bsModalRef.content.tipoConceptoAgregada$.subscribe((tipoConceptoAgregada: boolean) => {
+      if (tipoConceptoAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarTipoConcepto(tipoConcepto: ItipoConcepto) {
     const initialState = {
       tipoConceptoSeleccionada: tipoConcepto.tipoConceptoId
     };
+  
     this.bsModalRef = this.modalService.show(EditarTipoConceptoComponent, { initialState });
+    const tipoConceptoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.tipoConceptoEditada$ = tipoConceptoEditada$;
+    tipoConceptoEditada$.subscribe((tipoConceptoEditada: boolean) => {
+      if (tipoConceptoEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tipoConceptoEditada$.unsubscribe();   
     });
   }
   eliminarTipoConcepto(TipoConceptoId: string) {

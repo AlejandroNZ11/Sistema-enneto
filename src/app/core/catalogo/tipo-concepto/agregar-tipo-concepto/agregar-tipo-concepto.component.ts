@@ -5,13 +5,14 @@ import { DataTipoConcepto, ItipoConcepto, tipoConcepto } from 'src/app/shared/mo
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-tipo-concepto',
   templateUrl: './agregar-tipo-concepto.component.html',
   styleUrls: ['./agregar-tipo-concepto.component.scss']
 })
 export class AgregarTipoConceptoComponent implements OnInit{
+  tipoConceptoAgregada$: Subject<boolean> = new Subject<boolean>();
   tipoConcepto: tipoConcepto = new tipoConcepto();
   public routes = routes;
   form!: FormGroup;
@@ -34,6 +35,7 @@ export class AgregarTipoConceptoComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.tipoConceptoAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -52,6 +54,7 @@ export class AgregarTipoConceptoComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.tipoConceptoAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

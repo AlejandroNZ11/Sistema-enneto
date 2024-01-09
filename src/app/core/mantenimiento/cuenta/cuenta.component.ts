@@ -9,6 +9,7 @@ import { DataCuenta, Icuenta, cuenta } from 'src/app/shared/models/cuenta';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-cuenta',
@@ -68,20 +69,33 @@ export class CuentaComponent implements OnInit{
     this.limit = pag.limit;
   }
   crearCuenta() {
-    this.bsModalRef = this.modalService.show(AgregarCuentaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarCuentaComponent);
+  
+    this.bsModalRef.content.cuentaAgregada$.subscribe((cuentaAgregada: boolean) => {
+      if (cuentaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
+  
   editarCuenta(cuenta: Icuenta) {
     const initialState = {
       cuentaSeleccionada: cuenta.cuentaPagarId
     };
+  
     this.bsModalRef = this.modalService.show(EditarCuentaComponent, { initialState });
+    const cuentaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.cuentaEditada$ = cuentaEditada$;
+    cuentaEditada$.subscribe((cuentaEditada: boolean) => {
+      if (cuentaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      cuentaEditada$.unsubscribe();   
     });
   }
+  
   eliminarCuenta(cuentaId:string){
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

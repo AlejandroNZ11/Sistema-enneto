@@ -9,6 +9,8 @@ import { DataUnidad, Iunidad, unidad } from 'src/app/shared/models/unidades';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-unidades', 
   templateUrl: './unidades.component.html',
@@ -66,18 +68,29 @@ export class UnidadesComponent implements OnInit{
     this.limit = pag.limit;
   }
   crearUnidad() {
-    this.bsModalRef = this.modalService.show(AgregarUnidadesComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarUnidadesComponent);
+  
+    this.bsModalRef.content.unidadAgregada$.subscribe((unidadAgregada: boolean) => {
+      if (unidadAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarUnidad(unidad: Iunidad) {
     const initialState = {
       unidadSeleccionada: unidad.unidadId
-    }
-    this.bsModalRef = this.modalService.show(EditarUnidadesComponent, {initialState});
+    };
+  
+    this.bsModalRef = this.modalService.show(EditarUnidadesComponent, { initialState });
+    const unidadEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.unidadEditada$ = unidadEditada$;
+    unidadEditada$.subscribe((unidadEditada: boolean) => {
+      if (unidadEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      unidadEditada$.unsubscribe();   
     });
   }
   eliminarUnidad(unidadId:string){

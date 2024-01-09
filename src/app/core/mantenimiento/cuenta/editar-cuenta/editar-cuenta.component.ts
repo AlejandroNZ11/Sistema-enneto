@@ -5,6 +5,7 @@ import { Icuenta } from 'src/app/shared/models/cuenta';
 import { routes } from 'src/app/shared/routes/routes';
 import { CuentaService } from 'src/app/shared/services/cuenta.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-cuenta',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-cuenta.component.scss']
 })
 export class EditarCuentaComponent implements OnInit {
+  cuentaEditada$: Subject<boolean> = new Subject<boolean>();
   cuentaSeleccionada: any;
   cuenta!: Icuenta;
   public routes = routes;
@@ -49,6 +51,7 @@ export class EditarCuentaComponent implements OnInit {
   }
 
   Cancelar() {
+    this.cuentaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -68,6 +71,7 @@ export class EditarCuentaComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.cuentaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

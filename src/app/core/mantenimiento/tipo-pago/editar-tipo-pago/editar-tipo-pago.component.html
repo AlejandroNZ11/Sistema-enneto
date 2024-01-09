@@ -14,7 +14,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Método de Pago <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="metodopago" class="form-control select">
+                                    <mat-select formControlName="metodoPago" class="form-control select" placeholder="Seleccionar Metodo">
                                         <mat-option value="Efectivo">Efectivo</mat-option>
                                         <mat-option value="Tarjeta">Tarjeta</mat-option>
                                         <mat-option value="Transferencia">Transferencia</mat-option>
@@ -22,15 +22,6 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" class="form-control select">
-                                        <mat-option value="Activo">Activo</mat-option>
-                                        <mat-option value="Inactivo">Inactivo</mat-option>
-                                    </mat-select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Descripción <span class="login-danger">*</span></label>
                                     <input formControlName="descripcion"
@@ -42,6 +33,15 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-12 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label>Estado <span class="login-danger">*</span></label>
+                                <mat-select formControlName="estado" class="form-control select">
+                                    <mat-option value="Activo">Activo</mat-option>
+                                    <mat-option value="Inactivo">Inactivo</mat-option>
+                                </mat-select>
                             </div>
                         </div>
                     </form>
