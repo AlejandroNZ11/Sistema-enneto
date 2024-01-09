@@ -22,18 +22,30 @@
     color: #f00;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    font-size: 12px;
+
+.label-medico {
+    padding-top: 4px;
+    padding-bottom: 2px;
 }
 
-li {
-    margin-bottom: 10px;
-    white-space: nowrap;
-    overflow: hidden;
+.medico-item {
+    margin-right: 10px;
 }
 
-input[type="checkbox"] {
+.badge {
+    display: flex;
+    align-items: center;
+    padding: 0.75em;
+    border-radius: 1em;
+    color: #fff;
+    background-color: blue;
+}
+
+.medico-item input {
     margin-right: 5px;
+}
+
+.medico-container {
+    display: flex;
+    flex-wrap: wrap;
 }

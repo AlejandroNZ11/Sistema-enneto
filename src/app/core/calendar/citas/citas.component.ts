@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -13,20 +13,15 @@ import { ItipoCitado } from 'src/app/shared/models/tipoCitado';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
-import { Validators } from 'ngx-editor';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { IcitaMedicaCalendario, citaMedica } from 'src/app/shared/models/cita';
-import Swal from 'sweetalert2';
+import { citaMedica, citasCalendario, medicosCalendario } from 'src/app/shared/models/cita';
 import { CitaService } from 'src/app/shared/services/cita.service';
 import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { MedicoList } from 'src/app/shared/models/medico';
 import { MedicoService } from 'src/app/shared/services/medico.service';
-import { environment } from 'src/environments/environments';
 import { EditarCitaComponent } from './editar-cita/editar-cita.component';
 import { AgregarCitaComponent } from './agregar-cita/agregar-cita.component';
-import { ModalAgregarPacienteComponent } from '../../patient/modal-agregar-paciente/modal-agregar-paciente.component';
-declare var $: any;
+import { ClonarCitaComponent } from './clonar-cita/clonar-cita.component';
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.component.html',
@@ -37,7 +32,7 @@ export class CitasComponent implements OnInit {
   options: any;
   events: any[] = [];
   citaNueva: citaMedica = new citaMedica();
-  citas!: IcitaMedicaCalendario[];
+  citas!: citasCalendario[];
   form!: FormGroup;
   listEspecialidades!: Iespecialidad[];
   especialidadSeleccionada = 'TODOS';
@@ -46,7 +41,7 @@ export class CitasComponent implements OnInit {
   pacienteleccionado!: string;
   listEstados!: ItipoCitado[];
   estadoSeleccionado = 'TODOS';
-  listMedicos!: MedicoList[];
+  listMedicos!: medicosCalendario[];
   medicosSeleccionados: { [key: string]: boolean } = {};
   sede = '';
   isFormSubmitted = false;
@@ -56,7 +51,6 @@ export class CitasComponent implements OnInit {
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, public modalService: BsModalService, private medicoService: MedicoService) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }
   ngOnInit(): void {
     this.options = {
@@ -72,6 +66,10 @@ export class CitasComponent implements OnInit {
       selectMirror: true,
       dayMaxEvents: true,
       locale: esLocale,
+      allDaySlot: false,
+      height: 655,
+      slotMinTime: '08:00:00',
+      slotMaxTime: '21:00:00',
       eventClick: this.handleDateClick.bind(this),
       datesSet: (info: any) => {
         this.inicio = new Date(info.start).toISOString().split('T')[0]
@@ -107,7 +105,7 @@ export class CitasComponent implements OnInit {
   }
   actualizarMedicos() {
     this.medicoService.listaMedicos(this.especialidadSeleccionada).subscribe(data => {
-      this.listMedicos = data; 
+      this.listMedicos = data;
       this.listMedicos.forEach(medico => {
         this.medicosSeleccionados[medico.medicoId] = true;
       });
@@ -131,6 +129,7 @@ export class CitasComponent implements OnInit {
     const medicosSeleccionadosIds = Object.keys(this.medicosSeleccionados).filter(id => this.medicosSeleccionados[id]);
     if (Array.isArray(this.citas)) {
       const citasFiltradas = this.citas.filter(cita => medicosSeleccionadosIds.includes(cita.medicoId.toString()));
+      console.log(citasFiltradas);
       this.events = citasFiltradas;
     }
   }
@@ -139,6 +138,7 @@ export class CitasComponent implements OnInit {
       this.citas = data;
       this.filtrarCitas();
       this.events = this.citas;
+      console.log(this.events);
     })
   }
   buscarPacientes() {

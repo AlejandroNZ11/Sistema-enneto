@@ -19,7 +19,7 @@ export interface DataCitaMedica {
     data: IcitaMedica[];
 }
 export interface IcitaMedica {
-    citaMedicaId:string;
+    citaMedicaId: string;
     pacienteId: string;
     medicoId: string;
     especialidadId: string;
@@ -35,11 +35,23 @@ export interface IcitaMedica {
     usuarioId: string;
 }
 export interface IcitaMedicaCalendario {
+    citas: citasCalendario[],
+    medicos: medicosCalendario[]
+}
+
+export interface citasCalendario {
     id: string;
     start: Date;
     end: Date;
     title: string;
     backgroundColor: string;
-    borderColor:string;
+    borderColor: string;
     medicoId: string;
+}
+
+export interface medicosCalendario {
+    medicoId: string;
+    apellido: string;
+    nombre: string;
+    color: string;
 }
