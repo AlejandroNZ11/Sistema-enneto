@@ -9,7 +9,7 @@ import { DataAlergias, Ialergias, alergias } from 'src/app/shared/models/alergia
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-alergias',
   templateUrl: './alergias.component.html',
@@ -69,18 +69,28 @@ export class AlergiasComponent implements OnInit{
   }
 
   crearAlergia() {
-    this.bsModalRef = this.modalService.show(AgregarAlergiasComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarAlergiasComponent);
+  
+    this.bsModalRef.content.alergiaAgregada$.subscribe((alergiaAgregada: boolean) => {
+      if (alergiaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarAlergia(Alergias: Ialergias) {
     const initialState = {
       alergiaSeleccionada: Alergias.alergiaId
     };
     this.bsModalRef = this.modalService.show(EditarAlergiasComponent, { initialState });
+    const alergiaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.alergiaEditada$ = alergiaEditada$;
+    alergiaEditada$.subscribe((alergiaEditada: boolean) => {
+      if (alergiaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      alergiaEditada$.unsubscribe();   
     });
   }
   eliminarAlergia(AlergiaId: string) {

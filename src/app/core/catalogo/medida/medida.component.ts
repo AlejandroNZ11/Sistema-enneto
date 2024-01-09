@@ -9,7 +9,7 @@ import { DataMedida, Imedida, medida } from 'src/app/shared/models/medida';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-medida',
   templateUrl: './medida.component.html',
@@ -68,18 +68,29 @@ export class MedidaComponent implements OnInit{
   }
 
   crearMedida() {
-    this.bsModalRef = this.modalService.show(AgregarMedidaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarMedidaComponent);
+  
+    this.bsModalRef.content.medidaAgregada$.subscribe((medidaAgregada: boolean) => {
+      if (medidaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarMedida(medida: Imedida) {
     const initialState = {
       medidaSeleccionada: medida.unidadMedidaId
     };
+  
     this.bsModalRef = this.modalService.show(EditarMedidaComponent, { initialState });
+    const medidaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.medidaEditada$ = medidaEditada$;
+    medidaEditada$.subscribe((medidaEditada: boolean) => {
+      if (medidaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      medidaEditada$.unsubscribe();   
     });
   }
   eliminarMedida(unidadMedidaId: string) {

@@ -5,13 +5,14 @@ import { DataTipomateriales, Itipomateriales, tipomateriales } from 'src/app/sha
 import { routes } from 'src/app/shared/routes/routes';
 import { TipomaterialesService } from 'src/app/shared/services/tipo-materiales.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-tipo-materiales',
   templateUrl: './agregar-tipo-materiales.component.html',
   styleUrls: ['./agregar-tipo-materiales.component.scss']
 })
 export class AgregarTipoMaterialesComponent implements OnInit{
-
+  tipomaterialAgregada$: Subject<boolean> = new Subject<boolean>();
   Tipomateriales: tipomateriales = new tipomateriales();
   public routes = routes;
   form!: FormGroup;
@@ -35,6 +36,7 @@ export class AgregarTipoMaterialesComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.tipomaterialAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -54,6 +56,7 @@ export class AgregarTipoMaterialesComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.tipomaterialAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
