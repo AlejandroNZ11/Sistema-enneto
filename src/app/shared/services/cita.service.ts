@@ -13,13 +13,16 @@ export class CitaService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerCitasMedicas(clinicaId: string, page: number, rows: number, fechaInicio?: string, fechaFin?: string): Observable<DataCitaMedica> {
+  obtenerCitasMedicas(clinicaId: string, page: number, rows: number, pacienteId?: string ,fechaInicio?: string, fechaFin?: string): Observable<DataCitaMedica> {
     let url = `${this.apiUrl}/CitasMedicas/GetAllCitaMedica?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
     if (fechaInicio) {
       url += `&fechaInicio=${fechaInicio}`;
     }
     if (fechaFin) {
       url += `&fechaFin=${fechaFin}`;
+    }
+    if (pacienteId){
+      url += `&pacienteId=${pacienteId}`;
     }
     return this.http.get<DataCitaMedica>(url);
   }
