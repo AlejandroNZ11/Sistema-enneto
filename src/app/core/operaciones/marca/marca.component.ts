@@ -11,6 +11,7 @@ import { DataMarca, Imarca, marca } from 'src/app/shared/models/marca';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-marca',
@@ -70,18 +71,29 @@ export class MarcaComponent implements OnInit{
   }
 
   crearMarca() {
-    this.bsModalRef = this.modalService.show(AgregarMarcaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarMarcaComponent);
+  
+    this.bsModalRef.content.marcaAgregada$.subscribe((marcaAgregada: boolean) => {
+      if (marcaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarMarca(marca: Imarca) {
     const initialState = {
       marcaSeleccionada: marca.marcaMaterialesId
-    }
-    this.bsModalRef = this.modalService.show(EditarMarcaComponent, {initialState});
+    };
+  
+    this.bsModalRef = this.modalService.show(EditarMarcaComponent, { initialState });
+    const marcaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.marcaEditada$ = marcaEditada$;
+    marcaEditada$.subscribe((marcaEditada: boolean) => {
+      if (marcaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      marcaEditada$.unsubscribe();   
     });
   }
   eliminarMarca(MarcaMaterialId:string){

@@ -5,7 +5,8 @@ import {   marca} from 'src/app/shared/models/marca';
 import { routes } from 'src/app/shared/routes/routes';
 import { MarcaService } from 'src/app/shared/services/marca.service';
 import Swal from 'sweetalert2';
- 
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-agregar-marca',
   templateUrl: './agregar-marca.component.html',
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
 
 
 export class AgregarMarcaComponent implements OnInit {
+  marcaAgregada$: Subject<boolean> = new Subject<boolean>();
   Marca: marca = new marca();
   public routes = routes;
   form!: FormGroup;
@@ -36,6 +38,7 @@ export class AgregarMarcaComponent implements OnInit {
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.marcaAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -55,6 +58,7 @@ export class AgregarMarcaComponent implements OnInit {
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.marcaAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

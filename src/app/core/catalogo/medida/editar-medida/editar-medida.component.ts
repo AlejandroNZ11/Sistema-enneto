@@ -5,13 +5,14 @@ import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 import { Imedida } from 'src/app/shared/models/medida';
 import { MedidaService } from 'src/app/shared/services/medida.service';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-medida',
   templateUrl: './editar-medida.component.html',
   styleUrls: ['./editar-medida.component.scss']
 })
 export class EditarMedidaComponent implements OnInit{
+  medidaEditada$: Subject<boolean> = new Subject<boolean>();
   medida!: Imedida;
   medidaSeleccionada ?:string;
   public routes = routes;
@@ -46,6 +47,7 @@ export class EditarMedidaComponent implements OnInit{
   }
 
   Cancelar() {
+    this.medidaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -64,6 +66,7 @@ export class EditarMedidaComponent implements OnInit{
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.medidaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

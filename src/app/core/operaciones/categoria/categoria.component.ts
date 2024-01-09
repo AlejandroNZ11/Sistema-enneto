@@ -9,6 +9,7 @@ import { DataCategoriaM, IcategoriaM, categoriaM } from 'src/app/shared/models/c
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-categoria',
@@ -68,18 +69,28 @@ export class CategoriaComponent implements OnInit{
   }
   
   crearCategoria() {
-    this.bsModalRef = this.modalService.show(AgregarCategoriaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarCategoriaComponent);
+  
+    this.bsModalRef.content.categoriaAgregada$.subscribe((categoriaAgregada: boolean) => {
+      if (categoriaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarCategoria(categoria: IcategoriaM) {
     const initialState = {
       categoriaSeleccionada: categoria.categoriaMaterialesId
     };
     this.bsModalRef = this.modalService.show(EditarCategoriaComponent, { initialState });
+    const categoriaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.categoriaEditada$ = categoriaEditada$;
+    categoriaEditada$.subscribe((categoriaEditada: boolean) => {
+      if (categoriaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      categoriaEditada$.unsubscribe();   
     });
   }
 

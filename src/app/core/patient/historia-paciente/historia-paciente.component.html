@@ -30,7 +30,8 @@
                                     <i class="far fa-user" aria-hidden="true"></i> Filiación </a>
                                 <a class="list-group-item list-group-item-action"
                                     [class.active]="activeLink === 'HistoriaContenidoExploracionFisica'"
-                                    (click)="setActiveLink('HistoriaContenidoExploracionFisica')">
+                                    (click)="setActiveLink('HistoriaContenidoExploracionFisica')"
+                                    >
                                     <i class="far fa-building" aria-hidden="true"></i> Historia clínica
                                 </a>
                                 <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoOdontograma'"
@@ -269,6 +270,129 @@
                             </form>
                         </div>
                     </div>
+                    <div class="card">
+                      <div class="card-body">
+                        <div class="col-12">
+                          <div class="form-heading">
+                              <h4>Historial de Citas</h4>
+                          </div>
+                      </div>
+                        <div class="table-responsive">
+                          <!-- <h5>Mostrar --- Registros</h5> -->
+                          <table class="table border-0 custom-table comman-table datatable mb-0">
+                            <thead>
+                              <tr>
+                                  <th>
+                                      <div class="form-check check-tables">
+                                          <input class="form-check-input" type="checkbox" value="something">
+                                      </div>
+                                  </th>
+                                  <th >N° Cita</th>
+                                  <th >Fecha Cita</th>
+                                  <!-- <th mat-sort-header="specialization">Especializacion</th> -->
+                                  <th>Especialidad</th>
+                                  <th>Medico</th>
+                                  <th >Motivo</th>
+                                  <th >Estado</th>
+                                  <th></th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let data of citasList let i = index">
+                                <td>
+                                    <div class="form-check check-tables">
+                                        <input class="form-check-input" type="checkbox" value="something">
+                                    </div>
+                                </td>
+                                <td>{{serialNumberArray[i]}}</td>
+                                <!-- <td>{{ data.citaMedicaId }}</td> -->
+                                <td>{{formatoFecha(data.fecha)}}</td>
+                                <td>{{getEspecialidad(data.especialidadId)}}</td>
+                                <td>{{getMedico(data.medicoId)}}</td>
+                                <td>{{data.motivoConsulta}}</td>
+                                <td><button [ngClass]="getEstadoInfo(data.estado).clase">{{getEstadoInfo(data.estado).nombre}}</button></td>
+
+
+                            </tr>
+                        </tbody>
+                          </table>
+                          <div class="table_footer">
+                            <div class="col-sm-12 col-md-5">
+                              <div class="dataTables_info">
+                                Mostrando {{ serialNumberArray[0] }} a
+                                {{ serialNumberArray
+                                [serialNumberArray.length - 1] }} de
+                    {{ totalData }} entradas
+                              </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-7">
+                              <div class="pagination_section">
+                                <ul class="pagination">
+                                  <li class="page-item" [ngClass]="{
+                                                      disabled: currentPage === 1
+                                                    }">
+                                    <a (click)="getMoreData('previous')" class="page-link" href="javascript:void(0);"
+                                      tabindex="-1">Previous</a>
+                                  </li>
+
+                                  <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                                    <li class="page-item" [class.active]="item === currentPage" [ngClass]="
+                                                        (pageNumberArray[currentPage - 2] > item &&
+                                                          item !== 1 &&
+                                                          pageNumberArray.length > 6) ||
+                                                        (pageNumberArray[currentPage] < item &&
+                                                          item !== 1 &&
+                                                          pageNumberArray.length > 6 &&
+                                                          pageNumberArray.length !== item)
+                                                          ? 'hide-page-no'
+                                                          : 'show-page-no'
+                                                      ">
+                                      <a (click)="moveToPage(item)" class="page-link" href="javascript:void(0);">
+                                        {{ item }}
+                                      </a>
+                                    </li>
+                                    <li class="page-item" *ngIf="
+                                                        i === 0 &&
+                                                        pageNumberArray.length > 6 &&
+                                                        currentPage > 2
+                                                      " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                                      <a class="page-link" href="javascript:void(0);">
+                                        ...
+                                      </a>
+                                    </li>
+                                    <li *ngIf="
+                                                        i === pageNumberArray.length - 2 &&
+                                                        pageNumberArray.length > 6
+                                                      " [hidden]="
+                                                        currentPage >=
+                                                          pageNumberArray[pageNumberArray.length - 2] ||
+                                                        totalData <
+                                                          serialNumberArray[serialNumberArray.length - 1]
+                                                      " class="page-item" (click)="moveToPage(currentPage + 2)">
+                                      <a class="page-link" href="javascript:void(0);">
+                                        ...
+                                      </a>
+                                    </li>
+                                  </ng-container>
+
+                                  <li class="page-item" [ngClass]="{
+                                                      disabled:
+                                                        currentPage ===
+                                                          pageNumberArray[pageNumberArray.length - 1] ||
+                                                          citasList.length === 0
+                                                    }">
+                                    <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
