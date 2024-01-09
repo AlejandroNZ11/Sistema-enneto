@@ -31,7 +31,7 @@ export class EditarAlmacenComponent implements OnInit {
     {
     this.form = this.formBuilder.group({
       nombreAlmacen: ['', Validators.required],
-      sede: ['', Validators.required],
+      sedes: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   } 
