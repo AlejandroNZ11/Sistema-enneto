@@ -45,7 +45,7 @@ export class EditarApoderadoComponent implements OnInit {
         documento: this.apoderado.documento,
         direccion: this.apoderado.direccion,
         telefono: this.apoderado.telefono,
-        estado: this.apoderado.estado,
+        estado: this.apoderado.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
   }
@@ -95,7 +95,7 @@ export class EditarApoderadoComponent implements OnInit {
       documento: this.form.value.documento,
       direccion: this.form.value.direccion,
       telefono: this.form.value.telefono,
-      estado: this.form.value.estado,
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.apoderadoService.actualizarApoderado(apoderadoActualizado).subscribe(

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -15,16 +15,18 @@ import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { SedeService } from 'src/app/shared/services/sede.service';
 import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
 import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
-import { environment } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { ClonarCitaComponent } from '../clonar-cita/clonar-cita.component';
-
+import { finalize } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-editar-cita',
   templateUrl: './editar-cita.component.html',
   styleUrls: ['./editar-cita.component.scss']
 })
 export class EditarCitaComponent implements OnInit {
+
+
   citaEditar!: IcitaMedica;
   form!: FormGroup;
   listEspecialidadesCitas!: Iespecialidad[];
@@ -39,24 +41,33 @@ export class EditarCitaComponent implements OnInit {
   sede = '';
   isFormSubmitted = false;
   modalRef?: BsModalRef;
+  isLoading = false;
+  whatsappMessage = '';
+  numero = '';
   public routes = routes;
 
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService,
     public sedeService: SedeService, private router: Router) { }
   ngOnInit(): void {
+    this.isLoading = true;
     this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data })
-    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => { this.listMedicos = data.data; })
     this.citaMedicaService.obtenerCitaMedica(this.citaId).subscribe(data => {
       this.citaEditar = data;
       this.sedeService.obtenerSede(data.sedeId).subscribe(data => this.sede = data.nombre);
       this.pacienteseleccionado = data.pacienteId;
-      this.pacienteService.obtenerPaciente(data.pacienteId).subscribe(data => this.pacienteseleccionado = data.nombres + ' ' + data.apellidos)
       this.citaEditar.horaInicio = data.horaInicio.split("T")[1];
       this.citaEditar.horaFin = data.horaFin.split("T")[1];
       this.inicializarFormulario();
+      this.pacienteService.obtenerPaciente(data.pacienteId).pipe(
+        finalize(() => this.isLoading = false)
+      ).subscribe(data => {
+        this.pacienteseleccionado = data.nombres + ' ' + data.apellidos,
+        this.numero = data.celular
+        this.whatsappMessage = ` Hola ${this.pacienteseleccionado} somos *ENNETO DENTAL*, te escribimos para recordar tu cita el dia *${this.citaEditar.fecha.split("T")[0]}*  a las *${this.citaEditar.horaInicio}* MOTIVO DE LA CONSULTA: *${this.citaEditar.motivoConsulta}* . en la Sede ${this.sede}  . Para confirmar tu reserva, escribe *CONFIRMO*, para cancelarla *CANCELAR* y si desea reprogramar una cita escribe *REPROGRAMAR*.`
+      })
     })
   }
   inicializarFormulario() {
@@ -87,6 +98,11 @@ export class EditarCitaComponent implements OnInit {
     });
   }
   cerrar() { this.bsModalRef.hide() }
+  actualizarMedicos() {
+    this.medicoService.listaMedicos(this.citaEditar.especialidadId).subscribe(data => {
+      this.listMedicos = data;
+    })
+  }
   irHistoria() {
     this.bsModalRef.hide();
     this.router.navigate([`/paciente/historia-paciente/${this.citaEditar.pacienteId}`]);
@@ -99,7 +115,6 @@ export class EditarCitaComponent implements OnInit {
           citaId: this.citaEditar.citaMedicaId,
         };
         const modalOptions = {
-          class: 'modal-md',
           ignoreBackdropClick: true,
           initialState: { ...initialState } as Partial<ClonarCitaComponent>,
         };
@@ -109,6 +124,15 @@ export class EditarCitaComponent implements OnInit {
         this.bsModalRef.onHidden.subscribe(onHideCallback);
       }
     }
+  }
+  #document = inject(DOCUMENT);
+  enviarMensaje() {
+    const url = `https://api.whatsapp.com/send/?phone=51${this.numero}&text=${encodeURI(this.whatsappMessage)}`;
+    const anchor = this.#document.createElement('a');
+    anchor.href = url;
+    anchor.target = '_blank';
+    anchor.click();
+    anchor.remove();
   }
   actualizar() {
     if (this.form.invalid) {

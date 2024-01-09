@@ -1,6 +1,8 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title">Agregar Cita</h4>
+        <a><img src="assets/img/icons/calendar-icon.svg" alt=""></a>
+        <h4 class="modal-title">Citas</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cerrar()"></button>
     </div>
     <div class="modal-body">
         <div class="content">
@@ -13,9 +15,10 @@
                                     <div class="form-group col-lg-6">
                                         <label>Especialidad<span class="login-danger">*</span></label>
                                         <mat-select formControlName="especialidad"
-                                            [(ngModel)]="citaNueva.especialidadId" class="form-control select"
-                                            placeholder="Seleccione Especialidad"
+                                            [(ngModel)]="citaNueva.especialidadId" (ngModelChange)="actualizarMedicos()"
+                                            class="form-control select" placeholder="Seleccione Especialidad"
                                             [ngClass]="{'is-invalid': isInvalid('especialidad') && isFormSubmitted}">
+                                            <mat-option value="TODOS"> TODOS </mat-option>
                                             <mat-option *ngFor="let especialidad of listEspecialidadesCitas"
                                                 [value]="especialidad.especialidadId">
                                                 {{especialidad.nombre}}
@@ -53,7 +56,7 @@
                                     <div class="form-group col-lg-4">
                                         <label>Hora Inicio<span class="login-danger">*</span></label>
                                         <input formControlName="horaInicio" [(ngModel)]="horaInicio"
-                                            class="form-control" type="time"
+                                            class="form-control" type="time" min="08:00" max="20:00"
                                             [ngClass]="{'is-invalid': isInvalid('horaInicio') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('horaInicio') && isFormSubmitted"
                                             class="invalid-feedback">
@@ -65,7 +68,7 @@
                                     <div class="form-group col-lg-4">
                                         <label>Hora Fin<span class="login-danger">*</span></label>
                                         <input formControlName="horaFin" [(ngModel)]="horaFin" class="form-control"
-                                            type="time"
+                                            type="time" min="08:00" max="20:00"
                                             [ngClass]="{'is-invalid': isInvalid('horaFin') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('horaFin') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('horaFin')">

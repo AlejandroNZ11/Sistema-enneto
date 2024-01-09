@@ -14,6 +14,19 @@ import { GradoInstruccionService } from 'src/app/shared/services/grado-instrucci
 import { IgradoInstruccion } from 'src/app/shared/models/estudio';
 import { Ipais } from 'src/app/shared/models/pais';
 import { departamento } from '../../../shared/models/departamento';
+import { CitaService } from 'src/app/shared/services/cita.service';
+
+import { environment as env, environment } from 'src/environments/environments';
+import { DataCitaMedica, IcitaMedica } from 'src/app/shared/models/cita';
+import { MatTableDataSource } from '@angular/material/table';
+import { finalize } from 'rxjs';
+import { pageSelection } from 'src/app/shared/models/models';
+import { ItipoCitado } from 'src/app/shared/models/tipoCitado';
+import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
+import { Iespecialidad } from 'src/app/shared/models/especialidades';
+import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
+import { MedicoService } from 'src/app/shared/services/medico.service';
+import { MedicoList } from 'src/app/shared/models/medico';
 
 @Component({
   selector: 'app-historia-paciente',
@@ -21,7 +34,7 @@ import { departamento } from '../../../shared/models/departamento';
   styleUrls: ['./historia-paciente.component.scss']
 })
 export class HistoriaPacienteComponent implements OnInit {
-  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService) { }
+  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService, public citaService: CitaService, public tipoCitadoService: TipoCitadoService, public especialidadService: EspecialidadesService , private medicoService: MedicoService) { }
   public routes = routes;
   isFormSubmitted = false;
   form!: FormGroup;
@@ -44,6 +57,26 @@ export class HistoriaPacienteComponent implements OnInit {
   gradosInstruccion!: IgradoInstruccion[];
   paises!: Ipais[];
 
+  // paginación y data citas
+  public pageSize = 10;
+  public currentPage = 1;
+  public pageIndex = 0;
+  isLoading = false;
+  public limit: number = this.pageSize;
+  public totalData = 0;
+  public skip = 0;
+  public serialNumberArray: Array<number> = [];
+  public citasList: Array<IcitaMedica> = [];
+  dataSource!: MatTableDataSource<IcitaMedica>;
+  public pageNumberArray: Array<number> = [];
+  public totalPages = 0;
+  public pageSelection: Array<pageSelection> = [];
+
+  // Historial Citas
+  listEstadosCitas!: ItipoCitado[];
+  listEspecialidadesCitas!: Iespecialidad[];
+  listaMedicos!: MedicoList[]
+
   ngOnInit(): void {
 
     // Obteniendo data para los campos select
@@ -51,6 +84,14 @@ export class HistoriaPacienteComponent implements OnInit {
     this.gradoInstService.obtenerGradoInstruccion().subscribe(data => { this.gradosInstruccion = data; })
     this.ubicacionService.obtenerPaises().subscribe(data => { this.paises = data; })
     this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+
+
+    // Obteniendo data para la tabla historial de citas
+    this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data; })
+    this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data; })
+    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => {
+      this.listaMedicos = data.data; })
+
 
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
@@ -141,6 +182,9 @@ export class HistoriaPacienteComponent implements OnInit {
         this.cargarUbicacion(departamentoId, provinciaId);
       })
     }
+
+    // this.obtenerCitas();
+    this.obtenerCitasSinFiltro();
   }
 
   sexo_LISTA = [
@@ -187,12 +231,121 @@ export class HistoriaPacienteComponent implements OnInit {
       });
     })
   }
+  fechaInicio = '2024-01-08';
+  fechaFin = '2024-01-15';
+  //* Paginación
+  private obtenerCitasSinFiltro(): void {
+    this.citasList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    this.citaService.obtenerCitasMedicas(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe((data: DataCitaMedica) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.citasList = data.data;
+        console.log("Lista de Citas del Paciente")
+        console.log(this.citasList)
+        this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
+        this.calculateTotalPages(this.totalData, this.pageSize);
+
+      });
+  }
 
 
+
+  public moveToPage(pageNumber: number): void {
+    this.currentPage = pageNumber;
+    this.skip = this.pageSelection[pageNumber - 1].skip;
+    this.limit = this.pageSelection[pageNumber - 1].limit;
+    if (pageNumber > this.currentPage) {
+      this.pageIndex = pageNumber - 1;
+    } else if (pageNumber < this.currentPage) {
+      this.pageIndex = pageNumber + 1;
+    }
+    this.obtenerCitasSinFiltro();
+  }
+
+  private calculateTotalPages(totalData: number, pageSize: number): void {
+    this.pageNumberArray = [];
+    this.totalPages = totalData / pageSize;
+    if (this.totalPages % 1 != 0) {
+      this.totalPages = Math.trunc(this.totalPages + 1);
+    }
+    /* eslint no-var: off */
+    for (var i = 1; i <= this.totalPages; i++) {
+      var limit = pageSize * i;
+      var skip = limit - pageSize;
+      this.pageNumberArray.push(i);
+      this.pageSelection.push({ skip: skip, limit: limit });
+    }
+  }
+
+
+
+  public getMoreData(event: string): void {
+    if (event == 'next') {
+      this.currentPage++;
+      this.pageIndex = this.currentPage - 1;
+      this.limit += this.pageSize;
+      this.skip = this.pageSize * this.pageIndex;
+      this.obtenerCitasSinFiltro();
+    } else if (event == 'previous') {
+      this.currentPage--;
+      this.pageIndex = this.currentPage - 1;
+      this.limit -= this.pageSize;
+      this.skip = this.pageSize * this.pageIndex;
+      this.obtenerCitasSinFiltro();
+    }
+  }
+
+  // data historial cita
+  getEstadoInfo(estado: string): { nombre: string, clase: string } {
+    let estadoInfo = { nombre: '', clase: '' };
+
+    switch (estado) {
+      case '0':
+        estadoInfo.nombre = 'Nuevo';
+        estadoInfo.clase = 'custom-badge status-green';
+        break;
+      case '1':
+        estadoInfo.nombre = 'Reingreso';
+        estadoInfo.clase = 'custom-badge status-orange';
+        break;
+      case '2':
+        estadoInfo.nombre = 'Continuador';
+        estadoInfo.clase = 'custom-badge status-blue';
+        break;
+      default:
+        estadoInfo.nombre = '';
+        estadoInfo.clase = '';
+        break;
+    }
+    return estadoInfo;
+  }
+
+  getEspecialidad(especialidadId: string):string{
+
+    return this.listEspecialidadesCitas.find(citas => citas.especialidadId === especialidadId)!.nombre || '';
+  }
+
+  getMedico(medicoId: string){
+
+    if(this.listaMedicos){
+    return this.listaMedicos.find(medico => medico.medicoId === medicoId)!.nombre || '';
+    }
+    return ''
+  }
 
 
 
   formatoFecha(fecha: string): string {
+
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}-${mes}-${anio}`;
   }
@@ -206,8 +359,6 @@ export class HistoriaPacienteComponent implements OnInit {
     const apellidos = this.pacienteData?.apellidos ? this.pacienteData.apellidos : null;
     return apellidos
   }
-
-
 
   fechaNacimientoValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
@@ -234,6 +385,54 @@ export class HistoriaPacienteComponent implements OnInit {
   setActiveLink(link: string): void {
     this.activeLink = link; // Establece el enlace como activo
   }
+
+
+
+  // Data Historial Paciente:
+  // obtenerCitas(){
+  //   this.citaService.obtenerCitasMedicas(env.clinicaId, this.currentPage, this.pageSize, this.pacienteId)
+  //   .subscribe((data: DataCitaMedica) => {
+  //     this.totalData = data.totalData;
+  //     for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+  //       const serialNumber = index + 1;
+  //       this.serialNumberArray.push(serialNumber);
+  //     }
+  //     this.citasList = data.data;
+  //     console.log("LISTA CITAS:")
+  //     console.log(this.citasList);
+  //     this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
+  //     // this.calculateTotalPages(this.totalData, this.pageSize);
+  //   });
+  // }
+
+
+  datingHistory: any= [
+    {
+      "numeroCita": 1,
+      "fechaCita": "2024-01-08T15:47:07.766Z",
+      "especialidad": "Cardiología",
+      "medico": "Dr. Pérez",
+      "motivo": "Control de rutina",
+      "estado": "Confirmada"
+    },
+    {
+      "numeroCita": 2,
+      "fechaCita": "2024-01-10T14:30:00.000Z",
+      "especialidad": "Dermatología",
+      "medico": "Dra. Rodríguez",
+      "motivo": "Problemas de piel",
+      "estado": "Pendiente"
+    },
+    {
+      "numeroCita": 3,
+      "fechaCita": "2024-01-12T09:15:00.000Z",
+      "especialidad": "Oftalmología",
+      "medico": "Dr. Gómez",
+      "motivo": "Examen de la vista",
+      "estado": "Cancelada"
+    }
+  ]
+
 }
 
 

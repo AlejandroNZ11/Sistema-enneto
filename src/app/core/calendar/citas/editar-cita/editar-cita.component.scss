@@ -7,6 +7,8 @@
     width: auto;
 }
 
+
+
 .cita {
     color: #2e37a4;
     font-size: 15px;
@@ -19,15 +21,17 @@
 }
 
 
-.modal-footer{
+.modal-footer {
     padding: 3px;
 }
+
 .whatsapp {
     background-color: green;
     border-color: green;
     margin-left: 10px;
     margin-right: 5px;
-    :hover{
+
+    :hover {
         background-color: greenyellow;
         border-color: greenyellow;
         cursor: pointer;
@@ -39,7 +43,8 @@
     border-color: orange;
     margin-left: 5px;
     margin-right: 5px;
-    :hover{
+
+    :hover {
         background-color: yellow;
         border-color: yellow;
         cursor: pointer;
@@ -51,7 +56,8 @@
     border-color: goldenrod;
     margin-left: 5px;
     margin-right: 5px;
-    :hover{
+
+    :hover {
         background-color: orange;
         border-color: orange;
         cursor: pointer;

@@ -315,7 +315,7 @@ export class EditPatientComponent implements OnInit {
     formData.append('NumeroDocumento', this.pacienteEditar.numeroDocumento);
     formData.append('Apellidos', this.pacienteEditar.apellidos);
     formData.append('Nombres', this.pacienteEditar.nombres);
-    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toISOString().split('T')[0]);
+    formData.append('FechaNacimiento', this.pacienteEditar.fechaNacimiento.toString().split('T')[0]);
     formData.append('Edad', this.pacienteEditar.edad);
     formData.append('Ocupacion', this.pacienteEditar.ocupacion);
     formData.append('Direccion', this.pacienteEditar.direccion);

@@ -28,7 +28,6 @@ export class AgregarCitaComponent implements OnInit {
   citaNueva: citaMedica = new citaMedica();
   form!: FormGroup;
   listEspecialidadesCitas!: Iespecialidad[];
-  especialidadSeleccionadaCita = '';
   listPacientes!: PacienteList[];
   listPacientesFiltrados!: PacienteList[];
   pacienteleccionado!: string;
@@ -47,13 +46,13 @@ export class AgregarCitaComponent implements OnInit {
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService) { }
   ngOnInit(): void {
+    this.citaNueva.especialidadId = 'TODOS'
     this.inicializarFechas();
     this.inicializarFormulario();
     this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
-    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => { this.listMedicos = data.data; })
   }
   inicializarFechas() {
     const fechaCita = new Date(this.fechaInicio);
@@ -117,6 +116,11 @@ export class AgregarCitaComponent implements OnInit {
     Object.values(this.form.controls).forEach((control) => {
       control.markAsTouched();
     });
+  }
+  actualizarMedicos() {
+    this.medicoService.listaMedicos(this.citaNueva.especialidadId).subscribe(data => {
+      this.listMedicos = data;
+    })
   }
   cerrar() { this.bsModalRef.hide() }
   guardarCita() {
