@@ -28,8 +28,10 @@ export class DiagnosticoService {
   }
   ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
   
+  //eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
+    //return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
+  //}
   eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
+    return this.http.delete<successResponse>(`${this.apiUrl}/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
   }
-  
 }
