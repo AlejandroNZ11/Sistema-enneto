@@ -57,7 +57,7 @@
                                 <div class="form-group local-forms">
                                     <label>Costo del Plan <span class="login-danger">*</span></label>
                                     <input formControlName="costoPlan" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('costoPlan')}">
+                                        [ngClass]="{'is-invalid': isInvalid('costoPlan')}" (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('costoPlan') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('costoPlan')|| mostrarErrores">
                                             Debe completar el campo*
@@ -69,7 +69,7 @@
                                 <div class="form-group local-forms">
                                     <label>Max Plan <span class="login-danger">*</span></label>
                                     <input formControlName="maxPlan" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('maxPlan')}">
+                                        [ngClass]="{'is-invalid': isInvalid('maxPlan')}" (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('maxPlan') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('maxPlan')|| mostrarErrores">
                                             Debe completar el campo*
@@ -81,7 +81,7 @@
                                 <div class="form-group local-forms">
                                     <label>Usu Max <span class="login-danger">*</span></label>
                                     <input formControlName="usuMax" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('usuMax')}">
+                                        [ngClass]="{'is-invalid': isInvalid('usuMax')}" (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('usuMax') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('usuMax')|| mostrarErrores">
                                             Debe completar el campo*

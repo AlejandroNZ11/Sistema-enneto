@@ -9,7 +9,7 @@ import { AgregarMonedaComponent } from './agregar-moneda/agregar-moneda.componen
 import { EditarMonedaComponent } from './editar-moneda/editar-moneda.component';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-moneda',
   templateUrl: './moneda.component.html',
@@ -71,10 +71,13 @@ export class MonedaComponent implements OnInit {
   }
 
   crearMoneda() {
-    this.bsModalRef = this.modalService.show(AgregarMonedaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarMonedaComponent);
+  
+    this.bsModalRef.content.monedaAgregada$.subscribe((monedaAgregada: boolean) => {
+      if (monedaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
 
   editarMoneda(moneda: IMoneda) {
@@ -82,8 +85,15 @@ export class MonedaComponent implements OnInit {
       monedaSeleccionada: moneda.tipoMonedaId
     };
     this.bsModalRef = this.modalService.show(EditarMonedaComponent, { initialState });
+    const monedaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.monedaEditada$ = monedaEditada$;
+    monedaEditada$.subscribe((monedaEditada: boolean) => {
+      if (monedaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      monedaEditada$.unsubscribe();   
     });
   }
 
@@ -98,7 +108,7 @@ export class MonedaComponent implements OnInit {
         this.monedaService.eliminarMoneda(tipoMonedaId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Moneda Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

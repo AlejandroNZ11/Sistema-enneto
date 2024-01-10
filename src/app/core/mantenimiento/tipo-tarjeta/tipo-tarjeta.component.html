@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.tipoTarjetaMant">Tipo Tarjeta</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.tipoTarjetaMant">Tipo de     Tarjeta</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
                         <li class="breadcrumb-item active">Lista de Tarjetas</li>
                     </ul>
@@ -17,7 +17,7 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
                         <app-tabla [total]="totalData" [data]="ListTipoTarjeta" [indice]="serialNumberArray"
-                            [columns]="columnas" [titulo]="'Lista Tarjetas'" [accion]="acciones"
+                            [columns]="columnas" [titulo]="'Lista de Tarjetas'" [accion]="acciones"
                             (action)="onAction($event)" (MoreData)="getMoreData($event)">
                         </app-tabla>
                     </div>

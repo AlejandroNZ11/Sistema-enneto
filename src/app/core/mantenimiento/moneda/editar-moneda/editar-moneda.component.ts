@@ -5,16 +5,16 @@ import { MonedaService } from 'src/app/shared/services/moneda.service';
 import { IMoneda } from 'src/app/shared/models/moneda';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-moneda',
   templateUrl: './editar-moneda.component.html',
   styleUrls: ['./editar-moneda.component.scss']
 })
 export class EditarMonedaComponent implements OnInit {
+  monedaEditada$: Subject<boolean> = new Subject<boolean>();
   moneda: IMoneda | undefined;
   public routes = routes;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   monedaSeleccionada: any;
   form: FormGroup;
   public mostrarErrores = false;
@@ -51,6 +51,7 @@ export class EditarMonedaComponent implements OnInit {
   }
 
   Cancelar() {
+    this.monedaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -69,6 +70,7 @@ export class EditarMonedaComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.monedaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

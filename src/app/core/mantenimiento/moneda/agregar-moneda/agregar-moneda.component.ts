@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MonedaService } from 'src/app/shared/services/moneda.service';
 import { Moneda } from 'src/app/shared/models/moneda';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-moneda',
@@ -11,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-moneda.component.scss']
 })
 export class AgregarMonedaComponent {
-
+  monedaAgregada$: Subject<boolean> = new Subject<boolean>();
   public form!: FormGroup;
   public mostrarErrores = false;
 
@@ -33,7 +34,8 @@ export class AgregarMonedaComponent {
   }
 
   Cancelar() {
-    this.bsModalRef.hide()
+    this.monedaAgregada$.next(false);
+    this.bsModalRef.hide();
   }
 
   isTouched() {
@@ -54,6 +56,7 @@ export class AgregarMonedaComponent {
         (response) => {
             if (response.isSuccess) {
                 Swal.fire(response.message, '', 'success');
+                this.monedaAgregada$.next(true);
                 this.bsModalRef.hide();
             } else {
                 console.error(response.message);
