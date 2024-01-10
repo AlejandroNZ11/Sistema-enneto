@@ -28,11 +28,11 @@
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
-                                        <mat-option value="DNI">DNI</mat-option>
-                                        <mat-option value="RUC">RUC</mat-option>
-                                        <mat-option value="PASAPORTE">PASAPORTE</mat-option>
-                                        <mat-option value="CARNET EXTRANJERIA">CARNET DE EXTRANJERIA</mat-option>
-                                        <mat-option value="OTROS">OTROS</mat-option>
+                                        <mat-option value="01">DNI</mat-option>
+                                        <mat-option value="02">RUC</mat-option>
+                                        <mat-option value="03">PASAPORTE</mat-option>
+                                        <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
+                                        <mat-option value="05">OTROS</mat-option>
                                     </mat-select>
                                     <div *ngIf="isInvalid('tipoDocumento')" class="invalid-feedback">Debe seleccionar un tipo de documento*</div>
                                 </div>

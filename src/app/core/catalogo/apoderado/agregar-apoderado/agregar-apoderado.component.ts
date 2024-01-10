@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Apoderado } from 'src/app/shared/models/apoderado';
 import { ApoderadoService }  from 'src/app/shared/services/apoderado.service';
 import { routes } from 'src/app/shared/routes/routes';
+import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -72,18 +73,19 @@ export class AgregarApoderadoComponent  {
 
   crearApoderado() {
     this.isFormSubmitted = true;
-
+  
     if (this.form.invalid) {
       this.isTouched();
       return;
     }
-
+  
     this.Apoderado.nombre = this.form.get('nombre')?.value;
-    this.Apoderado.tipoDocumento = this.form.get('tipoDocumento')?.value;
+    this.Apoderado.tipoDocumento = +this.form.get('tipoDocumento')?.value;
     this.Apoderado.documento = this.form.get('documento')?.value;
     this.Apoderado.direccion = this.form.get('direccion')?.value;
     this.Apoderado.telefono = this.form.get('telefono')?.value;
-
+    this.Apoderado.estado = this.form.get('estado')?.value;
+  
     this.apoderadoService.crearApoderado(this.Apoderado).subscribe(
       (response) => {
         if (response.isSuccess) {
@@ -95,6 +97,11 @@ export class AgregarApoderadoComponent  {
       },
       (error) => {
         console.error(error);
+  
+        if (error instanceof HttpErrorResponse && error.error) {
+          // Imprime el cuerpo de la respuesta detallada del servidor
+          console.error('Error del servidor:', error.error);
+        }
       }
     );
   }
