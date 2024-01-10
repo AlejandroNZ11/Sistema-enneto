@@ -1,5 +1,4 @@
 <div class="content">
-    <!-- /Page Header -->
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -19,13 +18,22 @@
                                         <div *ngIf="isRequerido('nombre')">Debe completar el campo*</div>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Dirección</label>
+                                    <input formControlName="direccion" class="form-control" type="text">
+                                </div>
                             </div>                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
-                                        <mat-option value="DNI">DNI</mat-option>
-                                        <mat-option value="Cédula">Cédula</mat-option>
+                                        <mat-option value="01">DNI</mat-option>
+                                        <mat-option value="02">RUC</mat-option>
+                                        <mat-option value="03">PASAPORTE</mat-option>
+                                        <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
+                                        <mat-option value="05">OTROS</mat-option>
                                     </mat-select>
                                     <div *ngIf="isInvalid('tipoDocumento') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('tipoDocumento')">Debe seleccionar un tipo de documento*</div>
@@ -47,12 +55,6 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Dirección</label>
-                                    <input formControlName="direccion" class="form-control" type="text">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
                                     <div class="input-group">
                                         <input (input)="soloNumeros($event)" formControlName="telefono"
@@ -64,23 +66,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 col-md-12 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label>Estado <span class="login-danger">*</span></label>
-                                <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
-                                    <mat-option value="Activo">Activo</mat-option>
-                                    <mat-option value="Inactivo">Inactivo</mat-option>
-                                </mat-select>
+                        <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button type="submit" (click)="guardarApoderado()" class="btn btn-primary submit-form me-2">Actualizar</button>
+                                <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
                             </div>
                         </div>
                     </form>
-                    <div class="col-12">
-                        <div class="doctor-submit text-end">
-                            <button type="submit" (click)="guardarApoderado()" class="btn btn-primary submit-form me-2">Actualizar</button>
-                            <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
