@@ -45,7 +45,6 @@ export class EditarCitaComponent implements OnInit {
   whatsappMessage = '';
   numero = '';
   public routes = routes;
-
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService,
     public sedeService: SedeService, private router: Router) { }

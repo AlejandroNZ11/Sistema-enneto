@@ -13,7 +13,6 @@ import { finalize } from 'rxjs';
   styleUrls: ['./clonar-cita.component.scss']
 })
 export class ClonarCitaComponent implements OnInit {
-  @Output() modalClosed = new EventEmitter<void>();
   constructor(public bsModalRef: BsModalRef, public formBuilder: FormBuilder, public citaMedicaService: CitaService,
     private modalService: BsModalService, public pacienteService: PacienteService) { }
   citaSeleccionada!: IcitaMedica;

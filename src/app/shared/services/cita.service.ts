@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environments';
-import { DataCitaMedica, IcitaMedica, IcitaMedicaCalendario, citaMedica, citasCalendario } from '../models/cita';
+import { DataCitaMedica, IcitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
 import { Observable, catchError, throwError } from 'rxjs';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -38,7 +38,7 @@ export class CitaService {
       })
     );
   }
-  obtenerCitasMedicasCalendario(fechaInicio: string, fechaFin: string, medico?: string, estado?: string, especialidad?: string, paciente?: string): Observable<citasCalendario[]> {
+  obtenerCitasMedicasCalendario(fechaInicio: string, fechaFin: string, medico?: string, estado?: string, especialidad?: string, paciente?: string): Observable<IcitaMedicaCalendario> {
     let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (medico != 'TODOS' && medico) {
       url += `&Medico=${medico}`;
@@ -52,7 +52,7 @@ export class CitaService {
     if (paciente) {
       url += `&PacienteId=${paciente}`;
     }
-    return this.http.get<citasCalendario[]>(url);
+    return this.http.get<IcitaMedicaCalendario>(url);
   }
   crearCitaMedica(cita: citaMedica): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/CitasMedicas/SaveCitaMedica', cita).pipe(

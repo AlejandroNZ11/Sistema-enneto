@@ -34,6 +34,7 @@ export interface IcitaMedica {
     clinicaId: string;
     usuarioId: string;
 }
+
 export interface IcitaMedicaCalendario {
     citas: citasCalendario[],
     medicos: medicosCalendario[]
@@ -51,7 +52,7 @@ export interface citasCalendario {
 
 export interface medicosCalendario {
     medicoId: string;
-    apellido: string;
-    nombre: string;
+    apellidos: string;
+    nombres: string;
     color: string;
 }
