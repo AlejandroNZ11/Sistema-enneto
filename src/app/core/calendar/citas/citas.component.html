@@ -66,10 +66,11 @@
                     <div class="col-lg-12">
                         <div class="medico-container">
                             <div *ngFor="let medico of listMedicos" class="medico-item">
-                                <span class="badge">
+                                <span class="badge" [style.background-color]="medico.color">
                                     <input class="form-check-input" type="checkbox" [id]="medico.medicoId"
                                         [(ngModel)]="medicosSeleccionados[medico.medicoId]" (change)="filtrarCitas()" />
-                                    <label class="label-medico" [for]="medico.medicoId">{{ medico.nombre }} {{ medico.apellido }}</label>
+                                    <label class="label-medico" [for]="medico.medicoId">{{ medico.nombres }} {{
+                                        medico.apellidos }}</label>
                                 </span>
                             </div>
                         </div>

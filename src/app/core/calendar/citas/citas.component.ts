@@ -22,12 +22,14 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EditarCitaComponent } from './editar-cita/editar-cita.component';
 import { AgregarCitaComponent } from './agregar-cita/agregar-cita.component';
 import { ClonarCitaComponent } from './clonar-cita/clonar-cita.component';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.component.html',
   styleUrls: ['./citas.component.scss']
 })
 export class CitasComponent implements OnInit {
+  public onModal3Closed = new Subject<void>();
   public routes = routes;
   options: any;
   events: any[] = [];
@@ -95,22 +97,6 @@ export class CitasComponent implements OnInit {
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidades = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstados = data; })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
-    this.medicoService.listaMedicos(this.especialidadSeleccionada).subscribe(data => {
-      this.listMedicos = data; this.listMedicos.forEach(medico => {
-        this.medicosSeleccionados[medico.medicoId] = true;
-      });
-      this.filtrarCitas();
-    })
-    this.events = this.citas;
-  }
-  actualizarMedicos() {
-    this.medicoService.listaMedicos(this.especialidadSeleccionada).subscribe(data => {
-      this.listMedicos = data;
-      this.listMedicos.forEach(medico => {
-        this.medicosSeleccionados[medico.medicoId] = true;
-      });
-      this.filtrarCitas();
-    })
     this.events = this.citas;
   }
   handleDateClick(arg: any) {
@@ -123,7 +109,9 @@ export class CitasComponent implements OnInit {
       initialState: Object.assign({}, initialState) as Partial<EditarCitaComponent>,
     };
     this.modalRef = this.modalService.show(EditarCitaComponent, modalOptions);
-    this.modalRef.onHidden?.subscribe(() => { this.obtenerCitasMedicas() });
+    this.modalRef.onHidden?.subscribe(() => {
+      this.onModal3Closed.next(); this.obtenerCitasMedicas()
+    });
   }
   filtrarCitas() {
     const medicosSeleccionadosIds = Object.keys(this.medicosSeleccionados).filter(id => this.medicosSeleccionados[id]);
@@ -134,11 +122,18 @@ export class CitasComponent implements OnInit {
     }
   }
   obtenerCitasMedicas() {
-    this.citaMedicaService.obtenerCitasMedicasCalendario(this.inicio, this.fin).subscribe((data) => {
-      this.citas = data;
+    this.citaMedicaService.obtenerCitasMedicasCalendario(this.inicio, this.fin, '', this.estadoSeleccionado, this.especialidadSeleccionada, this.pacienteleccionado).subscribe((data) => {
+      this.citas = data.citas;
+      this.listMedicos = data.medicos
+      if (this.listMedicos) {
+        this.listMedicos.forEach(medico => {
+          this.medicosSeleccionados[medico.medicoId] = true;
+        });
+      }
       this.filtrarCitas();
       this.events = this.citas;
       console.log(this.events);
+      console.log(this.listMedicos)
     })
   }
   buscarPacientes() {
