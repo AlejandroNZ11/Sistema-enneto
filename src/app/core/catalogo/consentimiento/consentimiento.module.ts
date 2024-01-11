@@ -5,11 +5,7 @@ import { ConsentimientoRoutingModule } from './consentimiento-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AgregarConsentimientoComponent } from './agregar-consentimiento/agregar-consentimiento.component';
 import { EditarConsentimientoComponent } from './editar-consentimiento/editar-consentimiento.component';
-import { AngularEditorModule } from '@kolkov/angular-editor';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-
-
+import { NgxEditorModule } from 'ngx-editor';
 @NgModule({
   declarations: [
     ConsentimientoComponent,
@@ -20,9 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     ConsentimientoRoutingModule,
     SharedModule,
-    AngularEditorModule,
-    FormsModule,
-    HttpClientModule
+    NgxEditorModule,
   ]
 })
 export class ConsentimientoModule { }

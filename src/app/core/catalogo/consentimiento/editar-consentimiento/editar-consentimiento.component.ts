@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Iconsentimiento } from 'src/app/shared/models/consentimiento';
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Editor } from 'ngx-editor';
 
 @Component({
   selector: 'app-editar-consentimiento',
   templateUrl: './editar-consentimiento.component.html',
   styleUrls: ['./editar-consentimiento.component.scss']
 })
-export class EditarConsentimientoComponent implements OnInit {
+export class EditarConsentimientoComponent implements OnInit, OnDestroy {
   consentimiento!: Iconsentimiento;
   consentimientoSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
+  editor!: Editor;
+  html = '';
 
   constructor(public bsModalRef: BsModalRef, private consentimientoService: ConsentimientoService, public fb: FormBuilder) {
     this.form = this.fb.group({
@@ -28,6 +30,7 @@ export class EditarConsentimientoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.editor = new Editor();
     this.consentimientoService.obtenerConsentimiento(this.consentimientoSeleccionada!).subscribe(consentimiento => {
       this.consentimiento = consentimiento;
       this.form.patchValue({  
@@ -48,21 +51,15 @@ export class EditarConsentimientoComponent implements OnInit {
     return control?.errors && control.errors['required'];
   }
 
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '15rem',
-    minHeight: '5rem',
-    placeholder: 'Enter text here...',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Arial',
-  };
   
   Cancelar() {
     this.bsModalRef.hide();
   }
 
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+  
   guardarConsentimiento() {
     if (!this.consentimiento || this.form.invalid) {
       this.mostrarErrores = true;

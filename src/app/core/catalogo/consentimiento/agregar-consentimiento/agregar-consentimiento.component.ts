@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataConsentimiento, consentimiento, consentimientoResponse } from 'src/app/shared/models/consentimiento';
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
-import { AngularEditorConfig } from '@kolkov/angular-editor';
+import { Editor } from 'ngx-editor';
 @Component({
   selector: 'app-agregar-consentimiento',
   templateUrl: './agregar-consentimiento.component.html',
   styleUrls: ['./agregar-consentimiento.component.scss']
 })
-export class AgregarConsentimientoComponent implements OnInit{
+export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
   Consentimiento: consentimiento = new consentimiento();
+  editor!: Editor;
+  html = '';
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
+
+  ngOnInit(): void { 
+    this.editor = new Editor();
+  }
 
   constructor(public bsModalRef: BsModalRef, private consentimientoService: ConsentimientoService,
     public fb: FormBuilder,) {
@@ -42,17 +47,11 @@ export class AgregarConsentimientoComponent implements OnInit{
       control.markAsTouched();
     });
   }
-
-  config: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '15rem',
-    minHeight: '5rem',
-    placeholder: 'Enter text here...',
-    translate: 'no',
-    defaultParagraphSeparator: 'p',
-    defaultFontName: 'Arial',
-  };
+  
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+  
   
   crearConsentimiento() {
     if (this.form.invalid) {
