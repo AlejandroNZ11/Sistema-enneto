@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
-import Swal from 'sweetalert2';
 import { AlergiasService } from 'src/app/shared/services/alergias.service';
 import {Ialergias } from 'src/app/shared/models/alergia';
+import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-alergias',
   templateUrl: './editar-alergias.component.html',
   styleUrls: ['./editar-alergias.component.scss']
 })
 export class EditarAlergiasComponent  implements OnInit{
+  alergiaEditada$: Subject<boolean> = new Subject<boolean>();
   alergiaSeleccionada: any;
   Alergia!: Ialergias;
   public routes = routes;
@@ -43,6 +45,7 @@ export class EditarAlergiasComponent  implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.alergiaEditada$.next(false);
     this.bsModalRef.hide()
   }
   guardarAlergia() {
@@ -60,6 +63,7 @@ export class EditarAlergiasComponent  implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.alergiaEditada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

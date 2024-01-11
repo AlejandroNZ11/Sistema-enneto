@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service'
 import { DataTipoTarjetas, ITipoTarjeta, tipoTarjeta } from 'src/app/shared/models/tipotarjeta';
@@ -11,6 +9,7 @@ import { AgregarTarjetaComponent } from './agregar-tarjeta/agregar-tarjeta.compo
 import { EditarTarjetaComponent } from './editar-tarjeta/editar-tarjeta.component';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tipo-tarjeta',
   templateUrl: './tipo-tarjeta.component.html',
@@ -69,18 +68,29 @@ export class TipoTarjetaComponent implements OnInit {
     this.limit = pag.limit;
   }
   crearTarjeta() {
-    this.bsModalRef = this.modalService.show(AgregarTarjetaComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarTarjetaComponent);
+  
+    this.bsModalRef.content.tipoTarjetaAgregada$.subscribe((tipoTarjetaAgregada: boolean) => {
+      if (tipoTarjetaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarTipoTarjeta(tipoTarjeta: ITipoTarjeta) {
     const initialState = {
       tipoTarjetaSeleccionada: tipoTarjeta.tipoTarjetaId
-    }
+    };
+  
     this.bsModalRef = this.modalService.show(EditarTarjetaComponent, { initialState });
+    const tipoTarjetaEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.tipoTarjetaEditada$ = tipoTarjetaEditada$;
+    tipoTarjetaEditada$.subscribe((tipoTarjetaEditada: boolean) => {
+      if (tipoTarjetaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tipoTarjetaEditada$.unsubscribe();   
     });
   }
   eliminartipoTarjeta(tipoTarjetaId: string) {
@@ -94,7 +104,7 @@ export class TipoTarjetaComponent implements OnInit {
         this.tipoTarjetaService.eliminarTipoTarjeta(tipoTarjetaId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo Tarjeta Eliminada en el sistema correctamente.', 'success');
+              Swal.fire(response.message, '', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

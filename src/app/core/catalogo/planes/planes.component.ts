@@ -11,7 +11,7 @@ import { AgregarPlanComponent } from './agregar-plan/agregar-plan.component';
 import { EditarPlanComponent } from './editar-plan/editar-plan.component';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-planes',
   templateUrl: './planes.component.html',
@@ -71,18 +71,28 @@ export class PlanesComponent implements OnInit {
   }
 
   crearPlan() {
-    this.bsModalRef = this.modalService.show(AgregarPlanComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarPlanComponent);
+  
+    this.bsModalRef.content.planAgregada$.subscribe((planAgregada: boolean) => {
+      if (planAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarPlan(planes: IPlanes) {
     const initialState = {
       planSeleccionado: planes.planId
     };
-    this.bsModalRef = this.modalService.show(EditarPlanComponent, { initialState});
+    this.bsModalRef = this.modalService.show(EditarPlanComponent, { initialState });
+    const planEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.planEditada$ = planEditada$;
+    planEditada$.subscribe((planEditada: boolean) => {
+      if (planEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      planEditada$.unsubscribe();   
     });
   }
   eliminarPlan(planId: string) {

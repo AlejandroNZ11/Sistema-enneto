@@ -9,7 +9,7 @@ import { DataTipomateriales, Itipomateriales, tipomateriales } from 'src/app/sha
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tipo-materiales',
   templateUrl: './tipo-materiales.component.html',
@@ -69,18 +69,29 @@ export class TipoMaterialesComponent implements OnInit{
   }
 
   crearTipomateriales() {
-    this.bsModalRef = this.modalService.show(AgregarTipoMaterialesComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarTipoMaterialesComponent);
+  
+    this.bsModalRef.content.tipomaterialAgregada$.subscribe((tipomaterialAgregada: boolean) => {
+      if (tipomaterialAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarTipomateriales(tipomaterial: Itipomateriales) {
     const initialState = {
       TipomaterialesSeleccionada: tipomaterial.tipoMaterialId
     };
+  
     this.bsModalRef = this.modalService.show(EditarTipoMaterialesComponent, { initialState });
+    const tipomaterialEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.tipomaterialEditada$ = tipomaterialEditada$;
+    tipomaterialEditada$.subscribe((tipomaterialEditada: boolean) => {
+      if (tipomaterialEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tipomaterialEditada$.unsubscribe();   
     });
   }
   eliminarTipomateriales(tipoMaterialId: string) {

@@ -5,13 +5,14 @@ import { Imarca } from 'src/app/shared/models/marca';
 import { routes } from 'src/app/shared/routes/routes';
 import { MarcaService } from 'src/app/shared/services/marca.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-marca',
   templateUrl: './editar-marca.component.html',
   styleUrls: ['./editar-marca.component.scss']
 })
 export class EditarMarcaComponent implements OnInit {
+  marcaEditada$: Subject<boolean> = new Subject<boolean>();
   marca!: Imarca;
   marcaSeleccionada ?:string;
   public routes = routes;
@@ -46,6 +47,7 @@ export class EditarMarcaComponent implements OnInit {
   }
 
   Cancelar() {
+    this.marcaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -64,6 +66,7 @@ export class EditarMarcaComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.marcaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

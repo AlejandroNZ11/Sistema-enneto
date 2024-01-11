@@ -18,5 +18,5 @@ export interface DataAlmacen {
 
 export class AlmacenResponse {
     nombreAlmacen = "";
-    sedeId = "";
+    nombreSede= "";
 }    

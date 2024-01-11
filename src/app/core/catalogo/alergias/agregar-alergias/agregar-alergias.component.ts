@@ -5,14 +5,14 @@ import { DataAlergias, Ialergias, alergias } from 'src/app/shared/models/alergia
 import { routes } from 'src/app/shared/routes/routes';
 import { AlergiasService } from 'src/app/shared/services/alergias.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-alergias',
   templateUrl: './agregar-alergias.component.html',
   styleUrls: ['./agregar-alergias.component.scss']
 })
 export class AgregarAlergiasComponent implements OnInit{
-
+  alergiaAgregada$: Subject<boolean> = new Subject<boolean>();
   Alergia: alergias = new alergias();
   public routes = routes;
   form!: FormGroup;
@@ -35,6 +35,7 @@ export class AgregarAlergiasComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.alergiaAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -54,8 +55,9 @@ export class AgregarAlergiasComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.alergiaAgregada$.next(true);
           this.bsModalRef.hide();
-        }else{
+        }else{ 
           console.error(response.message);
         }
       },

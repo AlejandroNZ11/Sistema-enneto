@@ -11,6 +11,7 @@ import { DataPresentacion, Ipresentacion, presentacion } from 'src/app/shared/mo
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-presentacion',
   templateUrl: './presentacion.component.html',
@@ -69,18 +70,28 @@ export class PresentacionComponent implements OnInit {
     this.limit = pag.limit;
   }
   crearPresentacion() {
-    this.bsModalRef = this.modalService.show(AgregarPresentacionComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarPresentacionComponent);
+  
+    this.bsModalRef.content.presentacionAgregada$.subscribe((presentacionAgregada: boolean) => {
+      if (presentacionAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarPresentacion(presentacion: Ipresentacion) {
     const initialState= {
       presentacionSeleccionada: presentacion.presentacionId
     }
-    this.bsModalRef = this.modalService.show(EditarPresentacionComponent, {initialState});
+    this.bsModalRef = this.modalService.show(EditarPresentacionComponent, { initialState });
+    const presentacionEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.presentacionEditada$ = presentacionEditada$;
+    presentacionEditada$.subscribe((presentacionEditada: boolean) => {
+      if (presentacionEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      presentacionEditada$.unsubscribe();   
     });
   }
   eliminarPresentacion(presentacionId:string){

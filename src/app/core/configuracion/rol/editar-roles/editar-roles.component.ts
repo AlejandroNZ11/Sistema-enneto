@@ -5,13 +5,14 @@ import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 import { RolesService } from 'src/app/shared/services/roles.service';
 import { Iroles } from 'src/app/shared/models/rol';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-roles',
   templateUrl: './editar-roles.component.html',
   styleUrls: ['./editar-roles.component.scss']
 })
 export class EditarRolesComponent  implements OnInit{
+  rolEditada$: Subject<boolean> = new Subject<boolean>();
   rol!: Iroles;
   rolSeleccionada ?:string;
   public routes = routes;
@@ -46,6 +47,7 @@ export class EditarRolesComponent  implements OnInit{
   }
 
   Cancelar() {
+    this.rolEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -64,6 +66,7 @@ export class EditarRolesComponent  implements OnInit{
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.rolEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

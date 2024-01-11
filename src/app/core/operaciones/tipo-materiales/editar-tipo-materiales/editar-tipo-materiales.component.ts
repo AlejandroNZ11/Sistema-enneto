@@ -5,14 +5,14 @@ import { Itipomateriales } from 'src/app/shared/models/tipo-materiales';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipomaterialesService } from 'src/app/shared/services/tipo-materiales.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-tipo-materiales',
   templateUrl: './editar-tipo-materiales.component.html',
   styleUrls: ['./editar-tipo-materiales.component.scss']
 })
 export class EditarTipoMaterialesComponent implements OnInit {
-
+  tipomaterialEditada$: Subject<boolean> = new Subject<boolean>();
   tipomaterial!: Itipomateriales;
   TipomaterialesSeleccionada ?:string;
   public routes = routes;
@@ -49,6 +49,7 @@ export class EditarTipoMaterialesComponent implements OnInit {
   }
 
   Cancelar() {
+    this.tipomaterialEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -68,6 +69,7 @@ export class EditarTipoMaterialesComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.tipomaterialEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

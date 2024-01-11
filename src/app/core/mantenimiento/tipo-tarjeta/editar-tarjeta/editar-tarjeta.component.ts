@@ -6,7 +6,7 @@ import { ITipoTarjeta } from 'src/app/shared/models/tipotarjeta';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoTarjetaService } from 'src/app/shared/services/tipo-tarjeta.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-tarjeta',
@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tarjeta.component.scss']
 })
 export class EditarTarjetaComponent implements OnInit {
+  tipoTarjetaEditada$: Subject<boolean> = new Subject<boolean>();
   tipoTarjeta!: ITipoTarjeta;
   tipoTarjetaSeleccionada: any;
   public routes = routes;
@@ -48,6 +49,7 @@ export class EditarTarjetaComponent implements OnInit {
   }
 
   Cancelar() {
+    this.tipoTarjetaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -67,6 +69,7 @@ export class EditarTarjetaComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.tipoTarjetaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

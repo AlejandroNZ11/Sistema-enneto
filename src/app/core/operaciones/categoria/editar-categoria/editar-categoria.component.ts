@@ -5,13 +5,14 @@ import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 import { CategoriaOpService } from 'src/app/shared/services/categoria-op.service';
 import { IcategoriaM } from 'src/app/shared/models/categoria-op';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-categoria',
   templateUrl: './editar-categoria.component.html',
   styleUrls: ['./editar-categoria.component.scss']
 })
 export class EditarCategoriaComponent  implements OnInit{
+  categoriaEditada$: Subject<boolean> = new Subject<boolean>();
   categoria!: IcategoriaM;
   categoriaSeleccionada ?:string;
   public routes = routes;
@@ -48,6 +49,7 @@ export class EditarCategoriaComponent  implements OnInit{
   }
 
   Cancelar() {
+    this.categoriaEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -67,6 +69,7 @@ export class EditarCategoriaComponent  implements OnInit{
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.categoriaEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

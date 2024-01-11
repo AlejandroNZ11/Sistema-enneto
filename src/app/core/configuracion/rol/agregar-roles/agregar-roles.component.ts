@@ -5,14 +5,14 @@ import { DataRoles, Iroles, roles } from 'src/app/shared/models/rol';
 import { routes } from 'src/app/shared/routes/routes';
 import { RolesService } from 'src/app/shared/services/roles.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-roles',
   templateUrl: './agregar-roles.component.html',
   styleUrls: ['./agregar-roles.component.scss']
 })
 export class AgregarRolesComponent implements OnInit{
-
+  rolAgregada$: Subject<boolean> = new Subject<boolean>();
   Roles: roles = new roles();
   public routes = routes;
   form!: FormGroup;
@@ -35,6 +35,7 @@ export class AgregarRolesComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.rolAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -54,6 +55,7 @@ export class AgregarRolesComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.rolAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

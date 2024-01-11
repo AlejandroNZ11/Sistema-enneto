@@ -7,7 +7,13 @@
     width: auto;
 }
 
+.invisible-component {
+    display: block;
 
+    .modal-content {
+        border: none;
+    }
+}
 
 .cita {
     color: #2e37a4;
@@ -55,11 +61,24 @@
     background-color: goldenrod;
     border-color: goldenrod;
     margin-left: 5px;
-    margin-right: 5px;
+    margin-right: 10px;
 
     :hover {
         background-color: orange;
         border-color: orange;
         cursor: pointer;
     }
+}
+
+.fecha {
+    width: 140px;
+}
+
+.hora {
+    margin-left: -5px;
+    width: 105px;
+}
+
+.icono {
+    margin-left: -10px;
 }

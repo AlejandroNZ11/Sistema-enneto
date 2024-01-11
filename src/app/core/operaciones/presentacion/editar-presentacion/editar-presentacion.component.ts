@@ -5,13 +5,14 @@ import { Ipresentacion } from 'src/app/shared/models/presentacion';
 import { routes } from 'src/app/shared/routes/routes';
 import { PresentacionService } from 'src/app/shared/services/presentacion.service';
 import Swal from 'sweetalert2';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-editar-presentacion',
   templateUrl: './editar-presentacion.component.html',
   styleUrls: ['./editar-presentacion.component.scss']
 })
 export class EditarPresentacionComponent implements OnInit {
+  presentacionEditada$: Subject<boolean> = new Subject<boolean>();
   presentacion!: Ipresentacion;
   presentacionSeleccionada: any;
   public routes = routes;
@@ -47,6 +48,7 @@ export class EditarPresentacionComponent implements OnInit {
   }
 
   Cancelar() {
+    this.presentacionEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -66,6 +68,7 @@ export class EditarPresentacionComponent implements OnInit {
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.presentacionEditada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

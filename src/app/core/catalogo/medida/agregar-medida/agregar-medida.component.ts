@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
-import Swal from 'sweetalert2';
-
 import { MedidaService } from 'src/app/shared/services/medida.service';
 import { DataMedida, Imedida, medida } from 'src/app/shared/models/medida';
+import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-medida',
   templateUrl: './agregar-medida.component.html',
   styleUrls: ['./agregar-medida.component.scss']
 })
 export class AgregarMedidaComponent implements OnInit{
-
+  medidaAgregada$: Subject<boolean> = new Subject<boolean>();
   Medida: medida = new medida();
   public routes = routes;
   form!: FormGroup;
@@ -35,6 +35,7 @@ export class AgregarMedidaComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.medidaAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -53,6 +54,7 @@ export class AgregarMedidaComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.medidaAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

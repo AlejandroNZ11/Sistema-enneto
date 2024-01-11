@@ -9,7 +9,7 @@ import { DataRoles, Iroles, roles } from 'src/app/shared/models/rol';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-rol',
   templateUrl: './rol.component.html',
@@ -67,18 +67,29 @@ export class RolComponent implements OnInit{
     this.limit = pag.limit;
   }
   crearRol() {
-    this.bsModalRef = this.modalService.show(AgregarRolesComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef = this.modalService.show(AgregarRolesComponent);
+  
+    this.bsModalRef.content.rolAgregada$.subscribe((rolAgregada: boolean) => {
+      if (rolAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarRol(rol: Iroles) {
     const initialState = {
       rolSeleccionada: rol.rolId
     };
+  
     this.bsModalRef = this.modalService.show(EditarRolesComponent, { initialState });
+    const rolEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.rolEditada$ = rolEditada$;
+    rolEditada$.subscribe((rolEditada: boolean) => {
+      if (rolEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      rolEditada$.unsubscribe();   
     });
   }
 
