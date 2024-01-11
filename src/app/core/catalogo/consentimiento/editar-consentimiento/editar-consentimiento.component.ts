@@ -5,6 +5,7 @@ import { Iconsentimiento } from 'src/app/shared/models/consentimiento';
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
   selector: 'app-editar-consentimiento',
@@ -47,6 +48,17 @@ export class EditarConsentimientoComponent implements OnInit {
     return control?.errors && control.errors['required'];
   }
 
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+  };
+  
   Cancelar() {
     this.bsModalRef.hide();
   }

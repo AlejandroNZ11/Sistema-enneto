@@ -5,7 +5,7 @@ import { DataConsentimiento, consentimiento, consentimientoResponse } from 'src/
 import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
-
+import { AngularEditorConfig } from '@kolkov/angular-editor';
 @Component({
   selector: 'app-agregar-consentimiento',
   templateUrl: './agregar-consentimiento.component.html',
@@ -42,6 +42,18 @@ export class AgregarConsentimientoComponent implements OnInit{
       control.markAsTouched();
     });
   }
+
+  config: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: '15rem',
+    minHeight: '5rem',
+    placeholder: 'Enter text here...',
+    translate: 'no',
+    defaultParagraphSeparator: 'p',
+    defaultFontName: 'Arial',
+  };
+  
   crearConsentimiento() {
     if (this.form.invalid) {
       this.isTouched()      
