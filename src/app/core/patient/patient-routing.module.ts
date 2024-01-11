@@ -41,7 +41,7 @@ const routes: Routes = [
         ),
     },
     {
-      path: 'historia-paciente/:pacienteId',
+      path: 'historia-paciente',
       loadChildren: () =>
         import('./historia-paciente/historia-paciente.module').then(
           (m) => m.HistoriaPacienteModule

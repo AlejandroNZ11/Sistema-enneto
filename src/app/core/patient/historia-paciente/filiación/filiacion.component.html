@@ -1,0 +1,320 @@
+
+
+
+              <div class="doctor-personals-grp">
+                  <div class="card">
+                      <div class="card-body">
+                          <form [formGroup]="form" class="row my-4">
+                              <div class="col-12">
+                                  <div class="form-heading">
+                                      <h4>Datos del Paciente</h4>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                  <div class="form-group local-forms">
+                                      <label>Nombres <span class="login-danger">*</span></label>
+                                      <input formControlName="nombres"  class="form-control" type="text" >
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Apellidos <span class="login-danger">*</span></label>
+                                      <input formControlName="apellidos" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Fecha Nacimiento <span class="login-danger">*</span></label>
+                                      <input formControlName="fechaNacimiento" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-2">
+                                  <div class="form-group local-forms">
+                                      <label>Edad <span class="login-danger">*</span></label>
+                                      <input formControlName="edad" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-2">
+                                  <div class="form-group local-forms">
+                                      <label>Documento <span class="login-danger">*</span></label>
+                                      <input formControlName="nroDocumento" class="form-control" >
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                  <div class="form-group local-forms">
+                                      <label>Direccion <span class="login-danger">*</span></label>
+                                      <input formControlName="direccion" class="form-control" >
+                                  </div>
+                              </div>
+                              <div class="col-6 col-md-6 col-xl-4">
+                                  <div class="form-group select-gender">
+                                      <label class="gen-label">Sexo<span class="login-danger">*</span></label>
+                                      <div *ngFor="let item of sexo_LISTA; let i = index" class="form-check-inline">
+                                        <label class="form-check-label">
+                                            <input type="radio" [value]="item.value" formControlName="sexo"
+                                                class="form-check-input" name="sexo" [id]="item.value"
+                                                [ngClass]="{'is-invalid': isInvalid('sexo') && isFormSubmitted}">{{item.name}}
+                                        </label>
+                                    </div>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-2">
+                                  <div class="form-group local-forms">
+                                      <label>Estado Civil <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="estadoCivil"
+                                           class="form-control select"
+                                          placeholder="Seleccione Estado Civil"
+                                          [ngClass]="{'is-invalid': isInvalid('estadoCivil') && isFormSubmitted}">
+                                          <mat-option *ngFor="let data of estadosCiviles" [value]="data.siglas">
+                                              {{data.descripcion}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Ocupacion <span class="login-danger">*</span></label>
+                                      <input formControlName="ocupacion" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Grado de instruccion <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="estudioId"
+                                          class="form-control select" placeholder="Seleccione Grado de Instruccion"
+                                          [ngClass]="{'is-invalid': isInvalid('estudioId') && isFormSubmitted}">
+                                          <mat-option *ngFor="let data of gradosInstruccion" [value]="data.estudioId">
+                                              {{data.descripcion}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-2">
+                                  <div class="form-group local-forms">
+                                      <label>Telefono <span class="login-danger">*</span></label>
+                                      <input formControlName="celular" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-4">
+                                  <div class="form-group local-forms">
+                                      <label>Correo <span class="login-danger">*</span></label>
+                                      <input formControlName="email" class="form-control" type="email">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Pais <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="paisId"
+                                          class="form-control select" placeholder="Seleccione País"
+                                          [ngClass]="{'is-invalid': isInvalid('paisId') && isFormSubmitted}">
+                                          <mat-option *ngFor="let data of paises" [value]="data.paisId">
+                                              {{data.nombre}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Departamento <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="departamento" [(ngModel)]="departamento"
+                                          class="form-control select" placeholder="Seleccione Departamento"
+                                          [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
+                                          (ngModelChange)="actualizarProvincias()">
+                                          <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
+                                              {{data.nombre}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Provincia <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="provincia" [(ngModel)]="provincia"
+                                          class="form-control select" placeholder="Seleccione Provincia"
+                                          [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
+                                          (ngModelChange)="actualizarDistritos()">
+                                          <mat-option *ngFor="let data of provincias" [value]="data.nombre">
+                                              {{data.nombre}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Distrito <span class="login-danger">*</span></label>
+                                      <mat-select formControlName="ubigeo"
+                                          class="form-control select" placeholder="Seleccione Distrito"
+                                          [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
+                                          <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
+                                              {{data.nombre}}
+                                          </mat-option>
+                                      </mat-select>
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>En caso de emergencia llamar a <span class="login-danger">*</span></label>
+                                      <input formControlName="contactoEmergencia" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Parentesco <span class="login-danger">*</span></label>
+                                      <input class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Domicilio <span class="login-danger">*</span></label>
+                                      <input formControlName="domicilioParentesco" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-3">
+                                  <div class="form-group local-forms">
+                                      <label>Celular <span class="login-danger">*</span></label>
+                                      <input formControlName="telefonoParentesco" class="form-control" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-6">
+                                  <div class="form-group local-forms">
+                                      <label>Referido por<span class="login-danger">*</span></label>
+                                      <input class="form-control custom-input-height" type="text">
+                                  </div>
+                              </div>
+                              <div class="col-12 col-md-6 col-xl-6 ">
+                                  <div class="form-group local-forms">
+                                      <label>Observacion <span class="login-danger">*</span></label>
+                                      <input formControlName="observacion" class="form-control custom-input-height" type="text">
+                                  </div>
+                              </div>
+                              <div class=" text-end ">
+                                  <a  href="javascript:void(0);" class="btn btn-primary btn-rounded"><i
+                                          ></i> Guardar</a>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="col-12">
+                        <div class="form-heading">
+                            <h4>Historial de Citas</h4>
+                        </div>
+                    </div>
+                      <div class="table-responsive">
+                        <!-- <h5>Mostrar --- Registros</h5> -->
+                        <table class="table border-0 custom-table comman-table datatable mb-0">
+                          <thead>
+                            <tr>
+                                <th>
+                                    <div class="form-check check-tables">
+                                        <input class="form-check-input" type="checkbox" value="something">
+                                    </div>
+                                </th>
+                                <th >N° Cita</th>
+                                <th >Fecha Cita</th>
+                                <!-- <th mat-sort-header="specialization">Especializacion</th> -->
+                                <th>Especialidad</th>
+                                <th>Medico</th>
+                                <th >Motivo</th>
+                                <th >Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let data of citasList let i = index">
+                              <td>
+                                  <div class="form-check check-tables">
+                                      <input class="form-check-input" type="checkbox" value="something">
+                                  </div>
+                              </td>
+                              <td>{{serialNumberArray[i]}}</td>
+                              <!-- <td>{{ data.citaMedicaId }}</td> -->
+                              <td>{{formatoFecha(data.fecha)}}</td>
+                              <td>{{getEspecialidad(data.especialidadId)}}</td>
+                              <td>{{getMedico(data.medicoId)}}</td>
+                              <td>{{data.motivoConsulta}}</td>
+                              <td><button [ngClass]="getEstadoInfo(data.estado).clase">{{getEstadoInfo(data.estado).nombre}}</button></td>
+
+
+                          </tr>
+                      </tbody>
+                        </table>
+                        <div class="table_footer">
+                          <div class="col-sm-12 col-md-5">
+                            <div class="dataTables_info">
+                              Mostrando {{ serialNumberArray[0] }} a
+                              {{ serialNumberArray
+                              [serialNumberArray.length - 1] }} de
+                  {{ totalData }} entradas
+                            </div>
+                          </div>
+
+                          <div class="col-sm-12 col-md-7">
+                            <div class="pagination_section">
+                              <ul class="pagination">
+                                <li class="page-item" [ngClass]="{
+                                                    disabled: currentPage === 1
+                                                  }">
+                                  <a (click)="getMoreData('previous')" class="page-link" href="javascript:void(0);"
+                                    tabindex="-1">Previous</a>
+                                </li>
+
+                                <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                                  <li class="page-item" [class.active]="item === currentPage" [ngClass]="
+                                                      (pageNumberArray[currentPage - 2] > item &&
+                                                        item !== 1 &&
+                                                        pageNumberArray.length > 6) ||
+                                                      (pageNumberArray[currentPage] < item &&
+                                                        item !== 1 &&
+                                                        pageNumberArray.length > 6 &&
+                                                        pageNumberArray.length !== item)
+                                                        ? 'hide-page-no'
+                                                        : 'show-page-no'
+                                                    ">
+                                    <a (click)="moveToPage(item)" class="page-link" href="javascript:void(0);">
+                                      {{ item }}
+                                    </a>
+                                  </li>
+                                  <li class="page-item" *ngIf="
+                                                      i === 0 &&
+                                                      pageNumberArray.length > 6 &&
+                                                      currentPage > 2
+                                                    " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                                    <a class="page-link" href="javascript:void(0);">
+                                      ...
+                                    </a>
+                                  </li>
+                                  <li *ngIf="
+                                                      i === pageNumberArray.length - 2 &&
+                                                      pageNumberArray.length > 6
+                                                    " [hidden]="
+                                                      currentPage >=
+                                                        pageNumberArray[pageNumberArray.length - 2] ||
+                                                      totalData <
+                                                        serialNumberArray[serialNumberArray.length - 1]
+                                                    " class="page-item" (click)="moveToPage(currentPage + 2)">
+                                    <a class="page-link" href="javascript:void(0);">
+                                      ...
+                                    </a>
+                                  </li>
+                                </ng-container>
+
+                                <li class="page-item" [ngClass]="{
+                                                    disabled:
+                                                      currentPage ===
+                                                        pageNumberArray[pageNumberArray.length - 1] ||
+                                                        citasList.length === 0
+                                                  }">
+                                  <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
+                                  </a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>

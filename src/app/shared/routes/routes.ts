@@ -21,7 +21,7 @@ export class routes {
     return this.baseUrl + '/paciente/patient-setting';
   }
   public static get HistoriaPaciente(): string {
-    return this.baseUrl + '/paciente/historia-paciente';
+    return this.baseUrl + '/paciente/historia-paciente/filiacion';
   }
   public static get historiaMedicoPac(): string {
     return this.baseUrl + '/paciente/historia-medico';

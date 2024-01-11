@@ -5,11 +5,14 @@ import { HistoriaPacienteRoutingModule } from './historia-paciente-routing.modul
 import { HistoriaPacienteComponent } from './historia-paciente.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FiltroPipe } from './pipes/filtro.pipe';
+import { MiniSidebarComponent } from './mini-sidebar/mini-sidebar.component';
+
 
 @NgModule({
     declarations: [
         HistoriaPacienteComponent,
-        FiltroPipe
+        FiltroPipe,
+        MiniSidebarComponent,
     ],
     imports: [
         CommonModule,
