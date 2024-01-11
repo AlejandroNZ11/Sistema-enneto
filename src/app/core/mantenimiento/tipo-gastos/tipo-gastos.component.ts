@@ -80,7 +80,7 @@ export class TipoGastosComponent implements OnInit {
 
   editarConceptoGasto(conceptoGasto: IConceptoGasto) {
     const initialState = {
-      conceptoGastoSeleccionado: conceptoGasto.conceptoGastoId
+      conceptoGastoSeleccionado: conceptoGasto
     };
     this.bsModalRef = this.modalService.show(EditarTipoGastosComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {

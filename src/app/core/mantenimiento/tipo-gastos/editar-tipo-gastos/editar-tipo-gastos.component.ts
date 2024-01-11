@@ -31,13 +31,12 @@ export class EditarTipoGastosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tipoGastosService.obtenerConceptoGasto(this.conceptoGastoSeleccionado!.conceptoGastoId).subscribe(conceptoGasto => {
-      this.conceptoGasto = conceptoGasto;
+    if (this.conceptoGastoSeleccionado) {
       this.form.patchValue({
-        nombre: this.conceptoGasto.nombre,
-        estado: this.conceptoGasto.estado == 'Activo' ? 'Activo' : 'Inactivo',
+        nombre: this.conceptoGastoSeleccionado.nombre,
+        estado: this.conceptoGastoSeleccionado.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    });
+    }
   }
 
   isInvalid(controlName: string) {
@@ -59,13 +58,19 @@ export class EditarTipoGastosComponent implements OnInit {
       this.mostrarErrores = true;
       return;
     }
-
+  
+    // Asegúrate de que conceptoGastoSeleccionado tenga conceptoGastoId definido
+    if (!this.conceptoGastoSeleccionado.conceptoGastoId) {
+      console.error('El conceptoGastoId es undefined o null.');
+      return;
+    }
+  
     const conceptoGastoActualizado: IConceptoGasto = {
       conceptoGastoId: this.conceptoGastoSeleccionado.conceptoGastoId,
       nombre: this.form.value.nombre,
-      estado: this.form.value.estado == 'Activo' ? 'Activo' : 'Inactivo',
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-
+  
     this.tipoGastosService.actualizarConceptoGasto(conceptoGastoActualizado).subscribe(
       (response) => {
         if (response.isSuccess) {
