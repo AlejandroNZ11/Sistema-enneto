@@ -15,10 +15,12 @@ export class OperacionesService {
   constructor(public http: HttpClient,) { }
 
   obtenerProductos(clinicaId: string, page: number, rows: number): Observable<DataProducto> {
-    return this.http.get<DataProducto>(this.apiUrl + `/Especialidades/GetAllEspecialidad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataProducto>(this.apiUrl + `/Productos/GetAllProducto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
+///api/Productos/GetAllProducto
+  ///api/Productos/SaveProducto
   crearProducto(producto: producto): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Especialidades/SaveEspecialidad', producto).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Productos/SaveProducto', producto).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
