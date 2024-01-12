@@ -18,10 +18,6 @@ export class AgregarApoderadoComponent  {
   form!: FormGroup;
   public mostrarErrores = false;
 
-  public isFormSubmitted = false;
-  public cantidad = 12;
-  public cantidadTelefono = 9;
-
   constructor(public bsModalRef: BsModalRef, private apoderadoService: ApoderadoService, public fb: FormBuilder) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -42,16 +38,6 @@ export class AgregarApoderadoComponent  {
     return control?.errors && control.errors['required'];
   }
 
-  isCantidadNroDocumento(controlName: string) {
-    const control = this.form.get(controlName);
-    return control?.errors && (control.errors['maxlength'] || control.errors['minlength']);
-  }
-
-  isCantidadTelefono(controlName: string) {
-    const control = this.form.get(controlName);
-    return control?.errors && control.errors['maxlength'];
-  }
-
   Cancelar() {
     this.bsModalRef.hide();
   }
@@ -61,19 +47,8 @@ export class AgregarApoderadoComponent  {
       control.markAsTouched();
     });
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  soloNumeros(event: any) {
-    const pattern = /^[0-9]*$/;
-    const inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    }
-  }
 
   crearApoderado() {
-    this.isFormSubmitted = true;
-  
     if (this.form.invalid) {
       this.isTouched();
       return;
@@ -81,9 +56,9 @@ export class AgregarApoderadoComponent  {
   
     this.Apoderado.nombre = this.form.get('nombre')?.value;
     this.Apoderado.tipoDocumento = +this.form.get('tipoDocumento')?.value;
-    this.Apoderado.documento = this.form.get('documento')?.value;
+    this.Apoderado.documento = this.form.get('documento')?.value.toString();
     this.Apoderado.direccion = this.form.get('direccion')?.value;
-    this.Apoderado.telefono = this.form.get('telefono')?.value;
+    this.Apoderado.telefono = this.form.get('telefono')?.value.toString();
     this.Apoderado.estado = this.form.get('estado')?.value;
   
     this.apoderadoService.crearApoderado(this.Apoderado).subscribe(
@@ -99,7 +74,6 @@ export class AgregarApoderadoComponent  {
         console.error(error);
   
         if (error instanceof HttpErrorResponse && error.error) {
-          // Imprime el cuerpo de la respuesta detallada del servidor
           console.error('Error del servidor:', error.error);
         }
       }
