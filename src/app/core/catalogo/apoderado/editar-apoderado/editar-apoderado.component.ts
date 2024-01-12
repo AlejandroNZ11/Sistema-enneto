@@ -18,8 +18,6 @@ export class EditarApoderadoComponent implements OnInit {
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
-  public cantidad = 12;
-  public cantidadTelefono = 9;
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -47,6 +45,9 @@ export class EditarApoderadoComponent implements OnInit {
         telefono: this.apoderado.telefono,
         estado: this.apoderado.estado == '1' ? 'Activo' : 'Inactivo',
       });
+  
+      // Asegúrate de que el valor de tipoDocumento se establezca en el mat-select
+      this.form.get('tipoDocumento')?.setValue(this.apoderado.tipoDocumento);
     });
   }
 
@@ -58,25 +59,6 @@ export class EditarApoderadoComponent implements OnInit {
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  soloNumeros(event: any) {
-    const pattern = /^[0-9]*$/;
-    const inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      event.preventDefault();
-    }
-  }
-
-  isCantidadNroDocumento(controlName: string) {
-    const control = this.form.get(controlName);
-    return control?.errors && (control.errors['maxlength'] || control.errors['minlength']);
-  }
-
-  isCantidadTelefono(controlName: string) {
-    const control = this.form.get(controlName);
-    return control?.errors && control.errors['maxlength'];
   }
 
   Cancelar() {

@@ -40,37 +40,15 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nro. Documento <span class="login-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input (input)="soloNumeros($event)" formControlName="documento"
-                                            class="form-control" type="text" [maxLength]="cantidad"
-                                            [ngClass]="{'is-invalid': isInvalid('documento') && isFormSubmitted}">
-                                    </div>
-                                    <div *ngIf="isInvalid('documento') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('documento')">
-                                            Debe completar el campo*
-                                        </div>
-                                        <div *ngIf="isCantidadNroDocumento('documento')">
-                                            Debe ingresar la cantidad correcta: {{cantidad}}*
-                                        </div>
-                                    </div>
+                                    <input formControlName="documento" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('documento')}">
+                                    <div *ngIf="isInvalid('documento')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input (input)="soloNumeros($event)" formControlName="telefono"
-                                            class="form-control" type="text" [maxLength]="cantidadTelefono"
-                                            [ngClass]="{'is-invalid': isInvalid('telefono') && isFormSubmitted}">
-                                    </div>
-                                    <div *ngIf="isInvalid('telefono') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('telefono')">
-                                            Debe completar el campo*
-                                        </div>
-                                        <div *ngIf="isCantidadTelefono('telefono')">
-                                            Debe ingresar la cantidad correcta: {{cantidadTelefono}}*
-                                        </div>
-                                    </div>
+                                    <input formControlName="telefono" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('telefono')}">
+                                    <div *ngIf="isInvalid('telefono')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>                            
                             <div class="col-12 col-md-12 col-xl-6">
