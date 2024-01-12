@@ -28,18 +28,21 @@ export class OperacionesService {
     );
 }
 obtenerProducto( productoId: string): Observable<Iproducto> {
-  return this.http.get<Iproducto>(this.apiUrl + `/Especialidades/GetEspecialidad/${productoId}`);
+  return this.http.get<Iproducto>(this.apiUrl + `/Productos/GetProducto/${productoId}`);
 }
+///api/Productos/GetProducto/{productoId}
 eliminarProducto( productoId: string): Observable<successResponse> {
-  return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${productoId}`);
+  return this.http.delete<successResponse>(this.apiUrl + `/Productos/DeleteProducto/${productoId}`);
 }
+///api/Productos/DeleteProducto/{productoId}
 
 actualizarProducto(producto: Iproducto): Observable<successResponse> {
-  return this.http.put<successResponse>(this.apiUrl + `/Especialidades/${producto.id}`, producto).pipe(
+  return this.http.put<successResponse>(this.apiUrl + `Productos/UpdateProducto/${producto.id}`, producto).pipe(
     catchError(error => {
       Swal.fire('Error', error.error, 'warning');
       return throwError(() => error);
     })
   );
 }
+///api/Productos/UpdateProducto/{productoId}
 }
