@@ -12,3 +12,7 @@ export interface DataCategoria {
     totalData: number;
     data: Icategoria[];
 }
+
+export class categoriaResponse {
+    nombre = "";
+}

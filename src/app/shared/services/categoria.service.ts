@@ -24,8 +24,14 @@ export class CategoriaService {
     );
   }
 
+  obtenerCategoria( categoriaId: string): Observable<Icategoria> {
+    return this.http.get<Icategoria>(this.apiUrl + `/Categorias/GetCategoria/${categoriaId}`);
+  }
+  eliminarCategoria( categoriaId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Categorias/DeleteCategoria/${categoriaId}`);
+  }
   actualizarCategoria(categoria: Icategoria): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Categorias/${categoria.categoriaId}`, categoria).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Categorias/UpdateCategoria/${categoria.categoriaId}`, categoria).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

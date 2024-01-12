@@ -1,26 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { DataCategoria, Icategoria, categoria } from 'src/app/shared/models/categoria';
+import { categoria } from 'src/app/shared/models/categoria';
 import { routes } from 'src/app/shared/routes/routes';
 import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import Swal from 'sweetalert2';
-import { CategoriaComponent } from '../categoria.component';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-categoria',
   templateUrl: './agregar-categoria.component.html',
   styleUrls: ['./agregar-categoria.component.scss']
 })
 export class AgregarCategoriaComponent implements OnInit {
+  categoriaAgregada$: Subject<boolean> = new Subject<boolean>();
   Categoria: categoria = new categoria();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
   ngOnInit(): void { }
 
-  constructor(public bsModalRef: BsModalRef, private categoriaService: CategoriaService,
-    public fb: FormBuilder,) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private categoriaService: CategoriaService,
+    public fb: FormBuilder,
+    ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
     });
@@ -35,6 +38,7 @@ export class AgregarCategoriaComponent implements OnInit {
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.categoriaAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -48,12 +52,12 @@ export class AgregarCategoriaComponent implements OnInit {
       return;
     }
     this.Categoria.nombre = this.form.get("nombre")?.value;
-    this.Categoria.usuarioId = "Franco";
     console.log(this.Categoria);
     this.categoriaService.crearCategoria(this.Categoria).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
+          this.categoriaAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);

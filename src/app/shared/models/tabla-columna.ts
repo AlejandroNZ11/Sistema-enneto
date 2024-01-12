@@ -23,9 +23,9 @@ import { TipoConceptoResponce } from "./tipoConcepto";
 import { sedeResponse } from "./sede";
 import { medidaResponse } from "./medida";
 import { tarifarioResponse } from "./tarifario";
-import { consentimientoResponse } from "./consentimiento";
-import { ConsentimientoComponent } from "src/app/core/catalogo/consentimiento/consentimiento.component";
+import { consentimientoResponse } from "./consentimiento"; 
 import { proveedorResponse } from "./proveedor";
+import { categoriaResponse } from "./categoria";
 
 export interface Accion<T = any> {
   accion: string;
@@ -72,6 +72,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Medida': clase = new medidaResponse();break;
     case 'Tarifario': clase = new tarifarioResponse();break;
     case 'Consentimiento': clase = new consentimientoResponse();break;
+    case 'Categoria': clase = new categoriaResponse();break;
   }
   if (clase) {
     resultados = Object.keys(clase);
