@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 })
 export class EditarUsuarioComponent implements OnInit {
   usuario!: IUsuario;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   usuarioSeleccionado: any;
   public routes = routes;
   form: FormGroup;
@@ -52,7 +51,7 @@ export class EditarUsuarioComponent implements OnInit {
         rolId: this.usuario.rolId,
         loginUsuario: this.usuario.loginUsuario,
         passwordUsuario: '',
-        estado: this.usuario.estado == '1' ? 'Activo' : 'Inactivo',
+        estado: this.usuario.estado.toLowerCase(),
       });
     });
   }
@@ -101,7 +100,7 @@ export class EditarUsuarioComponent implements OnInit {
       loginUsuario: this.form.value.loginUsuario,
       passwordUsuario: this.form.value.passwordUsuario,
       fechaRegistro: this.form.value.fechaRegistro,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+      estado: this.form.value.estado.toLowerCase(),
     };
 
     this.usuarioService.actualizarUsuario(usuarioActualizado).subscribe(

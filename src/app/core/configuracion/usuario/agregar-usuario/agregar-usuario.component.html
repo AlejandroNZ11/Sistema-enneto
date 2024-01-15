@@ -75,11 +75,11 @@
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumentoId" class="form-control select"
                                         placeholder="Seleccionar">
-                                        <mat-option value="DNI">DNI</mat-option>
-                                        <mat-option value="RUC">RUC</mat-option>
-                                        <mat-option value="PASAPORTE">PASAPORTE</mat-option>
-                                        <mat-option value="CARNET DE EXTRANJERIA">CARNET DE EXTRANJERIA</mat-option>
-                                        <mat-option value="OTROS">OTROS</mat-option>
+                                        <mat-option value="dni">DNI</mat-option>
+                                        <mat-option value="ruc">RUC</mat-option>
+                                        <mat-option value="pasaporte">Pasaporte</mat-option>
+                                        <mat-option value="nic">NIC</mat-option>
+                                        <mat-option value="cedula">Cédula</mat-option>
                                     </mat-select>
                                     <div *ngIf="isInvalid('tipoDocumentoId') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('tipoDocumentoId')|| mostrarErrores">
