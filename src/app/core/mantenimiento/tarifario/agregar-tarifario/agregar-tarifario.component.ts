@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataTarifario, tarifario, Itarifario } from 'src/app/shared/models/tarifario';
@@ -20,6 +20,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-tarifario.component.scss']
 })
 export class AgregarTarifarioComponent {
+  
+  
   constructor(
     public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, 
@@ -27,10 +29,14 @@ export class AgregarTarifarioComponent {
     private tarifarioService: TarifarioService,
     public monedaservice: MonedaService,
     public medidaservice: MedidaService,
-    public unidadservice: UnidadesService
-    
-    ) { }
+    public unidadservice: UnidadesService,
+    private renderer: Renderer2,
+    ) {
+      
+    }
 
+  
+  fechaRegistro: Date = new Date();
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   moneda_LISTA: Array<IMoneda> = [];
   unidad_LISTA: Array<Iunidad> = [];
@@ -65,18 +71,25 @@ export class AgregarTarifarioComponent {
 
     this.isFormSubmitted = false;
     this.form = this.formBuilder.group({
-    tipoConcepto: ['', [Validators.required]],
+    tipoconcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
     moneda: ['', [Validators.required]],
     costo: ['', [Validators.required]],
     medida: ['', [Validators.required]],
     unidad: ['', [Validators.required]],
-    fechaDeRegistro: ['', [Validators.required]],
+    fechaRegistro: ['', [Validators.required]],
     
     })
   }
-    
+  
+  validarInput(event: any) {
+    const inputValue = event.target.value;
 
+    if (isNaN(inputValue)) {
+      const newValue = inputValue.slice(0, -1);
+      this.renderer.setProperty(event.target, 'value', newValue);
+    }
+  }
   
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -99,16 +112,11 @@ export class AgregarTarifarioComponent {
       this.isTouched()      
       return;
     }
-
-    
-    this.Tarifario.moneda = this.moneda;
-    this.Tarifario.tipoconcepto = this.tipoconcepto;
-    this.Tarifario.medida = this.medida;
-    this.Tarifario.unidad = this.unidad;
     
     this.Tarifario.moneda = this.form.get("moneda")?.value;
     this.Tarifario.tipoconcepto = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
+    this.Tarifario.costo = this.form.get("costo")?.value;
     this.Tarifario.medida = this.form.get("medida")?.value;
     this.Tarifario.unidad = this.form.get("unidad")?.value;
     this.Tarifario.fechaRegistro = this.form.get("fechaRegistro")?.value;

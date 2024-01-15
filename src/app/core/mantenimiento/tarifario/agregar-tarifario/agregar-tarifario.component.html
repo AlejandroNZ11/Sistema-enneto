@@ -25,7 +25,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Tipo Concepto <span class="login-danger">*</span></label>
-                                    <mat-select [(ngModel)]="tipoconcepto" formControlName="tipoconcepto"
+                                    <mat-select formControlName="tipoconcepto"
                                         class="form-control select" placeholder="Seleccione Tipo Concepto"
                                         [ngClass]="{'is-invalid': isInvalid('tipoconcepto') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of tipoconcepto_LISTA"
@@ -44,7 +44,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Moneda <span class="login-danger">*</span></label>
-                                    <mat-select [(ngModel)]="moneda" formControlName="moneda"
+                                    <mat-select formControlName="moneda"
                                         class="form-control select" placeholder="Seleccione Tipo Moneda"
                                         [ngClass]="{'is-invalid': isInvalid('moneda') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of moneda_LISTA"
@@ -62,22 +62,23 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>Costo <span class="login-danger">*</span></label>
+                                    <label>Costo<span class="login-danger">*</span></label>
                                     <input formControlName="costo" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('costo')}">
+                                            [ngClass]="{'is-invalid': isInvalid('costo')}"
+                                            (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('costo') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('costo')|| mostrarErrores">
+                                        <div *ngIf="isRequerido('costo') || mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
                             
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                 <label>Fecha de Registro<span class="text-danger">*</span></label>
                                 <input formControlName="fechaRegistro" class="form-control datetimepicker" type="text" matInput
-                                    [matDatepicker]="picker" >
+                                    [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
                                 <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                                   <div *ngIf="isInvalid('fechaRegistro')" class="invalid-feedback">
@@ -86,10 +87,12 @@
                                 </div>
                             </div>
                             
+
+                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Unidades <span class="login-danger">*</span></label>
-                                    <mat-select [(ngModel)]="unidad" formControlName="unidad"
+                                    <mat-select formControlName="unidad"
                                         class="form-control select" placeholder="Seleccione Tipo Unidad"
                                         [ngClass]="{'is-invalid': isInvalid('unidad') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of unidad_LISTA"
@@ -108,7 +111,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Medida <span class="login-danger">*</span></label>
-                                    <mat-select [(ngModel)]="medida" formControlName="medida"
+                                    <mat-select formControlName="medida"
                                         class="form-control select" placeholder="Seleccione Tipo Medida"
                                         [ngClass]="{'is-invalid': isInvalid('medida') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of medida_LISTA"

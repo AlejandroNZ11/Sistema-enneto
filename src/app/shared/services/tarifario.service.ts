@@ -40,11 +40,5 @@ export class TarifarioService {
         })
         );
     }
-
-
-
-
-
-
 }
 

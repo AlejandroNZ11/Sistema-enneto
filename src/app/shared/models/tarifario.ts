@@ -2,6 +2,7 @@ export class tarifario {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
     descripcion = "";
+    costo="";
     estado!: number;
     fechaRegistro!: Date;
     tipoconcepto?: string[];
@@ -23,7 +24,7 @@ export interface Itarifario{
     medida: string;
     moneda: string;
     unidad: string;
-    costo: 0;
+    costo: number;
     estado: string;
     fechaRegistro: Date;
 }
