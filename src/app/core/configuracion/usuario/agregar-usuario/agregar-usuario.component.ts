@@ -59,7 +59,7 @@ export class AgregarUsuarioComponent {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleFileInput(event: any) {
     const file = event.target.files[0];
-    this.form.get('foto')?.setValue(file);
+    this.usuario.foto = file;
   }
 
   crearUsuario() {
@@ -70,7 +70,7 @@ export class AgregarUsuarioComponent {
 
     this.usuario.apellido = this.form.get('apellido')?.value;
     this.usuario.nombre = this.form.get('nombre')?.value;
-    this.usuario.telefono = this.form.get('telefono')?.value;
+    this.usuario.telefono = this.form.get('telefono')?.value.toString();
     this.usuario.direccion = this.form.get('direccion')?.value;
     this.usuario.email = this.form.get('email')?.value;
     this.usuario.tipoDocumentoId = this.form.get('tipoDocumentoId')?.value;
