@@ -16,10 +16,11 @@ export class ProveedorService {
   constructor(public http: HttpClient,) { }
 
   obtenerProveedores(clinicaId: string, page: number, rows: number): Observable<DataProveedor> {
-    return this.http.get<DataProveedor>(`${this.apiUrl}/TipoGastos/GetAllTipoGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataProveedor>(`${this.apiUrl}/Proveedor/GetAllProveedor?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
+  ///api/Proveedor/GetAllProveedor
   obtenerProveedor( proveedorRuc: string): Observable<Iproveedor> {
-    return this.http.get<Iproveedor>(this.apiUrl + `/Especialidades/GetEspecialidad/${proveedorRuc}`);
+    return this.http.get<Iproveedor>(this.apiUrl + `/Proveedor/GetProveedor/${proveedorRuc}`);
   }
   crearProveedor(proveedor: proveedor): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Proveedor/SaveProveedor', proveedor).pipe(
@@ -29,15 +30,18 @@ export class ProveedorService {
       })
     );
   }
+  ///api/Proveedor/SaveProveedor
   eliminarProveedor( proveedorRuc: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Especialidades/DeleteEspecialidad/${proveedorRuc}`);
+    return this.http.delete<successResponse>(this.apiUrl + `/Proveedor/DeleteProveedor/${proveedorRuc}`);
   }
+  ///api/Proveedor/DeleteProveedor/{proveedorId}
   actualizarProveedor(proveedor: Iproveedor): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Proveedor/${proveedor.ruc}`, proveedor).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Proveedor/UpdateProveedor/${proveedor.ruc}`, proveedor).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
       })
     );
   }
+  ///api/Proveedor/UpdateProveedor/{proveedorId}
 }
