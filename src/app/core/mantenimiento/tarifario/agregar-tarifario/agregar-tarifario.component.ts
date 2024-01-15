@@ -74,7 +74,7 @@ export class AgregarTarifarioComponent {
     tipoconcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
     moneda: ['', [Validators.required]],
-    costo: ['', [Validators.required]],
+    precio: ['', [Validators.required]],
     medida: ['', [Validators.required]],
     unidad: ['', [Validators.required]],
     fechaRegistro: ['', [Validators.required]],
@@ -113,13 +113,14 @@ export class AgregarTarifarioComponent {
       return;
     }
     
-    this.Tarifario.moneda = this.form.get("moneda")?.value;
-    this.Tarifario.tipoconcepto = this.form.get("tipoconcepto")?.value;
+    this.Tarifario.monedaId = this.form.get("moneda")?.value;
+    this.Tarifario.tipoconceptoId = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
-    this.Tarifario.costo = this.form.get("costo")?.value;
-    this.Tarifario.medida = this.form.get("medida")?.value;
-    this.Tarifario.unidad = this.form.get("unidad")?.value;
+    this.Tarifario.precio = this.form.get("precio")?.value;
+    this.Tarifario.medidaId = this.form.get("medida")?.value;
+    this.Tarifario.unidadId = this.form.get("unidad")?.value;
     this.Tarifario.fechaRegistro = this.form.get("fechaRegistro")?.value;
+    this.Tarifario.estado = 1
 
     
     console.log(this.Tarifario);

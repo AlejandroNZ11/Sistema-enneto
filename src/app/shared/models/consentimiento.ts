@@ -3,6 +3,7 @@ export class consentimiento {
     usuarioId = "";
     nombre = "";
     estado = "";
+    texto= "";
     observacion = "";
 }
 
@@ -15,6 +16,7 @@ export interface Iconsentimiento {
     consentimientoId : string;
     nombre: string;
     observacion: string;
+    texto: string;
     estado: string;
 }
 

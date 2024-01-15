@@ -2,13 +2,13 @@ export class tarifario {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
     descripcion = "";
-    costo="";
+    precio="";
     estado!: number;
     fechaRegistro!: Date;
-    tipoconcepto?: string[];
-    moneda?: string[];
-    medida?: string[];
-    unidad?: string[];
+    tipoconceptoId?: string[];
+    monedaId?: string[];
+    medidaId?: string[];
+    unidadId?: string[];
     
 }
 
@@ -20,21 +20,21 @@ export interface DataTarifario {
 export interface Itarifario{
     tarifarioId : string;
     descripcion: string;
-    tipoconcepto: string;
-    medida: string;
-    moneda: string;
-    unidad: string;
-    costo: number;
+    tipoconceptoId: string;
+    medidaId: string;
+    monedaId: string;
+    unidadId: string;
+    precio: number;
     estado: string;
     fechaRegistro: Date;
 }
 
 export class tarifarioResponse {
     descripcion = "";
-    tipoConcepto= "";
-    medida= "";
-    moneda= "";
-    unidad= "";
-    costo= "";
+    tipoConceptoId= "";
+    medidaId= "";
+    monedaId= "";
+    unidadId= "";
+    precio= "";
     fechaRegistro= "";
 }

@@ -69,6 +69,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
       consentimientoId: this.consentimiento.consentimientoId,
       nombre: this.form.value.nombre,
       observacion: this.form.value.observacion,
+      texto: this.form.value.texto,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
