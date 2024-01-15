@@ -6,21 +6,22 @@
           <div  class="card-body text-center">
               <img src="https://newdental.odontoenneto.com//assets/img/background/user.png" class="img-circle " width="150"  style="margin: 0 auto;">
               <h6>
-                  <b>nombre apellido</b>
+                  <p>{{ nombres }} {{ apellidos }}</p>
               </h6>
               <h6>H.C 17</h6>
               <div class="list-group mt-5">
-                  <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoFiliacion'"
+                  <!-- <a class="list-group-item list-group-item-action" [class.active]="base === 'filiacion'"
                       (click)="setActiveLink('HistoriaContenidoFiliacion')" [routerLink]="['./filiacion',pacienteId]">
-                      <i class="far fa-user" aria-hidden="true"></i> Filiación </a>
+                      <i class="far fa-user" aria-hidden="true"></i> Filiación
+                  </a>
                   <a class="list-group-item list-group-item-action"
-                      [class.active]="activeLink === 'HistoriaContenidoExploracionFisica'"
+                  [class.active]="base === 'historia-clinica'"
                       (click)="setActiveLink('HistoriaContenidoExploracionFisica')"
                       [routerLink]="['./historia-clinica',pacienteId]"
                       >
                       <i class="far fa-building" aria-hidden="true"></i> Historia clínica
                   </a>
-                  <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoOdontograma'"
+                  <a class="list-group-item list-group-item-action" [class.active]="base === 'odontograma'"
                       (click)="setActiveLink('HistoriaContenidoOdontograma')">
                       <i class="fas fa-life-ring"></i> Odontograma
                   </a>
@@ -55,8 +56,38 @@
                   <a class="list-group-item list-group-item-action" [class.active]="activeLink === 'HistoriaContenidoRecetas'"
                       (click)="setActiveLink('HistoriaContenidoRecetas')">
                       <i class="fas fa-first-aid"></i> Recetas
-                  </a>
+                  </a> -->
+
+
+                  <div class="email-menu-blk">
+                    <ul >
+                        <li class="" [routerLinkActive]="['active']"
+                            [routerLink]="['./filiacion',pacienteId]"><a href="javascript:;"><img src="assets/img/icons/filiacion-icon.svg" class="me-2" alt="img">Filiación</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"
+                        [routerLink]="['./historia-clinica',pacienteId]"><a href="javascript:;"><img src="assets/img/icons/history-clinic-icon.svg" class="me-2" alt="img">Historia Clinica</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/odontogram-icon.svg" class="me-2" alt="img">Odontograma</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/orthodontics-icon.svg" class="me-2" alt="img">Ortodoncia</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/budget-icon.svg" class="me-2" alt="img">Presupuesto</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/diagnosis-icon.svg" class="me-2" alt="img">Diagnostico</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/evolution-icon.svg" class="me-2" alt="img">Evolución</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/images-icon.svg" class="me-2" alt="img">Imágenes</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/card-icon.svg" class="me-2" alt="img">Tarjeta</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/consent-icon.svg" class="me-2" alt="img">Consentimiento</a></li>
+
+                        <li class="" [routerLinkActive]="['active']"><a href="javascript:;"><img src="assets/img/icons/recipes-icon.svg" class="me-2" alt="img">Recetas</a></li>
+                    </ul>
+                </div>
               </div>
+
 
           </div>
       </div>

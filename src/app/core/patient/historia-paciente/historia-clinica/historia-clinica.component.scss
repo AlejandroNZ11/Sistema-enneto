@@ -1,0 +1,26 @@
+nav{
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.profile-tab li a.nav-link.active{
+  border-bottom: 2px solid #2e37a4;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn-style{
+  background-color: #2e37a4;
+}
+li{
+  cursor: pointer;
+}
+
+
+
+//#abafdb
