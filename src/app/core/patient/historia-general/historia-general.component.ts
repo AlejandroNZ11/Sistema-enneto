@@ -137,6 +137,9 @@ export class HistoriaGeneralComponent implements OnInit {
     if (this.tipoPaciente != '--TODOS--') {
       tipoPaciente = this.tipoPaciente;
     }
+
+    // if(this.paciente || this.fechaDesde & this.fechaHasta){}
+
     this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
       .pipe(
         finalize(() => this.isLoading = false)

@@ -17,7 +17,7 @@ import { Ipais } from 'src/app/shared/models/pais';
 import { CitaService } from 'src/app/shared/services/cita.service';
 
 import { environment as env, environment } from 'src/environments/environments';
-import { DataCitaMedica, IcitaMedica } from 'src/app/shared/models/cita';
+import { CitaMedicaPaciente, DataCitaMedica, DataCitaMedicaPaciente, IcitaMedica, MedicoPaciente } from 'src/app/shared/models/cita';
 import { MatTableDataSource } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { pageSelection } from 'src/app/shared/models/models';
@@ -72,7 +72,11 @@ export class FiliacionComponent implements OnInit {
   public skip = 0;
   public serialNumberArray: Array<number> = [];
   public citasList: Array<IcitaMedica> = [];
+  public citasListPaciente: Array<CitaMedicaPaciente> = [];
+  public medicosListPaciente: Array<MedicoPaciente> = [];
+
   dataSource!: MatTableDataSource<IcitaMedica>;
+  dataSource2!: MatTableDataSource<CitaMedicaPaciente>
   public pageNumberArray: Array<number> = [];
   public totalPages = 0;
   public pageSelection: Array<pageSelection> = [];
@@ -193,6 +197,7 @@ export class FiliacionComponent implements OnInit {
     }
 
     // this.obtenerCitas();
+
     this.obtenerCitasSinFiltro();
   }
 
@@ -240,27 +245,69 @@ export class FiliacionComponent implements OnInit {
       });
     })
   }
+
+  //* Paginación
+  // private obtenerCitasSinFiltro(): void {
+  //   this.citasList = [];
+  //   this.serialNumberArray = [];
+  //   this.isLoading = true;
+  //   this.citaService.obtenerCitasMedicas(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
+  //     .pipe(
+  //       finalize(() => this.isLoading = false)
+  //     )
+  //     .subscribe((data: DataCitaMedica) => {
+  //       console.log("Respuesta del Servidor:", data);
+
+  //       this.totalData = data.totalData;
+  //       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+  //         const serialNumber = index + 1;
+  //         this.serialNumberArray.push(serialNumber);
+  //       }
+  //       this.citasList = data.data;
+  //       console.log("Lista de Citas del Paciente")
+  //       console.log(this.citasList)
+  //       this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
+  //       this.calculateTotalPages(this.totalData, this.pageSize);
+
+  //     });
+  // }
+
   fechaInicio = '2024-01-08';
   fechaFin = '2024-01-15';
-  //* Paginación
   private obtenerCitasSinFiltro(): void {
-    this.citasList = [];
+    this.citasListPaciente = [];
     this.serialNumberArray = [];
     this.isLoading = true;
-    this.citaService.obtenerCitasMedicas(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
+    this.citaService.obtenerCitasMedicasPaciente(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
       .pipe(
         finalize(() => this.isLoading = false)
       )
-      .subscribe((data: DataCitaMedica) => {
-        this.totalData = data.totalData;
-        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+      .subscribe((data: DataCitaMedicaPaciente) => {
+        console.log("Respuesta del Servidor:", data);
+
+        if (Array.isArray(data)) {
+          this.citasListPaciente = [];
+
+          data.forEach((item) => {
+            const citasArray = item?.citas;
+            console.log("aqui:", citasArray)
+
+            if (Array.isArray(citasArray)) {
+              this.citasListPaciente.push(...citasArray);
+            }
+          });
+        }
+
+        this.totalData = this.citasListPaciente.length;
+        console.log(this.totalData)
+        for (let index = this.skip; index < Math.min(this.limit, this.totalData); index++) {
           const serialNumber = index + 1;
           this.serialNumberArray.push(serialNumber);
         }
-        this.citasList = data.data;
-        console.log("Lista de Citas del Paciente")
-        console.log(this.citasList)
-        this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
+
+        console.log("Lista de Citas del Paciente2")
+        console.log(this.citasListPaciente)
+        this.dataSource2 = new MatTableDataSource<CitaMedicaPaciente>(this.citasListPaciente);
         this.calculateTotalPages(this.totalData, this.pageSize);
 
       });
@@ -395,52 +442,6 @@ export class FiliacionComponent implements OnInit {
     this.activeLink = link; // Establece el enlace como activo
   }
 
-
-
-  // Data Historial Paciente:
-  // obtenerCitas(){
-  //   this.citaService.obtenerCitasMedicas(env.clinicaId, this.currentPage, this.pageSize, this.pacienteId)
-  //   .subscribe((data: DataCitaMedica) => {
-  //     this.totalData = data.totalData;
-  //     for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-  //       const serialNumber = index + 1;
-  //       this.serialNumberArray.push(serialNumber);
-  //     }
-  //     this.citasList = data.data;
-  //     console.log("LISTA CITAS:")
-  //     console.log(this.citasList);
-  //     this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
-  //     // this.calculateTotalPages(this.totalData, this.pageSize);
-  //   });
-  // }
-
-
-  datingHistory: any= [
-    {
-      "numeroCita": 1,
-      "fechaCita": "2024-01-08T15:47:07.766Z",
-      "especialidad": "Cardiología",
-      "medico": "Dr. Pérez",
-      "motivo": "Control de rutina",
-      "estado": "Confirmada"
-    },
-    {
-      "numeroCita": 2,
-      "fechaCita": "2024-01-10T14:30:00.000Z",
-      "especialidad": "Dermatología",
-      "medico": "Dra. Rodríguez",
-      "motivo": "Problemas de piel",
-      "estado": "Pendiente"
-    },
-    {
-      "numeroCita": 3,
-      "fechaCita": "2024-01-12T09:15:00.000Z",
-      "especialidad": "Oftalmología",
-      "medico": "Dr. Gómez",
-      "motivo": "Examen de la vista",
-      "estado": "Cancelada"
-    }
-  ]
 
 }
 
