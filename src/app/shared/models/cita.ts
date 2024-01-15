@@ -56,3 +56,42 @@ export interface medicosCalendario {
     nombres: string;
     color: string;
 }
+
+
+// Interface Citas del PacienteId
+export interface CitaMedicaPaciente {
+  citaMedicaId: string;
+  pacienteId: string;
+  nombrePaciente: string;
+  apellidoPaciente: string;
+  medicoId: string;
+  nombreMedico: string;
+  apellidoMedico: string;
+  especialidadId: string;
+  sedeId: string;
+  motivoConsulta: string;
+  tipoCitadoId: string;
+  citadoId: number;
+  fecha: string;
+  fechaFinal: string;
+  observacion: string;
+  estado: string;
+  secuencia: number;
+  horaInicio: string;
+  horaFin: string;
+}
+
+export interface MedicoPaciente {
+  medicoId: string;
+  nombres: string;
+  apellidos: string;
+  color: string;
+}
+
+export interface DataCitaMedicaPaciente {
+  data: {
+    citas: CitaMedicaPaciente[];
+    medicos: MedicoPaciente[];
+  }[];
+  totalData: number;
+}

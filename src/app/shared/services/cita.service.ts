@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environments';
-import { DataCitaMedica, IcitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
+import { DataCitaMedica, DataCitaMedicaPaciente, IcitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
 import { Observable, catchError, throwError } from 'rxjs';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -24,6 +24,7 @@ export class CitaService {
     if (pacienteId){
       url += `&pacienteId=${pacienteId}`;
     }
+    console.log("Service: "+pacienteId)
     return this.http.get<DataCitaMedica>(url);
   }
   obtenerCitaMedica(citaMedicaId: string): Observable<IcitaMedica> {
@@ -61,5 +62,20 @@ export class CitaService {
         return throwError(() => error);
       })
     );
+  }
+
+  obtenerCitasMedicasPaciente(clinicaId: string, page: number, rows: number, pacienteId?: string ,fechaInicio?: string, fechaFin?: string):Observable<DataCitaMedicaPaciente>{
+    let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
+    if (fechaInicio) {
+      url += `&fechaInicio=${fechaInicio}`;
+    }
+    if (fechaFin) {
+      url += `&fechaFin=${fechaFin}`;
+    }
+    if (pacienteId){
+      url += `&pacienteId=${pacienteId}`;
+    }
+    console.log("Service: "+pacienteId)
+    return this.http.get<DataCitaMedicaPaciente>(url);
   }
 }

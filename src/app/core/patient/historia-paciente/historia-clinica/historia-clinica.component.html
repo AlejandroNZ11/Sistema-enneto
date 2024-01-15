@@ -1,1 +1,378 @@
-<p>historia-clinica works!</p>
+<!-- <div>
+  <button (click)="activeTab = 'tab1'">Tab 1</button>
+  <button (click)="activeTab = 'tab2'">Tab 2</button>
+  <button (click)="activeTab = 'tab3'">Tab 3</button>
+</div> -->
+<ul class="nav nav-tabs profile-tab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" data-bs-toggle="tab" (click)="activeTab = 'antecedentes'" role="tab" aria-controls="enfermedad" aria-selected="true">Antecedentes</a>
+   </li>
+  <li class="nav-item">
+    <a class="nav-link"  data-bs-toggle="tab" (click)="activeTab = 'consultasalud'" aria-controls="consulta" role="tab" aria-selected="false">Consulta de salud</a>
+   </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab" (click)="activeTab = 'exploracionfisica'" aria-controls="exploracion" role="tab" aria-selected="false">Exploracion Fisica</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-bs-toggle="tab"(click)="activeTab = 'alergia'" aria-controls="alergias" role="tab" aria-selected="false">Alergia</a>
+  </li>
+
+</ul>
+
+<div *ngIf="activeTab === 'antecedentes'" class="pt-3">
+  <!-- Contenido de la pestaña 1 -->
+  <div class="card ">
+    <div class="card-body">
+      <form action="">
+
+
+
+      <div class="row pt-4">
+        <div class="col-md-6">
+          <!-- Text-Area -->
+          <div class="form-group local-forms">
+            <label>Motivo de Consulta<span class="login-danger">*</span></label>
+            <div class="input-group">
+                   <textarea class="form-control" formControlName="numeroDocumento" type="text">
+                   </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Text-Area -->
+            <div class="form-group local-forms">
+              <label>Enfermedad Actual<span class="login-danger">*</span></label>
+              <div class="input-group">
+                     <textarea class="form-control" formControlName="numeroDocumento" type="text">
+                     </textarea>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <!-- Input -->
+          <div class="form-group local-forms">
+            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <div class="input-group">
+                <input
+                   class="form-control" type="text">
+            </div>
+          </div>
+           <!-- Input -->
+          <div class="form-group local-forms">
+            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <div class="input-group">
+                <input
+                   class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- Input -->
+          <div class="form-group local-forms">
+            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <div class="input-group">
+                <input  formControlName="numeroDocumento"
+                   class="form-control" type="text">
+            </div>
+          </div>
+           <!-- Input -->
+          <div class="form-group local-forms">
+            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <div class="input-group">
+                <input  formControlName="numeroDocumento"
+                   class="form-control" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div >
+        <div >
+            <div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-heading">
+                      <h4>Antecedentes del Paciente</h4>
+                  </div>
+                </div>
+              </div>
+                <div class="row">
+                    <div class="col-md-6">
+                          <!-- Input -->
+                          <div class="form-group local-forms">
+                            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                            <div class="input-group">
+                              <textarea class="form-control" formControlName="numeroDocumento" type="text">
+                              </textarea>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-6">
+                         <!-- Input -->
+                         <div class="form-group local-forms">
+                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <div class="input-group">
+                            <textarea class="form-control" formControlName="numeroDocumento" type="text">
+                            </textarea>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Esta tomando algun medicamento:</label>
+                            <div>
+                                <label class="radio-inline" data-dashlane-label="true">
+                                    <input type="radio" name="tomandoMedicamento" value="1" data-dashlane-rid="d9bfccb05db57a0b" data-form-type="other"> Si
+                                </label> &nbsp;&nbsp;&nbsp;&nbsp;
+                                <label class="radio-inline" data-dashlane-label="true">
+                                    <input type="radio" name="tomandoMedicamento" value="0" data-dashlane-rid="5afa8fa209045207" data-form-type="other"> No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                          <!-- Input -->
+                          <div class="form-group local-forms">
+                            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                            <div class="input-group">
+                                <input  formControlName="numeroDocumento"
+                                  class="form-control" type="text">
+                            </div>
+                          </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Input -->
+                        <div class="form-group local-forms">
+                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <div class="input-group">
+                              <input  formControlName="numeroDocumento"
+                                class="form-control" type="text">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Input -->
+                        <div class="form-group local-forms">
+                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <div class="input-group">
+                              <input  formControlName="numeroDocumento"
+                                class="form-control" type="text">
+                          </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      </div>
+
+      <div class="form-actions mb-5 d-flex flex-row-reverse">
+        <button type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1" data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
+      </div>
+        </form>
+    </div>
+
+  </div>
+
+
+</div>
+
+<div *ngIf="activeTab === 'consultasalud'">
+  <!-- Group 1 -->
+  <div class="row mt-5">
+    <div class="col-md-6 ">
+      <div class="row  flex-column">
+        <div class="col-md-12">
+            <label class="control-label">¿Ha tenido alguna vez tratamiento de ortodoncia?</label>
+        </div>
+        <div class="col-md-3 mt-2">
+            <div class="form-group">
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="algunaVezMedicamento" value="1" data-dashlane-rid="bec3e9ccf10184a3" data-form-type=""> Si
+                </label>
+                <label class="radio-inline" data-dashlane-label="true">
+                    <input type="radio" name="algunaVezMedicamento" value="0" data-dashlane-rid="2a44b10d464da069" data-form-type=""> No
+                </label>
+            </div>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <textarea name="algunaVezMedicamentoTexto" class="form-control" rows="2" disabled="" data-dashlane-rid="0da59153ab6b1186" data-form-type=""></textarea>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row flex-column">
+        <div class="col-md-12">
+            <label class="control-label">¿Esta tomando algun medicamento?</label>
+        </div>
+        <div class="col-md-3 mt-2">
+            <div class="form-group">
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="tomandoMedicamentoConsulta" value="1" data-dashlane-rid="061bd937f59878ff" data-form-type=""> Si
+                </label>
+                <label class="radio-inline" data-dashlane-label="true">
+                    <input type="radio" name="tomandoMedicamentoConsulta" value="0" data-dashlane-rid="21c3647c73d4e5ae" data-form-type=""> No
+                </label>
+            </div>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <textarea name="tomandoMedicamentoTexto" class="form-control" rows="2" disabled="" data-dashlane-rid="1b1b840762affbe0" data-form-type=""></textarea>
+            </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+ <!-- Group 2 -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row flex-column">
+        <div class="col-md-12">
+            <label class="control-label">¿Es alergico a algun medicamento o anestesico?</label>
+        </div>
+        <div class="col-md-3 mt-2">
+            <div class="form-group">
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="alergicoAnestesico" value="1" data-dashlane-rid="5b053a5112ec0672" data-form-type=""> Si
+                </label>
+                <label class="radio-inline" data-dashlane-label="true">
+                    <input type="radio" name="alergicoAnestesico" value="0" data-dashlane-rid="0f7ae8c260c5ec2a" data-form-type=""> No
+                </label>
+            </div>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <textarea name="alergicoAnestesicoTexto" class="form-control" rows="2" disabled="" data-dashlane-rid="2ed4e894907883cb" data-form-type=""></textarea>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row flex-column">
+        <div class="col-md-12">
+            <label class="control-label">¿Ha estado hospitalizado o tenido una cirugia?</label>
+        </div>
+        <div class="col-md-3 mt-2">
+            <div class="form-group">
+                <label class="radio-inline me-3 me-3" data-dashlane-label="true">
+                    <input type="radio" name="hospitalizadoCirugia" value="1" data-dashlane-rid="923aa91c64d8718b" data-form-type=""> Si
+                </label>
+                <label class="radio-inline" data-dashlane-label="true">
+                    <input type="radio" name="hospitalizadoCirugia" value="0" data-dashlane-rid="217c84ad321ae314" data-form-type=""> No
+                </label>
+            </div>
+        </div>
+        <div class="">
+            <div class="form-group">
+                <textarea name="hospitalizadoCirugiaTexto" class="form-control" rows="2" disabled="" data-dashlane-rid="0d5fc52d01253827" data-form-type=""></textarea>
+            </div>
+        </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label">¿Padece o a padecido alguna de las siguientes enfermedades?</label>
+            <div class="mt-2">
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Asma" data-dashlane-rid="0dabd2ac835952ab" data-form-type="" class="me-1">Asma
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Hepatitis" data-dashlane-rid="f880148794c79dd9" data-form-type="" class="me-1">Hepatitis
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Epilepsia" data-dashlane-rid="68c9f3a3b57c3986" data-form-type="" class="me-1">Epilepsia
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Enf. renal" data-dashlane-rid="f52f041a55783ff5" data-form-type="" class="me-1">Enf. renal
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Sarampion" data-dashlane-rid="f025295e24ec6e59" data-form-type="" class="me-1">Sarampion
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Varicela" data-dashlane-rid="a67bf7694882bcce" data-form-type="" class="me-1">Varicela
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Tuberculosis" data-dashlane-rid="73367b23baba13f3" data-form-type="" class="me-1">Tuberculosis
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Diabetes" data-dashlane-rid="7cf566d8131cfc29" data-form-type="" class="me-1">Diabetes
+                </label>
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="padeceEnfermedad" value="Otras" data-dashlane-rid="3ce540775de9c11a" data-form-type="" class="me-1">Otras
+                </label>
+            </div>
+
+
+
+        </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row flex-column">
+        <div class="col-md-12">
+            <label class="control-label">¿Ha tenido algun transtorno nervioso o emocional?</label>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="radio-inline me-3" data-dashlane-label="true">
+                    <input type="radio" name="transtornoNerviosoEmocional" value="1" data-dashlane-rid="6519e2f44e2f6613" data-form-type=""> Si
+                </label>
+                <label class="radio-inline" data-dashlane-label="true">
+                    <input type="radio" name="transtornoNerviosoEmocional" value="0" data-dashlane-rid="d66fba5f2e9c403d" data-form-type=""> No
+                </label>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="form-group">
+                <textarea name="transtornoNerviosoEmocionalTexto" class="form-control" rows="2" disabled="" data-dashlane-rid="d8a9c9dd8ff82d61" data-form-type=""></textarea>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+
+
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="activeTab === 'exploracionfisica'">
+  <!-- Contenido de la pestaña 3 -->
+  <p>Contenido de la pestaña 3</p>
+</div>
+
+<div *ngIf="activeTab === 'alergia'">
+  <!-- Contenido de la pestaña 3 -->
+  <p>Contenido de la pestaña 4</p>
+</div>
