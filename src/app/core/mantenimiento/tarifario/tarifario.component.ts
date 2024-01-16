@@ -4,7 +4,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { TarifarioService } from 'src/app/shared/services/tarifario.service';
 import { AgregarTarifarioComponent } from './agregar-tarifario/agregar-tarifario.component';
-//import { EditarTarifarioComponent } from './editar-tarifario/editar-tarifario.component';
+import { EditarTarifarioComponent } from './editar-tarifario/editar-tarifario.component';
 import { DataTarifario, Itarifario, tarifario } from 'src/app/shared/models/tarifario';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
@@ -54,7 +54,7 @@ export class TarifarioComponent  {
     if (accion.accion == 'Crear') {
       this.crearTarifario();
     } else if (accion.accion == 'Editar') {
-      //this.editarTarifario(accion.fila)
+      this.editarTarifario(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTarifario(accion.fila.tarifarioId)
     }
@@ -74,15 +74,16 @@ export class TarifarioComponent  {
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  /*editarTarifario(tarifario: Itarifario) {
+  editarTarifario(tarifario: Itarifario) {
     const initialState = {
-      etarifarioSeleccionada: tarifario.tarifarioId
+      tarifarioSeleccionada: tarifario.tarifarioId
     };
     this.bsModalRef = this.modalService.show(EditarTarifarioComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {
       this.getTableData(this.currentPage, this.pageSize);
     });
-  } */
+  } 
+
   eliminarTarifario(tarifarioId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
