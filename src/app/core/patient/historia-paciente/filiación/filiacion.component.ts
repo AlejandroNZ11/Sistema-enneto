@@ -29,6 +29,8 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { MedicoList } from 'src/app/shared/models/medico';
 import { MiniSidebarComponent } from '../mini-sidebar/mini-sidebar.component';
 import { SharedService } from '../services/shared-service.service';
+import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-filiacion',
@@ -36,7 +38,7 @@ import { SharedService } from '../services/shared-service.service';
   styleUrls: ['./filiacion.component.scss']
 })
 export class FiliacionComponent implements OnInit {
-  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService, public citaService: CitaService, public tipoCitadoService: TipoCitadoService, public especialidadService: EspecialidadesService , private medicoService: MedicoService, private sharedService: SharedService) { }
+  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService, public citaService: CitaService, public tipoCitadoService: TipoCitadoService, public especialidadService: EspecialidadesService , private medicoService: MedicoService, private sharedService: SharedService, public user: UserLoggedService) { }
 
 
 
@@ -86,6 +88,8 @@ export class FiliacionComponent implements OnInit {
   listEspecialidadesCitas!: Iespecialidad[];
   listaMedicos!: MedicoList[]
 
+  sedeId!: string;
+  usuarioId!:string;
   ngOnInit(): void {
 
     // Obteniendo data para los campos select
@@ -115,23 +119,24 @@ export class FiliacionComponent implements OnInit {
       provincia: ['', [Validators.required, Validators.maxLength(100)]],
       ubigeo: ['', [Validators.required, Validators.maxLength(100)]],
       celular: ['', [Validators.maxLength(9), Validators.minLength(9), Validators.required]],
-      tipoPacienteId: ['', [Validators.required, Validators.maxLength(100)]],
+      // tipoPacienteId: ['', [Validators.required, Validators.maxLength(100)]],
       estadoCivil: ['', [Validators.required, Validators.maxLength(100)]],
       sexo: ['', [Validators.required]],
-      informacionClinicaId: ['', [Validators.required, Validators.maxLength(100)]],
+      // informacionClinicaId: ['', [Validators.required, Validators.maxLength(100)]],
       nombreContacto: ['', [Validators.maxLength(100)]],
-      tipoHistoria: ['', [Validators.required, Validators.maxLength(100)]],
+      // tipoHistoria: ['', [Validators.required, Validators.maxLength(100)]],
       aseguradoraId: ['', [Validators.maxLength(100)]],
       empresaId: ['', [Validators.maxLength(100)]],
       email: ['', [Validators.maxLength(100), Validators.email]],
       fotoPaciente: ['', []],
       titulo: ['', []],
       observacion: ['', [Validators.maxLength(100)]],
-      estado: ['', [Validators.required]],
+      // estado: ['', [Validators.required]],
       nroDocumento:[{ value: '', disabled: true },[Validators.required]],
       contactoEmergencia:['',[Validators.maxLength(100)]],
       telefonoParentesco:['',[Validators.maxLength(9)]],
       domicilioParentesco:['',[Validators.maxLength(100)]],
+      tipoParentesco:['',[Validators.maxLength(9)]],
     })
 
     this.route.params.subscribe(params => {
@@ -139,9 +144,10 @@ export class FiliacionComponent implements OnInit {
     })
     console.log(this.pacienteId)
 
-
     this.sharedService.setPacienteId(this.pacienteId);
 
+    this.usuarioId = this.user.usuario.personalId.toString();
+    this.sedeId = this.user.selectedSucursal.id.toString();
 
     if (this.pacienteId != '') {
       this.pacienteService.obtenerPaciente(this.pacienteId).subscribe(async (paciente: PacienteEditar) => {
@@ -163,8 +169,6 @@ export class FiliacionComponent implements OnInit {
           }
           console.log(this.pacienteData)
         }
-
-
          // Patch valores al formulario
          this.form.patchValue({
           nombres: this.pacienteData.nombres,
@@ -180,14 +184,12 @@ export class FiliacionComponent implements OnInit {
           celular: this.pacienteData.celular,
           email: this.pacienteData.email,
           paisId: this.pacienteData.paisId,
-          // provincia: (this.pacienteData!.ubigeo.substring(0, 4)),
           ubigeo: this.pacienteData.ubigeo,
           observacion: this.pacienteData.observacion,
           contactoEmergencia: this.pacienteData.contactoEmergencia,
           telefonoParentesco: this.pacienteData.telefonoParentesco,
           domicilioParentesco: this.pacienteData.domicilioParentesco,
-
-
+          tipoParentesco: this.pacienteData.tipoParentesco
         });
 
         const departamentoId = (this.pacienteData!.ubigeo.substring(0, 2));
@@ -197,7 +199,6 @@ export class FiliacionComponent implements OnInit {
     }
 
     // this.obtenerCitas();
-
     this.obtenerCitasSinFiltro();
   }
 
@@ -246,7 +247,7 @@ export class FiliacionComponent implements OnInit {
     })
   }
 
-  //* Paginación
+
   // private obtenerCitasSinFiltro(): void {
   //   this.citasList = [];
   //   this.serialNumberArray = [];
@@ -297,23 +298,139 @@ export class FiliacionComponent implements OnInit {
             }
           });
         }
-
         this.totalData = this.citasListPaciente.length;
         console.log(this.totalData)
         for (let index = this.skip; index < Math.min(this.limit, this.totalData); index++) {
           const serialNumber = index + 1;
           this.serialNumberArray.push(serialNumber);
         }
-
         console.log("Lista de Citas del Paciente2")
         console.log(this.citasListPaciente)
         this.dataSource2 = new MatTableDataSource<CitaMedicaPaciente>(this.citasListPaciente);
         this.calculateTotalPages(this.totalData, this.pageSize);
-
       });
   }
 
+  markAllFieldsAsTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
 
+    // Función para convertir FormData a JSON (usado para visualizar la data a enviar)
+formDataToJson(formData: FormData): any {
+  const jsonObject: any = {};
+  formData.forEach((value, key) => {
+    if (jsonObject[key]) {
+      if (Array.isArray(jsonObject[key])) {
+        jsonObject[key].push(value);
+      } else {
+        jsonObject[key] = [jsonObject[key], value];
+      }
+    } else {
+      jsonObject[key] = value;
+    }
+  });
+  return jsonObject;
+}
+
+isFechaNacimientoMayorActual() {
+  return this.form.get('fechaNacimiento')?.hasError('fechaNacimientoMayorActual');
+}
+
+isCantidadExacta(controlName: string) {
+  const control = this.form.get(controlName);
+  return control?.errors && (control?.errors['maxlength'] || control?.errors['minlength']);
+}
+
+isEmail(controlName: string) {
+  const control = this.form.get(controlName);
+  return control?.errors && control?.errors['email'];
+}
+
+actualizarEdad() {
+  const fechaNacimiento = this.form.get('fechaNacimiento')!.value;
+  if (fechaNacimiento) {
+    const fechaNacimientoDate: Date = new Date(fechaNacimiento);
+    const hoy: Date = new Date();
+    const edadMilisegundos: number = hoy.getTime() - fechaNacimientoDate.getTime();
+    const edadFecha: Date = new Date(edadMilisegundos);
+    const edad: number = Math.abs(edadFecha.getUTCFullYear() - 1970);
+    this.pacienteData.edad = edad.toString();
+  } else {
+    this.pacienteData.edad = '';
+  }
+}
+
+  actualizarPaciente() {
+    if (this.form.invalid) {
+      this.isFormSubmitted = true;
+      this.markAllFieldsAsTouched();
+      return;
+    }
+    this.isFormSubmitted = false;
+    this.pacienteData.clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    if (this.form.get("sexo")!.value == "Masculino") {
+      this.pacienteData.sexo = 'M'
+    } else {
+      this.pacienteData.sexo = 'F'
+    }
+    this.pacienteData.usuarioId = this.usuarioId;
+    const formData = new FormData();
+    formData.append('FotoPaciente', this.pacienteData.foto);
+    formData.append('PacienteId', this.pacienteData.pacienteId);
+    if (this.pacienteData.aseguradoraId) { formData.append('AseguradoraId', this.pacienteData.aseguradoraId); }
+    if (this.pacienteData.observacion) { formData.append('Observacion', this.pacienteData.observacion); }
+    if (this.pacienteData.titulo) { formData.append('Titulo', this.pacienteData.titulo); }
+    if (this.pacienteData.empresaId) { formData.append('EmpresaId', this.pacienteData.empresaId); }
+    if (this.pacienteData.email) { formData.append('Email', this.pacienteData.email); }
+    formData.append('TipoDocumentoId', this.pacienteData.tipoDocumentoId);
+    formData.append('NumeroDocumento', this.pacienteData.numeroDocumento);
+    formData.append('Apellidos', this.pacienteData.apellidos);
+    formData.append('Nombres', this.pacienteData.nombres);
+    formData.append('FechaNacimiento', this.pacienteData.fechaNacimiento.toString().split('T')[0]);
+    formData.append('Edad', this.pacienteData.edad);
+    formData.append('Ocupacion', this.pacienteData.ocupacion);
+    formData.append('Direccion', this.pacienteData.direccion);
+    formData.append('EstudioId', this.pacienteData.estudioId);
+    formData.append('PaisId', this.pacienteData.paisId.toString());
+    formData.append('Ubigeo', this.pacienteData.ubigeo.toString());
+    formData.append('Celular', this.pacienteData.celular);
+    formData.append('TipoPacienteId', this.pacienteData.tipoPacienteId);
+    formData.append('EstadoCivilId', this.pacienteData.estadoCivilId);
+    formData.append('Sexo', this.pacienteData.sexo);
+    formData.append('InformacionClinicaId', this.pacienteData.informacionClinicaId);
+    formData.append('NombreContacto', this.pacienteData.contactoEmergencia);
+    formData.append('TipoHistoria', this.pacienteData.tipoHistoria);
+    formData.append('SedeId', this.sedeId);
+    formData.append('ClinicaId', this.pacienteData.clinicaId);
+    formData.append('UsuarioId', this.pacienteData.usuarioId);
+    formData.append('Estado', this.pacienteData.estado);
+
+    formData.append('observacion',this.pacienteData.observacion);
+    formData.append('telefonoParentesco',this.pacienteData.telefonoParentesco);
+    formData.append('domicilioParentesco',this.pacienteData.domicilioParentesco);
+    formData.append('tipoParentesco',this.pacienteData.tipoParentesco)
+
+    console.log('FormData:', this.formDataToJson(formData));
+    this.pacienteService.actualizarPaciente(formData, this.pacienteData.pacienteId).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire({
+            title: 'Actualizando...',
+            allowOutsideClick: false,
+          })
+          Swal.showLoading();
+          Swal.close();
+          Swal.fire('Correcto', 'Paciente actualizado en el sistema correctamente.', 'success');
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      });
+  }
 
   public moveToPage(pageNumber: number): void {
     this.currentPage = pageNumber;
