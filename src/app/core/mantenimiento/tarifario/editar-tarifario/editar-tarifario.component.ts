@@ -14,11 +14,11 @@ import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Itarifario } from 'src/app/shared/models/tarifario';
+import { param } from 'lightgallery/plugins/video/lg-video-utils';
 
 interface data {
   value: string;
 }
-
 
 @Component({
   selector: 'app-editar-tarifario',
@@ -37,8 +37,21 @@ export class EditarTarifarioComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     public bsModalRef: BsModalRef,
-  ){}
+  ){
 
+    this.form = this.formBuilder.group({
+      tipoconcepto: ['', [Validators.required]],
+      descripcion: ['',[Validators.required]],
+      moneda: ['', [Validators.required]],
+      precio: ['', [Validators.required]],
+      medida: ['', [Validators.required]],
+      unidad: ['', [Validators.required]],
+      fechaRegistro: ['', [Validators.required]],
+      estado: ['Activo',[Validators.required]],
+    });
+  }
+
+  tarifarioSeleccionada: any;
   medida_LISTA: Array<Imedida> = [];
   moneda_LISTA: Array<IMoneda> = [];
   unidad_LISTA: Array<Iunidad> = [];
@@ -51,49 +64,42 @@ export class EditarTarifarioComponent implements OnInit {
   moneda: Array<string> = [];
   unidad: Array<string> = [];
   tipoconcepto: Array<string> = [];
+  tarifario!: Itarifario;
 
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      tipoConcepto: ['', [Validators.required]],
-      descripcion: ['',[Validators.required]],
-      moneda: ['', [Validators.required]],
-      precio: ['', [Validators.required]],
-      medida: ['', [Validators.required]],
-      unidad: ['', [Validators.required]],
-      fechaDeRegistro: ['', [Validators.required]],
-    });
-
-    this.isFormSubmitted = false;
-    this.medidaservice.obtenerMedidas
-    this.route.params.subscribe(params => {
-      this.tarifarioId = params['medidaId'];
+    
+    this.tarifarioservice.obtenerTarifario(this.tarifarioSeleccionada!).subscribe(tarifario=>{
+      this.tarifario=tarifario;
+      this.form.patchValue({
+        descripcion: this.tarifario.descripcion,
+        precio: this.tarifario.precio,
+        fechaRegistro: this.tarifario.fechaRegistro,
+        tipoconcepto: this.tarifario.tipoconceptoId,
+        medida: this.tarifario.medidaId,
+        unidad: this.tarifario.unidadId,
+        moneda: this.tarifario.monedaId,
+        estado: this.tarifario.estado == '1' ? 'Activo' : 'Inactivo',
+      })
     })
+
+    
 
     this.medidaservice.obtenerListaMedida().subscribe((data: Imedida[]) => {
       this.medida_LISTA = data;
     });
 
-    this.monedaservice.obtenerMonedas
-    this.route.params.subscribe(params => {
-      this.tarifarioId = params['monedaId'];
-    })
-
     this.monedaservice.obtenerListaMoneda().subscribe((data: IMoneda[]) => {
       this.moneda_LISTA = data;
     });
-
-    this.tipoconceptoservice.obtenerTiposConceptos
-    this.route.params.subscribe(params => {
-      this.tarifarioId = params['tipoconceptoId'];
-    })
 
     this.tipoconceptoservice.obtenerListaTipoConcepto().subscribe((data: ItipoConcepto[]) => {
       this.tipoconcepto_LISTA = data;
     });
     
+    this.unidadservice.obtenerListaUnidades().subscribe((data: Iunidad[]) => {
+      this.unidad_LISTA = data;
+    })
   }
-
-
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
