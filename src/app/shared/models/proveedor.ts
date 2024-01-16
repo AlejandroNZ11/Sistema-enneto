@@ -13,6 +13,7 @@ export class proveedor {
     data: Iproveedor[];
   }
   export interface Iproveedor {
+    proveedorId:string;
     ruc : string;
     nombre : string;
     direccion : string;

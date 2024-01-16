@@ -31,6 +31,7 @@ export class EditarProveedorComponent {
     this.ProveedorServicio.obtenerProveedor(this.proveedorSeleccionado!).subscribe(proveedor => {
       this.proveedor = proveedor;
       this.form.patchValue({
+        proveedorId: this.proveedor.proveedorId,
         ruc: this.proveedor.ruc,
         nombre:this.proveedor.nombre,
         direccion:this.proveedor.direccion,
@@ -59,6 +60,7 @@ export class EditarProveedorComponent {
       return;
     }
     const proveedorActualizado: Iproveedor = {
+      proveedorId:this.proveedor.proveedorId,
       ruc: this.proveedor.ruc,
       nombre: this.form.value.nombre,
       direccion: this.form.value.direccion,

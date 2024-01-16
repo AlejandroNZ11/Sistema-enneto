@@ -31,8 +31,8 @@ export class ProveedorService {
     );
   }
   ///api/Proveedor/SaveProveedor
-  eliminarProveedor( proveedorRuc: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Proveedor/DeleteProveedor/${proveedorRuc}`);
+  eliminarProveedor( proveedorId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Proveedor/DeleteProveedor/${proveedorId}`);
   }
   ///api/Proveedor/DeleteProveedor/{proveedorId}
   actualizarProveedor(proveedor: Iproveedor): Observable<successResponse> {

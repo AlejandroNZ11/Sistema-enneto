@@ -87,6 +87,8 @@ export class ProveedorComponent {
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearProveedor();
+    } else if (accion.accion == 'Editar') {
+      this.editarProveedor(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
       this.eliminarProveedor(accion.fila.diagnosticoId)
     }
