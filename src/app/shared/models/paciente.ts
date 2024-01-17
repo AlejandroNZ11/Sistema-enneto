@@ -131,6 +131,7 @@ export interface PacienteEditar {
 
     telefonoParentesco: string;
     domicilioParentesco: string;
+    tipoParentesco: string;
 }
 export interface PacienteByDNI {
     apellido_materno: string

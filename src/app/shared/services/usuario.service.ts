@@ -21,7 +21,8 @@ export class UsuarioService {
   crearUsuario(usuario: Usuario): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/Usuarios/SaveUsuario`, usuario).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        console.error('Error en la solicitud:', error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el usuario', 'warning');
         return throwError(() => error);
       })
     );

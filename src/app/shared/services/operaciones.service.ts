@@ -35,9 +35,9 @@ eliminarProducto( productoId: string): Observable<successResponse> {
   return this.http.delete<successResponse>(this.apiUrl + `/Productos/DeleteProducto/${productoId}`);
 }
 ///api/Productos/DeleteProducto/{productoId}
-
+//productoId
 actualizarProducto(producto: Iproducto): Observable<successResponse> {
-  return this.http.put<successResponse>(this.apiUrl + `Productos/UpdateProducto/${producto.id}`, producto).pipe(
+  return this.http.put<successResponse>(this.apiUrl + `/Productos/UpdateProducto/${producto.id}`, producto).pipe(
     catchError(error => {
       Swal.fire('Error', error.error, 'warning');
       return throwError(() => error);
@@ -45,4 +45,5 @@ actualizarProducto(producto: Iproducto): Observable<successResponse> {
   );
 }
 ///api/Productos/UpdateProducto/{productoId}
+//, producto
 }

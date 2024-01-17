@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../services/shared-service.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-historia-clinica',
   templateUrl: './historia-clinica.component.html',
@@ -25,6 +25,15 @@ export class HistoriaClinicaComponent implements OnInit {
 
       this.sharedService.setPacienteId(this.pacienteId);
     }
+
+
+    crearPaciente(){
+      Swal.showLoading();
+      Swal.close();
+      Swal.fire('Correcto', 'Paciente registrado en el sistema correctamente.', 'success');
+    }
+
+
 
 
 }

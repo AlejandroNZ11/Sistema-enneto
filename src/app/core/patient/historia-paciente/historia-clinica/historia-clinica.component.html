@@ -62,7 +62,7 @@
           </div>
            <!-- Input -->
           <div class="form-group local-forms">
-            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <label>Relato cronologico<span class="login-danger">*</span></label>
             <div class="input-group">
                 <input
                    class="form-control" type="text">
@@ -73,7 +73,7 @@
         <div class="col-md-6">
           <!-- Input -->
           <div class="form-group local-forms">
-            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <label>Signos y sintomas principales<span class="login-danger">*</span></label>
             <div class="input-group">
                 <input  formControlName="numeroDocumento"
                    class="form-control" type="text">
@@ -81,7 +81,7 @@
           </div>
            <!-- Input -->
           <div class="form-group local-forms">
-            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+            <label>Funciones biologicas<span class="login-danger">*</span></label>
             <div class="input-group">
                 <input  formControlName="numeroDocumento"
                    class="form-control" type="text">
@@ -106,7 +106,7 @@
                     <div class="col-md-6">
                           <!-- Input -->
                           <div class="form-group local-forms">
-                            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                            <label>Antecedentes personales<span class="login-danger">*</span></label>
                             <div class="input-group">
                               <textarea class="form-control" formControlName="numeroDocumento" type="text">
                               </textarea>
@@ -116,7 +116,8 @@
                     <div class="col-md-6">
                          <!-- Input -->
                          <div class="form-group local-forms">
-                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <label>
+                            Antecedentes Familiares<span class="login-danger">*</span></label>
                           <div class="input-group">
                             <textarea class="form-control" formControlName="numeroDocumento" type="text">
                             </textarea>
@@ -142,7 +143,7 @@
                     <div class="col-md-6">
                           <!-- Input -->
                           <div class="form-group local-forms">
-                            <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                            <label>Nombre del medicamento<span class="login-danger">*</span></label>
                             <div class="input-group">
                                 <input  formControlName="numeroDocumento"
                                   class="form-control" type="text">
@@ -155,7 +156,7 @@
                     <div class="col-md-6">
                         <!-- Input -->
                         <div class="form-group local-forms">
-                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <label>Motivo de uso<span class="login-danger">*</span></label>
                           <div class="input-group">
                               <input  formControlName="numeroDocumento"
                                 class="form-control" type="text">
@@ -165,7 +166,7 @@
                     <div class="col-md-6">
                         <!-- Input -->
                         <div class="form-group local-forms">
-                          <label>Tiempo de Enfermedad<span class="login-danger">*</span></label>
+                          <label>Dosis<span class="login-danger">*</span></label>
                           <div class="input-group">
                               <input  formControlName="numeroDocumento"
                                 class="form-control" type="text">
@@ -179,7 +180,7 @@
       </div>
 
       <div class="form-actions mb-5 d-flex flex-row-reverse">
-        <button type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1" data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
+        <button (click)="crearPaciente()"type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1" data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
       </div>
         </form>
     </div>
