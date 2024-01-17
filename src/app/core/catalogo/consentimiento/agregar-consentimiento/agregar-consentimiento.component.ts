@@ -6,6 +6,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
 import { Editor } from 'ngx-editor';
+
 @Component({
   selector: 'app-agregar-consentimiento',
   templateUrl: './agregar-consentimiento.component.html',
@@ -13,24 +14,31 @@ import { Editor } from 'ngx-editor';
 })
 export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
   Consentimiento: consentimiento = new consentimiento();
-  editor!: Editor;
-  html = '';
+  editor: any;
+  texto = '';
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-
   ngOnInit(): void { 
     this.editor = new Editor();
   }
 
-  constructor(public bsModalRef: BsModalRef, private consentimientoService: ConsentimientoService,
-    public fb: FormBuilder,) {
-    this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      observacion: ['', Validators.required],
-    });
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private consentimientoService: ConsentimientoService,
+    public fb: FormBuilder,
+    ) {
+      this.form = this.fb.group({
+        nombre: ['', Validators.required],
+        observacion: ['', Validators.required],
+        texto: [''],
+      });
   }
 
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
+  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -48,9 +56,7 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
     });
   }
   
-  ngOnDestroy(): void {
-    this.editor.destroy();
-  }
+  
   
   
   crearConsentimiento() {
@@ -60,6 +66,7 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
     }
     this.Consentimiento.nombre = this.form.get("nombre")?.value;
     this.Consentimiento.observacion = this.form.get("observacion")?.value;
+    this.Consentimiento.texto = this.form.get("texto")?.value;
     console.log(this.Consentimiento);
     this.consentimientoService.crearConsentimiento(this.Consentimiento).subscribe(
       (response)=>{

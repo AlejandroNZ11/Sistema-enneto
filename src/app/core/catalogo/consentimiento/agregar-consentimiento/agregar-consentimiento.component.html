@@ -25,7 +25,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    <mat-select class="form-control select" placeholder="Activo">
                                     </mat-select>
                                 </div>
                             </div>
@@ -44,8 +44,9 @@
                             <div>
                                 <div class="NgxEditor__Wrapper">
                                     <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-                                    <ngx-editor [editor]="editor" [ngModel]="html" [disabled]="false" [placeholder]="'Type here...'"></ngx-editor>
+                                    <ngx-editor [editor]="editor" formControlName="texto" [placeholder]="'Escribe aqui...'"></ngx-editor>
                                 </div>
+                                
                             </div>
                             <div>
                                 <br>

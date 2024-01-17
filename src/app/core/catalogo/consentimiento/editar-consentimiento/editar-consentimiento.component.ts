@@ -25,6 +25,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       observacion: ['', Validators.required],
+      texto: [''],
       estado: ['Activo', Validators.required],
     });
   }
@@ -36,6 +37,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
       this.form.patchValue({  
         nombre:this.consentimiento.nombre,
         observacion: this.consentimiento.observacion,
+        texto: this.consentimiento.texto,
         estado: this.consentimiento.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
@@ -70,7 +72,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
       nombre: this.form.value.nombre,
       observacion: this.form.value.observacion,
       texto: this.form.value.texto,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+      estado: this.form.value.estado == '1' ? 'Activo' : 'Inactivo',
     };
 
     this.consentimientoService.actualizarConsentimiento(consentimientoActualizada).subscribe(
