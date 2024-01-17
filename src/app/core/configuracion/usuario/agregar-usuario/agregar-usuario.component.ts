@@ -6,6 +6,30 @@ import { UsuarioService } from 'src/app/shared/services/usuario.service';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
 
+function mapTipoDocumentoCodeToGuid(tipoDocumentoCode: string): string {
+  const tipoDocumentoMap: { [key: string]: string } = {
+    "01": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "02": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "03": "3fa85f64-5717-4562-b3fc-2c963f66afa6", 
+    "04": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "05": "3fa85f64-5717-4562-b3fc-2c963f66afa6",  
+  };
+
+  return tipoDocumentoMap[tipoDocumentoCode] || "valor predeterminado";
+}
+
+function mapRolCodeToGuid(rolCode: string): string {
+  const rolMap: { [key: string]: string } = {
+    "01": "3fa85f64-5717-4562-b3fc-2c963f66afa6", 
+    "02": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "03": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "04": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+
+  };
+
+  return rolMap[rolCode] || "valor predeterminado";
+}
+
 @Component({
   selector: 'app-agregar-usuario',
   templateUrl: './agregar-usuario.component.html',
@@ -68,15 +92,17 @@ export class AgregarUsuarioComponent {
       return;
     }
 
+    this.usuario.tipoDocumentoId = mapTipoDocumentoCodeToGuid(this.form.get('tipoDocumentoId')?.value);
+    this.usuario.rolId = mapRolCodeToGuid(this.form.get('rolId')?.value);
+
     this.usuario.apellido = this.form.get('apellido')?.value;
     this.usuario.nombre = this.form.get('nombre')?.value;
     this.usuario.telefono = this.form.get('telefono')?.value.toString();
     this.usuario.direccion = this.form.get('direccion')?.value;
     this.usuario.email = this.form.get('email')?.value;
-    this.usuario.tipoDocumentoId = this.form.get('tipoDocumentoId')?.value;
-    this.usuario.documento = this.form.get('documento')?.value;
+    this.usuario.documento = this.form.get('documento')?.value.toString();
     this.usuario.foto = this.form.get('foto')?.value;
-    this.usuario.rolId = this.form.get('rolId')?.value;
+    this.usuario.fechaRegistro = new Date(this.form.get('fechaRegistro')?.value).toISOString();
 
     this.usuarioService.crearUsuario(this.usuario).subscribe(
       (response) => {
@@ -91,18 +117,19 @@ export class AgregarUsuarioComponent {
         console.error(error);
       });
   }
+
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
     const passwordControl = this.form.get('passwordUsuario');
-        if (passwordControl) {
-            const inputType = this.showPassword ? 'text' : 'password';
-            passwordControl.get('passwordUsuario')?.setValue('');
-            passwordControl.get('passwordUsuario')?.setValidators([Validators.required]);
-            passwordControl.get('passwordUsuario')?.updateValueAndValidity();
+    if (passwordControl) {
+      const inputType = this.showPassword ? 'text' : 'password';
+      passwordControl.get('passwordUsuario')?.setValue('');
+      passwordControl.get('passwordUsuario')?.setValidators([Validators.required]);
+      passwordControl.get('passwordUsuario')?.updateValueAndValidity();
 
-            const inputElement = document.getElementById('passwordInput');
-            if (inputElement) {
-            inputElement.setAttribute('type', inputType);
+      const inputElement = document.getElementById('passwordInput');
+      if (inputElement) {
+        inputElement.setAttribute('type', inputType);
       }
     }
   }
