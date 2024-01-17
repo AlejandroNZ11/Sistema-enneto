@@ -79,7 +79,7 @@ export class ProductosComponent {
   }
   editarProducto(producto: Iproducto) {
     const initialState = {
-      productoSeleccionado: producto.id
+      productoSeleccionado: producto.productoId
     };
     this.bsModalRef = this.modalService.show(EditarProductoComponent, { initialState });
     this.bsModalRef.onHidden?.subscribe(() => {

@@ -19,7 +19,7 @@ export class EditarProductoComponent {
   public mostrarErrores = false;
   constructor(public bsModalRef: BsModalRef, private OperacionesService: OperacionesService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      id: ['', Validators.required],
+      productoId: ['', Validators.required],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
@@ -31,7 +31,7 @@ export class EditarProductoComponent {
     this.OperacionesService.obtenerProducto(this.productoSeleccionado!).subscribe(producto => {
       this.producto = producto;
       this.form.patchValue({
-        id: this.producto.id,
+        productoId: this.producto.productoId,
         nombre: this.producto.nombre,
         descripcion: this.producto.descripcion,
         fecha:this.producto.fecha,
@@ -58,7 +58,7 @@ export class EditarProductoComponent {
       return;
     }
     const productoActualizado: Iproducto = {
-      id: this.producto.id,
+      productoId: this.producto.productoId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
       fecha:this.form.value.fecha,
