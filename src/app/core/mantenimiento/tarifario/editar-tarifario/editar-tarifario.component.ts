@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { DataMedida, Imedida } from 'src/app/shared/models/medida';
-import { DataMoneda, IMoneda } from 'src/app/shared/models/moneda';
-import { DataUnidad, Iunidad } from 'src/app/shared/models/unidades';
-import { DataTipoConcepto, ItipoConcepto } from 'src/app/shared/models/tipoConcepto';
+import { Imedida } from 'src/app/shared/models/medida';
+import { Icategoria } from 'src/app/shared/models/categoria';
+import { Iunidad } from 'src/app/shared/models/unidades';
+import { ItipoConcepto } from 'src/app/shared/models/tipoConcepto';
 import { routes } from 'src/app/shared/routes/routes';
 import { TarifarioService } from 'src/app/shared/services/tarifario.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MedidaService } from 'src/app/shared/services/medida.service';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -27,11 +27,27 @@ interface data {
 })
 export class EditarTarifarioComponent implements OnInit {
 
+  tarifarioSeleccionada: any;
+  medida_LISTA: Array<Imedida> = [];
+  categoria_LISTA: Array<Icategoria> = [];
+  unidad_LISTA: Array<Iunidad> = [];
+  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
+  form!: FormGroup;
+  isFormSubmitted = false;
+  tarifarioId = "";
+  public mostrarErrores = false;
+  medida: Array<string> = [];
+  categoria: Array<string> = [];
+  unidad: Array<string> = [];
+  tipoconcepto: Array<string> = [];
+  tarifario!: Itarifario;
+
+
   constructor(
     public formBuilder: FormBuilder,
     public tarifarioservice: TarifarioService,
     public medidaservice: MedidaService,
-    public monedaservice: MonedaService,
+    public categoriaservice: CategoriaService,
     public unidadservice: UnidadesService,
     public tipoconceptoservice: TipoConceptoService,
     public router: Router,
@@ -42,7 +58,7 @@ export class EditarTarifarioComponent implements OnInit {
     this.form = this.formBuilder.group({
       tipoconcepto: ['', [Validators.required]],
       descripcion: ['',[Validators.required]],
-      moneda: ['', [Validators.required]],
+      categoria: ['', [Validators.required]],
       precio: ['', [Validators.required]],
       medida: ['', [Validators.required]],
       unidad: ['', [Validators.required]],
@@ -50,21 +66,6 @@ export class EditarTarifarioComponent implements OnInit {
       estado: ['Activo',[Validators.required]],
     });
   }
-
-  tarifarioSeleccionada: any;
-  medida_LISTA: Array<Imedida> = [];
-  moneda_LISTA: Array<IMoneda> = [];
-  unidad_LISTA: Array<Iunidad> = [];
-  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
-  form!: FormGroup;
-  isFormSubmitted = false;
-  tarifarioId = "";
-  public mostrarErrores = false;
-  medida: Array<string> = [];
-  moneda: Array<string> = [];
-  unidad: Array<string> = [];
-  tipoconcepto: Array<string> = [];
-  tarifario!: Itarifario;
 
   ngOnInit(): void {
     
@@ -77,7 +78,7 @@ export class EditarTarifarioComponent implements OnInit {
         tipoconcepto: this.tarifario.tipoconceptoId,
         medida: this.tarifario.medidaId,
         unidad: this.tarifario.unidadId,
-        moneda: this.tarifario.monedaId,
+        categoria: this.tarifario.categoriaId,
         estado: this.tarifario.estado == '1' ? 'Activo' : 'Inactivo',
       })
     })
@@ -88,8 +89,8 @@ export class EditarTarifarioComponent implements OnInit {
       this.medida_LISTA = data;
     });
 
-    this.monedaservice.obtenerListaMoneda().subscribe((data: IMoneda[]) => {
-      this.moneda_LISTA = data;
+    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
+      this.categoria_LISTA = data;
     });
 
     this.tipoconceptoservice.obtenerListaTipoConcepto().subscribe((data: ItipoConcepto[]) => {
@@ -125,7 +126,7 @@ export class EditarTarifarioComponent implements OnInit {
     const tarifarioActualizada: Itarifario = {
       tarifarioId: this.tarifarioId,
       medidaId: this.form.value.medida,
-      monedaId: this.form.value.moneda,
+      categoriaId: this.form.value.categoria,
       unidadId: this.form.value.unidad,
       tipoconceptoId: this.form.value.tipoConcepto,
       precio: this.form.value.precio,

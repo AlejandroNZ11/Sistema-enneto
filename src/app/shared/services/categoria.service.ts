@@ -24,6 +24,10 @@ export class CategoriaService {
     );
   }
 
+  obtenerListaCategoria(): Observable<Icategoria[]> {
+    return this.http.get<Icategoria[]>(this.apiUrl + `/Categorias/GetCategoriaList`);
+  }
+
   obtenerCategoria( categoriaId: string): Observable<Icategoria> {
     return this.http.get<Icategoria>(this.apiUrl + `/Categorias/GetCategoria/${categoriaId}`);
   }

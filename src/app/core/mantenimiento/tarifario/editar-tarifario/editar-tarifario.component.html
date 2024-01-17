@@ -43,18 +43,18 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Moneda <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="moneda"
-                                        class="form-control select" placeholder="Seleccione Tipo Moneda"
-                                        [ngClass]="{'is-invalid': isInvalid('moneda') && isFormSubmitted}">
-                                        <mat-option *ngFor="let data of moneda_LISTA"
-                                            [value]="data.tipoMonedaId">
-                                            {{data.descripcion}}
+                                    <label>Categoria <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="categoria"
+                                        class="form-control select" placeholder="Seleccione Tipo Categoria"
+                                        [ngClass]="{'is-invalid': isInvalid('categoria') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of categoria_LISTA"
+                                            [value]="data.categoriaId">
+                                            {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('moneda') && isFormSubmitted"
+                                    <div *ngIf="isInvalid('categoria') && isFormSubmitted"
                                         class="invalid-feedback">
-                                        <div *ngIf="isRequerido('moneda')">
+                                        <div *ngIf="isRequerido('categoria')">
                                             Debe completar el campo*
                                         </div>
                                     </div>

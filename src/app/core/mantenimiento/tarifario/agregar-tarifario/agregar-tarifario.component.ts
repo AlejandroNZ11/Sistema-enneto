@@ -4,8 +4,8 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataTarifario, tarifario, Itarifario } from 'src/app/shared/models/tarifario';
 import { ItipoConcepto } from 'src/app/shared/models/tipoConcepto';
 import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.service';
-import { IMoneda } from 'src/app/shared/models/moneda';
-import { MonedaService } from 'src/app/shared/services/moneda.service';
+import { Icategoria } from 'src/app/shared/models/categoria';
+import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import { Imedida } from 'src/app/shared/models/medida';
 import { MedidaService } from 'src/app/shared/services/medida.service';
 import { Iunidad } from 'src/app/shared/models/unidades';
@@ -21,24 +21,9 @@ import Swal from 'sweetalert2';
 })
 export class AgregarTarifarioComponent {
   
-  
-  constructor(
-    public bsModalRef: BsModalRef,
-    public formBuilder: FormBuilder, 
-    public TipoConceptoService: TipoConceptoService,
-    private tarifarioService: TarifarioService,
-    public monedaservice: MonedaService,
-    public medidaservice: MedidaService,
-    public unidadservice: UnidadesService,
-    private renderer: Renderer2,
-    ) {
-      
-    }
-
-  
   fechaRegistro: Date = new Date();
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];
-  moneda_LISTA: Array<IMoneda> = [];
+  categoria_LISTA: Array<Icategoria> = [];
   unidad_LISTA: Array<Iunidad> = [];
   medida_LISTA: Array<Imedida> = [];
   Tarifario: tarifario = new tarifario();
@@ -47,9 +32,27 @@ export class AgregarTarifarioComponent {
   public mostrarErrores = false;
   isFormSubmitted = false;
   public tipoconcepto !: string[];
-  public moneda !: string[];
+  public categoria !: string[];
   public unidad !: string [];
   public medida !: string [];
+
+
+
+  constructor(
+    public bsModalRef: BsModalRef,
+    public formBuilder: FormBuilder, 
+    public TipoConceptoService: TipoConceptoService,
+    private tarifarioService: TarifarioService,
+    public categoriaservice: CategoriaService,
+    public medidaservice: MedidaService,
+    public unidadservice: UnidadesService,
+    private renderer: Renderer2,
+    ) {
+      
+    }
+
+  
+  
   
   ngOnInit(): void {
     
@@ -57,8 +60,8 @@ export class AgregarTarifarioComponent {
       this.tipoconcepto_LISTA = data;
     });
 
-    this.monedaservice.obtenerListaMoneda().subscribe((data: IMoneda[]) => {
-      this.moneda_LISTA = data;
+    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
+      this.categoria_LISTA = data;
     });
 
     this.medidaservice.obtenerListaMedida().subscribe((data: Imedida[]) => {
@@ -73,7 +76,7 @@ export class AgregarTarifarioComponent {
     this.form = this.formBuilder.group({
     tipoconcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
-    moneda: ['', [Validators.required]],
+    categoria: ['', [Validators.required]],
     precio: ['', [Validators.required]],
     medida: ['', [Validators.required]],
     unidad: ['', [Validators.required]],
@@ -113,7 +116,7 @@ export class AgregarTarifarioComponent {
       return;
     }
     
-    this.Tarifario.monedaId = this.form.get("moneda")?.value;
+    this.Tarifario.categoriaId = this.form.get("categoria")?.value;
     this.Tarifario.tipoconceptoId = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
     this.Tarifario.precio = this.form.get("precio")?.value;

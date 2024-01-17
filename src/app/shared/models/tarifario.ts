@@ -6,7 +6,7 @@ export class tarifario {
     estado!: number;
     fechaRegistro!: Date;
     tipoconceptoId?: string[];
-    monedaId?: string[];
+    categoriaId?: string[];
     medidaId?: string[];
     unidadId?: string[];
     
@@ -22,7 +22,7 @@ export interface Itarifario{
     descripcion: string;
     tipoconceptoId: string;
     medidaId: string;
-    monedaId: string;
+    categoriaId: string;
     unidadId: string;
     precio: number;
     estado: string;
@@ -33,7 +33,7 @@ export class tarifarioResponse {
     descripcion = "";
     tipoConceptoId= "";
     medidaId= "";
-    monedaId= "";
+    categoriaId= "";
     unidadId= "";
     precio= "";
     fechaRegistro= "";
