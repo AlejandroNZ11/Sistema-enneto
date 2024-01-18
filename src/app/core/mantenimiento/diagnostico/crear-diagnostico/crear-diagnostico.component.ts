@@ -16,6 +16,7 @@ export class CrearDiagnosticoComponent {
   Diagnostico: diagnostico = new diagnostico();
   public routes = routes;
   form!: FormGroup;
+  enfermedadId = "";
   public mostrarErrores = false;
   isFormSubmitted = false;
   ngOnInit(): void { 

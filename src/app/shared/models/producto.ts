@@ -1,7 +1,7 @@
 export class producto {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
-    id = "";
+    productoId = "";
     nombre = "";
     descripcion =  "";
     fecha ="";
@@ -12,7 +12,7 @@ export class producto {
     data: Iproducto[];
   }
   export interface Iproducto {
-    id: string;
+    productoId: string;
     nombre: string;
     descripcion: string;
     fecha:string;

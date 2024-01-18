@@ -37,7 +37,7 @@ eliminarProducto( productoId: string): Observable<successResponse> {
 ///api/Productos/DeleteProducto/{productoId}
 //productoId
 actualizarProducto(producto: Iproducto): Observable<successResponse> {
-  return this.http.put<successResponse>(this.apiUrl + `/Productos/UpdateProducto/${producto.id}`, producto).pipe(
+  return this.http.put<successResponse>(this.apiUrl + `/Productos/UpdateProducto/${producto.productoId}`, producto).pipe(
     catchError(error => {
       Swal.fire('Error', error.error, 'warning');
       return throwError(() => error);

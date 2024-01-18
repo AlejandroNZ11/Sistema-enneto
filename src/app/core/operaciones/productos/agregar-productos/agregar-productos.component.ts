@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 export class AgregarProductosComponent {
   constructor(public bsModalRef: BsModalRef,public fb: FormBuilder,public ProductosService  :OperacionesService) { 
     this.form = this.fb.group({
-      id: ['', Validators.required],
+      productoId: ['', Validators.required],
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       fecha: ['', Validators.required],
@@ -30,10 +30,7 @@ export class AgregarProductosComponent {
   Cancelar() {
     this.bsModalRef.hide();
   }
-  agregarProducto()
-  {
-    
-  }
+  
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -52,7 +49,7 @@ export class AgregarProductosComponent {
       this.isTouched()      
       return;
     }
-    this.Producto.id = this.form.get("id")?.value;
+    this.Producto.productoId = this.form.get("productoId")?.value;
     this.Producto.nombre = this.form.get("nombre")?.value;
     this.Producto.descripcion = this.form.get("descripcion")?.value;
     this.Producto.fecha = this.form.get("fecha")?.value;

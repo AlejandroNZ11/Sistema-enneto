@@ -34,4 +34,7 @@ export class DiagnosticoService {
   //eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
    // return this.http.delete<successResponse>(`${this.apiUrl}/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
   //}
+  //eliminarTarifario( tarifarioId: string): Observable<successResponse> {
+    //return this.http.delete<successResponse>(this.apiUrl + `/Tarifarios/DeleteTarifario/${tarifarioId}`);
+  //}
 }

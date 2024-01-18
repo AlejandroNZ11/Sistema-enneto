@@ -96,7 +96,7 @@ export class DiagnosticoComponent {
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-  eliminarDiagnostico(enfermedadId: string) {
+  eliminarDiagnostico(enfermedadId:string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
       showDenyButton: true,
