@@ -29,10 +29,17 @@ export class EditarSedeComponent implements OnInit {
   isFormSubmitted = false;
   
 
-  constructor(public bsModalRef: BsModalRef, public ubicacionService: UbicacionService, private sedeService: SedeService, public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    public ubicacionService: UbicacionService, 
+    private sedeService: SedeService, 
+    public fb: FormBuilder
+    ) {
+    
     this.form = this.fb.group({
-      
-      ubigeo: ['', Validators.required, ],
+      departamento: ['', [Validators.required, Validators.maxLength(100)]],
+      provincia: ['', [Validators.required, Validators.maxLength(100)]],
+      ubigeo: ['', [Validators.required, Validators.maxLength(100)]],
       nombre: ['', Validators.required],
       codigo: ['', Validators.required],
       direccion: ['', Validators.required],
@@ -48,36 +55,59 @@ export class EditarSedeComponent implements OnInit {
       this.form.patchValue({
         nombre: this.sede.nombre,
         codigo: this.sede.codigo,
-        direccion: this.sede.direccion, 
+        direccion: this.sede.direccion,
         ubigeo: this.sede.ubigeo,
         estado: this.sede.estado == '1' ? 'Activo' : 'Inactivo',
       });
     }) 
 
+    const departamentoId = (this.sede.ubigeo.substring(0, 2));
+    const provinciaId = (this.sede.ubigeo.substring(0, 4));
+    this.cargarUbicacion(departamentoId, provinciaId);
+    
+
   }
 
-  actualizarProvincias() {
+  actualizarProvincias(id?: string) {
     if (this.departamento) {
-      const departamentoSeleccionado = this.departamentos.find(dep => dep.nombre === this.departamento);
-      if (departamentoSeleccionado) {
-        this.ubicacionService.obtenerProvincias(departamentoSeleccionado.departamentoId).subscribe(data => {
-          this.provincias = data;  
-        });
+      if (id) {
+        this.ubicacionService.obtenerProvincias(id).subscribe(data => {
+          this.provincias = data;
+        })
+      } else {
+        const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento!.toString())!.departamentoId;
+        this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
+          this.provincias = data;
+        })
       }
     }
   }
   
-  actualizarDistritos() {
+  actualizarDistritos(id?: string) {
     if (this.provincia) {
-      const provinciaSeleccionada = this.provincias.find(prov => prov.nombre === this.provincia);
-      if (provinciaSeleccionada) {
-        this.ubicacionService.obtenerDistritos(provinciaSeleccionada.provinciaId).subscribe(data => {
-          this.distritos = data;  
-        });
+      if (id) {
+        this.ubicacionService.obtenerDistritos(id).subscribe(data => {
+          this.distritos = data;
+        })
+      } else {
+        const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia!.toString())!.provinciaId;
+        this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
+          this.distritos = data;
+        })
       }
     }
   }
   
+  cargarUbicacion(departamento: string, provincia: string) {
+    this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
+    this.ubicacionService.obtenerProvincias(departamento).subscribe(data => {
+      this.provincias = data;
+      this.provincia = this.provincias.find(prov => prov.provinciaId === provincia)!.nombre;
+      this.ubicacionService.obtenerDistritos(provincia).subscribe(data => {
+        this.distritos = data;
+      });
+    })
+  }
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -101,7 +131,6 @@ export class EditarSedeComponent implements OnInit {
       this.mostrarErrores = true;
       return;
     }
-    
     const sedeActualizada: Isede = {
       sedeId: this.sede.sedeId,
       nombre: this.form.value.nombre,
@@ -110,7 +139,6 @@ export class EditarSedeComponent implements OnInit {
       ubigeo: this.sede.ubigeo = this.form.get('ubigeo')?.value,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-
     this.sedeService.actualizarSede(sedeActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
