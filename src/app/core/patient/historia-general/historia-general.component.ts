@@ -140,7 +140,10 @@ export class HistoriaGeneralComponent implements OnInit {
 
     // if(this.paciente || this.fechaDesde & this.fechaHasta){}
 
-    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+    // Verifica si se cumplen las condiciones para realizar la llamada al endpoint
+    if (this.paciente ) {
+
+      this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
       .pipe(
         finalize(() => this.isLoading = false)
       )
@@ -155,6 +158,12 @@ export class HistoriaGeneralComponent implements OnInit {
         this.dataSourceAPI = new MatTableDataSource<PacienteList>(this.patientsListAPI);
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
+    }
+    else{
+      // No hay filtros, puedes manejarlo de acuerdo a tus necesidades
+      this.isLoading = false;
+    }
+
   }
 
 

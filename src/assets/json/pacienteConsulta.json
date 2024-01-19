@@ -1,0 +1,22 @@
+{
+  "data":
+      {
+        "pacienteConsultaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "pacienteId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "ortodoncia": "N",
+        "ortodonciaTexto": "soy el texto ortodoncia",
+        "medicamento": "N",
+        "medicamentoTexto": "soy el texto medicamento",
+        "alergico": "S",
+        "alergicoTexto": "soy el texto ortodoncia",
+        "hospitalizacion": "N",
+        "hospitalizacionTexto": "soy el texto hospitalizacion",
+        "transfusiones": "S",
+        "transfusionesTexto": "soy el texto transfuciones",
+        "padecimientos": "H",
+        "cepillado": "S",
+        "cepilladoTexto": "soy el texto cepillado",
+        "presionArterial": "N",
+        "presionArterialTexto": "soy el texto persionArterial"
+      }
+}

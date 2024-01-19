@@ -1,0 +1,205 @@
+<div *ngIf="!isLoading" class="card mt-1">
+  <div class="card-body">
+    <form [formGroup]="form">
+      <!-- grupo 1 -->
+      <div class="row mt-3">
+        <div class="col-md-2 col-xlg-10 col-md-3">
+          <div class="form-group local-forms">
+            <label class="form-label">Presión arterial</label>
+
+            <div class="input-group mb-3">
+              <input
+              [(ngModel)]="pacienteExploracion!.presionArterial"
+              formControlName="presionArterial"
+              type="text" class="form-control" >
+              <span class="input-group-text" >mn Hg</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2 col-xlg-10 col-md-3">
+          <div class="form-group local-forms">
+            <label class="form-label">Pulso</label>
+
+            <div class="input-group mb-3">
+              <input
+              [(ngModel)]="pacienteExploracion!.pulso"
+              formControlName="pulso"
+              type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">/ min</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 col-xlg-10 col-md-3">
+          <div class="form-group local-forms">
+            <label class="form-label">Temperatura</label>
+
+            <div class="input-group mb-3">
+              <input
+              [(ngModel)]="pacienteExploracion!.temperatura"
+              formControlName="temperatura"
+              type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">º C</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2 col-xlg-10 col-md-3">
+          <div class="form-group local-forms">
+            <label class="form-label">Frencuencia cardiaca</label>
+
+            <div class="input-group mb-3">
+              <input
+              [(ngModel)]="pacienteExploracion!.frecuenciaCardiaca"
+              formControlName="frecuenciaCardiaca"
+              type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">
+                x min.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group local-forms">
+            <label class="form-label">Frecuencia respiratoria</label>
+
+            <div class="input-group mb-3">
+              <input
+              [(ngModel)]="pacienteExploracion!.frecuenciaRespiratoria"
+              formControlName="frecuenciaRespiratoria"
+              type="text" class="form-control" placeholder="Recipient's username"
+                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              <span class="input-group-text" id="basic-addon2">mn Hg</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <!-- grupo 2 -->
+      <div class="row">
+        <div class="form-heading">
+          <h4>Datos del Paciente</h4>
+        </div>
+        <br>
+        <br>
+
+        <div class="col-md-2">
+          <div class="form-group local-forms">
+            <label class="form-label">Peso</label>
+
+            <div class="input-group mb-2">
+              <input
+              [(ngModel)]="pacienteExploracion!.peso"
+              formControlName="peso"
+              type="text" name="peso" class="form-control" value="" data-dashlane-rid="6c889b3b12134033"
+                data-form-type="other">
+              <div class="input-group-text">
+                Kg.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group local-forms">
+            <label class="form-label">Talla</label>
+
+            <div class="input-group mb-2">
+              <input
+              [(ngModel)]="pacienteExploracion!.talla"
+              formControlName="talla"
+              type="text" name="talla" class="form-control" value="" data-dashlane-rid="a96f0da586b4de63"
+                data-form-type="other">
+              <div class="input-group-text">
+                m
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group local-forms">
+            <label class="form-label">IMC</label>
+
+            <div class="input-group mb-2">
+              <input
+              [(ngModel)]="pacienteExploracion!.masa"
+              formControlName="masa"
+              type="text" name="masa" class="form-control" value="" data-dashlane-rid="94e6d77ac5f34695"
+                data-form-type="other">
+              <div class="input-group-text">
+                Kg/m.
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- grupo 3 -->
+      <div class="row">
+        <div class="col-md-6 ">
+          <!-- Text-Area -->
+          <div class="form-group local-forms">
+            <label>Examen Clinico General<span class="login-danger">*</span></label>
+            <div class="input-group">
+              <textarea
+              [(ngModel)]="pacienteExploracion!.examenClinico"
+              formControlName="examenClinico"
+              class="form-control" type="text">
+       </textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 ">
+          <!-- Text-Area -->
+          <div class="form-group local-forms">
+            <label>
+              Examen Complementario<span class="login-danger">*</span></label>
+            <div class="input-group">
+              <textarea
+              [(ngModel)]="pacienteExploracion!.complementoExamen"
+              formControlName="complementoExamen"
+              class="form-control"  type="text">
+     </textarea>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 ">
+          <!-- Text-Area -->
+          <div class="form-group local-forms">
+            <label>Odontoestomalogicos<span class="login-danger">*</span></label>
+            <div class="input-group">
+              <textarea
+              [(ngModel)]="pacienteExploracion!.odontogramaEstomatologico"
+              formControlName="odontogramaEstomatologico"
+              class="form-control" type="text">
+     </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions mb-5 d-flex flex-row-reverse">
+        <button  type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1"
+          data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div *ngIf="isLoading" class="spinner-container">
+  <div class="custom-spinner"></div>
+</div>

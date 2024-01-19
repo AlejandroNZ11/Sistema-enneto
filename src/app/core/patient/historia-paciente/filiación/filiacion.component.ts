@@ -150,7 +150,7 @@ export class FiliacionComponent implements OnInit {
     this.sedeId = this.user.selectedSucursal.id.toString();
 
     if (this.pacienteId != '') {
-      this.pacienteService.obtenerPaciente(this.pacienteId).subscribe(async (paciente: PacienteEditar) => {
+      this.pacienteService.obtenerPaciente(this.pacienteId).subscribe( (paciente: PacienteEditar) => {
         if (paciente) {
           this.pacienteData = paciente;
           this.imagenTempFoto = this.pacienteData.foto;

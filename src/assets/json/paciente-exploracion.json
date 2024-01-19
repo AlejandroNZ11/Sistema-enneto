@@ -1,0 +1,18 @@
+{
+  "data":
+    {
+      "pacienteExploracionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pacienteId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "presionArterial": "50",
+      "pulso": "50",
+      "temperatura": "37",
+      "frecuenciaCardiaca": "111",
+      "frecuenciaRespiratoria": "111",
+      "peso": "20",
+      "talla": "1.70",
+      "masa": "90",
+      "examenClinico": "d",
+      "complementoExamen": "d",
+      "odontogramaEstomatologico": "s"
+    }
+}
