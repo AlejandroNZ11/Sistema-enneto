@@ -57,7 +57,7 @@ export class EditarProductoComponent {
       this.mostrarErrores = true;
       return;
     }
-    const productoActualizado: Iproducto = {
+    const ActualizarProducto: Iproducto = {
       productoId: this.producto.productoId,
       nombre: this.form.value.nombre,
       descripcion: this.form.value.descripcion,
@@ -65,7 +65,7 @@ export class EditarProductoComponent {
       stock:this.form.value.stock,
       estado:this.form.value.estado,
     };
-    this.OperacionesService.actualizarProducto(productoActualizado).subscribe(
+    this.OperacionesService.actualizarProducto(ActualizarProducto).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');

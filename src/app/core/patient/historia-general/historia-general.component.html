@@ -22,7 +22,7 @@
                     <div class="card-body">
 
                         <!-- Table Header -->
-                        <div class="page-table-header mb-2">
+                        <div  class="page-table-header mb-2">
                             <div class="row align-items-center">
                             <div class="col">
                                 <div class="doctor-table-blk">
@@ -81,7 +81,7 @@
                         </div>
                         <!-- /Table Header -->
 
-                        <div class="table-responsive">
+                        <div *ngIf="!isLoading" class="table-responsive">
                             <table matSort (matSortChange)="sortData($event)"
                                 class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>

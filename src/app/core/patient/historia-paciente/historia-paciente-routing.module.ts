@@ -13,7 +13,7 @@ const routes: Routes = [
           import('./filiación/filiación.module').then((m) => m.FiliacionModule),
       },
       {
-        path:'historia-clinica/:pacienteId',
+        path:'historia-clinica',
         loadChildren:()=>
         import('./historia-clinica/historia-clinica.module').then((m) => m.HistoriaClinicaModule)
       }

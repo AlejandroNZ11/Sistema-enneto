@@ -1,0 +1,323 @@
+<div  *ngIf="!isLoading" class="card mt-1">
+  <div class="card-body ">
+    <form [formGroup]="form">
+      <!-- Group 1 -->
+      <div class="row mt-2">
+        <div class="col-md-6 ">
+          <div class="row  flex-column">
+            <div class="col-md-12">
+              <label class="control-label">¿Ha tenido alguna vez tratamiento de ortodoncia?</label>
+            </div>
+            <div class="col-md-3 mt-2">
+              <div class="form-group d-flex">
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.ortodoncia"
+                  formControlName="ortodoncia"
+                  class="form-check-input" type="radio" value="S" id="S">
+                  <label class="form-check-label" >Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                  name="ortodoncia"
+                  [(ngModel)]="consultaPaciente!.ortodoncia"
+                  formControlName="ortodoncia"
+                  class="form-check-input" type="radio" value="N"id="S" >
+                  <label class="form-check-label" >No</label>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <!-- Text-Area -->
+              <div class="form-group local-forms">
+                <label>Descripcion<span class="login-danger">*</span></label>
+                <div class="input-group">
+                  <textarea
+                  [(ngModel)]="consultaPaciente!.ortodonciaTexto"
+                  class="form-control" formControlName="ortodonciaTexto" type="text">
+                   </textarea>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row flex-column">
+            <div class="col-md-12">
+              <label class="control-label">¿Esta tomando algun medicamento?</label>
+            </div>
+            <div class="col-md-3 mt-2">
+              <div class="form-group d-flex">
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.medicamento"
+                  class="form-check-input" type="radio" value="S" formControlName="medicamento">
+                  <label class="form-check-label" >Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.medicamento"
+                  class="form-check-input" type="radio" value="N" formControlName="medicamento">
+                  <label class="form-check-label" >No</label>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <!-- Text-Area -->
+              <div class="form-group local-forms">
+                <label>Descripcion<span class="login-danger">*</span></label>
+                <div class="input-group">
+                  <textarea
+                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
+
+                  class="form-control" formControlName="medicamentoTexto" type="text">
+                 </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Group 2 -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row flex-column">
+            <div class="col-md-12">
+              <label class="control-label">¿Es alergico a algun medicamento o anestesico?</label>
+            </div>
+            <div class="col-md-3 mt-2">
+              <div class="form-group d-flex">
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.alergico"
+
+                  class="form-check-input" type="radio" value="S" formControlName="alergico">
+                  <label class="form-check-label" >Si</label>
+                </div>
+                <div
+                [(ngModel)]="consultaPaciente!.alergico"
+
+                class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio"value="N" formControlName="alergico">
+                  <label class="form-check-label" >No</label>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <!-- Text-Area -->
+              <div class="form-group local-forms">
+                <label>Descripcion<span class="login-danger">*</span></label>
+                <div class="input-group">
+                  <textarea
+                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
+
+                  class="form-control" formControlName="alergicoTexto" type="text">
+                   </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row flex-column">
+            <div class="col-md-12">
+              <label class="control-label">¿Ha estado hospitalizado o tenido una cirugia?</label>
+            </div>
+            <div class="col-md-3 mt-2">
+              <div class="form-group d-flex">
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.hospitalizacion"
+
+                  class="form-check-input" type="radio" value="S" formControlName="hospitalizacion">
+                  <label class="form-check-label" >No</label>
+                </div>
+                <div
+                [(ngModel)]="consultaPaciente!.medicamento"
+
+                class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" value="N" formControlName="hospitalizacion">
+                  <label class="form-check-label" >Si</label>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <!-- Text-Area -->
+              <div class="form-group local-forms">
+                <label>Descripcion<span class="login-danger">*</span></label>
+                <div class="input-group">
+                  <textarea
+                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
+
+                  class="form-control" formControlName="hospitalizacionTexto" type="text">
+                   </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- grupo 3 -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">¿Padece o a padecido alguna de las siguientes enfermedades?</label>
+            <div class="mt-2">
+
+              <div class="form-group">
+                <div *ngFor="let item of enfermedades_LISTA" class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.padecimientos"
+
+                  class="form-check-input" type="radio" [value]="item.value" formControlName="padecimientos">
+                  <label class="form-check-label" >{{ item.name }}</label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row flex-column">
+            <div class="col-md-12">
+              <label class="control-label">¿Ha tenido algun transtorno nervioso o emocional?</label>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group d-flex">
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.transfusiones"
+
+                  class="form-check-input" type="radio" value="S" formControlName="transfusiones">
+                  <label class="form-check-label">Si</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input
+                  [(ngModel)]="consultaPaciente!.transfusiones"
+
+                  class="form-check-input" type="radio" value="N" formControlName="transfusiones">
+                  <label class="form-check-label" >No</label>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <!-- Text-Area -->
+              <div class="form-group local-forms">
+                <label>Descripcion<span class="login-danger">*</span></label>
+                <div class="input-group">
+                  <textarea
+                  [(ngModel)]="consultaPaciente!.transfusionesTexto"
+
+                  class="form-control" formControlName="transfusionesTexto" type="text">
+                   </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grupo 4 -->
+        <div class="row">
+
+          <div class="col-md-6">
+            <div class="row flex-column">
+              <div class="col-md-12">
+                <label class="control-label">¿Cepilla los dientes diariamente?</label>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group d-flex">
+                  <div class="form-check form-check-inline">
+                    <input
+                  [(ngModel)]="consultaPaciente!.cepillado"
+
+                    class="form-check-input" type="radio" value="S" formControlName="cepillado">
+                    <label class="form-check-label" >Si</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                  [(ngModel)]="consultaPaciente!.cepillado"
+
+                    class="form-check-input" type="radio" value="N" formControlName="cepillado">
+                    <label class="form-check-label" >No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <!-- Text-Area -->
+                <div class="form-group local-forms">
+                  <label>Descripcion<span class="login-danger">*</span></label>
+                  <div class="input-group">
+                    <textarea
+                  [(ngModel)]="consultaPaciente!.cepilladoTexto"
+
+                    class="form-control" formControlName="cepilladoTexto" type="text">
+                     </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-md-6">
+            <div class="row flex-column">
+              <div class="col-md-12">
+                <label class="control-label">¿Sufre de presión arterial alta?</label>
+              </div>
+              <div class="col-md-3 mt-2">
+                <div class="form-group d-flex">
+                  <div class="form-check form-check-inline">
+                    <input
+                  [(ngModel)]="consultaPaciente!.presionArterial"
+
+                    class="form-check-input" type="radio" value="S" formControlName="presionArterial">
+                    <label class="form-check-label" >Si</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                  [(ngModel)]="consultaPaciente!.presionArterial"
+
+                    class="form-check-input" type="radio" value="N" formControlName="presionArterial">
+                    <label class="form-check-label" >No</label>
+                  </div>
+                </div>
+              </div>
+              <div class="">
+                <!-- Text-Area -->
+                <div class="form-group local-forms">
+                  <label>Descripcion<span class="login-danger">*</span></label>
+                  <div class="input-group">
+                    <textarea
+                  [(ngModel)]="consultaPaciente!.presionArterialTexto"
+
+                    class="form-control" formControlName="presionArterialTexto" type="text">
+                   </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions mb-5 d-flex flex-row-reverse">
+        <button  type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1"
+          data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div *ngIf="isLoading" class="spinner-container">
+  <div class="custom-spinner"></div>
+</div>

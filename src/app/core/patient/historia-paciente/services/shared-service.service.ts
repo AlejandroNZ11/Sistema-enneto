@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,5 +14,11 @@ export class SharedService {
   setPacienteId(pacienteId: string) {
     this.pacienteIdSource.next(pacienteId);
   }
+
+
+  public get pacientID() : Observable<string> {
+    return  this.pacienteId$
+  }
+
 
 }
