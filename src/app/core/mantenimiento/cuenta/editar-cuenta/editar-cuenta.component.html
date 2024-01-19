@@ -39,7 +39,8 @@
                                     <label>Balance Inicial <span class="login-danger">*</span></label>
                                     <input formControlName="total"
                                         class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('total')}">
+                                        [ngClass]="{'is-invalid': isInvalid('total')}"
+                                        (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('total') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('total')">
                                             Debe completar el campo*

@@ -20,8 +20,12 @@ export class AgregarCuentaComponent implements OnInit{
   public mostrarErrores = false;
   ngOnInit(): void { }
 
-  constructor(private renderer: Renderer2, public bsModalRef: BsModalRef, private cuentaService: CuentaService,
-    public fb: FormBuilder,) {
+  constructor(
+    private renderer: Renderer2, 
+    public bsModalRef: BsModalRef, 
+    private cuentaService: CuentaService,
+    public fb: FormBuilder,
+    ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       total: ['', Validators.required],

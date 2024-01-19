@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Icuenta } from 'src/app/shared/models/cuenta';
@@ -20,8 +20,12 @@ export class EditarCuentaComponent implements OnInit {
   form: FormGroup;
   public mostrarErrores = false;
 
-  constructor(public bsModalRef: BsModalRef, private cuentaService: CuentaService, 
-    public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private renderer: Renderer2, 
+    private cuentaService: CuentaService, 
+    public fb: FormBuilder,
+    ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       total: ['', Validators.required],
@@ -29,6 +33,14 @@ export class EditarCuentaComponent implements OnInit {
     });
   }
 
+  validarInput(event: any) {
+    const inputValue = event.target.value;
+
+    if (isNaN(inputValue)) {
+      const newValue = inputValue.slice(0, -1);
+      this.renderer.setProperty(event.target, 'value', newValue);
+    }
+  }
   ngOnInit() {
     this.cuentaService.obtenerCuenta(this.cuentaSeleccionada!).subscribe(cuenta=> {
       this.cuenta=cuenta;
