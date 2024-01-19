@@ -12,17 +12,19 @@ import { Editor } from 'ngx-editor';
   templateUrl: './agregar-consentimiento.component.html',
   styleUrls: ['./agregar-consentimiento.component.scss']
 })
-export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
+export class AgregarConsentimientoComponent implements OnInit{
   Consentimiento: consentimiento = new consentimiento();
-  editor: any;
+  editor?: Editor;
   texto = '';
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
+
   ngOnInit(): void { 
     this.editor = new Editor();
   }
 
+  
   constructor(
     public bsModalRef: BsModalRef, 
     private consentimientoService: ConsentimientoService,
@@ -35,9 +37,6 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
       });
   }
 
-  ngOnDestroy(): void {
-    this.editor.destroy();
-  }
   
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -48,7 +47,8 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
-    this.bsModalRef.hide()
+    this.bsModalRef.hide();
+    if(this.editor)this.editor.destroy();
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
@@ -73,6 +73,7 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          if(this.editor)this.editor.destroy();
         }else{
           console.error(response.message);
         }

@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class EditarSedeComponent implements OnInit {
   sede!: Isede;
-  sedeSeleccionada ?:string;
+  sedeSeleccionada! :string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -27,7 +27,7 @@ export class EditarSedeComponent implements OnInit {
   departamento!: string;
   provincia!: string;
   isFormSubmitted = false;
-  
+  isLoading = false;
 
   constructor(
     public bsModalRef: BsModalRef, 
@@ -45,13 +45,17 @@ export class EditarSedeComponent implements OnInit {
       direccion: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
-  
   }
   
 
   ngOnInit() {
-    this.sedeService.obtenerSede(this.sedeSeleccionada!).subscribe(sede => {
-      this.sede = sede || this.departamentos ;
+    this.isLoading = true;
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+    if(this.sedeSeleccionada != ''){
+    this.sedeService.obtenerSede(this.sedeSeleccionada).subscribe(sede => {
+      if (sede){
+      this.sede = sede ;
+
       this.form.patchValue({
         nombre: this.sede.nombre,
         codigo: this.sede.codigo,
@@ -59,13 +63,12 @@ export class EditarSedeComponent implements OnInit {
         ubigeo: this.sede.ubigeo,
         estado: this.sede.estado == '1' ? 'Activo' : 'Inactivo',
       });
-    }) 
-
-    const departamentoId = (this.sede.ubigeo.substring(0, 2));
-    const provinciaId = (this.sede.ubigeo.substring(0, 4));
-    this.cargarUbicacion(departamentoId, provinciaId);
-    
-
+      const departamentoId = (sede.ubigeo.substring(0, 2));
+      const provinciaId = (sede.ubigeo.substring(0, 4));
+      this.cargarUbicacion(departamentoId, provinciaId);
+        }
+      }) 
+    }
   }
 
   actualizarProvincias(id?: string) {
@@ -74,13 +77,17 @@ export class EditarSedeComponent implements OnInit {
         this.ubicacionService.obtenerProvincias(id).subscribe(data => {
           this.provincias = data;
         })
-      } else {
+      }
         const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento!.toString())!.departamentoId;
         this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
           this.provincias = data;
         })
       }
-    }
+      this.form.patchValue({
+        provincia: '',
+      });
+      
+    
   }
   
   actualizarDistritos(id?: string) {
@@ -89,22 +96,30 @@ export class EditarSedeComponent implements OnInit {
         this.ubicacionService.obtenerDistritos(id).subscribe(data => {
           this.distritos = data;
         })
-      } else {
+      }
         const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia!.toString())!.provinciaId;
         this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
           this.distritos = data;
         })
       }
-    }
+      this.form.patchValue({
+        ubigeo: '',
+      });
+    
   }
   
   cargarUbicacion(departamento: string, provincia: string) {
-    this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
+    if (this.departamentos) {this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
+    }
     this.ubicacionService.obtenerProvincias(departamento).subscribe(data => {
       this.provincias = data;
       this.provincia = this.provincias.find(prov => prov.provinciaId === provincia)!.nombre;
       this.ubicacionService.obtenerDistritos(provincia).subscribe(data => {
         this.distritos = data;
+        this.form.patchValue({
+          departamento: this.departamento,
+          provincia: this.provincia,
+        });
       });
     })
   }
@@ -127,7 +142,7 @@ export class EditarSedeComponent implements OnInit {
   }
 
   guardarSede() {
-    if (!this.sede|| this.departamentos || this.form.invalid) {
+    if (!this.sede|| this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
@@ -152,4 +167,4 @@ export class EditarSedeComponent implements OnInit {
         console.error(error);
       });
   }
-} 
+}  
