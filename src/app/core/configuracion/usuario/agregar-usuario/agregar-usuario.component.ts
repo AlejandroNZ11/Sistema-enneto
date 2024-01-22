@@ -49,7 +49,7 @@ export class AgregarUsuarioComponent {
       telefono: ['', Validators.required],
       direccion: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      tipoDocumentoId: ['', Validators.required],
+      tipoDocumentoIdentidadId: ['', Validators.required],
       documento: ['', Validators.required],
       foto: [null, Validators.required],
       rolId: ['', Validators.required],
@@ -92,7 +92,7 @@ export class AgregarUsuarioComponent {
       return;
     }
 
-    this.usuario.tipoDocumentoId = mapTipoDocumentoCodeToGuid(this.form.get('tipoDocumentoId')?.value);
+    this.usuario.tipoDocumentoIdentidadId = mapTipoDocumentoCodeToGuid(this.form.get('tipoDocumentoIdentidadId')?.value);
     this.usuario.rolId = mapRolCodeToGuid(this.form.get('rolId')?.value);
 
     this.usuario.apellido = this.form.get('apellido')?.value;
@@ -102,7 +102,6 @@ export class AgregarUsuarioComponent {
     this.usuario.email = this.form.get('email')?.value;
     this.usuario.documento = this.form.get('documento')?.value.toString();
     this.usuario.foto = this.form.get('foto')?.value;
-    this.usuario.fechaRegistro = new Date(this.form.get('fechaRegistro')?.value).toISOString();
 
     this.usuarioService.crearUsuario(this.usuario).subscribe(
       (response) => {

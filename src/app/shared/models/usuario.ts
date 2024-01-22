@@ -6,7 +6,7 @@ export class Usuario {
     telefono = "";
     direccion = "";
     email = "";
-    tipoDocumentoId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+    tipoDocumentoIdentidadId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
     documento = "";
     foto = "";
     rolId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
@@ -27,7 +27,7 @@ export interface IUsuario {
     telefono: string;
     direccion: string;
     email: string;
-    tipoDocumentoId: string;
+    tipoDocumentoIdentidadId: string;
     documento: string;
     foto: string;
     rolId: string;
