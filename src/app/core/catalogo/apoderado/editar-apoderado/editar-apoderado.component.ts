@@ -26,13 +26,21 @@ export class EditarApoderadoComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
+      tipoDocumento: [null, Validators.required],
       documento: ['', Validators.required],
-      direccion: [''],
-      telefono: [''],
+      direccion: ['', Validators.required],
+      telefono: ['', Validators.required],
       estado: ['', Validators.required],
     });
   }
+
+  tipoDocumentoMapping: { [key: number]: string } = {
+    1: '01',
+    2: '02',
+    3: '03',
+    4: '04',
+    5: '05'  
+  };
 
   ngOnInit() {
     this.apoderadoService.obtenerApoderado(this.apoderadoSeleccionado!).subscribe(apoderado => {
@@ -46,7 +54,9 @@ export class EditarApoderadoComponent implements OnInit {
         estado: this.apoderado.estado == '1' ? 'Activo' : 'Inactivo',
       });
   
-      // Asegúrate de que el valor de tipoDocumento se establezca en el mat-select
+      console.log('Tipo de Documento:', this.apoderado.tipoDocumento);
+      console.log('Tipo de Documento API:', apoderado.tipoDocumento);
+      console.log('Estado del formulario:', this.form.value);
       this.form.get('tipoDocumento')?.setValue(this.apoderado.tipoDocumento);
     });
   }
