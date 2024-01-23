@@ -34,20 +34,12 @@ export class EditarApoderadoComponent implements OnInit {
     });
   }
 
-  tipoDocumentoMapping: { [key: number]: string } = {
-    1: '01',
-    2: '02',
-    3: '03',
-    4: '04',
-    5: '05'  
-  };
-
   ngOnInit() {
     this.apoderadoService.obtenerApoderado(this.apoderadoSeleccionado!).subscribe(apoderado => {
       this.apoderado = apoderado;
       this.form.patchValue({
         nombre: this.apoderado.nombre,
-        tipoDocumento: this.apoderado.tipoDocumento,
+        tipoDocumento: this.mapTipoDocumento(this.apoderado.tipoDocumento),
         documento: this.apoderado.documento,
         direccion: this.apoderado.direccion,
         telefono: this.apoderado.telefono,
@@ -55,10 +47,20 @@ export class EditarApoderadoComponent implements OnInit {
       });
   
       console.log('Tipo de Documento:', this.apoderado.tipoDocumento);
-      console.log('Tipo de Documento API:', apoderado.tipoDocumento);
-      console.log('Estado del formulario:', this.form.value);
-      this.form.get('tipoDocumento')?.setValue(this.apoderado.tipoDocumento);
+      this.form.get('tipoDocumento')?.setValue(this.mapTipoDocumento(this.apoderado.tipoDocumento));
     });
+  }
+  
+  mapTipoDocumento(tipoDocumento: number): string {
+    switch (tipoDocumento) {
+      case 1: return '01';
+      case 2: return '02';
+      case 3: return '03';
+      case 4: return '04';
+      case 5: return '05';
+  
+      default: return '';
+    }
   }
 
   isInvalid(controlName: string) {
