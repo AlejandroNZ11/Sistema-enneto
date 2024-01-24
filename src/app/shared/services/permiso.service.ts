@@ -10,9 +10,7 @@ import { DataPermiso, IPermiso, Permiso } from '../models/permiso';
   providedIn: 'root'
 })
 export class PermisoService {
-
   apiUrl = environment.apiURL;
-
   constructor(public http: HttpClient) { }
 
   obtenerPermisos(clinicaId: string, page: number, rows: number): Observable<DataPermiso> {
@@ -22,7 +20,8 @@ export class PermisoService {
   crearPermiso(permiso: Permiso): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/Permisos/SavePermiso`, permiso).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        console.error('Error en la solicitud:', error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el permiso', 'warning');
         return throwError(() => error);
       })
     );

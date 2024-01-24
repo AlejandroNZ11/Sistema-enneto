@@ -56,10 +56,10 @@ export class AgregarPermisoComponent {
 
     this.permiso.modulo = this.form.get('modulo')?.value;
     this.permiso.cargo = this.form.get('cargo')?.value;
-    this.permiso.read = this.form.get('leer')?.value;
-    this.permiso.insert = this.form.get('insertar')?.value;
-    this.permiso.update = this.form.get('actualizar')?.value;
-    this.permiso.delete = this.form.get('anular')?.value;
+    this.permiso.read = this.form.get('read')?.value ? 1 : 0;
+    this.permiso.insert = this.form.get('insert')?.value ? 1 : 0;
+    this.permiso.update = this.form.get('update')?.value ? 1 : 0;
+    this.permiso.delete = this.form.get('delete')?.value ? 1 : 0;
 
     this.permisoService.crearPermiso(this.permiso).subscribe(
       (response) => {
@@ -71,7 +71,7 @@ export class AgregarPermisoComponent {
         }
       },
       (error) => {
-        console.error(error);
+        console.error('Error del servicio:', error);
       }
     );
   }
