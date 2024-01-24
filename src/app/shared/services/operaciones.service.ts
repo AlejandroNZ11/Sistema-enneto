@@ -17,8 +17,7 @@ export class OperacionesService {
   obtenerProductos(clinicaId: string, page: number, rows: number): Observable<DataProducto> {
     return this.http.get<DataProducto>(this.apiUrl + `/Productos/GetAllProducto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
-///api/Productos/GetAllProducto
-  ///api/Productos/SaveProducto
+
   crearProducto(producto: producto): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Productos/SaveProducto', producto).pipe(
       catchError(error => {
@@ -30,12 +29,11 @@ export class OperacionesService {
 obtenerProducto( productoId: string): Observable<Iproducto> {
   return this.http.get<Iproducto>(this.apiUrl + `/Productos/GetProducto/${productoId}`);
 }
-///api/Productos/GetProducto/{productoId}
+
 eliminarProducto( productoId: string): Observable<successResponse> {
   return this.http.delete<successResponse>(this.apiUrl + `/Productos/DeleteProducto/${productoId}`);
 }
-///api/Productos/DeleteProducto/{productoId}
-//productoId
+
 actualizarProducto(producto: Iproducto): Observable<successResponse> {
   return this.http.put<successResponse>(this.apiUrl + `/Productos/UpdateProducto/${producto.productoId}`, producto).pipe(
     catchError(error => {
@@ -44,6 +42,5 @@ actualizarProducto(producto: Iproducto): Observable<successResponse> {
     })
   );
 }
-///api/Productos/UpdateProducto/{productoId}
-//, producto
+
 }
