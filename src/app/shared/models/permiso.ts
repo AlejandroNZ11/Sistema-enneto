@@ -1,14 +1,14 @@
 export class Permiso {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = '';
-    menuId = '';
-    rolId = '';
+    menuId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+    rolId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     modulo = '';
     cargo = '';
-    read = '';
-    insert = '';
-    update = '';
-    delete = '';
+    read = 0;
+    insert = 0;
+    update = 0;
+    delete = 0;
 }
 
 export interface DataPermiso {
@@ -22,8 +22,8 @@ export interface IPermiso {
     rolId: string;
     modulo: string;
     cargo: string;
-    read: string;
-    insert: string;
-    update: string;
-    delete: string;
+    read: number;
+    insert: number;
+    update: number;
+    delete: number;
 }
