@@ -19,9 +19,13 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
   form: FormGroup;
   public mostrarErrores = false;
   editor!: Editor;
-  html = '';
+  texto = '';
 
-  constructor(public bsModalRef: BsModalRef, private consentimientoService: ConsentimientoService, public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private consentimientoService: ConsentimientoService, 
+    public fb: FormBuilder
+    ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       observacion: ['', Validators.required],

@@ -12,9 +12,9 @@ import { Editor } from 'ngx-editor';
   templateUrl: './agregar-consentimiento.component.html',
   styleUrls: ['./agregar-consentimiento.component.scss']
 })
-export class AgregarConsentimientoComponent implements OnInit{
+export class AgregarConsentimientoComponent implements OnInit, OnDestroy {
   Consentimiento: consentimiento = new consentimiento();
-  editor?: Editor;
+  editor!: Editor;
   texto = '';
   public routes = routes;
   form!: FormGroup;
@@ -37,6 +37,9 @@ export class AgregarConsentimientoComponent implements OnInit{
       });
   }
 
+  ngOnDestroy(): void {
+    this.editor.destroy();
+  }
   
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
