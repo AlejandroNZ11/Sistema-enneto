@@ -1,0 +1,91 @@
+{
+  "data":[
+    {
+      "pacienteAlergiaId": "1",
+      "pacienteId": "5",
+      "alergiaId": "7007d8ed-ab86-491f-e893-08dbf1ce4a5b",
+      "observacion": "no hay observacion",
+      "estado": 1
+    },
+    {
+      "pacienteAlergiaId": "2",
+      "pacienteId": "3",
+      "alergiaId": "7007d8ed-ab86-491f-e893-08dbf1ce4a5b",
+      "observacion": "no hay observacion2",
+      "estado": 3
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    },
+    {
+      "pacienteAlergiaId": "3",
+      "pacienteId": "6",
+      "alergiaId": "bf6ad6ca-ab1e-45a5-8cea-08dbf688cb04",
+      "observacion": "no hay observacion3",
+      "estado": 2
+    }
+
+  ],
+  "totalData":12
+}
+

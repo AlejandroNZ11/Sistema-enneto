@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "pacienteDiagnosticoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pacienteId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "fecha": "2024-01-23T16:44:52.576Z",
+      "codigoEnfermedad01": "string",
+      "estado": 0
+    },
+    {
+      "pacienteDiagnosticoId": "4fa85f64-5717-4562-b3fc-2c963f66afa7",
+      "pacienteId": "4fa85f64-5717-4562-b3fc-2c963f66afa7",
+      "fecha": "2024-01-23T16:45:52.576Z",
+      "codigoEnfermedad01": "otra cadena",
+      "estado": 1
+    },
+    {
+      "pacienteDiagnosticoId": "5fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "pacienteId": "5fa85f64-5717-4562-b3fc-2c963f66afa8",
+      "fecha": "2024-01-23T16:46:52.576Z",
+      "codigoEnfermedad01": "otra cadena más",
+      "estado": 1
+    },
+    {
+      "pacienteDiagnosticoId": "6fa85f64-5717-4562-b3fc-2c963f66afa9",
+      "pacienteId": "6fa85f64-5717-4562-b3fc-2c963f66afa9",
+      "fecha": "2024-01-23T16:47:52.576Z",
+      "codigoEnfermedad01": "última cadena",
+      "estado": 0
+    }
+  ],
+  "totalData": 4
+}

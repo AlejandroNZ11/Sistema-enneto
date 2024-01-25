@@ -16,7 +16,7 @@ export class DiagnosticoService {
 
   obtenerDiagnosticos(clinicaId: string, page: number, rows: number): Observable<DataDiagnostico> {
     return this.http.get<DataDiagnostico>(this.apiUrl + `/Enfermedad/GetAllEnfermedad?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
-    ///api/PacientesDiagnosticos/GetAllPacienteDiagnostico ----- clinicaId
+    
   }
   crearDiagnostico(diagnostico: diagnostico): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Enfermedad/SaveEnfermdedad', diagnostico).pipe(
@@ -26,15 +26,10 @@ export class DiagnosticoService {
         })
     );
   }
-  ////Especialidades/SaveEspecialidad crear diagnostico  entre ''
+  
   
   eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
     return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
   }
-  //eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
-   // return this.http.delete<successResponse>(`${this.apiUrl}/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
-  //}
-  //eliminarTarifario( tarifarioId: string): Observable<successResponse> {
-    //return this.http.delete<successResponse>(this.apiUrl + `/Tarifarios/DeleteTarifario/${tarifarioId}`);
-  //}
+  
 }

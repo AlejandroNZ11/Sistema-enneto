@@ -73,7 +73,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumentoId" class="form-control select"
+                                    <mat-select formControlName="tipoDocumentoIdentidadId" class="form-control select"
                                         placeholder="Seleccionar Documento">
                                         <mat-option value="01">DNI</mat-option>
                                         <mat-option value="02">RUC</mat-option>
@@ -81,8 +81,8 @@
                                         <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
                                         <mat-option value="05">OTROS</mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('tipoDocumentoId') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('tipoDocumentoId')|| mostrarErrores">
+                                    <div *ngIf="isInvalid('tipoDocumentoIdentidadId') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('tipoDocumentoIdentidadId')|| mostrarErrores">
                                             Debe seleccionar un tipo de documento*
                                         </div>
                                     </div>

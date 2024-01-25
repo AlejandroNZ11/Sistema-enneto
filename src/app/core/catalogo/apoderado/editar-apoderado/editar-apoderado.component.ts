@@ -26,10 +26,10 @@ export class EditarApoderadoComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
+      tipoDocumento: [null, Validators.required],
       documento: ['', Validators.required],
-      direccion: [''],
-      telefono: [''],
+      direccion: ['', Validators.required],
+      telefono: ['', Validators.required],
       estado: ['', Validators.required],
     });
   }
@@ -39,16 +39,28 @@ export class EditarApoderadoComponent implements OnInit {
       this.apoderado = apoderado;
       this.form.patchValue({
         nombre: this.apoderado.nombre,
-        tipoDocumento: this.apoderado.tipoDocumento,
+        tipoDocumento: this.mapTipoDocumento(this.apoderado.tipoDocumento),
         documento: this.apoderado.documento,
         direccion: this.apoderado.direccion,
         telefono: this.apoderado.telefono,
         estado: this.apoderado.estado == '1' ? 'Activo' : 'Inactivo',
       });
   
-      // Asegúrate de que el valor de tipoDocumento se establezca en el mat-select
-      this.form.get('tipoDocumento')?.setValue(this.apoderado.tipoDocumento);
+      console.log('Tipo de Documento:', this.apoderado.tipoDocumento);
+      this.form.get('tipoDocumento')?.setValue(this.mapTipoDocumento(this.apoderado.tipoDocumento));
     });
+  }
+  
+  mapTipoDocumento(tipoDocumento: number): string {
+    switch (tipoDocumento) {
+      case 1: return '01';
+      case 2: return '02';
+      case 3: return '03';
+      case 4: return '04';
+      case 5: return '05';
+  
+      default: return '';
+    }
   }
 
   isInvalid(controlName: string) {
