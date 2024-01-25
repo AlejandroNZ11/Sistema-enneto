@@ -13,6 +13,7 @@ import { UnidadesService } from 'src/app/shared/services/unidades.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { TarifarioService } from 'src/app/shared/services/tarifario.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-tarifario',
@@ -20,7 +21,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-tarifario.component.scss']
 })
 export class AgregarTarifarioComponent {
-  
+  tarifarioAgregada$: Subject<boolean> = new Subject<boolean>();
   fechaRegistro: Date = new Date();
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   categoria_LISTA: Array<Icategoria> = [];
@@ -103,6 +104,7 @@ export class AgregarTarifarioComponent {
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.tarifarioAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -132,6 +134,7 @@ export class AgregarTarifarioComponent {
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.tarifarioAgregada$.next(true);
         }else{
           console.error(response.message);
         }

@@ -15,6 +15,7 @@ import { TipoConceptoService } from 'src/app/shared/services/tipo-concepto.servi
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Itarifario } from 'src/app/shared/models/tarifario';
 import { param } from 'lightgallery/plugins/video/lg-video-utils';
+import { Subject } from 'rxjs';
 
 interface data {
   value: string;
@@ -26,7 +27,7 @@ interface data {
   styleUrls: ['./editar-tarifario.component.scss']
 })
 export class EditarTarifarioComponent implements OnInit {
-
+  tarifarioEditada$: Subject<boolean> = new Subject<boolean>();
   tarifarioSeleccionada: any;
   medida_LISTA: Array<Imedida> = [];
   categoria_LISTA: Array<Icategoria> = [];
@@ -113,6 +114,7 @@ export class EditarTarifarioComponent implements OnInit {
 
 
   Cancelar() {
+    this.tarifarioEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -140,6 +142,7 @@ export class EditarTarifarioComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.tarifarioEditada$.next(true);
         } else {
           console.error(response.message);
         }

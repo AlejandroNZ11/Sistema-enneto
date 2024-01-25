@@ -9,7 +9,7 @@ import { EditarConsentimientoComponent } from './editar-consentimiento/editar-co
 import { DataConsentimiento, Iconsentimiento, consentimiento } from 'src/app/shared/models/consentimiento';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades  } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-consentimiento',
@@ -75,9 +75,11 @@ export class ConsentimientoComponent implements OnInit {
 
   crearConsentimiento() {
   this.bsModalRef = this.modalService.show(AgregarConsentimientoComponent),
-  this.bsModalRef.onHidden?.subscribe(() => {
-  this.getTableData(this.currentPage, this.pageSize);
-    });
+  this.bsModalRef.content.consentimientoAgregada$.subscribe((consentimientoAgregada: boolean) => {
+    if (consentimientoAgregada) {
+      this.getTableData(this.currentPage, this.pageSize);
+    }
+  });
   }
 
 editarConsentimiento(consentimiento: Iconsentimiento) {
@@ -85,9 +87,16 @@ editarConsentimiento(consentimiento: Iconsentimiento) {
     consentimientoSeleccionada: consentimiento.consentimientoId
   };
   this.bsModalRef = this.modalService.show(EditarConsentimientoComponent, { initialState });
-  this.bsModalRef.onHidden?.subscribe(() => {
-    this.getTableData(this.currentPage, this.pageSize);
-  });
+  const consentimientoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.consentimientoEditada$ = consentimientoEditada$;
+    consentimientoEditada$.subscribe((consentimientoEditada: boolean) => {
+      if (consentimientoEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      consentimientoEditada$.unsubscribe();   
+    });
   }
 
   eliminarConsentimiento(consentimientoId: string) {

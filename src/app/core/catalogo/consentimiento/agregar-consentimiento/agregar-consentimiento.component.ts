@@ -6,6 +6,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
 import { Editor } from 'ngx-editor';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-consentimiento',
@@ -13,6 +14,7 @@ import { Editor } from 'ngx-editor';
   styleUrls: ['./agregar-consentimiento.component.scss']
 })
 export class AgregarConsentimientoComponent implements OnInit, OnDestroy {
+  consentimientoAgregada$: Subject<boolean> = new Subject<boolean>();
   Consentimiento: consentimiento = new consentimiento();
   editor!: Editor;
   texto = '';
@@ -50,6 +52,7 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy {
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.consentimientoAgregada$.next(false);
     this.bsModalRef.hide();
     if(this.editor)this.editor.destroy();
   }
@@ -76,6 +79,7 @@ export class AgregarConsentimientoComponent implements OnInit, OnDestroy {
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.consentimientoAgregada$.next(true);
           if(this.editor)this.editor.destroy();
         }else{
           console.error(response.message);

@@ -9,7 +9,7 @@ import { DataTarifario, Itarifario, tarifario } from 'src/app/shared/models/tari
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
-
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tarifario',
   templateUrl: './tarifario.component.html',
@@ -70,17 +70,26 @@ export class TarifarioComponent  {
 
   crearTarifario() {
     this.bsModalRef = this.modalService.show(AgregarTarifarioComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.tarifarioAgregada$.subscribe((tarifarioAgregada: boolean) => {
+      if (tarifarioAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarTarifario(tarifario: Itarifario) {
     const initialState = {
       tarifarioSeleccionada: tarifario.tarifarioId
     };
     this.bsModalRef = this.modalService.show(EditarTarifarioComponent, { initialState });
+    const tarifarioEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.categoriaEditada$ = tarifarioEditada$;
+    tarifarioEditada$.subscribe((categoriaEditada: boolean) => {
+      if (categoriaEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tarifarioEditada$.unsubscribe();   
     });
   } 
 
