@@ -46,6 +46,7 @@ export class CategoriaComponent implements OnInit{
         this.serialNumberArray.push(serialNumber);
       }
       this.ListCategoriaM = data.data;
+      console.log(this.ListCategoriaM)
       this.dataSource = new MatTableDataSource<IcategoriaM>(this.ListCategoriaM);
     });
   }
@@ -67,10 +68,10 @@ export class CategoriaComponent implements OnInit{
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-  
+
   crearCategoria() {
     this.bsModalRef = this.modalService.show(AgregarCategoriaComponent);
-  
+
     this.bsModalRef.content.categoriaAgregada$.subscribe((categoriaAgregada: boolean) => {
       if (categoriaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
@@ -90,7 +91,7 @@ export class CategoriaComponent implements OnInit{
       }
     });
     this.bsModalRef.onHidden?.subscribe(() => {
-      categoriaEditada$.unsubscribe();   
+      categoriaEditada$.unsubscribe();
     });
   }
 

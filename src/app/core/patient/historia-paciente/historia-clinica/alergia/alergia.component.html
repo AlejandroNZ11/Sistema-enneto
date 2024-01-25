@@ -2,7 +2,7 @@
   <div class="card-body">
     <div class="col-12">
       <div class="form-heading">
-          <h4>Historial de Citas</h4>
+        <button (click)="crearAlergiaPaciente()"  class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
       </div>
   </div>
     <div class="table-responsive">
@@ -15,18 +15,14 @@
                       <input class="form-check-input" type="checkbox" value="something">
                   </div>
               </th>
-              <th >N° Cita</th>
-              <th >Fecha Cita</th>
+              <th >Secuencia</th>
               <!-- <th mat-sort-header="specialization">Especializacion</th> -->
-              <th>Especialidad</th>
-              <th>Medico</th>
-              <th >Motivo</th>
-              <th >Estado</th>
-              <th></th>
+              <th>Nombre</th>
+              <th >Observacion</th>
           </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of citasListPaciente let i = index">
+        <tr *ngFor="let data of pacienteAlergiasList let i = index">
             <td>
                 <div class="form-check check-tables">
                     <input class="form-check-input" type="checkbox" value="something">
@@ -34,11 +30,20 @@
             </td>
             <td>{{serialNumberArray[i]}}</td>
             <!-- <td>{{ data.citaMedicaId }}</td> -->
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
-            <td>test</td>
+            <td>{{ data.alergiaId }}</td>
+            <td>{{ data.observacion }}</td>
+            <td class="text-end">
+              <div class="dropdown dropdown-action">
+                <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a (click)="editarAlmacen(data.alergiaId)" class="dropdown-item"><i
+                      class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i
+                      class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
+                </div>
+              </div>
+            </td>
 
 
         </tr>

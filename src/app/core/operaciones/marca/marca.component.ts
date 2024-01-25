@@ -72,7 +72,7 @@ export class MarcaComponent implements OnInit{
 
   crearMarca() {
     this.bsModalRef = this.modalService.show(AgregarMarcaComponent);
-  
+
     this.bsModalRef.content.marcaAgregada$.subscribe((marcaAgregada: boolean) => {
       if (marcaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
@@ -83,7 +83,7 @@ export class MarcaComponent implements OnInit{
     const initialState = {
       marcaSeleccionada: marca.marcaMaterialesId
     };
-  
+
     this.bsModalRef = this.modalService.show(EditarMarcaComponent, { initialState });
     const marcaEditada$ = new Subject<boolean>();
     this.bsModalRef.content.marcaEditada$ = marcaEditada$;
@@ -93,7 +93,7 @@ export class MarcaComponent implements OnInit{
       }
     });
     this.bsModalRef.onHidden?.subscribe(() => {
-      marcaEditada$.unsubscribe();   
+      marcaEditada$.unsubscribe();
     });
   }
   eliminarMarca(MarcaMaterialId:string){
@@ -121,7 +121,7 @@ export class MarcaComponent implements OnInit{
         return;
       }
     })
-    
+
   }
 }
 

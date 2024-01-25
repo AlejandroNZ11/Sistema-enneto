@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatTableModule } from '@angular/material/table';
 import { TablaModule } from '../common-component/tabla/tabla.module';
+import { HistoricalTableModule } from '../core/patient/historia-paciente/components/historical-table/historical-table.module';
 
 
 
@@ -51,6 +52,7 @@ import { TablaModule } from '../common-component/tabla/tabla.module';
     NgxMaterialTimepickerModule,
     MatTableModule,
     TablaModule,
+    HistoricalTableModule
   ],
   exports: [
     CommonModule,
@@ -69,6 +71,7 @@ import { TablaModule } from '../common-component/tabla/tabla.module';
     NgxMaterialTimepickerModule,
     MatTableModule,
     TablaModule,
+    HistoricalTableModule
   ],
   providers: [
     DataService,

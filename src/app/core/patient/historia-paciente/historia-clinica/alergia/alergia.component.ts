@@ -3,6 +3,12 @@ import { SharedService } from '../../services/shared-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { pageSelection } from 'src/app/shared/models/models';
 import { IcitaMedica } from 'src/app/shared/models/cita';
+import { PacienteAlergiaService } from 'src/app/shared/services/paciente-alergia.service';
+import { finalize } from 'rxjs';
+import { DataPacienteAlergia, IPacienteAlergia } from 'src/app/shared/models/paciente-alergia';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AgregarAlergiaPacienteComponent } from './agregar-alergia-paciente/agregar-alergia-paciente.component';
+import { EditarAlergiaPacienteComponent } from './editar-alergia-paciente/editar-alergia-paciente.component';
 
 @Component({
   selector: 'app-alergia',
@@ -10,7 +16,7 @@ import { IcitaMedica } from 'src/app/shared/models/cita';
   styleUrls: ['./alergia.component.scss']
 })
 export class AlergiaComponent implements OnInit{
-  constructor(private sharedService:SharedService ,private route: ActivatedRoute ) { }
+  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, ) { }
 
 
   public serialNumberArray: Array<number> = [];
@@ -23,9 +29,14 @@ export class AlergiaComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public citasList: Array<IcitaMedica> = [];
-  citasListPaciente: Array<string> = [];
 
+  pacienteAlergiasList: Array<IPacienteAlergia> = [];
+
+  isLoading = false;
   pacienteId = "";
+
+  //modal
+  bsModalRef?: BsModalRef;
 
   ngOnInit() {
 
@@ -35,12 +46,46 @@ export class AlergiaComponent implements OnInit{
     })
 
     this.sharedService.setPacienteId(this.pacienteId);
+
+    this.obtenerConsultaPaciente();
   }
 
-  obtenerCitasSinFiltro(){
-    return;
+  obtenerConsultaPaciente(){
+    this.pacienteAlergiaService.obtenerPacienteExploracion(this.pacienteId)
+    .pipe(
+            finalize(() => this.isLoading = false)
+          )
+          .subscribe((data: DataPacienteAlergia) => {
+            console.log("Respuesta del Servidor:", data);
+
+
+            this.totalData = data.totalData
+        console.log(this.totalData)
+        for (let index = this.skip; index < Math.min(this.limit, this.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+
+
+            this.pacienteAlergiasList = data.data;
+            console.log("Consulta del Paciente")
+            console.log(this.pacienteAlergiasList)
+
+
+          });
   }
 
+  crearAlergiaPaciente() {
+    this.bsModalRef = this.modalService.show(AgregarAlergiaPacienteComponent)
+  }
+
+  editarAlmacen(alergiaId: string) {
+    const initialState = {
+    alergiaSeleccionada: alergiaId
+    };
+    this.bsModalRef = this.modalService.show(EditarAlergiaPacienteComponent, { initialState});
+
+}
 
   public getMoreData(event: string): void {
     if (event == 'next') {
@@ -48,13 +93,13 @@ export class AlergiaComponent implements OnInit{
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerCitasSinFiltro();
+      this.obtenerConsultaPaciente();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerCitasSinFiltro();
+      this.obtenerConsultaPaciente();
     }
   }
 
@@ -67,7 +112,7 @@ export class AlergiaComponent implements OnInit{
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.obtenerCitasSinFiltro();
+    this.obtenerConsultaPaciente();
   }
 
 }

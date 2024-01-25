@@ -16,7 +16,12 @@ const routes: Routes = [
         path:'historia-clinica',
         loadChildren:()=>
         import('./historia-clinica/historia-clinica.module').then((m) => m.HistoriaClinicaModule)
-      }
+      },
+      {
+        path: 'diagnostico/:pacienteId',
+        loadChildren: () =>
+          import('./diagnostico/diagnostico.module').then((m) => m.DiagnosticoModule),
+      },
     ],
   },
 ];

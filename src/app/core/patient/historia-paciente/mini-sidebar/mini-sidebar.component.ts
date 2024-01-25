@@ -78,10 +78,9 @@ public routes = routes;
       }
 
     });
-
-
-
   }
+
+
 
   ngOnDestroy() {
     // Asegúrate de desuscribirte para evitar pérdidas de memoria

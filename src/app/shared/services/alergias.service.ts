@@ -17,7 +17,7 @@ export class AlergiasService {
   obtenerAlergias(clinicaId: string, page: number, rows: number): Observable<DataAlergias> {
     return this.http.get<DataAlergias>(this.apiUrl + `/Alergias/GetAllAlergia?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
-  
+
   crearAlergia(alergia: alergias): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Alergias/SaveAlergia', alergia).pipe(
       catchError(error => {
@@ -39,5 +39,9 @@ export class AlergiasService {
         return throwError(() => error);
       })
     );
+  }
+
+  obtenerListaAlergias(): Observable<Ialergias[]> {
+    return this.http.get<Ialergias[]>(this.apiUrl + `/Alergias/GetAlergiaList`);
   }
 }

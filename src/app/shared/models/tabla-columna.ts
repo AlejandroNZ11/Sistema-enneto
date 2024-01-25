@@ -23,9 +23,10 @@ import { TipoConceptoResponce } from "./tipoConcepto";
 import { sedeResponse } from "./sede";
 import { medidaResponse } from "./medida";
 import { tarifarioResponse } from "./tarifario";
-import { consentimientoResponse } from "./consentimiento"; 
+import { consentimientoResponse } from "./consentimiento";
 import { proveedorResponse } from "./proveedor";
 import { categoriaResponse } from "./categoria";
+import { HistoriaDiagnosticoResponse } from "./historiaDiagnostico";
 
 export interface Accion<T = any> {
   accion: string;
@@ -51,6 +52,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoDocumento': clase = new tipoDocumentoResponse(); break;
     case 'TipoPago': clase = new tipoPagoResponse(); break;
     case 'Diagnostico' : clase = new DiagnosticoResponse(); break;
+    case 'HistoriaDiagnostico': clase = new HistoriaDiagnosticoResponse(); break;
     case 'ConceptoGasto' : clase = new ConceptoGastosResponse(); break;
     case 'categoria' : clase = new CategoriaResponse(); break;
     case 'Planes': clase = new PlanesResponse(); break;
