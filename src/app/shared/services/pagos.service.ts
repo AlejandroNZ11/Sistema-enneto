@@ -4,7 +4,7 @@ import { Observable, catchError, map, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { PagosListData, PagosRequest, PagosResponse } from '../models/pagos';
+import { DataPago, Ipago, Pago } from '../models/pagos';
 @Injectable({
     providedIn: 'root'
 })
@@ -12,10 +12,10 @@ export class PagosService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient) { }
 
-    obtenerPagos(clinicaId: string, page: number, rows: number): Observable<PagosListData> {
-        return this.http.get<PagosListData>(this.apiUrl + `/Pagos/GetAllPago?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    obtenerPagos(clinicaId: string, page: number, rows: number): Observable<DataPago> {
+        return this.http.get<DataPago>(this.apiUrl + `/Pagos/GetAllPago?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
-    crearPago(pagos: PagosRequest): Observable<successResponse> {
+    crearPago(pagos: Pago): Observable<successResponse> {
         return this.http.post<successResponse>(this.apiUrl + '/Pagos/SavePago', pagos).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');
@@ -23,10 +23,14 @@ export class PagosService {
             })
         );
     }
+
+    obtenerPago( pagoId: string): Observable<Ipago> {
+        return this.http.get<Ipago>(this.apiUrl + `/Pagos/GetPago/${pagoId}`);
+    }
     eliminarPago(pagoId: string): Observable<successResponse> {
         return this.http.delete<successResponse>(this.apiUrl + `/Pagos/DeletePago/${pagoId}`);
     }
-    actualizarPago(pagos: PagosResponse, pagoId: string): Observable<successResponse> {
+    actualizarPago(pagos: Ipago, pagoId: string): Observable<successResponse> {
         return this.http.put<successResponse>(this.apiUrl + `/Pagos/UpdatePago/${pagoId}`, pagos).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');

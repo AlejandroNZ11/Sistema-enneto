@@ -5,10 +5,13 @@ import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { PagosService } from 'src/app/shared/services/pagos.service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
-import Swal from 'sweetalert2';
 import { environment as env } from 'src/environments/environments';
-import { PagosListData, PagosRequest, PagosResponse } from 'src/app/shared/models/pagos';
+import { DataPago, Ipago, Pago } from 'src/app/shared/models/pagos';
 import { AgregarPagoComponent } from './agregar-pago/agregar-pago.component';
+import { EditarPagoComponent } from './editar-pago/editar-pago.component';
+import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-pagos',
@@ -17,134 +20,106 @@ import { AgregarPagoComponent } from './agregar-pago/agregar-pago.component';
 })
 export class PagosComponent implements OnInit {
   public routes = routes;
-  public ListPagos: Array<PagosResponse> = [];
-  pagosSeleccionada: PagosRequest = new PagosRequest();
-  dataSource!: MatTableDataSource<PagosResponse>;
-  public showFilter = false;
-  public searchDataValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
-  bsModalRef?: BsModalRef;
-  loading = true;
+  public ListPagos: Array<Ipago> = [];
+  pagosSeleccionada: Pago = new Pago();
+  dataSource!: MatTableDataSource<Ipago>;
+  columnas: string[] = []
+    acciones: string[] = []
+    pageSize = PageSize.size;
+    totalData = 0;
+    skip = 0;
+    serialNumberArray: Array<number> = [];
+    currentPage = 1;
+    bsModalRef?: BsModalRef;
+    limit: number = this.pageSize;
 
-  constructor(private modalService: BsModalService, public pagosService: PagosService,) {
-  }
+  constructor(
+    private modalService: BsModalService, 
+    public pagosService: PagosService,
+    ) {}
+
   ngOnInit() {
-
-    this.getTableData();
+    this.columnas = getEntityPropiedades('Pago');
+    this.acciones = ['Editar', 'Eliminar'];
   }
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListPagos = [];
     this.serialNumberArray = [];
-    this.pagosService.obtenerPagos(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: PagosListData) => {
-      this.loading = false;
-      this.totalData = data.totalData
-      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-        const serialNumber = index + 1;
-        this.serialNumberArray.push(serialNumber);
-      }
-      this.ListPagos = data.data;
-      this.dataSource = new MatTableDataSource<PagosResponse>(this.ListPagos);
-      this.calculateTotalPages(this.totalData, this.pageSize);
+    this.pagosService.obtenerPagos(env.clinicaId, currentPage, pageSize).subscribe((data: DataPago) => {
+        this.totalData = data.totalData
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+            const serialNumber = index + 1;
+            this.serialNumberArray.push(serialNumber);
+        }
+        this.ListPagos = data.data;
+        this.dataSource = new MatTableDataSource<Ipago>(this.ListPagos);
     });
   }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListPagos = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.ListPagos.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.ListPagos = data;
-    } else {
-      this.ListPagos = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+        this.crearPago();
+    } else if (accion.accion == 'Editar') {
+        this.editarPago(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+        this.eliminarPago(accion.fila.pagoId)
     }
   }
-
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    }
-  }
-
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
-
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
   crearPago() {
     this.bsModalRef = this.modalService.show(AgregarPagoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
-      });
-  }
-  /*
-  editarCategoria(categoria: Icategoria) {
-    this.bsModalRef = this.modalService.show(EditarCategoriaComponent);
-    this.bsModalRef.content.categoriaSeleccionada = categoria.categoriaId;
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+    this.bsModalRef.content.pagoAgregada$.subscribe((pagoAgregada: boolean) => {
+    if (pagoAgregada) {
+        this.getTableData(this.currentPage, this.pageSize);
+        }
     });
   }
-  */
-
-
- editarPago() {
-
+  editarPago(pago: Ipago) {
+    const initialState = {
+    PagoSeleccionada: pago.pagoId
+    };
+    this.bsModalRef = this.modalService.show(EditarPagoComponent, { initialState });
+    const pagoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.pagoEditada$ = pagoEditada$;
+    pagoEditada$.subscribe((pagoEditada: boolean) => {
+        if (pagoEditada) {
+            this.getTableData(this.currentPage, this.pageSize);
+        }
+    });
+    this.bsModalRef.onHidden?.subscribe(() => {
+        pagoEditada$.unsubscribe();   
+    });
+  }
+  eliminarPago (pagoId: string) {
+    Swal.fire({
+        title: '¿Estas seguro que deseas eliminar?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: `Cancelar`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            this.pagosService.eliminarPago(pagoId).subscribe(
+                (response) => {
+                    if (response.isSuccess) {
+                        Swal.fire(response.message,'', 'success');
+                        this.getTableData(this.currentPage, this.pageSize);
+                        return;
+                    } else {
+                        console.error(response.message);
+                    }
+                },
+                (error) => {
+                    console.error(error);
+                });
+        } else {
+            return;
+        }
+    })
   }
 }

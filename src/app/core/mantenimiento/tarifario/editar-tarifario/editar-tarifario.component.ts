@@ -82,7 +82,7 @@ export class EditarTarifarioComponent implements OnInit {
         categoria: this.tarifario.categoriaId,
         estado: this.tarifario.estado == '1' ? 'Activo' : 'Inactivo',
       })
-    })
+    });
 
     
 
