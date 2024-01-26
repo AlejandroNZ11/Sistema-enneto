@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { routes } from 'src/app/shared/routes/routes';
 import { Isede, DataSede } from 'src/app/shared/models/sede'; 
 import { SedeService } from 'src/app/shared/services/sede.service';
-
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-almacen',
@@ -15,8 +15,14 @@ import { SedeService } from 'src/app/shared/services/sede.service';
   styleUrls: ['./agregar-almacen.component.scss']
 })
 export class AgregarAlmacenComponent implements OnInit {
+  almacenAgregada$: Subject<boolean> = new Subject<boolean>();
   Almacen: almacen = new almacen();
   public routes = routes;
+  isFormSubmitted = false;
+  form!: FormGroup;
+  public mostrarErrores = false;
+  sede_LISTA: Array<Isede> = [];
+  public sedes !: string[];
 
   constructor(
     public formBuilder: FormBuilder, 
@@ -24,14 +30,6 @@ export class AgregarAlmacenComponent implements OnInit {
     private almacenService: AlmacenService, 
     public fb: FormBuilder, 
     public sedeService: SedeService ) {}
-    isFormSubmitted = false;
-
-  form!: FormGroup;
-  public mostrarErrores = false;
-  sede_LISTA: Array<Isede> = [];
-  public sedes !: string[];
-
-  
   
   ngOnInit(): void { 
     this.sedeService.obtenerSedesList().subscribe((data: Isede[]) => {
@@ -57,6 +55,7 @@ export class AgregarAlmacenComponent implements OnInit {
 
   Cancelar() {
     this.bsModalRef.hide()
+    this.almacenAgregada$.next(false);
   }
 
   isTouched() {
@@ -80,6 +79,7 @@ export class AgregarAlmacenComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.almacenAgregada$.next(true);
         } else {
           console.error(response.message);
         }

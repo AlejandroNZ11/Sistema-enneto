@@ -43,11 +43,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <div [formGroup]="form">
+                            <div *ngIf="editor">
+                                <ngx-editor [editor]="editor" formControlName="texto" [placeholder]="'Escribe aqui...'" >
                                     <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-                                    <ngx-editor [editor]="editor" formControlName="texto"></ngx-editor>
-                                </div>
+                                </ngx-editor>
                             </div>
                             <div>
                                 <br>

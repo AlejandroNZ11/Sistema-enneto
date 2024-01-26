@@ -11,6 +11,7 @@ import { AgregarAlmacenComponent } from './agregar-almacen/agregar-almacen.compo
 import { EditarAlmacenComponent } from './editar-almacen/editar-almacen.component';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-almacen',
@@ -32,8 +33,10 @@ export class AlmacenComponent implements OnInit {
     bsModalRef?: BsModalRef;
     limit: number = this.pageSize;
     
-    constructor(public almacenService: AlmacenService, private modalService: BsModalService,) {
-    }
+    constructor(
+        public almacenService: AlmacenService, 
+        private modalService: BsModalService,
+        ) {  }
     ngOnInit() {
         this.columnas = getEntityPropiedades('Almacen');
         this.acciones = ['Editar', 'Eliminar'];
@@ -70,17 +73,26 @@ export class AlmacenComponent implements OnInit {
     }
     crearAlmacen() {
         this.bsModalRef = this.modalService.show(AgregarAlmacenComponent),
-            this.bsModalRef.onHidden?.subscribe(() => {
-                this.getTableData(this.currentPage, this.pageSize);
-            });
+        this.bsModalRef.content.almacenAgregada$.subscribe((almacenAgregada: boolean) => {
+        if (almacenAgregada) {
+            this.getTableData(this.currentPage, this.pageSize);
+            }
+        });
     }
     editarAlmacen(almacen: Ialmacen) {
         const initialState = {
         AlmacenSeleccionada: almacen.almacenId
         };
         this.bsModalRef = this.modalService.show(EditarAlmacenComponent, { initialState });
+        const almacenEditada$ = new Subject<boolean>();
+        this.bsModalRef.content.almacenEditada$ = almacenEditada$;
+        almacenEditada$.subscribe((almacenEditada: boolean) => {
+            if (almacenEditada) {
+                this.getTableData(this.currentPage, this.pageSize);
+            }
+        });
         this.bsModalRef.onHidden?.subscribe(() => {
-            this.getTableData(this.currentPage, this.pageSize);
+            almacenEditada$.unsubscribe();   
         });
     }
     eliminarAlmacen(almacenId: string) {
@@ -94,7 +106,7 @@ export class AlmacenComponent implements OnInit {
                 this.almacenService.eliminarAlmacen(almacenId).subscribe(
                     (response) => {
                         if (response.isSuccess) {
-                            Swal.fire('Correcto', 'Almacen Eliminado en el sistema correctamente.', 'success');
+                            Swal.fire(response.message,'', 'success');
                             this.getTableData(this.currentPage, this.pageSize);
                             return;
                         } else {

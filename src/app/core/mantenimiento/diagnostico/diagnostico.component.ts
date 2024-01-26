@@ -35,6 +35,7 @@ export class DiagnosticoComponent {
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('Diagnostico');
     this.acciones = ['Eliminar'];
+    
   }
   
   private getTableData(currentPage: number, pageSize: number): void {
@@ -49,6 +50,9 @@ export class DiagnosticoComponent {
       this.ListDiagnostico = data.data;
       this.dataSource = new MatTableDataSource<Idiagnostico>(this.ListDiagnostico);
     });
+  }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
   
   crearDiagnostico() {
@@ -86,7 +90,10 @@ export class DiagnosticoComponent {
       this.crearDiagnostico();
     }  else if (accion.accion == 'Eliminar') {
       this.eliminarDiagnostico(accion.fila.enfermedadId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
+    
   }
 
   getMoreData(pag: Paginacion) {

@@ -6,6 +6,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import Swal from 'sweetalert2';
 import { Editor } from 'ngx-editor';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-consentimiento',
@@ -13,15 +14,20 @@ import { Editor } from 'ngx-editor';
   styleUrls: ['./editar-consentimiento.component.scss']
 })
 export class EditarConsentimientoComponent implements OnInit, OnDestroy {
+  consentimientoEditada$: Subject<boolean> = new Subject<boolean>();
   consentimiento!: Iconsentimiento;
   consentimientoSeleccionada: any;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
   editor!: Editor;
-  html = '';
+  texto = '';
 
-  constructor(public bsModalRef: BsModalRef, private consentimientoService: ConsentimientoService, public fb: FormBuilder) {
+  constructor(
+    public bsModalRef: BsModalRef, 
+    private consentimientoService: ConsentimientoService, 
+    public fb: FormBuilder
+    ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
       observacion: ['', Validators.required],
@@ -55,6 +61,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
 
   
   Cancelar() {
+    this.consentimientoEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -72,7 +79,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
       nombre: this.form.value.nombre,
       observacion: this.form.value.observacion,
       texto: this.form.value.texto,
-      estado: this.form.value.estado == '1' ? 'Activo' : 'Inactivo',
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.consentimientoService.actualizarConsentimiento(consentimientoActualizada).subscribe(
@@ -80,6 +87,7 @@ export class EditarConsentimientoComponent implements OnInit, OnDestroy {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.consentimientoEditada$.next(true);
         } else {
           console.error(response.message);
         }

@@ -42,9 +42,10 @@
                                 </div>
                             </div>
                             
-                            <div *ngIf="editor" class="NgxEditor__Wrapper">
-                                <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
-                                <ngx-editor [editor]="editor" formControlName="texto" [placeholder]="'Escribe aqui...'" ></ngx-editor>
+                            <div *ngIf="editor">
+                                <ngx-editor [editor]="editor" formControlName="texto" [placeholder]="'Escribe aqui...'" >
+                                    <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+                                </ngx-editor>
                             </div>
                             
                             

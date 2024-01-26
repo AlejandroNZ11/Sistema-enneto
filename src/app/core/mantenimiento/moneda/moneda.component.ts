@@ -38,6 +38,10 @@ export class MonedaComponent implements OnInit {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.listMonedas = [];
     this.serialNumberArray = [];
@@ -59,6 +63,8 @@ export class MonedaComponent implements OnInit {
       this.editarMoneda(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarMoneda(accion.fila.tipoMonedaId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
