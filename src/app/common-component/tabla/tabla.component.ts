@@ -62,6 +62,10 @@ export class TablaComponent implements OnInit {
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
+
+  refreshData() {
+    this.action.emit({ accion: 'Refresh' });
+}
   public sortData(sort: Sort) {
     const data = this.dataSource.slice();
 
