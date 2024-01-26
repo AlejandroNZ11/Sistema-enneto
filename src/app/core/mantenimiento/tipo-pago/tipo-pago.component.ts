@@ -40,6 +40,10 @@ export class TipoPagoComponent implements OnInit {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoPago = [];
     this.serialNumberArray = [];
@@ -61,6 +65,8 @@ export class TipoPagoComponent implements OnInit {
       this.editarTipoPago(accion.fila);
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTipoPago(accion.fila.tipoPagoId);
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
