@@ -12,11 +12,11 @@
                             </div>                 
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>EnfermedadId <span class="login-danger">*</span></label>
-                                    <input formControlName="enfermedadId" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('enfermedadId')}">
-                                    <div *ngIf="isInvalid('enfermedadId') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('enfermedadId')|| mostrarErrores">
+                                    <label >EnfermedadId <span class="login-danger">*</span></label>
+                                    <input formControlName="EnfermedadId" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('EnfermedadId')}">
+                                    <div *ngIf="isInvalid('EnfermedadId') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('EnfermedadId')|| mostrarErrores">
                                             Debe completar el campo*
                                         </div>
                                     </div>

@@ -28,8 +28,8 @@ export class DiagnosticoService {
   }
   
   
-  eliminarDiagnostico(enfermedadId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${enfermedadId}`);
+  eliminarDiagnostico(EnfermedadId: string): Observable<successResponse> {
+    return this.http.delete<successResponse>(this.apiUrl + `/Enfermedad/DeleteEnfermedad/${EnfermedadId}`);
   }
   
 }
