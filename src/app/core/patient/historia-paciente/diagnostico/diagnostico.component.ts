@@ -6,6 +6,10 @@ import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shar
 import { HistoriaDiagnosticoService } from 'src/app/shared/services/historia-diagnostico.service';
 import { AgregarDiagnosticoPacienteComponent } from './agregar-diagnostico-paciente/agregar-diagnostico-paciente.component';
 import { EditarDiagnosticoPacienteComponent } from './editar-diagnostico-paciente/editar-diagnostico-paciente.component';
+import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
+import { Enfermedad } from 'src/app/shared/models/enfermedad';
+import { ActivatedRoute } from '@angular/router';
+import { SharedService } from '../services/shared-service.service';
 
 interface DiagnosticoDTO {
   diagnostico: string;
@@ -19,9 +23,9 @@ interface DiagnosticoDTO {
 })
 export class DiagnosticoComponent implements OnInit{
 
-  constructor(private modalService: BsModalService, public historiaDiagnosticoService: HistoriaDiagnosticoService ) {
+  constructor(private modalService: BsModalService, public historiaDiagnosticoService: HistoriaDiagnosticoService, public enfermedadService:EnfermedadService,private route: ActivatedRoute, public sharedService: SharedService) {
   }
-
+  pacienteId = "";
   serialNumberArray: Array<number> = [];
   skip = 0;
   pageSize = PageSize.size;
@@ -35,9 +39,21 @@ export class DiagnosticoComponent implements OnInit{
   bsModalRef?: BsModalRef;
   ListDiagnosticoPacienteDTO:Array<DiagnosticoDTO> =[];
 
+
+  enfermedadList:Array<Enfermedad> = [];
+
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('HistoriaDiagnostico')
     this.acciones = ['Editar', 'Eliminar'];
+    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;})
+
+
+    this.route.params.subscribe(params => {
+      this.pacienteId = params['pacienteId'];
+    })
+    console.log(this.pacienteId)
+
+    this.sharedService.setPacienteId(this.pacienteId);
   }
   private getTableData(currentPage?: number, pageSize?: number): void {
     this.ListDiagnosticoPaciente = [];
@@ -88,7 +104,7 @@ export class DiagnosticoComponent implements OnInit{
 
   editarDiagnosticoPaciente(diagnostico: IHistoriaDagnostico){
     const initialState = {
-      diagnosticoSeleccionado: diagnostico.pacienteId
+      enfermedadSeleccionada: diagnostico.pacienteId
     };
     this.bsModalRef = this.modalService.show(EditarDiagnosticoPacienteComponent, { initialState });
   }

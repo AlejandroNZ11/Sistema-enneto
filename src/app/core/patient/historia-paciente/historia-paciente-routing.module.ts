@@ -22,6 +22,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./diagnostico/diagnostico.module').then((m) => m.DiagnosticoModule),
       },
+      {
+        path: 'evolucion/:pacienteId',
+        loadChildren: () =>
+          import('./evolucion/evolucion.module').then((m) => m.EvolucionModule),
+      },
     ],
   },
 ];

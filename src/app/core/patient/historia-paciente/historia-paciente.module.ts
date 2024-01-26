@@ -8,6 +8,7 @@ import { FiltroPipe } from './pipes/filtro.pipe';
 import { MiniSidebarComponent } from './mini-sidebar/mini-sidebar.component';
 
 
+
 @NgModule({
     declarations: [
         HistoriaPacienteComponent,
