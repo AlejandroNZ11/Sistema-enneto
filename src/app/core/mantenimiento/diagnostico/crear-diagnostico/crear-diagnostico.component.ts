@@ -54,7 +54,7 @@ export class CrearDiagnosticoComponent {
     }
     
 
-    this.Diagnostico.enfermedadId = this.form.get("EnfermedadId")?.value;
+    this.Diagnostico.enfermedadId = this.form.get("enfermedadId")?.value;
     this.Diagnostico.descripcion = this.form.get("Descripcion")?.value;
     console.log(this.Diagnostico);
     this.DiagnosticoService.crearDiagnostico(this.Diagnostico).subscribe(

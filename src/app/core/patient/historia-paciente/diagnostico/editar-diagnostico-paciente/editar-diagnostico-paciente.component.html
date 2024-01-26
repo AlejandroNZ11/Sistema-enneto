@@ -4,36 +4,37 @@
       <div class="col-sm-12">
           <div class="card">
               <div class="card-body">
-                  <form>
+                  <form [formGroup]="form">
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
                                   <h4>Editar Alergia Paciente</h4>
                               </div>
                           </div>
-                          <div class="col-12 col-md-12 col-xl-12">
+                          <div class="col-12 col-md-12 col-xl-6">
                             <div class="form-group local-forms">
-                                <label>Alergia <span class="login-danger">*</span></label>
+                              <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                              <input formControlName="fecha"
+                                  style='height:48px' class="form-control datetimepicker" type="text"
+                                  placeholder="" matInput [matDatepicker]="picker">
+                              <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                              <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                  matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                          </div>
+                          </div>
+                          <div class="col-12 col-md-12 col-xl-6">
+                            <div class="form-group local-forms">
+                                <label>Diagnostico <span class="login-danger">*</span></label>
                                 <mat-select
-                                [(ngModel)]="diagnosticoSeleccionado"
+                                formControlName="enfermedadId"
+                                [(ngModel)]="enfermedadSeleccionada"
                                 class="form-control select" placeholder="Seleccione Alergia" >
-                                  <mat-option *ngFor="let data of listaDiagnosticos" [value]="data.alergiaId">
-                                    {{ data.nombre }}
+                                  <mat-option *ngFor="let data of enfermedadList" [value]="data.enfermedadId">
+                                    {{ data.descripcion}}
                                   </mat-option>
                                 </mat-select>
                             </div>
                         </div>
-                          <div class="col-12 col-md-12 col-xl-12">
-                              <div class="form-group local-forms">
-                                  <label>Observacion <span class="login-danger">*</span></label>
-                                  <div class="input-group">
-                                    <textarea
-
-                                    class="form-control" type="text">
-                                     </textarea>
-                                  </div>
-                              </div>
-                          </div>
                       </div>
                   </form>
                   <div class="col-12">

@@ -38,6 +38,10 @@ export class ApoderadoComponent implements OnInit {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.listApoderados = [];
     this.serialNumberArray = [];
@@ -59,6 +63,8 @@ export class ApoderadoComponent implements OnInit {
       this.editarApoderado(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarApoderado(accion.fila.apoderadoId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 

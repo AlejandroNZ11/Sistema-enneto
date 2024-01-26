@@ -27,6 +27,7 @@ import { consentimientoResponse } from "./consentimiento";
 import { proveedorResponse } from "./proveedor";
 import { categoriaResponse } from "./categoria";
 import { HistoriaDiagnosticoResponse } from "./historiaDiagnostico";
+import { EvolucionPacienteResponse } from "./evolucionPaciente";
 import { PagoResponce } from "./pagos";
 
 export interface Accion<T = any> {
@@ -54,6 +55,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'TipoPago': clase = new tipoPagoResponse(); break;
     case 'Diagnostico' : clase = new DiagnosticoResponse(); break;
     case 'HistoriaDiagnostico': clase = new HistoriaDiagnosticoResponse(); break;
+    case 'EvolucionPaciente': clase = new EvolucionPacienteResponse(); break;
     case 'ConceptoGasto' : clase = new ConceptoGastosResponse(); break;
     case 'categoria' : clase = new CategoriaResponse(); break;
     case 'Planes': clase = new PlanesResponse(); break;

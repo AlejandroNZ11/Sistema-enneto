@@ -39,6 +39,10 @@ export class TipoGastosComponent implements OnInit {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListConceptoGasto = [];
     this.serialNumberArray = [];
@@ -60,6 +64,8 @@ export class TipoGastosComponent implements OnInit {
       this.editarConceptoGasto(accion.fila);
     } else if (accion.accion == 'Eliminar') {
       this.eliminarConceptoGasto(accion.fila.conceptoGastoId);
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
