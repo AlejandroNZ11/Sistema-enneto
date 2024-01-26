@@ -7,6 +7,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { AlmacenService } from 'src/app/shared/services/almacen.service';
 import { SedeService } from 'src/app/shared/services/sede.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-almacen',
@@ -14,13 +15,14 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-almacen.component.scss']
 })
 export class EditarAlmacenComponent implements OnInit {
+  almacenEditada$: Subject<boolean> = new Subject<boolean>();
   almacen!: Ialmacen;
   AlmacenSeleccionada?: string;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
   sede_LISTA: Array<Isede> = [];
-  public sedes!: string[];
+  sede: Array<string> = [];
   isFormSubmitted = false;
 
   constructor(
@@ -42,10 +44,16 @@ export class EditarAlmacenComponent implements OnInit {
       this.form.patchValue({
         sedes: this.almacen.sedeId, 
         nombreAlmacen: this.almacen.nombreAlmacen,
-        estado: this.almacen.estado = '1' ? 'Activo' : 'Inactivo',
+        estado: this.almacen.estado == '1' ? 'Activo' : 'Inactivo',
       });
     });
+
+    this.sedeService.obtenerSedesList().subscribe((data: Isede[]) => {
+      this.sede_LISTA = data;
+    });
   }
+
+  
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
@@ -58,6 +66,7 @@ export class EditarAlmacenComponent implements OnInit {
   }
 
   Cancelar() {
+    this.almacenEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -69,16 +78,16 @@ export class EditarAlmacenComponent implements OnInit {
 
     const AlmacenActualizada: Ialmacen = {
       almacenId: this.almacen.almacenId,
-      nombreAlmacen: this.almacen.nombreAlmacen,
-      sedeId:this.almacen.sedeId,
+      nombreAlmacen: this.form.value.nombreAlmacen,
+      sedeId: this.form.value.sedes,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
-
     this.almacenService.actualizarAlmacen(AlmacenActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.almacenEditada$.next(true);
         } else {
           console.error(response.message);
         }
