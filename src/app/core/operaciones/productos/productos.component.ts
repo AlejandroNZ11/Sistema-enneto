@@ -61,6 +61,12 @@ export class ProductosComponent {
     } else if (accion.accion == 'Eliminar') {
       this.eliminarProducto(accion.fila.especialidadId)
     }
+      else if (accion.accion == 'Refresh') {
+      this.refreshData();
+    }
+  }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
   getMoreData(pag: Paginacion) {

@@ -92,8 +92,14 @@ export class ProveedorComponent {
     }  else if (accion.accion == 'Eliminar') {
       this.eliminarProveedor(accion.fila.diagnosticoId)
     }
+      else if (accion.accion == 'Refresh') {
+      this.refreshData();
+    }
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;

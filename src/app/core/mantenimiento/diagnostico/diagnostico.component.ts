@@ -30,7 +30,7 @@ export class DiagnosticoComponent {
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  constructor(private modalService: BsModalService, public DiagnosticoService: DiagnosticoService) {
+  constructor(private modalService: BsModalService, public diagnosticoService: DiagnosticoService) {
   }
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('Diagnostico');
@@ -41,7 +41,7 @@ export class DiagnosticoComponent {
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListDiagnostico= [];
     this.serialNumberArray = [];
-    this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
+    this.diagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -111,7 +111,7 @@ export class DiagnosticoComponent {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.DiagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
+        this.diagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
