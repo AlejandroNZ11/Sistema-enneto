@@ -20,7 +20,7 @@ import { Subject } from 'rxjs';
   templateUrl: './agregar-tarifario.component.html',
   styleUrls: ['./agregar-tarifario.component.scss']
 })
-export class AgregarTarifarioComponent {
+export class AgregarTarifarioComponent implements OnInit {
   tarifarioAgregada$: Subject<boolean> = new Subject<boolean>();
   fechaRegistro: Date = new Date();
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];

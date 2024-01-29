@@ -5,7 +5,7 @@ import { DataPago, Pago, Ipago } from 'src/app/shared/models/pagos';
 import { routes } from 'src/app/shared/routes/routes';
 import { PagosService } from 'src/app/shared/services/pagos.service';
 import Swal from 'sweetalert2';
-import { PagosComponent } from '../pagos.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-categoria',

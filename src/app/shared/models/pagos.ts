@@ -1,23 +1,25 @@
 export class Pago {
-    transaccionId = '';
+    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    usuarioId = '';
+    transaccionId?: string[];
     numeroPago!: number;
     estadoPago!: number;
     fechaRegistro!: Date;
     fechaVencimiento!: Date;
     monto!: number;
-    idUsuario !: number;
-    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
-    usuarioId = '';
+    idUsuario?: number[];
+    tratamientoId?: string[];
+    
 }
 export interface Ipago {
     pagoId: string;
     transaccionId: string;
     numeroPago: number;
     estadoPago: number;
-    fechaRegistro: string;
-    fechaVencimiento: string;
+    fechaRegistro: Date;
+    fechaVencimiento: Date;
     monto: number;
-    usuarioId: number;
+    idUsuario: number;
     tratamientoId: string;
 }
 export interface DataPago {
