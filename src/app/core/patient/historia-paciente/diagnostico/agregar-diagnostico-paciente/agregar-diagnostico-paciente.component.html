@@ -7,29 +7,34 @@
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
-                                  <h4>Nueva Categoria</h4>
+                                  <h4>Nuevo Diagnostico</h4>
                               </div>
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
-                              <div class="form-group local-forms">
-                                  <label>Nombre <span class="login-danger">*</span></label>
-                                  <input formControlName="fecha" class="form-control" type="text"
-                                      [ngClass]="{'is-invalid': isInvalid('fecha')}">
-                                  <div *ngIf="isInvalid('fecha') || mostrarErrores" class="invalid-feedback">
-                                      <div *ngIf="isRequerido('fecha')|| mostrarErrores">
-                                          Debe completar el campo*
-                                      </div>
-                                  </div>
-                              </div>
+                            <div class="form-group local-forms">
+                              <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                              <input formControlName="fecha"
+                                  style='height:48px' class="form-control datetimepicker" type="text"
+                                  placeholder="" matInput [matDatepicker]="picker">
+                              <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                              <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                  matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                          </div>
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
                               <div class="form-group local-forms">
-                                  <label>Estado <span class="login-danger">*</span></label>
-                                  <mat-select class="form-control select" placeholder="Activo" [disabled]="">
-                                  </mat-select>
+                                  <label>Diagnostico <span class="login-danger">*</span></label>
+                                  <mat-select
+                                  formControlName="enfermedadId"
+                                            class="form-control select" placeholder="Seleccione Grado de Instruccion"
+                                            >
+                                            <mat-option *ngFor="let data of enfermedadList" [value]="data.enfermedadId">
+                                                {{data.descripcion}}
+                                            </mat-option>
+                                        </mat-select>
                               </div>
                           </div>
-                          <div class="col-12 col-md-12 col-xl-12">
+                          <!-- <div class="col-12 col-md-12 col-xl-12">
                               <div class="form-group local-forms">
                                   <label>Descripcion <span class="login-danger">*</span></label>
                                   <input formControlName="codigoEnfermedad" class="form-control" type="text"
@@ -40,7 +45,7 @@
                                       </div>
                                   </div>
                               </div>
-                          </div>
+                          </div> -->
 
                       </div>
                   </form>

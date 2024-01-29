@@ -15,7 +15,7 @@
                             <div class="col-12 col-md-6 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nombre <span class="login-danger">*</span></label>
-                                    <input formControlName="nombre" [(ngModel)]="pagoSeleccionada" class="form-control" type="text"
+                                    <input formControlName="nombre" class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('nombre')}">
                                     <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('nombre')">

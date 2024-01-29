@@ -104,7 +104,7 @@ export class FiliacionComponent implements OnInit {
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data; })
     this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => {
       this.listaMedicos = data.data; })
-
+      console.log("clinicaId",environment.clientId)
 
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
