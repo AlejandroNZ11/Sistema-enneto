@@ -35,9 +35,9 @@ export class DiagnosticoComponent {
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('Diagnostico');
     this.acciones = ['Eliminar'];
-    
+
   }
-  
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListDiagnostico= [];
     this.serialNumberArray = [];
@@ -54,22 +54,22 @@ export class DiagnosticoComponent {
   refreshData() {
     this.getTableData(this.currentPage, this.pageSize);
   }
-  
+
   crearDiagnostico() {
     this.bsModalRef = this.modalService.show(CrearDiagnosticoComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
         this.getTableData(this.currentPage, this.pageSize);
       });
   }
-  
- 
+
+
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListDiagnostico = this.dataSource.filteredData;
   }
-  
-  
+
+
   public sortData(sort: Sort) {
     const data = this.ListDiagnostico.slice();
 
@@ -93,7 +93,7 @@ export class DiagnosticoComponent {
     } else if (accion.accion == 'Refresh') {
       this.refreshData();
     }
-    
+
   }
 
   getMoreData(pag: Paginacion) {
@@ -131,5 +131,5 @@ export class DiagnosticoComponent {
     })
   }
 
-  
+
 }

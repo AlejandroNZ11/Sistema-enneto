@@ -10,6 +10,7 @@ import { environment as env } from 'src/environments/environments';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import { Iespecialidad } from 'src/app/shared/models/especialidades';
 import { MedicoService } from 'src/app/shared/services/medico.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 interface EvolucionPacienteDTO {
   fechaEvolucion: string;
@@ -40,27 +41,26 @@ export class EvolucionComponent implements OnInit{
   limit: number = this.pageSize;
   ListEvolucionPaciente: Array<IEvolucionPaciente> = [];
   ListEvolucionPacienteDto: Array<EvolucionPacienteDTO> = [];
+  ListEvolucionPacienteDto2: Array<EvolucionPacienteDTO> = [];
+
+  dataSource!: MatTableDataSource<EvolucionPacienteDTO>;
   bsModalRef?: BsModalRef;
   listEspecialidadesCitas!: Iespecialidad[];
   nombreMedico='';
+  mySkip =0;
 
   ngOnInit(): void {
 
     // Cargando Data:
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data; })
 
-
-
      this.columnas = getEntityPropiedades('EvolucionPaciente')
      this.acciones = ['Editar', 'Eliminar'];
-
-
 
      this.route.params.subscribe(params => {
       this.pacienteId = params['pacienteId'];
     })
     console.log(this.pacienteId)
-
     this.sharedService.setPacienteId(this.pacienteId);
 
   }
@@ -77,29 +77,44 @@ export class EvolucionComponent implements OnInit{
   getTableData(currentPage: number, pageSize: number):void{
     this.ListEvolucionPaciente =[];
     this.serialNumberArray = [];
+    this.ListEvolucionPacienteDto =[];
+    this.ListEvolucionPacienteDto2 =[];
+    this.mySkip=0;
+
     this.evolucionPacienteService.obtenerEvolucionPacienteList(env.clinicaId,currentPage,pageSize, this.pacienteId).subscribe((data: DataEvolucionPaciente)=>{
       this.totalData = data.totalData
-      console.log(this.totalData)
+
 
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
 
-        this.medicoService.obtenerMedico(data.data[index].medicoId).subscribe((medicoData) => {
-          const evolucionPaciente: EvolucionPacienteDTO = {
-            fechaEvolucion: this.formatoFecha(data.data[index].fechaEvolucion),
-            especialidad: this.getEspecialidad(data.data[index].especialidadId),
-            medico: medicoData.nombre,
-            descripcion: data.data[index].descripcion,
-            estado: data.data[index].estado,
-      }
-      this.ListEvolucionPacienteDto.push(evolucionPaciente)
-    });
-      }
-      console.log("EVOLUCION PACIENTE DTO:",this.ListEvolucionPacienteDto)
+        if (data.data[this.mySkip] && data.data[this.mySkip].medicoId) {
 
+          this.medicoService.obtenerMedico(data.data[this.mySkip].medicoId).subscribe((medicoData) => {
+            if (medicoData) { // Verifica si medicoData está definido
+              const evolucionPaciente: EvolucionPacienteDTO = {
+                fechaEvolucion: this.formatoFecha(data.data[this.mySkip].fechaEvolucion),
+                especialidad: this.getEspecialidad(data.data[this.mySkip].especialidadId),
+                medico: medicoData.nombre,
+                descripcion: data.data[this.mySkip].descripcion,
+                estado: data.data[this.mySkip].estado,
+              };
+              this.ListEvolucionPacienteDto.push(evolucionPaciente);
+            }
+            this.mySkip++;
+          });
+
+        }
+
+      }
+
+
+      this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDto)
+
+      this.ListEvolucionPacienteDto2 = this.ListEvolucionPacienteDto;
       this.ListEvolucionPaciente = data.data;
-      console.log(this.ListEvolucionPaciente)
+
 
     })
   }
@@ -127,6 +142,7 @@ export class EvolucionComponent implements OnInit{
 
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
+
     this.currentPage = pag.page;
     this.pageSize = pag.size;
     this.skip = pag.skip;
