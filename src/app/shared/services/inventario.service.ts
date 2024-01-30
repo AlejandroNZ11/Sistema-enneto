@@ -26,9 +26,15 @@ export class InventarioService {
         );
     }
     
+    obteneInventario( inventarioId: string): Observable<IInventario> {
+        return this.http.get<IInventario>(this.apiUrl + `/Inventario/GetInventario/${inventarioId}`);
+    }
+    eliminarInventario( cuentaId: string): Observable<successResponse> {
+        return this.http.delete<successResponse>(this.apiUrl + `/Inventarios/DeleteInventario/${cuentaId}`);
+    }
 
     actualizarInventario(inventario: IInventario): Observable<successResponse> {
-        return this.http.put<successResponse>(this.apiUrl + `/Inventarios/${inventario.inventarioId}`, inventario).pipe(
+        return this.http.put<successResponse>(this.apiUrl + `/Inventarios/UpdateInventario/${inventario.inventarioId}`, inventario).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');
                 return throwError(() => error);

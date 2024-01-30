@@ -29,6 +29,7 @@ import { categoriaResponse } from "./categoria";
 import { HistoriaDiagnosticoResponse } from "./historiaDiagnostico";
 import { EvolucionPacienteResponse } from "./evolucionPaciente";
 import { PagoResponce } from "./pagos";
+import { inventarioResponse } from "./inventario";
 
 export interface Accion<T = any> {
   accion: string;
@@ -79,6 +80,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Consentimiento': clase = new consentimientoResponse();break;
     case 'Categoria': clase = new categoriaResponse();break;
     case 'Pago': clase = new PagoResponce();break;
+    case 'Inventario': clase = new inventarioResponse();break;
   }
   if (clase) {
     resultados = Object.keys(clase);
