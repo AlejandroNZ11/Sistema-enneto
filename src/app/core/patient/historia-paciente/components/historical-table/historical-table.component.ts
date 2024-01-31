@@ -38,7 +38,6 @@ export class HistoricalTableComponent implements OnInit{
   @Input() set data(data: any) {
     this.dataSource = data;
     this.dataFiltro = new MatTableDataSource<any>(data);
-    console.log('Initial Total Data historical:', this.totalData);
     this.calculateTotalPages(this.totalData, this.pageSize);
   }
 
@@ -84,9 +83,9 @@ export class HistoricalTableComponent implements OnInit{
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
-    console.log("Total Pages parameter:",totalData, pageSize)
+
     this.totalPages = totalData / pageSize;
-    console.log("Total Pages:",this.totalPages)
+
 
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);

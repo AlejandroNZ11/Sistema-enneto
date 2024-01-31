@@ -14,7 +14,7 @@ import { SharedService } from '../services/shared-service.service';
 interface DiagnosticoDTO {
   diagnostico: string;
   fecha: string;
-  codigoEnfermedad01: string;
+  codigoEnfermedad: string;
 }
 @Component({
   selector: 'app-diagnostico',
@@ -38,7 +38,7 @@ export class DiagnosticoComponent implements OnInit{
   currentPage = 1;
   bsModalRef?: BsModalRef;
   ListDiagnosticoPacienteDTO:Array<DiagnosticoDTO> =[];
-
+  mySkip =0;
 
   enfermedadList:Array<Enfermedad> = [];
 
@@ -58,6 +58,7 @@ export class DiagnosticoComponent implements OnInit{
   private getTableData(currentPage?: number, pageSize?: number): void {
     this.ListDiagnosticoPaciente = [];
     this.serialNumberArray = [];
+    this.mySkip=0;
     this.historiaDiagnosticoService.obtenerDiagnosticoPaciente().subscribe((data: DataHistoriaDiagnostico) => {
       this.totalData = data.totalData
       console.log(this.totalData)
@@ -65,11 +66,15 @@ export class DiagnosticoComponent implements OnInit{
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
 
+        if(data.data[this.mySkip] && data.data[this.mySkip].codigoEnfermedad){
+
+        }
+
         // Filtrar solo los valores necesarios y crear instancias de DiagnosticoDTO
       const diagnosticoDTO: DiagnosticoDTO = {
         diagnostico: data.data[index].pacienteDiagnosticoId,
         fecha: data.data[index].fecha,
-        codigoEnfermedad01: data.data[index].codigoEnfermedad01
+        codigoEnfermedad: data.data[index].codigoEnfermedad
       };
       this.ListDiagnosticoPacienteDTO.push(diagnosticoDTO);
       }

@@ -7,7 +7,7 @@ export interface IHistoriaDagnostico {
   pacienteDiagnosticoId: string,
   pacienteId: string,
   fecha: string,
-  codigoEnfermedad01: string
+  codigoEnfermedad: string
   estado: number
 }
 
