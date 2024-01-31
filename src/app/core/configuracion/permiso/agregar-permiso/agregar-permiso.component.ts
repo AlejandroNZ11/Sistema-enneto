@@ -56,10 +56,10 @@ export class AgregarPermisoComponent {
 
     this.permiso.modulo = this.form.get('modulo')?.value;
     this.permiso.cargo = this.form.get('cargo')?.value;
-    this.permiso.read = this.form.get('read')?.value ? 1 : 0;
-    this.permiso.insert = this.form.get('insert')?.value ? 1 : 0;
-    this.permiso.update = this.form.get('update')?.value ? 1 : 0;
-    this.permiso.delete = this.form.get('delete')?.value ? 1 : 0;
+    this.permiso.read = this.form.get('read')?.value;
+    this.permiso.insert = this.form.get('insert')?.value;
+    this.permiso.update = this.form.get('update')?.value;
+    this.permiso.delete = this.form.get('delete')?.value;
 
     this.permisoService.crearPermiso(this.permiso).subscribe(
       (response) => {

@@ -1,127 +1,128 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
+import { environment as env } from 'src/environments/environments';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { InventarioService } from 'src/app/shared/services/inventario.service';
-import { DataInventario, IInventario,inventario } from 'src/app/shared/models/inventario';
-import { environment as env } from 'src/environments/environments';
 import { AgregarInventarioComponent } from './agregar-inventario/agregar-inventario.component';
+import { DataInventario, IInventario,inventario } from 'src/app/shared/models/inventario';
+import Swal from 'sweetalert2';
+import { Accion, PageSize, Paginacion, getEntityPropiedades  } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'app-inventario',
   templateUrl: './inventario.component.html',
   styleUrls: ['./inventario.component.scss']
 })
 export class InventarioComponent implements OnInit {
-  public routes = routes;
-  public ListInventario: Array<IInventario> = [];
-  inventarioSeleccionada:inventario = new inventario();
+  public routes = routes
+  Listinventario: Array<IInventario> = [];
+  columnas: string[] = []
+  acciones: string[] = []
+  inventarioSeleccionada: inventario = new inventario();
   dataSource!: MatTableDataSource<IInventario>;
-  public showFilter = false;
-  public BuscarDatosValue = '';
-  public lastIndex = 0;
-  public pageSize = 10;
-  public totalData = 0;
-  public skip = 0;
-  public limit: number = this.pageSize;
-  public pageIndex = 0;
-  public serialNumberArray: Array<number> = [];
-  public currentPage = 1;
-  public pageNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
-  public totalPages = 0;
+  pageSize = PageSize.size;
+  totalData = 0;
+  skip = 0;
+  serialNumberArray: Array<number> = [];
+  currentPage = 1;
   bsModalRef?: BsModalRef;
-  constructor(public inventarioService: InventarioService, private modalService: BsModalService,) {
-  }
+  limit: number = this.pageSize;
+
+  constructor( 
+    private modalService: BsModalService,
+    public inventarioService: InventarioService,
+  ) {}
+
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades ('Inventario');
+    this.acciones = ['Editar','Eliminar'];
   }
-  private getTableData(): void {
-    this.ListInventario = [];
+
+  private getTableData(currentPage: number, pageSize: number): void {
+    this.Listinventario = [];
     this.serialNumberArray = [];
-    this.inventarioService.obtenerInventarios(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataInventario) => {
+    this.inventarioService.obtenerInventarios(env.clinicaId, currentPage, pageSize).subscribe((data: DataInventario) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.ListInventario = data.data;
-      this.dataSource = new MatTableDataSource<IInventario>(this.ListInventario);
-      this.calculateTotalPages(this.totalData, this.pageSize);
+      this.Listinventario = data.data;
+      this.dataSource = new MatTableDataSource<IInventario>(this.Listinventario);
     });
   }
-  public BuscarDatos(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListInventario = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.ListInventario.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.ListInventario = data;
-    } else {
-      this.ListInventario = data.sort((a, b) => { 
-        const aValue = (a as any)[sort.active];
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
-  }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearInventario();
+    // } else if (accion.accion == 'Editar') {
+    //   this.editarInventario(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarInventario(accion.fila.inventarioId)
     }
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
 
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
-  }
-
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
   crearInventario() {
-    this.bsModalRef = this.modalService.show(AgregarInventarioComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
-      });
+  this.bsModalRef = this.modalService.show(AgregarInventarioComponent),
+  this.bsModalRef.content.inventarioAgregada$.subscribe((inventarioAgregada: boolean) => {
+    if (inventarioAgregada) {
+      this.getTableData(this.currentPage, this.pageSize);
+    }
+  });
+  }
+
+// editarInventario(inventario: IInventario) {
+//   const initialState = {
+//     inventarioSeleccionada: inventario.inventarioId
+//   };
+//   this.bsModalRef = this.modalService.show(EditarInventarioComponent, { initialState });
+//   const inventarioEditada$ = new Subject<boolean>();
+//     this.bsModalRef.content.inventarioEditada$ = inventarioEditada$;
+//     inventarioEditada$.subscribe((inventarioEditada: boolean) => {
+//       if (inventarioEditada) {
+//         this.getTableData(this.currentPage, this.pageSize);
+//       }
+//     });
+//     this.bsModalRef.onHidden?.subscribe(() => {
+//       inventarioEditada$.unsubscribe();   
+//     });
+//   }
+
+  eliminarInventario(inventarioId: string) {
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.inventarioService.eliminarInventario(inventarioId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message, '', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
+
   }
 }  
