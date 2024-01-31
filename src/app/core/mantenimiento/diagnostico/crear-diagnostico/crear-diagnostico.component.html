@@ -14,7 +14,7 @@
                                 <div class="form-group local-forms">
                                     <label >EnfermedadId <span class="login-danger">*</span></label>
                                     <input formControlName="enfermedadId" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('enfermedadIdd')}">
+                                        [ngClass]="{'is-invalid': isInvalid('enfermedadId')}">
                                     <div *ngIf="isInvalid('enfermedadId') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('enfermedadId')|| mostrarErrores">
                                             Debe completar el campo*
@@ -34,6 +34,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
