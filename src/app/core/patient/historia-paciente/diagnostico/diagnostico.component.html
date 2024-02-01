@@ -4,7 +4,7 @@
       <div class="col-sm-12">
           <div class="card card-table show-entire">
               <div class="card-body">
-                  <app-historical-table [total]="totalData" [data]="ListDiagnosticoPacienteDTO"  [indice]="serialNumberArray" [columns]="columnas" [titulo]="'Lista Dagnosticos Paciente'" [accion]="acciones" (action)="onAction($event)" (MoreData)="getMoreData($event)">
+                  <app-historical-table [total]="totalData" [data]="ListDiagnosticoPacienteDtoOutput"  [indice]="serialNumberArray" [columns]="columnas" [titulo]="'Lista Diagnosticos Paciente'" [accion]="acciones" (action)="onAction($event)" (MoreData)="getMoreData($event)">
 
                   </app-historical-table>
               </div>

@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Enfermedad } from 'src/app/shared/models/enfermedad';
+import { IHistoriaDagnostico } from 'src/app/shared/models/historiaDiagnostico';
 import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
-
+import { HistoriaDiagnosticoService } from 'src/app/shared/services/historia-diagnostico.service';
+import { SharedService } from '../../services/shared-service.service';
+import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
+import { diagnostico } from 'src/app/shared/models/diagnostico';
 @Component({
   selector: 'app-editar-diagnostico-paciente',
   templateUrl: './editar-diagnostico-paciente.component.html',
@@ -11,28 +16,86 @@ import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 })
 export class EditarDiagnosticoPacienteComponent implements OnInit{
 
+  diagnosticoEditado$: Subject<boolean> = new Subject<boolean>();
+  pacienteId="";
   form!: FormGroup;
   enfermedadList:Array<Enfermedad> = [];
-  constructor(public bsModalRef: BsModalRef, public fb: FormBuilder , public enfermedadService:EnfermedadService){
+  enfermedadId:any;
+  diagnostico!:IHistoriaDagnostico;
+  diagnosticoSeleccionado?: string;
+  listaDiagnosticos: Array<any> = [];
+  isFormSubmitted = false;
+
+  constructor(public bsModalRef: BsModalRef, public fb: FormBuilder , public enfermedadService:EnfermedadService, public historiaDiagnosticoService: HistoriaDiagnosticoService, public sharedService:SharedService){
 
     this.form = this.fb.group({
       fecha: ['', Validators.required],
       enfermedadId: ['', Validators.required],
-      estado: ['', Validators.required],
     });
   }
   ngOnInit(): void {
-    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;})
+    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;});
+
+    console.log(this.diagnosticoSeleccionado);
+    this.historiaDiagnosticoService.obtenerDiagnosticoPaciente(this.diagnosticoSeleccionado!).subscribe(
+      diagnostico=>{
+        this.diagnostico = diagnostico;
+        console.log(this.diagnostico);
+        this.form.patchValue({
+          fecha:this.diagnostico.fecha,
+          enfermedadId:this.diagnostico.enfermedadId
+        })
+      });
+      this.sharedService.pacientID.subscribe((id)=>{
+        this.pacienteId = id
+      })
   }
-  listaDiagnosticos: Array<any> = [];
-
-  enfermedadSeleccionada?: string;
 
 
+  isTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
+
+  editarCategoriaPaciente(){
+    if (this.form.invalid) {
+      this.isTouched()
+      return;
+    }
+    this.isFormSubmitted = true;
+
+    const diagnosticoHistoriaActualizada: IHistoriaDagnostico ={
+      pacienteDiagnosticoId:this.diagnostico.pacienteDiagnosticoId,
+      pacienteId: this.diagnostico.pacienteId,
+      fecha: this.form.get("fecha")?.value,
+      enfermedadId: this.form.get("enfermedadId")?.value,
+      estado:1,
+    }
+
+    console.log(diagnosticoHistoriaActualizada);
+
+    this.historiaDiagnosticoService.actualizarDiagnosticoPaciente(diagnosticoHistoriaActualizada).subscribe(
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+          this.diagnosticoEditado$.next(true);
+          this.bsModalRef.hide();
+        }else{
+          console.error(response.message);
+        }
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
+  }
 
   cancelar() {
     this.bsModalRef.hide()
   }
+
+
 
 
 }

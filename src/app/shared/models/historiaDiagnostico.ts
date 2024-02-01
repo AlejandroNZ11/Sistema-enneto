@@ -1,3 +1,12 @@
+export class diagnosticoHistoria{
+  clinicaId= 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  usuarioId= "";
+  pacienteId= "";
+  fecha= "";
+  enfermedadId= "";
+  estado="0";
+}
+
 export interface DataHistoriaDiagnostico{
   data: IHistoriaDagnostico[];
   totalData: number
@@ -7,7 +16,7 @@ export interface IHistoriaDagnostico {
   pacienteDiagnosticoId: string,
   pacienteId: string,
   fecha: string,
-  codigoEnfermedad01: string
+  enfermedadId: string
   estado: number
 }
 
@@ -15,5 +24,5 @@ export interface IHistoriaDagnostico {
 export class  HistoriaDiagnosticoResponse{
   diagnostico="";
   fecha="";
-  codigoEnfermedad01="";
+  codigoEnfermedad="";
 }

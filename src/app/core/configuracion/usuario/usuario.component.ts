@@ -34,6 +34,7 @@ export class UsuarioComponent implements OnInit {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
+  public isLoading = false;
   bsModalRef?: BsModalRef;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,8 +48,13 @@ export class UsuarioComponent implements OnInit {
   ngOnInit() {
     this.getTableData();
   }
-
+  
+  refreshData() {
+    this.getTableData();
+  }
+  
   private getTableData(): void {
+    this.isLoading = true;
     this.ListUsuario = [];
     this.serialNumberArray = [];
     this.usuarioService.obtenerUsuarios(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataUsuario) => {
@@ -57,6 +63,7 @@ export class UsuarioComponent implements OnInit {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
+      this.isLoading = false;
       this.ListUsuario = data.data;
       this.dataSource = new MatTableDataSource<IUsuario>(this.ListUsuario);
       this.calculateTotalPages(this.totalData, this.pageSize);

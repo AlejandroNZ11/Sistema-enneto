@@ -40,7 +40,7 @@
                           <div class="form-group local-forms">
                               <label>Medicos<span class="login-danger">*</span></label>
                               <mat-select
-                              formControlName="medico"
+                              formControlName="medicoId"
                                         class="form-control select" placeholder="Seleccione Grado de Instruccion"
                                         >
                                         <mat-option *ngFor="let data of listaMedicos" [value]="data.medicoId">
@@ -57,29 +57,30 @@
                                   <input type="radio" [value]="item.value" formControlName="estado"
 
                                       class="form-check-input" name="estado" [id]="item.value"
-                                      >{{item.name}}
+
+                                      [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">{{item.name}}
                               </label>
                           </div>
                         </div>
                     </div>
-                          <!-- <div class="col-12 col-md-12 col-xl-12">
-                              <div class="form-group local-forms">
-                                  <label>Descripcion <span class="login-danger">*</span></label>
-                                  <input formControlName="codigoEnfermedad" class="form-control" type="text"
-                                      [ngClass]="{'is-invalid': isInvalid('codigoEnfermedad')}">
-                                  <div *ngIf="isInvalid('codigoEnfermedad') || mostrarErrores" class="invalid-feedback">
-                                      <div *ngIf="isRequerido('codigoEnfermedad')|| mostrarErrores">
-                                          Debe completar el campo*
-                                      </div>
-                                  </div>
-                              </div>
-                          </div> -->
 
+                    <div class="col-6 col-md-12 col-xl-12">
+                      <label>Descripción</label>
+                      <textarea formControlName="descripcion"
+                          class="form-control" type="text"
+                          [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}"></textarea>
+                      <div *ngIf="isInvalid('observacion') && isFormSubmitted"
+                          class="invalid-feedback">
+                          <div *ngIf="isRequerido('observacion')">
+                              Debe completar el campo*
+                          </div>
+                      </div>
+                  </div>
                       </div>
                   </form>
-                  <div class="col-12">
+                  <div class="col-12 pt-3 ">
                       <div class="doctor-submit text-end">
-                          <button type="submit" (click)="crearCategoria()"
+                          <button type="submit" (click)="crearEvolucion()"
                               class="btn btn-primary submit-form me-2">Guardar</button>
                           <button type="submit" (click)="cancelar()"
                               class="btn btn-primary cancel-form">Cancelar</button>

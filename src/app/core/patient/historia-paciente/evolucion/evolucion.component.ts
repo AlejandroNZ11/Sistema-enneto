@@ -11,8 +11,12 @@ import { EspecialidadesService } from 'src/app/shared/services/especialidades.se
 import { Iespecialidad } from 'src/app/shared/models/especialidades';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
+import { EditarEvolucionPacienteComponent } from './editar-evolucion-paciente/editar-evolucion-paciente.component';
+import { Subject } from 'rxjs';
 
 interface EvolucionPacienteDTO {
+  pacienteEvolucionId:string;
   fechaEvolucion: string;
   especialidad: string;
   medico: string;
@@ -41,13 +45,15 @@ export class EvolucionComponent implements OnInit{
   limit: number = this.pageSize;
   ListEvolucionPaciente: Array<IEvolucionPaciente> = [];
   ListEvolucionPacienteDto: Array<EvolucionPacienteDTO> = [];
-  ListEvolucionPacienteDto2: Array<EvolucionPacienteDTO> = [];
+  ListEvolucionPacienteDtoOutput: Array<EvolucionPacienteDTO> = [];
 
   dataSource!: MatTableDataSource<EvolucionPacienteDTO>;
   bsModalRef?: BsModalRef;
   listEspecialidadesCitas!: Iespecialidad[];
   nombreMedico='';
   mySkip =0;
+
+
 
   ngOnInit(): void {
 
@@ -64,13 +70,15 @@ export class EvolucionComponent implements OnInit{
     this.sharedService.setPacienteId(this.pacienteId);
 
   }
+
+
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearEvolucionPaciente();
     } else if (accion.accion == 'Editar') {
       this.editarEvolucionPaciente(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarEvolucionPaciente(accion.fila.marcaMaterialesId)
+      this.eliminarEvolucionPaciente(accion.fila.pacienteEvolucionId)
     }
   }
 
@@ -78,7 +86,7 @@ export class EvolucionComponent implements OnInit{
     this.ListEvolucionPaciente =[];
     this.serialNumberArray = [];
     this.ListEvolucionPacienteDto =[];
-    this.ListEvolucionPacienteDto2 =[];
+    this.ListEvolucionPacienteDtoOutput =[];
     this.mySkip=0;
 
     this.evolucionPacienteService.obtenerEvolucionPacienteList(env.clinicaId,currentPage,pageSize, this.pacienteId).subscribe((data: DataEvolucionPaciente)=>{
@@ -94,6 +102,7 @@ export class EvolucionComponent implements OnInit{
           this.medicoService.obtenerMedico(data.data[this.mySkip].medicoId).subscribe((medicoData) => {
             if (medicoData) { // Verifica si medicoData está definido
               const evolucionPaciente: EvolucionPacienteDTO = {
+                pacienteEvolucionId: data.data[this.mySkip].pacienteEvolucionId,
                 fechaEvolucion: this.formatoFecha(data.data[this.mySkip].fechaEvolucion),
                 especialidad: this.getEspecialidad(data.data[this.mySkip].especialidadId),
                 medico: medicoData.nombre,
@@ -104,15 +113,12 @@ export class EvolucionComponent implements OnInit{
             }
             this.mySkip++;
           });
-
         }
-
       }
 
+      this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDtoOutput)
 
-      this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDto)
-
-      this.ListEvolucionPacienteDto2 = this.ListEvolucionPacienteDto;
+      this.ListEvolucionPacienteDtoOutput = this.ListEvolucionPacienteDto;
       this.ListEvolucionPaciente = data.data;
 
 
@@ -130,13 +136,53 @@ export class EvolucionComponent implements OnInit{
     });
   }
 
-  editarEvolucionPaciente(parameter: any){
-    console.log("evolucion paciente editada");
+  editarEvolucionPaciente(evolucion: EvolucionPacienteDTO){
 
+    const initialState = {
+      evolucionSeleccionada: evolucion.pacienteEvolucionId
+    };
+
+    this.bsModalRef = this.modalService.show(EditarEvolucionPacienteComponent, {initialState});
+
+    const evolucionEditada$ = new Subject<boolean>();
+
+    this.bsModalRef.content.evolucionEditata$ = evolucionEditada$;
+    evolucionEditada$.subscribe((evolucionEditada: boolean)=>{
+      if(evolucionEditada){
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      evolucionEditada$.unsubscribe();
+    })
   }
 
-  eliminarEvolucionPaciente(parameter: any){
-    console.log("evolucion paciente eliminada");
+  eliminarEvolucionPaciente(evolucionPacienteId: string){
+
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.evolucionPacienteService.eliminarEvolucionPaciente(evolucionPacienteId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message, '', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
 
   }
 
