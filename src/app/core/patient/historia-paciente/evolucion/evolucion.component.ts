@@ -45,7 +45,7 @@ export class EvolucionComponent implements OnInit{
   limit: number = this.pageSize;
   ListEvolucionPaciente: Array<IEvolucionPaciente> = [];
   ListEvolucionPacienteDto: Array<EvolucionPacienteDTO> = [];
-  ListEvolucionPacienteDto2: Array<EvolucionPacienteDTO> = [];
+  ListEvolucionPacienteDtoOutput: Array<EvolucionPacienteDTO> = [];
 
   dataSource!: MatTableDataSource<EvolucionPacienteDTO>;
   bsModalRef?: BsModalRef;
@@ -86,7 +86,7 @@ export class EvolucionComponent implements OnInit{
     this.ListEvolucionPaciente =[];
     this.serialNumberArray = [];
     this.ListEvolucionPacienteDto =[];
-    this.ListEvolucionPacienteDto2 =[];
+    this.ListEvolucionPacienteDtoOutput =[];
     this.mySkip=0;
 
     this.evolucionPacienteService.obtenerEvolucionPacienteList(env.clinicaId,currentPage,pageSize, this.pacienteId).subscribe((data: DataEvolucionPaciente)=>{
@@ -113,15 +113,12 @@ export class EvolucionComponent implements OnInit{
             }
             this.mySkip++;
           });
-
         }
-
       }
 
+      this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDtoOutput)
 
-      this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDto)
-
-      this.ListEvolucionPacienteDto2 = this.ListEvolucionPacienteDto;
+      this.ListEvolucionPacienteDtoOutput = this.ListEvolucionPacienteDto;
       this.ListEvolucionPaciente = data.data;
 
 

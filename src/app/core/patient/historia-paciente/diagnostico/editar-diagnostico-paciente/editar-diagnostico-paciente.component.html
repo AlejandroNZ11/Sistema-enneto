@@ -8,12 +8,12 @@
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
-                                  <h4>Editar Alergia Paciente</h4>
+                                  <h4>Editar Diagnostico Paciente</h4>
                               </div>
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
                             <div class="form-group local-forms">
-                              <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                              <label>Fecha Diagnostico<span class="login-danger">*</span></label>
                               <input formControlName="fecha"
                                   style='height:48px' class="form-control datetimepicker" type="text"
                                   placeholder="" matInput [matDatepicker]="picker">
@@ -27,7 +27,7 @@
                                 <label>Diagnostico <span class="login-danger">*</span></label>
                                 <mat-select
                                 formControlName="enfermedadId"
-                                [(ngModel)]="enfermedadSeleccionada"
+                                [(ngModel)]="enfermedadId"
                                 class="form-control select" placeholder="Seleccione Alergia" >
                                   <mat-option *ngFor="let data of enfermedadList" [value]="data.enfermedadId">
                                     {{ data.descripcion}}
@@ -39,7 +39,7 @@
                   </form>
                   <div class="col-12">
                       <div class="doctor-submit text-end">
-                          <button type="submit"
+                          <button type="submit" (click)="editarCategoriaPaciente()"
                               class="btn btn-primary submit-form me-2">Guardar</button>
                           <button (click)="cancelar()" type="submit"
                               class="btn btn-primary cancel-form">Cancelar</button>
