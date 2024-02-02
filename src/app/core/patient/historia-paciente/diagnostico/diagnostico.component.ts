@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../services/shared-service.service';
 import { environment } from 'src/environments/environments';
 import Swal from 'sweetalert2';
-import { Subject } from 'rxjs';
+import { Subject, finalize } from 'rxjs';
 
 interface DiagnosticoDTO {
   pacienteDiagnosticoId: string;
@@ -44,7 +44,7 @@ export class DiagnosticoComponent implements OnInit{
   ListDiagnosticoPacienteDTO:Array<DiagnosticoDTO> =[];
   ListDiagnosticoPacienteDtoOutput:Array<DiagnosticoDTO> =[];
   mySkip =0;
-
+  isLoading = false;
   enfermedadList:Array<Enfermedad> = [];
 
   ngOnInit(): void {
@@ -61,13 +61,17 @@ export class DiagnosticoComponent implements OnInit{
     this.sharedService.setPacienteId(this.pacienteId);
   }
   private getTableData(currentPage: number, pageSize: number): void {
+
     this.ListDiagnosticoPaciente = [];
     this.serialNumberArray = [];
     this.ListDiagnosticoPacienteDTO =[];
     this.ListDiagnosticoPacienteDtoOutput=[];
     this.mySkip=0;
 
-    this.historiaDiagnosticoService.obtenerDiagnosticoPacienteList(this.pacienteId, environment.clinicaId, currentPage,pageSize).subscribe((data: DataHistoriaDiagnostico) => {
+    this.historiaDiagnosticoService.obtenerDiagnosticoPacienteList(this.pacienteId, environment.clinicaId, currentPage,pageSize)
+    .pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataHistoriaDiagnostico) => {
       this.totalData = data.totalData
       console.log(data.data)
       console.log(this.totalData)

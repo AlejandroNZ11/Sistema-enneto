@@ -100,6 +100,7 @@ export class EvolucionComponent implements OnInit{
         if (data.data[this.mySkip] && data.data[this.mySkip].medicoId) {
 
           this.medicoService.obtenerMedico(data.data[this.mySkip].medicoId).subscribe((medicoData) => {
+            console.log(medicoData.medicoId)
             if (medicoData) { // Verifica si medicoData está definido
               const evolucionPaciente: EvolucionPacienteDTO = {
                 pacienteEvolucionId: data.data[this.mySkip].pacienteEvolucionId,
