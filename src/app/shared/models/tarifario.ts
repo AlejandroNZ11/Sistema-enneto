@@ -31,10 +31,10 @@ export interface Itarifario{
 
 export class tarifarioResponse {
     descripcion = "";
-    tipoConceptoId= "";
-    medidaId= "";
-    categoriaId= "";
-    unidadId= "";
+    tipoConceptoNombre= "";
+    medidaNombre= "";
+    categoriaNombre= "";
+    unidadNombre= "";
     precio= "";
     fechaRegistro= "";
 }
