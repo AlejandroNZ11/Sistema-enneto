@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading" class="card mt-1">
   <div class="card-body">
-    <form [formGroup]="form">
+    <form (ngSubmit)="agregarExploracionPaciente()" [formGroup]="form">
       <!-- grupo 1 -->
       <div class="row mt-3">
         <div class="col-md-2 col-xlg-10 col-md-3">
@@ -9,11 +9,14 @@
 
             <div class="input-group mb-3">
               <input
-              [(ngModel)]="pacienteExploracion!.presionArterial"
+
               formControlName="presionArterial"
-              type="text" class="form-control" >
+              type="text" class="form-control" [ngClass]="{'is-invalid': isValidField1('presionArterial') && isFormSubmitted}">
               <span class="input-group-text" >mn Hg</span>
             </div>
+            <div *ngIf="isValidField1('presionArterial')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
         <div class="col-md-2 col-xlg-10 col-md-3">
@@ -22,12 +25,15 @@
 
             <div class="input-group mb-3">
               <input
-              [(ngModel)]="pacienteExploracion!.pulso"
+
               formControlName="pulso"
-              type="text" class="form-control" placeholder="Recipient's username"
-                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              type="text" class="form-control"
+                aria-label="Recipient's username" aria-describedby="basic-addon2" [ngClass]="{'is-invalid': isValidField1('pulso') && isFormSubmitted}">
               <span class="input-group-text" id="basic-addon2">/ min</span>
             </div>
+            <div *ngIf="isValidField1('pulso')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
 
@@ -37,12 +43,15 @@
 
             <div class="input-group mb-3">
               <input
-              [(ngModel)]="pacienteExploracion!.temperatura"
+
               formControlName="temperatura"
-              type="text" class="form-control" placeholder="Recipient's username"
-                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              type="text" class="form-control"
+                aria-label="Recipient's username" aria-describedby="basic-addon2" [ngClass]="{'is-invalid': isValidField1('temperatura') && isFormSubmitted}">
               <span class="input-group-text" id="basic-addon2">º C</span>
             </div>
+            <div *ngIf="isValidField1('temperatura')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
 
@@ -52,13 +61,16 @@
 
             <div class="input-group mb-3">
               <input
-              [(ngModel)]="pacienteExploracion!.frecuenciaCardiaca"
+
               formControlName="frecuenciaCardiaca"
-              type="text" class="form-control" placeholder="Recipient's username"
-                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              type="text" class="form-control"
+                aria-label="Recipient's username" aria-describedby="basic-addon2" [ngClass]="{'is-invalid': isValidField1('frecuenciaCardiaca') && isFormSubmitted}">
               <span class="input-group-text" id="basic-addon2">
                 x min.</span>
             </div>
+            <div *ngIf="isValidField1('frecuenciaCardiaca')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
 
@@ -68,12 +80,15 @@
 
             <div class="input-group mb-3">
               <input
-              [(ngModel)]="pacienteExploracion!.frecuenciaRespiratoria"
+
               formControlName="frecuenciaRespiratoria"
-              type="text" class="form-control" placeholder="Recipient's username"
-                aria-label="Recipient's username" aria-describedby="basic-addon2">
+              type="text" class="form-control"
+                aria-label="Recipient's username" aria-describedby="basic-addon2" [ngClass]="{'is-invalid': isValidField1('frecuenciaRespiratoria') && isFormSubmitted}">
               <span class="input-group-text" id="basic-addon2">mn Hg</span>
             </div>
+            <div *ngIf="isValidField1('frecuenciaRespiratoria')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
       </div>
@@ -93,13 +108,16 @@
 
             <div class="input-group mb-2">
               <input
-              [(ngModel)]="pacienteExploracion!.peso"
+
               formControlName="peso"
               type="text" name="peso" class="form-control" value="" data-dashlane-rid="6c889b3b12134033"
-                data-form-type="other">
-              <div class="input-group-text">
+                data-form-type="other"  [ngClass]="{'is-invalid': isValidField1('peso') && isFormSubmitted}">
+              <div class="input-group-text" >
                 Kg.
               </div>
+              <div *ngIf="isValidField1('talla')" class="form-text text-danger">
+                Debe completar el campo
+            </div>
             </div>
           </div>
         </div>
@@ -109,13 +127,16 @@
 
             <div class="input-group mb-2">
               <input
-              [(ngModel)]="pacienteExploracion!.talla"
+
               formControlName="talla"
               type="text" name="talla" class="form-control" value="" data-dashlane-rid="a96f0da586b4de63"
-                data-form-type="other">
+                data-form-type="other" [ngClass]="{'is-invalid': isValidField1('talla') && isFormSubmitted}">
               <div class="input-group-text">
                 m
               </div>
+              <div *ngIf="isValidField1('talla')" class="form-text text-danger">
+                Debe completar el campo
+            </div>
             </div>
           </div>
         </div>
@@ -126,13 +147,16 @@
 
             <div class="input-group mb-2">
               <input
-              [(ngModel)]="pacienteExploracion!.masa"
+
               formControlName="masa"
               type="text" name="masa" class="form-control" value="" data-dashlane-rid="94e6d77ac5f34695"
-                data-form-type="other">
-              <div class="input-group-text">
+                data-form-type="other" [ngClass]="{'is-invalid': isValidField1('masa') && isFormSubmitted}">
+              <div class="input-group-text" >
                 Kg/m.
               </div>
+              <div *ngIf="isValidField1('masa')" class="form-text text-danger">
+                Debe completar el campo
+            </div>
             </div>
           </div>
         </div>
@@ -148,11 +172,14 @@
             <label>Examen Clinico General<span class="login-danger">*</span></label>
             <div class="input-group">
               <textarea
-              [(ngModel)]="pacienteExploracion!.examenClinico"
+
               formControlName="examenClinico"
-              class="form-control" type="text">
+              class="form-control" type="text" [ngClass]="{'is-invalid': isValidField1('examenClinico') && isFormSubmitted}">
        </textarea>
             </div>
+            <div *ngIf="isValidField1('examenClinico')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
 
@@ -163,11 +190,14 @@
               Examen Complementario<span class="login-danger">*</span></label>
             <div class="input-group">
               <textarea
-              [(ngModel)]="pacienteExploracion!.complementoExamen"
+
               formControlName="complementoExamen"
-              class="form-control"  type="text">
+              class="form-control"  type="text" [ngClass]="{'is-invalid': isValidField1('complementoExamen') && isFormSubmitted}">
      </textarea>
             </div>
+            <div *ngIf="isValidField1('complementoExamen')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
 
         </div>
@@ -182,18 +212,21 @@
             <label>Odontoestomalogicos<span class="login-danger">*</span></label>
             <div class="input-group">
               <textarea
-              [(ngModel)]="pacienteExploracion!.odontogramaEstomatologico"
+
               formControlName="odontogramaEstomatologico"
-              class="form-control" type="text">
+              class="form-control" type="text" [ngClass]="{'is-invalid': isValidField1('odontogramaEstomatologico') && isFormSubmitted}">
      </textarea>
             </div>
+            <div *ngIf="isValidField1('odontogramaEstomatologico')" class="form-text text-danger">
+              Debe completar el campo
+          </div>
           </div>
         </div>
       </div>
 
       <div class="form-actions mb-5 d-flex flex-row-reverse">
-        <button  type="submit" class="btn btn-primary " data-dashlane-rid="afad45a6e1337db1"
-          data-form-type="action" data-dashlane-label="true"> <i class="fa fa-check"></i> Guardar</button>
+        <button   type="submit" class="btn btn-primary submit-form " data-dashlane-rid="afad45a6e1337db1"
+          data-form-type="action" data-dashlane-label="true"  > <i class="fa fa-check"></i> Guardar</button>
       </div>
     </form>
   </div>
