@@ -23,6 +23,7 @@ export class TablaComponent implements OnInit {
   public limit: number = this.pageSize;
   public skip = 0;
   public pageIndex = 0;
+  isLoading = true;
   dataSource: any = [];
   dataFiltro!: MatTableDataSource<any>;
   serialNumberArray: number[] = [];
@@ -35,9 +36,11 @@ export class TablaComponent implements OnInit {
     this.totalData = data;
   }
   @Input() set data(data: any) {
+    this.isLoading = true; 
     this.dataSource = data;
     this.dataFiltro = new MatTableDataSource<any>(data);
     this.calculateTotalPages(this.totalData, this.pageSize);
+    this.isLoading = false;
   }
   @Input() set indice(data: number[]) {
     this.serialNumberArray = data;
@@ -64,8 +67,12 @@ export class TablaComponent implements OnInit {
   }
 
   refreshData() {
-    this.action.emit({ accion: 'Refresh' });
-}
+    this.isLoading = true;
+    setTimeout(() => {
+      this.action.emit({ accion: 'Refresh' });
+      this.isLoading = false;
+    }, 1000);
+  }
   public sortData(sort: Sort) {
     const data = this.dataSource.slice();
 
