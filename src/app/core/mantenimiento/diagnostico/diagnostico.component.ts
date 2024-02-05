@@ -63,28 +63,12 @@ export class DiagnosticoComponent {
   }
 
 
-
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListDiagnostico = this.dataSource.filteredData;
   }
 
 
-  public sortData(sort: Sort) {
-    const data = this.ListDiagnostico.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.ListDiagnostico = data;
-    } else {
-      this.ListDiagnostico = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
-  }
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
@@ -95,14 +79,7 @@ export class DiagnosticoComponent {
     }
 
   }
-
-  getMoreData(pag: Paginacion) {
-    this.getTableData(pag.page, pag.size);
-    this.currentPage = pag.page;
-    this.pageSize = pag.size;
-    this.skip = pag.skip;
-    this.limit = pag.limit;
-  }
+  
   eliminarDiagnostico(enfermedadId:string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
@@ -131,5 +108,11 @@ export class DiagnosticoComponent {
     })
   }
 
-
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
+  }
 }

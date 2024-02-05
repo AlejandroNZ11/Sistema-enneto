@@ -17,6 +17,7 @@ export class EditarPermisoComponent implements OnInit {
   public routes = routes;
   form: FormGroup;
   mostrarErrores = false;
+  isLoading = false; 
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -26,10 +27,10 @@ export class EditarPermisoComponent implements OnInit {
     this.form = this.fb.group({
       modulo: ['', Validators.required],
       cargo: ['', Validators.required],
-      read: [1, Validators.required],
-      insert: [1, Validators.required],
-      update: [1, Validators.required],
-      delete: [1, Validators.required],
+      read: [false, Validators.required],
+      insert: [false, Validators.required],
+      update: [false, Validators.required],
+      delete: [false, Validators.required],
     });
   }
 
@@ -66,6 +67,13 @@ export class EditarPermisoComponent implements OnInit {
       return;
     }
 
+    if (!this.permiso) {
+      Swal.fire('Error', 'No se ha seleccionado un permiso válido para actualizar.', 'error');
+      return;
+    }
+
+    this.isLoading = true;
+
     const permisoActualizado = {
       permisoId: this.permiso.permisoId,
       menuId: this.form.value.modulo,
@@ -84,11 +92,14 @@ export class EditarPermisoComponent implements OnInit {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
         } else {
-          console.error(response.message);
+          Swal.fire('Error', response.message, 'error');
         }
+        this.isLoading = false;
       },
       (error) => {
         console.error(error);
+        Swal.fire('Error', 'Error al actualizar el permiso.', 'error');
+        this.isLoading = false;
       });
   }
 }
