@@ -17,7 +17,7 @@ export class diagnostico {
   }
 
   export class DiagnosticoResponse {
-    //enfermedadId= "";
+    enfermedadId= "";
     descripcion = "";
   
   }
