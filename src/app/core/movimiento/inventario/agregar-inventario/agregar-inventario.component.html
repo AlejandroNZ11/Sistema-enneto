@@ -34,6 +34,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Tipo Inventario <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="tipoinventario" class="form-control select"
+                                        placeholder="Seleccione Tipo Inventario"
+                                        [ngClass]="{'is-invalid': isInvalid('tipoinventario') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of tipoinventario_LISTA" [value]="data.tipoinventarioId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('tipoinventario') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('tipoinventario')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Nombre del Producto <span class="login-danger">*</span></label>
