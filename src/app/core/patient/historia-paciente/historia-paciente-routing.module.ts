@@ -18,6 +18,11 @@ const routes: Routes = [
         import('./historia-clinica/historia-clinica.module').then((m) => m.HistoriaClinicaModule)
       },
       {
+        path:'ortodoncia',
+        loadChildren:()=>
+        import('./ortodoncia/ortodoncia.module').then((m) => m.OrtodonciaModule)
+      },
+      {
         path: 'diagnostico/:pacienteId',
         loadChildren: () =>
           import('./diagnostico/diagnostico.module').then((m) => m.DiagnosticoModule),
