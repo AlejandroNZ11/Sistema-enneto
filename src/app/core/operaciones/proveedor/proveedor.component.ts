@@ -91,9 +91,8 @@ export class ProveedorComponent {
     } else if (accion.accion == 'Editar') {
       this.editarProveedor(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
-      this.eliminarProveedor(accion.fila.diagnosticoId)
-    }
-      else if (accion.accion == 'Refresh') {
+      this.eliminarProveedor(accion.fila.proveedorId)
+    }else if (accion.accion == 'Refresh') {
       this.refreshData();
     }
   }
