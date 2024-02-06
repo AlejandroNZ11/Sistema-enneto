@@ -7,9 +7,9 @@ export class tipoinventario {
 }
 export interface DatatipoInventario {
     totalData: number;
-    data: Itiponiventario[];
+    data: Itipoinventario[];
 }
-export interface Itiponiventario {
+export interface Itipoinventario {
     tipoinventarioId: string;
     nombre: string;
     descripcion : string;

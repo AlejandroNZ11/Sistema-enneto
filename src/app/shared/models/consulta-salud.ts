@@ -1,5 +1,5 @@
 export interface DataConsultaSalud {
-  data:      IConsultaSalud;
+  data:      IConsultaSalud[];
 }
 
 export interface IConsultaSalud {

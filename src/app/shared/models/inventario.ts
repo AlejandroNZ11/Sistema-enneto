@@ -9,7 +9,9 @@ export class inventario{
     unidad = '';
     stock!: number;
     fechaRegistro!: Date;
+    tipoinventarioId?: string[];
     estado!: number;
+    
 }
 export interface DataInventario {
     totalData: number;

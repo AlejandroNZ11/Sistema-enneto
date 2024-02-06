@@ -9,11 +9,13 @@ import { MiniSidebarComponent } from './mini-sidebar/mini-sidebar.component';
 
 
 
+
 @NgModule({
     declarations: [
         HistoriaPacienteComponent,
         FiltroPipe,
         MiniSidebarComponent,
+
     ],
     imports: [
         CommonModule,

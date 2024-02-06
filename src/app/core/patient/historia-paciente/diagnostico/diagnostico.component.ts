@@ -99,6 +99,7 @@ export class DiagnosticoComponent implements OnInit{
       this.dataSource = new MatTableDataSource<DiagnosticoDTO>(this.ListDiagnosticoPacienteDtoOutput);
 
       this.ListDiagnosticoPacienteDtoOutput= this.ListDiagnosticoPacienteDTO;
+      console.log(this.ListDiagnosticoPacienteDtoOutput)
     });
   }
 
