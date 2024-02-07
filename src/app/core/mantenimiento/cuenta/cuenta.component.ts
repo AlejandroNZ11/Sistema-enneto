@@ -50,6 +50,9 @@ export class CuentaComponent implements OnInit{
       this.dataSource = new MatTableDataSource<Icuenta>(this.ListCuenta);
     });
   }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
 
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
@@ -58,7 +61,10 @@ export class CuentaComponent implements OnInit{
       this.editarCuenta(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarCuenta(accion.fila.cuentaPagarId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
+    
   }
 
   getMoreData(pag: Paginacion) {

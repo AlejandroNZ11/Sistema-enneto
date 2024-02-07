@@ -70,6 +70,7 @@ export class BancoComponent implements OnInit{
     this.limit = pag.limit;
   }
 
+  
   crearBanco() {
     this.bsModalRef = this.modalService.show(AgregarBancoComponent);
   
