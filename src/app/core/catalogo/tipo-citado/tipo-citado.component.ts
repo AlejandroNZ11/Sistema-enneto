@@ -10,6 +10,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 import { Accion, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
@@ -93,17 +94,26 @@ export class TipoCitadoComponent implements OnInit{
   }
   crearTipoCitado() {
     this.bsModalRef = this.modalService.show(AgregarTipoCitadoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.citadoAgregada$.subscribe((citadoAgregada: boolean) => {
+      if (citadoAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarTipoCitado(tipoCitado: ItipoCitado) {
     this.bsModalRef = this.modalService.show(EditarTipoCitadoComponent);
-    this.bsModalRef.content.tipoCitadoSeleccionado = tipoCitado.tipoCitadoId;
-    this.bsModalRef.onHidden?.subscribe(() => {
+    const citadoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.citadoEditada$ = citadoEditada$;
+    citadoEditada$.subscribe((citadoEditada: boolean) => {
+      if (citadoEditada) {
       this.getTableData(this.currentPage, this.pageSize);
-    });
+    }
+  });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      citadoEditada$.unsubscribe();   
+  });
   }
+
   eliminarTipoCitado(tipoCitadoId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

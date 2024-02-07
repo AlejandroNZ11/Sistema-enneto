@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataEspecialidad, especialidad,especialidadResponse } from 'src/app/shared/models/especialidades';
 import { routes } from 'src/app/shared/routes/routes';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,6 +17,7 @@ import Swal from 'sweetalert2';
 export class AgregarEspecialidadComponent implements OnInit{
 
   Especialidad: especialidad = new especialidad();
+  especialidadAgregada$: Subject<boolean> = new Subject<boolean>();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
@@ -39,6 +41,7 @@ export class AgregarEspecialidadComponent implements OnInit{
   }
   Cancelar() {
     this.bsModalRef.hide()
+    this.especialidadAgregada$.next(false);
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
@@ -58,6 +61,7 @@ export class AgregarEspecialidadComponent implements OnInit{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.especialidadAgregada$.next(true);
         }else{
           console.error(response.message);
         }

@@ -5,6 +5,7 @@ import { Apoderado } from 'src/app/shared/models/apoderado';
 import { ApoderadoService }  from 'src/app/shared/services/apoderado.service';
 import { routes } from 'src/app/shared/routes/routes';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 function empiezaCon9Validator(): ValidatorFn {
@@ -22,6 +23,7 @@ function empiezaCon9Validator(): ValidatorFn {
 export class AgregarApoderadoComponent {
   public routes = routes;
   Apoderado: Apoderado = new Apoderado();
+  apoderadoAgregada$: Subject<boolean> = new Subject<boolean>();
   form!: FormGroup;
   public mostrarErrores = false;
   maxLengthDocumento = 8;
@@ -107,6 +109,7 @@ export class AgregarApoderadoComponent {
 
   Cancelar() {
     this.bsModalRef.hide();
+    this.apoderadoAgregada$.next(false);
   }
 
   isTouched() {
@@ -131,6 +134,7 @@ export class AgregarApoderadoComponent {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.apoderadoAgregada$.next(true);
         } else {
           console.error(response.message);
         }

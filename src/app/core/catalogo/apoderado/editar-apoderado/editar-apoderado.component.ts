@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { IApoderado } from 'src/app/shared/models/apoderado';
 import { routes } from 'src/app/shared/routes/routes';
 import { ApoderadoService } from 'src/app/shared/services/apoderado.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +16,7 @@ export class EditarApoderadoComponent implements OnInit {
   apoderado: IApoderado | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apoderadoSeleccionado: any;
+  apoderadoEditada$: Subject<boolean> = new Subject<boolean>();
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
@@ -105,6 +107,7 @@ export class EditarApoderadoComponent implements OnInit {
 
   Cancelar() {
     this.bsModalRef.hide();
+    this.apoderadoEditada$.next(false);
   }
 
   guardarApoderado() {
@@ -127,6 +130,7 @@ export class EditarApoderadoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.apoderadoEditada$.next(true);
         } else {
           console.error(response.message);
         }

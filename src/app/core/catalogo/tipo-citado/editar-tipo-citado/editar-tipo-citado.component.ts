@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,9 +15,11 @@ import Swal from 'sweetalert2';
 export class EditarTipoCitadoComponent implements OnInit {
   tipoCitadoSeleccionado!: string;
   tipoCitado!: ItipoCitado;
+  citadoEditada$: Subject<boolean> = new Subject<boolean>();
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
+
   ngOnInit(): void { 
     this.service.obtenerTipoCitadoById(this.tipoCitadoSeleccionado).subscribe((data)=>{
       this.tipoCitado = data;
@@ -40,6 +43,7 @@ export class EditarTipoCitadoComponent implements OnInit {
   }
   Cancelar() {
     this.bsModalRef.hide()
+    this.citadoEditada$.next(false);
   }
   guardarTipoCitado() {
     if (this.form.invalid) {
@@ -51,6 +55,7 @@ export class EditarTipoCitadoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.citadoEditada$.next(true);
         } else {
           console.error(response.message);
         }
