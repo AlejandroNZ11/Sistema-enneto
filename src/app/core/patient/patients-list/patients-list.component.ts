@@ -53,7 +53,7 @@ export class PatientsListComponent implements OnInit {
     this.obtenerDatosPacientes();
 
   }
-  private obtenerDatosPacientesSinFiltro(): void {
+   obtenerDatosPacientes(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
     this.isLoading = true;
