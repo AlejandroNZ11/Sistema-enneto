@@ -28,7 +28,7 @@ export interface IInventario {
     unidad: string;
     stock: number;
     fechaRegistro: Date;
-    estado: number;
+    estado: string;
 }
 
 export class inventarioResponse {
