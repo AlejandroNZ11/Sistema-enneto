@@ -9,6 +9,7 @@ import { DataSede, Isede, sede } from 'src/app/shared/models/sede';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-sede',
@@ -71,19 +72,29 @@ export class SedeComponent implements OnInit{
 
   crearSede() {
     this.bsModalRef = this.modalService.show(AgregarSedeComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.sedeAgregada$.subscribe((sedeAgregada: boolean) => {
+      if (sedeAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
-  }
+      }
+    });
+    }
   editarSede(sede: Isede) {
     const initialState = {
       sedeSeleccionada: sede.sedeId
     };
     this.bsModalRef = this.modalService.show(EditarSedeComponent, { initialState });
+    const sedeEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.sedeEditada$ = sedeEditada$;
+    sedeEditada$.subscribe((sedeEditada: boolean) => {
+      if (sedeEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      sedeEditada$.unsubscribe();   
     });
   }
+
   eliminarSede(sedeId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

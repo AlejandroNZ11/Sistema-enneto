@@ -9,6 +9,7 @@ import { Iprovincia } from 'src/app/shared/models/provincia';
 import { Idistrito } from 'src/app/shared/models/distrito';
 import { UbicacionService } from 'src/app/shared/services/ubicacion.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-editar-sede',
@@ -16,6 +17,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-sede.component.scss']
 })
 export class EditarSedeComponent implements OnInit {
+  sedeEditada$: Subject<boolean> = new Subject<boolean>();
   sede!: Isede;
   sedeSeleccionada! :string;
   public routes = routes;
@@ -44,69 +46,74 @@ export class EditarSedeComponent implements OnInit {
       codigo: ['', Validators.required],
       direccion: ['', Validators.required],
       estado: ['Activo', Validators.required],
-    });
+    })
+
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
   }
   
 
   ngOnInit() {
     this.isLoading = true;
-    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
-    if(this.sedeSeleccionada != ''){
-    this.sedeService.obtenerSede(this.sedeSeleccionada).subscribe(sede => {
-      if (sede){
-      this.sede = sede ;
-
-      this.form.patchValue({
-        nombre: this.sede.nombre,
-        codigo: this.sede.codigo,
-        direccion: this.sede.direccion,
-        ubigeo: this.sede.ubigeo,
-        estado: this.sede.estado == '1' ? 'Activo' : 'Inactivo',
-      });
-      const departamentoId = (sede.ubigeo.substring(0, 2));
-      const provinciaId = (sede.ubigeo.substring(0, 4));
-      this.cargarUbicacion(departamentoId, provinciaId);
-        }
-      }) 
-    }
-  }
-
-  actualizarProvincias(id?: string) {
-    if (this.departamento) {
-      if (id) {
-        this.ubicacionService.obtenerProvincias(id).subscribe(data => {
-          this.provincias = data;
-        })
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { 
+      this.departamentos = data; 
+      if (this.sedeSeleccionada) {
+        this.obtenerSede();
       }
-        const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento!.toString())!.departamentoId;
-        this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
-          this.provincias = data;
-        })
-      }
-      this.form.patchValue({
-        provincia: '',
-      });
-      
-    
+    });
   }
   
-  actualizarDistritos(id?: string) {
-    if (this.provincia) {
-      if (id) {
-        this.ubicacionService.obtenerDistritos(id).subscribe(data => {
-          this.distritos = data;
-        })
+  obtenerSede() {
+    this.sedeService.obtenerSede(this.sedeSeleccionada).subscribe(sede => {
+      if (sede) {
+        this.sede = sede;
+        this.inicializarFormulario();
       }
-        const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia!.toString())!.provinciaId;
-        this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
-          this.distritos = data;
-        })
-      }
-      this.form.patchValue({
-        ubigeo: '',
-      });
-    
+    });
   }
+  
+  inicializarFormulario() {
+    this.form.patchValue({
+      nombre: this.sede.nombre,
+      codigo: this.sede.codigo,
+      direccion: this.sede.direccion,
+      ubigeo: this.sede.ubigeo,
+      estado: this.sede.estado == '1' ? 'Activo' : 'Inactivo',
+    });
+    const departamentoId = this.sede.ubigeo.substring(0, 2);
+    const provinciaId = this.sede.ubigeo.substring(0, 4);
+    this.cargarUbicacion(departamentoId, provinciaId);
+  }
+  
+
+  actualizarProvincias() {
+    const departamentoControl = this.form.get('departamento');
+    if (departamentoControl?.value) {
+      const departamentoId = this.departamentos.find(dep => dep.nombre === departamentoControl.value)!.departamentoId;
+      this.ubicacionService.obtenerProvincias(departamentoId).subscribe(data => {
+        this.provincias = data;
+        this.form.patchValue({
+          provincia: '',
+          ubigeo: '',
+        });
+        this.actualizarDistritos();
+      });
+    }
+  }
+  
+  
+  actualizarDistritos() {
+    const provinciaControl = this.form.get('provincia');
+    if (provinciaControl?.value) {
+      const provinciaEncontrada = this.provincias.find(prov => prov.nombre === provinciaControl.value)!.provinciaId;
+      this.ubicacionService.obtenerDistritos(provinciaEncontrada).subscribe(data => {
+        this.distritos = data;
+        this.form.patchValue({ 
+          ubigeo: '',
+        });
+      });
+    }
+  }
+  
   
   cargarUbicacion(departamento: string, provincia: string) {
     if (this.departamentos) {this.departamento = this.departamentos.find(dep => dep.departamentoId === departamento)!.nombre;
@@ -119,6 +126,7 @@ export class EditarSedeComponent implements OnInit {
         this.form.patchValue({
           departamento: this.departamento,
           provincia: this.provincia,
+          distritos: this.distritos,
         });
       });
     })
@@ -138,6 +146,7 @@ export class EditarSedeComponent implements OnInit {
     return control?.value.length !== 4;
   }
   Cancelar() {
+    this.sedeEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -146,12 +155,13 @@ export class EditarSedeComponent implements OnInit {
       this.mostrarErrores = true;
       return;
     }
+    
     const sedeActualizada: Isede = {
       sedeId: this.sede.sedeId,
       nombre: this.form.value.nombre,
       codigo: this.form.value.codigo,
       direccion: this.form.value.direccion,
-      ubigeo: this.sede.ubigeo = this.form.get('ubigeo')?.value,
+      ubigeo: this.form.value.ubigeo = this.form.get('ubigeo')?.value,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
     this.sedeService.actualizarSede(sedeActualizada).subscribe(
@@ -159,6 +169,7 @@ export class EditarSedeComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.sedeEditada$.next(true);
         } else {
           console.error(response.message);
         }

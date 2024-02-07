@@ -1,14 +1,14 @@
 export class inventario{
-    ClinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+    ClinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     UsuarioId = '';
-    codigoBarra = '';
-    nombreAlmacen = '';
-    nombreProducto = '';
-    precioEntrada!: number;
-    precioSalida!: number;
-    unidad = '';
-    stock!: number;
-    fechaRegistro!: Date;
+    CodigoBarra = '';
+    NombreAlmacen = '';
+    NombreProducto = '';
+    PrecioEntrada!: number;
+    PrecioSalida!: number;
+    Unidad = '';
+    Stock!: number;
+    FechaRegistro!: Date;
     tipoinventarioId?: string[];
     estado!: number;
     
@@ -19,9 +19,9 @@ export interface DataInventario {
 }
 export interface IInventario {
     inventarioId: string;
-    codigoBarra: string;
-    nombreAlmacen: string;
-    nombreProducto: string;
+    CodigoBarra: string;
+    NombreAlmacen: string;
+    NombreProducto: string;
     tipoInventarioId: string;
     precioEntrada: number;
     precioSalida: number;

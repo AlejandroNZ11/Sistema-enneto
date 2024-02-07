@@ -48,10 +48,9 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Departamento<span class="login-danger">*</span></label>
-                                    <mat-select formControlName="departamento"
-                                        class="form-control select" placeholder="Departamento"
+                                    <mat-select formControlName="departamento"  class="form-control select" placeholder="Departamento"
                                         [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
-                                        (ngModelChange)="actualizarProvincias()">
+                                        (selectionChange)="actualizarProvincias()">
                                         <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
                                             {{data.nombre}}
                                         </mat-option>
@@ -64,13 +63,14 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Provincia <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="provincia"
+                                    <mat-select formControlName="provincia"   
                                         class="form-control select" placeholder="Provincia"
                                         [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
-                                        (ngModelChange)="actualizarDistritos()">
+                                        (selectionChange)="actualizarDistritos()">
                                         <mat-option *ngFor="let data of provincias" [value]="data.nombre">
                                             {{data.nombre}}
                                         </mat-option>
@@ -86,7 +86,7 @@
                                 <div class="form-group local-forms">
                                     <label>Distrito<span class="login-danger">*</span></label>
                                     <mat-select formControlName="ubigeo" 
-                                        class="form-control select" placeholder="Distrito"
+                                        class="form-control select" placeholder="Seleccione Distrito"
                                         [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of distritos" [value]="data.distritoId">
                                             {{data.nombre}}

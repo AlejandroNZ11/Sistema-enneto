@@ -86,14 +86,14 @@ export class AgregarInventarioComponent implements OnInit {
       this.isTouched()
       return;
     }
-    this.Inventario.nombreProducto = this.form.get("nombreProducto")?.value;
-    this.Inventario.unidad = this.form.get("unidad")?.value;
-    this.Inventario.precioEntrada = parseFloat(this.form.get("precioEntrada")?.value);
-    this.Inventario.stock = parseInt(this.form.get("stock")?.value);
-    this.Inventario.codigoBarra = this.form.get("codigoBarra")?.value;
-    this.Inventario.precioSalida = parseFloat(this.form.get("precioSalida")?.value);
-    this.Inventario.nombreAlmacen = this.form.get("nombreAlmacen")?.value;
-    this.Inventario.fechaRegistro = this.form.get("fecha")?.value;
+    this.Inventario.NombreProducto = this.form.get("nombreProducto")?.value;
+    this.Inventario.Unidad = this.form.get("unidad")?.value;
+    this.Inventario.PrecioEntrada = parseFloat(this.form.get("precioEntrada")?.value);
+    this.Inventario.Stock = parseInt(this.form.get("stock")?.value);
+    this.Inventario.CodigoBarra = this.form.get("codigoBarra")?.value;
+    this.Inventario.PrecioSalida = parseFloat(this.form.get("precioSalida")?.value);
+    this.Inventario.NombreAlmacen = this.form.get("nombreAlmacen")?.value;
+    this.Inventario.FechaRegistro = this.form.get("fecha")?.value;
     this.Inventario.tipoinventarioId = this.form.get("tipoinventario")?.value;
     this.Inventario.estado = 1
     
