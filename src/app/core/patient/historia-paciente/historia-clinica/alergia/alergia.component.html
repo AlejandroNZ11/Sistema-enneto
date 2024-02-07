@@ -5,7 +5,12 @@
         <button (click)="crearAlergiaPaciente()"  class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
       </div>
   </div>
-    <div class="table-responsive">
+
+  <div *ngIf="isLoading" class="spinner-container">
+    <div class="custom-spinner"></div>
+  </div>
+
+    <div *ngIf="!isLoading"  class="table-responsive">
       <!-- <h5>Mostrar --- Registros</h5> -->
       <table class="table border-0 custom-table comman-table datatable mb-0">
         <thead>
@@ -37,9 +42,9 @@
                 <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
-                  <a (click)="editarAlmacen(data.alergiaId)" class="dropdown-item"><i
+                  <a (click)="editar(data)" class="dropdown-item"><i
                       class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
-                  <a class="dropdown-item" href="javascript:void(0);"><i
+                  <a class="dropdown-item" href="javascript:void(0);" (click)="eliminar(data.pacienteAlergiaId)"><i
                       class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
                 </div>
               </div>
@@ -113,7 +118,7 @@
                                   disabled:
                                     currentPage ===
                                       pageNumberArray[pageNumberArray.length - 1] ||
-                                      citasList.length === 0
+                                      pacienteAlergiasList.length === 0
                                 }">
                 <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
                 </a>

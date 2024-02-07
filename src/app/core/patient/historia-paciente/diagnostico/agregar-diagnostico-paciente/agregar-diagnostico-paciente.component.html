@@ -3,7 +3,7 @@
       <div class="col-sm-12">
           <div class="card">
               <div class="card-body">
-                  <form [formGroup]="form">
+                  <form (ngSubmit)="crearCategoria()" [formGroup]="form">
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
@@ -12,13 +12,23 @@
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
                             <div class="form-group local-forms">
-                              <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                              <label>Fecha<span class="login-danger">*</span></label>
                               <input formControlName="fecha"
                                   style='height:48px' class="form-control datetimepicker" type="text"
-                                  placeholder="" matInput [matDatepicker]="picker">
+                                  placeholder="" matInput [matDatepicker]="picker"
+                                  [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}">
                               <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                               <mat-datepicker-toggle matIconSuffix [for]="picker"
                                   matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                  <div *ngIf="isInvalid('fecha') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fecha')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isFechaNacimientoMayorActual()">
+                                                Fecha no valida*
+                                            </div>
+                                        </div>
                           </div>
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
@@ -26,12 +36,18 @@
                                   <label>Diagnostico <span class="login-danger">*</span></label>
                                   <mat-select
                                   formControlName="enfermedadId"
-                                            class="form-control select" placeholder="Seleccione Grado de Instruccion"
-                                            >
+                                            class="form-control select" placeholder="Seleccione Enfermedad"
+                                            [ngClass]="{'is-invalid': isInvalid('enfermedadId') && isFormSubmitted}">
                                             <mat-option *ngFor="let data of enfermedadList" [value]="data.enfermedadId">
                                                 {{data.descripcion}}
                                             </mat-option>
                                         </mat-select>
+                                        <div *ngIf="isInvalid('enfermedadId') && isFormSubmitted"
+                                        class="invalid-feedback">
+                                        <div *ngIf="isRequerido('enfermedadId')">
+                                            Debe elegir una enfermedad*
+                                        </div>
+                                    </div>
                               </div>
                           </div>
                           <!-- <div class="col-12 col-md-12 col-xl-12">
@@ -46,17 +62,17 @@
                                   </div>
                               </div>
                           </div> -->
-
+                          <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button type="submit"
+                                    class="btn btn-primary submit-form me-2">Guardar</button>
+                                <button type="submit" (click)="Cancelar()"
+                                    class="btn btn-primary cancel-form">Cancelar</button>
+                            </div>
+                        </div>
                       </div>
                   </form>
-                  <div class="col-12">
-                      <div class="doctor-submit text-end">
-                          <button type="submit" (click)="crearCategoria()"
-                              class="btn btn-primary submit-form me-2">Guardar</button>
-                          <button type="submit" (click)="Cancelar()"
-                              class="btn btn-primary cancel-form">Cancelar</button>
-                      </div>
-                  </div>
+
               </div>
           </div>
       </div>

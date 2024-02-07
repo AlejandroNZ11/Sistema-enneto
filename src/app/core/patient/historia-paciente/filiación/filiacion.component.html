@@ -127,7 +127,7 @@
                               </div>
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
-                                      <label>Ocupacion <span class="login-danger">*</span></label>
+                                      <label>Ocupacion </label>
                                       <input
                                       [(ngModel)]="pacienteData!.ocupacion"
                                       formControlName="ocupacion" class="form-control" type="text"   [ngClass]="{'is-invalid': isInvalid('ocupacion') && isFormSubmitted}">
@@ -161,29 +161,28 @@
                                   <div class="form-group local-forms">
                                       <label>Celular <span class="login-danger">*</span></label>
                                       <input
+                                      (input)="soloNumeros($event)"
                                       [(ngModel)]="pacienteData!.celular"
-                                      formControlName="celular" class="form-control" type="number" [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
+                                      formControlName="celular" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
                                       pattern="[0-9]*" maxlength="9">
                                       <div *ngIf="isInvalid('celular') && isFormSubmitted" class="invalid-feedback">
                                         <div *ngIf="isRequerido('celular')">
                                             Debe completar el campo*
                                         </div>
                                         <div *ngIf="isCantidadExacta('celular')">
-                                            Debe ingresar la cantidad correcta: 9*
+                                          Debe ingresar un número Válido: 9*
                                         </div>
                                     </div>
                                   </div>
                               </div>
                               <div class="col-12 col-md-6 col-xl-4">
                                   <div class="form-group local-forms">
-                                      <label>Correo <span class="login-danger">*</span></label>
+                                      <label>Correo </label>
                                       <input
                                       [(ngModel)]="pacienteData!.email"
                                       formControlName="email" class="form-control" type="email"  [ngClass]="{'is-invalid': isInvalid('email') && isFormSubmitted}">
                                       <div *ngIf="isInvalid('email') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('email')">
-                                            Debe completar el campo*
-                                        </div>
+
                                         <div *ngIf="isEmail('email')">
                                             Debe ingresar un correo*
                                         </div>
@@ -267,7 +266,7 @@
                               </div>
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
-                                      <label>En caso de emergencia llamar a <span class="login-danger">*</span></label>
+                                      <label>En caso de emergencia llamar a </label>
                                       <input
                                       [(ngModel)]="pacienteData!.contactoEmergencia"
                                       formControlName="contactoEmergencia" class="form-control" type="text">
@@ -275,7 +274,7 @@
                               </div>
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
-                                      <label>Parentesco <span class="login-danger">*</span></label>
+                                      <label>Parentesco </label>
                                       <input
                                       [(ngModel)]="pacienteData!.tipoParentesco"
                                       formControlName="tipoParentesco"
@@ -284,7 +283,7 @@
                               </div>
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
-                                      <label>Domicilio <span class="login-danger">*</span></label>
+                                      <label>Domicilio </label>
                                       <input
                                       [(ngModel)]="pacienteData!.domicilioParentesco"
                                       formControlName="domicilioParentesco" class="form-control" type="text">
@@ -292,22 +291,29 @@
                               </div>
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
-                                      <label>Celular Contacto <span class="login-danger">*</span></label>
+                                      <label>Celular Contacto </label>
                                       <input
                                       [(ngModel)]="pacienteData!.telefonoParentesco"
-                                      formControlName="telefonoParentesco" class="form-control" type="text">
+                                      (input)="soloNumeros($event)"
+                                      formControlName="telefonoParentesco" class="form-control" type="text" pattern="[0-9]*" maxlength="9" [ngClass]="{'is-invalid': isInvalid('telefonoParentesco') && isFormSubmitted}">
+                                      <div *ngIf="isInvalid('telefonoParentesco') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isCantidadExacta('telefonoParentesco')">
+                                            Debe ingresar un número Válido: 9*
+                                        </div>
+                                    </div>
+
                                   </div>
                               </div>
                               <div class="col-12 col-md-6 col-xl-6">
                                   <div class="form-group local-forms">
-                                      <label>Referido por<span class="login-danger">*</span></label>
+                                      <label>Referido por</label>
                                       <input
                                       formControlName="tipoParentesco" class="form-control custom-input-height" type="text">
                                   </div>
                               </div>
                               <div class="col-12 col-md-6 col-xl-6 ">
                                   <div class="form-group local-forms">
-                                      <label>Observacion <span class="login-danger">*</span></label>
+                                      <label>Observacion </label>
                                       <input
                                       [(ngModel)]="pacienteData!.observacion"
                                       formControlName="observacion" class="form-control custom-input-height" type="text">

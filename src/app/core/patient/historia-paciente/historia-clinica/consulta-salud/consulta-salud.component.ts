@@ -80,7 +80,7 @@ export class ConsultaSaludComponent implements OnInit {
               console.log(this.consultaPaciente)
 
 
-              this.pacienteConsultaId = data.data[1].pacienteConsultaId;
+              this.pacienteConsultaId = data.data[0].pacienteConsultaId;
 
               this.form.patchValue({
                 pacienteConsultaId:   data.data[0].pacienteConsultaId,

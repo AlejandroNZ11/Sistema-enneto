@@ -518,7 +518,7 @@ export class DataService {
               base: routes.alergiasCat,
             },
             {
-              menuValue: 'Tipo Citado',
+              menuValue: 'Estado Cita',
               route: routes.tipoCitadoCat,
               base: routes.tipoCitadoCat,
             },

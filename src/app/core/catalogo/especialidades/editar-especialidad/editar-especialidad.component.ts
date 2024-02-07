@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Iespecialidad } from 'src/app/shared/models/especialidades';
 import { routes } from 'src/app/shared/routes/routes';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-especialidad.component.scss']
 })
 export class EditarEspecialidadComponent implements OnInit {
+  especialidadEditada$: Subject<boolean> = new Subject<boolean>();
   especialidad!: Iespecialidad;
   especialidadSeleccionada ?:string;
   public routes = routes;
@@ -49,6 +51,7 @@ export class EditarEspecialidadComponent implements OnInit {
 
   Cancelar() {
     this.bsModalRef.hide();
+    this.especialidadEditada$.next(false);
   }
 
   guardarEspecialidad() {
@@ -68,6 +71,7 @@ export class EditarEspecialidadComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.especialidadEditada$.next(true);
         } else {
           console.error(response.message);
         }

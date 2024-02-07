@@ -97,7 +97,7 @@ export class AgregarTarifarioComponent implements OnInit {
   
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
-    return control?.invalid && control?.touched;
+    return control?.invalid && (control?.touched || control?.dirty);
   }
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);

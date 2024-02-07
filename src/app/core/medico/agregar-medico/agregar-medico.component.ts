@@ -43,6 +43,7 @@ export class AgregarMedicoComponent implements OnInit {
     });
     this.tipoDocService.obtenerTiposDocumento(environment.clinicaId, 1, 100).subscribe((data: DataTipoDocumento) => {
       this.tipoDoc_LISTA = data.data;
+
     });
     this.isFormSubmitted = false;
     let getCheckedSexo = null
@@ -76,6 +77,13 @@ export class AgregarMedicoComponent implements OnInit {
   estado_LISTA = [
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
+  ]
+  tipoDocumento_LISTA = [
+    { name: 'Documento Nacional de Identidad', value: '01' },
+    { name: 'RUC', value: '06' },
+    { name: 'PASAPORTE', value: '07' },
+    { name: 'CARNET EXTRANJERIA', value: '04' },
+    { name: 'OTROS', value: '00' },
   ]
 
   obtenerCliente() {

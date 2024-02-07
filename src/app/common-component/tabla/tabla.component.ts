@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, } from '@angular/material/table';
 import { pageSelection } from 'src/app/shared/models/models';
 import { Accion, PageSize, Paginacion, classIcon } from 'src/app/shared/models/tabla-columna';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-tabla',
@@ -36,7 +35,7 @@ export class TablaComponent implements OnInit {
     this.totalData = data;
   }
   @Input() set data(data: any) {
-    this.isLoading = true; 
+    this.isLoading = true;
     this.dataSource = data;
     this.dataFiltro = new MatTableDataSource<any>(data);
     this.calculateTotalPages(this.totalData, this.pageSize);
@@ -65,7 +64,34 @@ export class TablaComponent implements OnInit {
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
-
+  getBgColor(data: any, activo: boolean): string {
+    if (data.color) {
+      return data.color;
+    } else {
+      if (activo) {
+        return '#00d3c71a';
+      } else { return '#e5f3fe'; }
+    }
+  }
+  getTextColor(data: any, activo: boolean): string {
+    if (data.color) {
+      return this.darkenColor(data.color, 0.5);
+    } else {
+      if (activo) {
+        return '#00d3c7';
+      } else { return '##008cff'; }
+    }
+  }
+  darkenColor(hex: string, amount: number): string {
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    r = Math.round(r * (1 - amount));
+    g = Math.round(g * (1 - amount));
+    b = Math.round(b * (1 - amount));
+    const result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+    return result;
+  }
   refreshData() {
     this.isLoading = true;
     setTimeout(() => {
@@ -96,7 +122,7 @@ export class TablaComponent implements OnInit {
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    for (var i = 1; i <= this.totalPages; i++) {
+    for (let i = 1; i <= this.totalPages; i++) {
       const limit = pageSize * i;
       const skip = limit - pageSize;
       this.pageNumberArray.push(i);
@@ -140,7 +166,6 @@ export class TablaComponent implements OnInit {
   getIcon(accion: string): string {
     return classIcon(accion);
   }
-  constructor() { }
 
   ngOnInit(): void {
     this.MoreData.emit({ page: this.currentPage, size: this.pageSize, skip: this.skip, limit: this.limit });

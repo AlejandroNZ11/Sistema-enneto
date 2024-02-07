@@ -115,11 +115,14 @@ export class EditPatientComponent implements OnInit {
           this.pacienteEditar = paciente;
           this.imagenTempFoto = this.pacienteEditar.foto;
           this.sexoPaciente = this.pacienteEditar.sexo;
-          if (this.pacienteEditar.estado == "A") {
-            this.estadoPaciente = 1
-          } else {
+          if (this.pacienteEditar.estado == "I") {
             this.estadoPaciente = 0
+          } else if(this.pacienteEditar.estado == "A"){
+           this.estadoPaciente = 1
+          }else{
+            this.estadoPaciente = parseInt(this.pacienteEditar.estado) ;
           }
+
           switch (this.pacienteEditar.tipoDocumentoId) {
             case '01': this.tipoDocumento = 'DNI'; break;
             case '06': this.tipoDocumento = 'RUC'; break;
@@ -327,7 +330,7 @@ export class EditPatientComponent implements OnInit {
     formData.append('EstadoCivilId', this.pacienteEditar.estadoCivilId);
     formData.append('Sexo', this.pacienteEditar.sexo);
     formData.append('InformacionClinicaId', this.pacienteEditar.informacionClinicaId);
-    formData.append('NombreContacto', this.pacienteEditar.contactoEmergencia);
+    if (this.pacienteEditar.contactoEmergencia) {formData.append('NombreContacto', this.pacienteEditar.contactoEmergencia);}
     formData.append('TipoHistoria', this.pacienteEditar.tipoHistoria);
     formData.append('SedeId', this.sedeId);
     formData.append('ClinicaId', this.pacienteEditar.clinicaId);

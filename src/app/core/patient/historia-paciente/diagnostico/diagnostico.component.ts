@@ -85,7 +85,7 @@ export class DiagnosticoComponent implements OnInit{
         // Filtrar solo los valores necesarios y crear instancias de DiagnosticoDTO
       const diagnosticoDTO: DiagnosticoDTO = {
         pacienteDiagnosticoId: data.data[this.mySkip].pacienteDiagnosticoId,
-        diagnostico:'null',
+        diagnostico:this.getDiagnostico(data.data[this.mySkip].enfermedadId),
         // diagnostico: this.getDiagnostico(data.data[index].codigoEnfermedad),
 
         fecha: this.formatoFecha(data.data[this.mySkip].fecha),
@@ -104,7 +104,6 @@ export class DiagnosticoComponent implements OnInit{
   }
 
   getDiagnostico(codEnfermendadId:string):string{
-    console.log(this.enfermedadList)
     console.log(codEnfermendadId)
     return this.enfermedadList.find(enfermedad => enfermedad.enfermedadId === codEnfermendadId)!.descripcion || '';
   }

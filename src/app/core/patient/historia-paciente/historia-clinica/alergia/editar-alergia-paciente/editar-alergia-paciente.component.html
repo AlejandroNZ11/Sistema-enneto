@@ -15,7 +15,7 @@
                             <div class="form-group local-forms">
                                 <label>Alergia <span class="login-danger">*</span></label>
                                 <mat-select
-                                [(ngModel)]="alergiaSeleccionada"
+                                [(ngModel)]="pacienteAlergiaId"
                                 class="form-control select" placeholder="Seleccione Alergia" >
                                   <mat-option *ngFor="let data of ListAlergias" [value]="data.alergiaId">
                                     {{ data.nombre }}
@@ -50,4 +50,4 @@
   </div>
 </div>
 
-{{ alergiaSeleccionada }}
+

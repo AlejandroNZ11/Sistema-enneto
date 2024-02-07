@@ -1,25 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { finalize } from 'rxjs';
 import { DataService } from 'src/app/shared/data/data.service';
-import { pageSelection, apiResultFormat, exponsesreport } from 'src/app/shared/models/models';
+import { DataControlCitaMedica, IcontrolCitaMedica } from 'src/app/shared/models/cita';
+import { pageSelection, } from 'src/app/shared/models/models';
+import { PacienteList } from 'src/app/shared/models/paciente';
+import { ItipoCitado } from 'src/app/shared/models/tipoCitado';
+import { InternalSucursal } from 'src/app/shared/models/user-logged/internal/internal-sucursal';
 import { routes } from 'src/app/shared/routes/routes';
-interface data {
-  value: string ;
-}
+import { CitaService } from 'src/app/shared/services/cita.service';
+import { PacienteService } from 'src/app/shared/services/paciente.service';
+import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
+import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
+
 @Component({
   selector: 'app-control',
   templateUrl: './control.component.html',
   styleUrls: ['./control.component.scss']
 })
-export class ControlComponent implements OnInit{
+export class ControlComponent implements OnInit {
   public routes = routes;
-  public selectedValue !: string  ;
-  public expenseReports: Array<exponsesreport> = [];
-  dataSource!: MatTableDataSource<exponsesreport>;
-
+  public citasList: Array<IcontrolCitaMedica> = [];
+  dataSource!: MatTableDataSource<IcontrolCitaMedica>;
   public showFilter = false;
-  public searchDataValue = '';
   public lastIndex = 0;
   public pageSize = 10;
   public totalData = 0;
@@ -31,46 +37,78 @@ export class ControlComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-  constructor(public data : DataService){
-
+  @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
+  pacienteSeleccionado!: string;
+  listPacientesFiltrados!: PacienteList[]
+  listPacientes!: PacienteList[];
+  sedes!: InternalSucursal[];
+  historiaSeleccionada = 'todos';
+  sedeSeleccionada = 'todos';
+  listEstados!: ItipoCitado[];
+  estadoSeleccionado = 'todos';
+  fechaInicio = new Date();
+  fechaFin = new Date();
+  isLoading = false;
+  mostrarOpciones = false;
+  constructor(public data: DataService, public pacienteService: PacienteService, public userService: UserLoggedService, public tipoCitadoService: TipoCitadoService, public citaMedicaService: CitaService) { }
+  buscarPacientes() {
+    const searchInput = this.multiPacienteSearchInput.nativeElement.value
+      ? this.multiPacienteSearchInput.nativeElement.value.toLowerCase()
+      : '';
+    this.mostrarOpciones = searchInput.length >= 3;
+    if (this.mostrarOpciones) {
+      if (!this.listPacientesFiltrados) {
+        this.listPacientesFiltrados = [...this.listPacientes];
+      }
+      this.listPacientes = this.listPacientesFiltrados.filter((paciente) => {
+        const nombres = paciente.nombres.toLowerCase();
+        const apellidos = paciente.apellidos.toLowerCase();
+        if (!searchInput) {
+          return true;
+        }
+        return nombres.includes(searchInput) || apellidos.includes(searchInput);
+      });
+    }
   }
   ngOnInit() {
-    this.getTableData();
+    this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
+    this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstados = data; })
+    this.sedes = this.userService.sucursales;
   }
-  private getTableData(): void {
-    this.expenseReports = [];
-    this.serialNumberArray = [];
 
-    this.data.getExpenseReports().subscribe((data: apiResultFormat) => {
+  obtenerCitasMedicas() {
+    this.citasList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    const inicio = this.fechaInicio.toISOString().split('T')[0]
+    const fin = this.fechaFin.toISOString().split('T')[0]
+    this.citaMedicaService.obtenerControlCitasMedicas(this.currentPage, this.pageSize, inicio, fin, this.sedeSeleccionada, this.estadoSeleccionado, this.historiaSeleccionada, this.pacienteSeleccionado).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataControlCitaMedica) => {
       this.totalData = data.totalData;
-      data.data.map((res: exponsesreport, index: number) => {
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
-          
-          this.expenseReports.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<exponsesreport>(this.expenseReports);
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.citasList = data.data;
+      this.dataSource = new MatTableDataSource<IcontrolCitaMedica>(this.citasList);
       this.calculateTotalPages(this.totalData, this.pageSize);
-    });
+    })
   }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.expenseReports = this.dataSource.filteredData;
+
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
   }
+
 
   public sortData(sort: Sort) {
-    const data = this.expenseReports.slice();
-
+    const data = this.citasList.slice();
     if (!sort.active || sort.direction === '') {
-      this.expenseReports = data;
+      this.citasList = data;
     } else {
-      this.expenseReports = data.sort((a, b) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.citasList = data.sort((a, b) => {
         const aValue = (a as any)[sort.active];
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
         return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
       });
@@ -83,13 +121,13 @@ export class ControlComponent implements OnInit{
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerCitasMedicas();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerCitasMedicas();
     }
   }
 
@@ -102,7 +140,7 @@ export class ControlComponent implements OnInit{
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.getTableData();
+    this.obtenerCitasMedicas();
   }
 
   public PageSize(): void {
@@ -110,7 +148,7 @@ export class ControlComponent implements OnInit{
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.getTableData();
+    this.obtenerCitasMedicas();
   }
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
@@ -119,18 +157,11 @@ export class ControlComponent implements OnInit{
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
+    for (let i = 1; i <= this.totalPages; i++) {
       const limit = pageSize * i;
       const skip = limit - pageSize;
       this.pageNumberArray.push(i);
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
-  selectedList: data[] = [
-    {value: 'Select Purchase by'},
-    {value: 'Bernardo James'},
-    {value: 'Galaviz Lalema'},
-    {value: 'Tarah Williams'},
-  ];
 }

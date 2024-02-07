@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,7 +15,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-tipo-citado.component.scss']
 })
 export class AgregarTipoCitadoComponent implements OnInit{
-
+  citadoAgregada$: Subject<boolean> = new Subject<boolean>();
   tipoCitado: tipoCitado = new tipoCitado();
   public routes = routes;
   form!: FormGroup;
@@ -25,6 +26,7 @@ export class AgregarTipoCitadoComponent implements OnInit{
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
+      color: ['', Validators.required],
     });
   }
 
@@ -38,6 +40,7 @@ export class AgregarTipoCitadoComponent implements OnInit{
   }
   Cancelar() {
     this.bsModalRef.hide()
+    this.citadoAgregada$.next(false);
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
@@ -50,12 +53,13 @@ export class AgregarTipoCitadoComponent implements OnInit{
       return;
     }
     this.tipoCitado.nombre = this.form.get("descripcion")?.value;
-    console.log(this.tipoCitado);
+    this.tipoCitado.color = this.form.get("color")?.value;
     this.service.crearTipoCitado(this.tipoCitado).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.citadoAgregada$.next(true);
         }else{
           console.error(response.message);
         }

@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { IApoderado } from 'src/app/shared/models/apoderado';
 import { routes } from 'src/app/shared/routes/routes';
 import { ApoderadoService } from 'src/app/shared/services/apoderado.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,9 +16,11 @@ export class EditarApoderadoComponent implements OnInit {
   apoderado: IApoderado | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   apoderadoSeleccionado: any;
+  apoderadoEditada$: Subject<boolean> = new Subject<boolean>();
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
+  public maxLengthDocumento = 8;
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -50,6 +53,28 @@ export class EditarApoderadoComponent implements OnInit {
       this.form.get('tipoDocumento')?.setValue(this.mapTipoDocumento(this.apoderado.tipoDocumento));
     });
   }
+
+  setupDocumentValidation() {
+    this.form.get('tipoDocumento')?.valueChanges.subscribe(tipoDocumento => {
+      const documentoControl = this.form.get('documento');
+      if (!documentoControl) return;
+  
+      documentoControl.clearValidators();
+      documentoControl.setValidators([Validators.required]);
+  
+      if (tipoDocumento === '01') {
+        documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      } else if (tipoDocumento === '02') {
+        documentoControl.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11)]);
+      } else if (tipoDocumento === '03') {
+        documentoControl.setValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
+      } else if (tipoDocumento === '04') {
+        documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+      }
+  
+      documentoControl.updateValueAndValidity();
+    });
+  }
   
   mapTipoDocumento(tipoDocumento: number): string {
     switch (tipoDocumento) {
@@ -60,6 +85,13 @@ export class EditarApoderadoComponent implements OnInit {
       case 5: return '05';
   
       default: return '';
+    }
+  }
+
+  soloNumeros(event: KeyboardEvent): void {
+    const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
     }
   }
 
@@ -75,6 +107,7 @@ export class EditarApoderadoComponent implements OnInit {
 
   Cancelar() {
     this.bsModalRef.hide();
+    this.apoderadoEditada$.next(false);
   }
 
   guardarApoderado() {
@@ -97,6 +130,7 @@ export class EditarApoderadoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.apoderadoEditada$.next(true);
         } else {
           console.error(response.message);
         }

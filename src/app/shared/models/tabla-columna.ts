@@ -30,6 +30,7 @@ import { HistoriaDiagnosticoResponse } from "./historiaDiagnostico";
 import { EvolucionPacienteResponse } from "./evolucionPaciente";
 import { PagoResponce } from "./pagos";
 import { inventarioResponse } from "./inventario";
+import { tipoCitado, tipoCitadoResponse } from "./tipoCitado";
 
 export interface Accion<T = any> {
   accion: string;
@@ -81,6 +82,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Categoria': clase = new categoriaResponse();break;
     case 'Pago': clase = new PagoResponce();break;
     case 'Inventario': clase = new inventarioResponse();break;
+    case 'EstadoCita': clase = new tipoCitadoResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
@@ -89,7 +91,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
 }
 
 export const classIcon = (accion: string): string => {
-  let clase: string = '';
+  let clase = '';
   switch(accion){
     case 'Editar': clase = 'fa-solid fa-pen-to-square m-r-5'; break;
     case 'Eliminar': clase = 'fa fa-trash-alt m-r-5'; break;

@@ -37,7 +37,6 @@ export class TipoPagoComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('TipoPago');
     this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
   }
 
   refreshData() {

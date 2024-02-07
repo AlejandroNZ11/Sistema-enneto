@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { DataClientes, IClientes, clientes } from 'src/app/shared/models/clientes';
 import { routes } from 'src/app/shared/routes/routes';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { PacienteRequest } from 'src/app/shared/models/paciente';
 
@@ -14,7 +15,7 @@ import { PacienteRequest } from 'src/app/shared/models/paciente';
   styleUrls: ['./agregar-cliente.component.scss']
 })
 export class AgregarClienteComponent implements OnInit {
-
+  clientesAgregada$: Subject<boolean> = new Subject<boolean>();
   Cliente: clientes = new clientes();
   public routes = routes;
   form!: FormGroup;
@@ -48,6 +49,7 @@ export class AgregarClienteComponent implements OnInit {
   }
   Cancelar() {
     this.bsModalRef.hide()
+    this.clientesAgregada$.next(false);
   }
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
@@ -72,6 +74,7 @@ export class AgregarClienteComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.clientesAgregada$.next(true);
         } else {
           console.error(response.message);
         }

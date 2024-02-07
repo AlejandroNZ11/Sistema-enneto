@@ -57,11 +57,12 @@ export class DiagnosticoComponent {
 
   crearDiagnostico() {
     this.bsModalRef = this.modalService.show(CrearDiagnosticoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.diagnosticoAgregado$.subscribe((diagnosticoAgregado: boolean) => {
+      if (diagnosticoAgregado) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
-
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
