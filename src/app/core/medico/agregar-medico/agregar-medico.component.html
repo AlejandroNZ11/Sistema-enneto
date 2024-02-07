@@ -31,8 +31,8 @@
                                             class="form-control select" placeholder="Seleccione Tipo de Documento"
                                             [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarCantidad()">
-                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.descripcion">
-                                                {{data.descripcion}}
+                                            <mat-option *ngFor="let data of tipoDocumento_LISTA" [value]="data.value">
+                                                {{data.name}}
                                             </mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted"

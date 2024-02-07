@@ -83,7 +83,9 @@ export class ExploracionFisicaComponent implements OnInit{
       console.log("Exploracion del Paciente")
       this.pacienteExploracion = data.data[0];
       console.log(this.pacienteExploracion)
-      this.pacienteExploracionId = data.data[0].pacienteExploracionId
+
+      if(data.data[0]){
+        this.pacienteExploracionId = data.data[0].pacienteExploracionId
 
       this.form.patchValue({
         pacienteExploracionId: data.data[0].pacienteExploracionId,
@@ -104,6 +106,8 @@ export class ExploracionFisicaComponent implements OnInit{
       if(data.data){
         this.flag=1;
       }
+      }
+
     });
  }
 

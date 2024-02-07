@@ -9,7 +9,9 @@ import { DataPacienteAlergia, IPacienteAlergia } from 'src/app/shared/models/pac
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AgregarAlergiaPacienteComponent } from './agregar-alergia-paciente/agregar-alergia-paciente.component';
 import { EditarAlergiaPacienteComponent } from './editar-alergia-paciente/editar-alergia-paciente.component';
-
+import { environment } from 'src/environments/environments';
+import { MatTableDataSource } from '@angular/material/table';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-alergia',
   templateUrl: './alergia.component.html',
@@ -29,8 +31,9 @@ export class AlergiaComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public citasList: Array<IcitaMedica> = [];
-
+  dataSource!: MatTableDataSource<IPacienteAlergia>;
   pacienteAlergiasList: Array<IPacienteAlergia> = [];
+  public totalPages = 0;
 
   isLoading = false;
   pacienteId = "";
@@ -47,11 +50,12 @@ export class AlergiaComponent implements OnInit{
 
     this.sharedService.setPacienteId(this.pacienteId);
 
-    this.obtenerConsultaPaciente();
+    this.getTableData();
   }
 
-  obtenerConsultaPaciente(){
-    this.pacienteAlergiaService.obtenerPacienteExploracion(this.pacienteId)
+  getTableData(){
+    this.isLoading = true;
+    this.pacienteAlergiaService.obtenerPacienteAlergiaList(this.pacienteId, environment.clinicaId, this.currentPage,this.pageSize)
     .pipe(
             finalize(() => this.isLoading = false)
           )
@@ -72,6 +76,10 @@ export class AlergiaComponent implements OnInit{
             console.log(this.pacienteAlergiasList)
 
 
+            this.dataSource = new MatTableDataSource<IPacienteAlergia>(this.pacienteAlergiasList);
+            this.calculateTotalPages(this.totalData, this.pageSize);
+
+
           });
   }
 
@@ -79,12 +87,29 @@ export class AlergiaComponent implements OnInit{
     this.bsModalRef = this.modalService.show(AgregarAlergiaPacienteComponent)
   }
 
-  editarAlmacen(alergiaId: string) {
-    const initialState = {
-    alergiaSeleccionada: alergiaId
-    };
+  editar(pacienteAlergia: IPacienteAlergia) {
+
+    const initialState ={
+      pacienteAlergiaId : pacienteAlergia.pacienteAlergiaId,
+      observacion:pacienteAlergia.observacion,
+      alergiaId:pacienteAlergia.alergiaId
+
+    }
+
     this.bsModalRef = this.modalService.show(EditarAlergiaPacienteComponent, { initialState});
 
+}
+
+public moveToPage(pageNumber: number): void {
+  this.currentPage = pageNumber;
+  this.skip = this.pageSelection[pageNumber - 1].skip;
+  this.limit = this.pageSelection[pageNumber - 1].limit;
+  if (pageNumber > this.currentPage) {
+    this.pageIndex = pageNumber - 1;
+  } else if (pageNumber < this.currentPage) {
+    this.pageIndex = pageNumber + 1;
+  }
+  this.getTableData();
 }
 
   public getMoreData(event: string): void {
@@ -93,26 +118,59 @@ export class AlergiaComponent implements OnInit{
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerConsultaPaciente();
+      this.getTableData();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerConsultaPaciente();
+      this.getTableData();
+
     }
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
+  private calculateTotalPages(totalData: number, pageSize: number): void {
+    this.pageNumberArray = [];
+    this.totalPages = totalData / pageSize;
+    if (this.totalPages % 1 != 0) {
+      this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    this.obtenerConsultaPaciente();
+    /* eslint no-var: off */
+    for (var i = 1; i <= this.totalPages; i++) {
+      var limit = pageSize * i;
+      var skip = limit - pageSize;
+      this.pageNumberArray.push(i);
+      this.pageSelection.push({ skip: skip, limit: limit });
+    }
   }
+
+  eliminar(pacienteAlergiaId: string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pacienteAlergiaService.eliminarPacienteAlergia(pacienteAlergiaId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
+  }
+
+
 
 }

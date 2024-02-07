@@ -113,8 +113,8 @@
                     <td>{{data.numeroDocumento}}</td>
                     <td>{{data.direccion}}</td>
                     <td>{{formatoFecha(data.fechaRegistro)}}</td>
-                    <td><button class="custom-badge status-green " *ngIf="data.estado=='A'">Activo</button>
-                      <button class="custom-badge status-blue " *ngIf="data.estado=='I'">Inactivo</button>
+                    <td><button class="custom-badge status-green " *ngIf="data.estado=='A' || data.estado== '1'">Activo</button>
+                      <button class="custom-badge status-blue " *ngIf="data.estado=='I' || data.estado== '0'">Inactivo</button>
                     </td>
                     <td class="text-end">
                       <div class="dropdown dropdown-action">

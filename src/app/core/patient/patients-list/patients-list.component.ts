@@ -66,6 +66,7 @@ export class PatientsListComponent implements OnInit {
           this.serialNumberArray.push(serialNumber);
         }
         this.patientsList = data.data;
+        console.log(this.patientsList);
         this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
         this.calculateTotalPages(this.totalData, this.pageSize);
 

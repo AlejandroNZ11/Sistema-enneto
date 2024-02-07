@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Enfermedad } from 'src/app/shared/models/enfermedad';
 import { IHistoriaDagnostico } from 'src/app/shared/models/historiaDiagnostico';
@@ -29,7 +29,7 @@ export class EditarDiagnosticoPacienteComponent implements OnInit{
   constructor(public bsModalRef: BsModalRef, public fb: FormBuilder , public enfermedadService:EnfermedadService, public historiaDiagnosticoService: HistoriaDiagnosticoService, public sharedService:SharedService){
 
     this.form = this.fb.group({
-      fecha: ['', Validators.required],
+      fecha: ['', [Validators.required, this.fechaNacimientoValidator()]],
       enfermedadId: ['', Validators.required],
     });
   }
@@ -57,9 +57,37 @@ export class EditarDiagnosticoPacienteComponent implements OnInit{
       control.markAsTouched();
     });
   }
+  isInvalid(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.touched;
+  }
+  isRequerido(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.errors && control.errors['required'];
+  }
+
+  isFechaNacimientoMayorActual() {
+    return this.form.get('fecha')?.hasError('fechaMayorActual');
+  }
+
+  fechaNacimientoValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const fechaNacimiento = control.value;
+      if (!fechaNacimiento) {
+        return null;
+      }
+      const fechaNacimientoDate = new Date(fechaNacimiento);
+      const fechaActual = new Date();
+      if (fechaNacimientoDate > fechaActual) {
+        return { 'fechaMayorActual': true };
+      }
+      return null;
+    };
+  }
 
   editarCategoriaPaciente(){
     if (this.form.invalid) {
+      this.isFormSubmitted = true;
       this.isTouched()
       return;
     }

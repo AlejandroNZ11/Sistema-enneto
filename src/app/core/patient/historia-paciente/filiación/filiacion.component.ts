@@ -31,6 +31,7 @@ import { MiniSidebarComponent } from '../mini-sidebar/mini-sidebar.component';
 import { SharedService } from '../services/shared-service.service';
 import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
 import Swal from 'sweetalert2';
+import { ValidatorsPatientService } from '../../services/validators-patient.service';
 
 @Component({
   selector: 'app-filiacion',
@@ -38,7 +39,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./filiacion.component.scss']
 })
 export class FiliacionComponent implements OnInit {
-  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService, public citaService: CitaService, public tipoCitadoService: TipoCitadoService, public especialidadService: EspecialidadesService , private medicoService: MedicoService, private sharedService: SharedService, public user: UserLoggedService) { }
+  constructor(public formBuilder: FormBuilder,private route: ActivatedRoute , public pacienteService: PacienteService, public ubicacionService: UbicacionService, public estadoCivilService: EstadoCivilService, public gradoInstService: GradoInstruccionService, public citaService: CitaService, public tipoCitadoService: TipoCitadoService, public especialidadService: EspecialidadesService , private medicoService: MedicoService, private sharedService: SharedService, public user: UserLoggedService, public validatorPatientService: ValidatorsPatientService) { }
 
 
 
@@ -134,7 +135,7 @@ export class FiliacionComponent implements OnInit {
       // estado: ['', [Validators.required]],
       nroDocumento:[{ value: '', disabled: true },[Validators.required]],
       contactoEmergencia:['',[Validators.maxLength(100)]],
-      telefonoParentesco:['',[Validators.maxLength(9)]],
+      telefonoParentesco:['',[Validators.maxLength(9), Validators.minLength(9)]],
       domicilioParentesco:['',[Validators.maxLength(100)]],
       tipoParentesco:['',[Validators.maxLength(9)]],
     })
@@ -245,6 +246,10 @@ export class FiliacionComponent implements OnInit {
         this.distritos = data;
       });
     })
+  }
+
+  soloNumeros(event:Event){
+    this.validatorPatientService.soloNumeros(event);
   }
 
 
@@ -370,7 +375,7 @@ actualizarEdad() {
     }
     this.isFormSubmitted = false;
     this.pacienteData.clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
-    if (this.form.get("sexo")!.value == "Masculino") {
+    if (this.form.get("sexo")!.value == "M") {
       this.pacienteData.sexo = 'M'
     } else {
       this.pacienteData.sexo = 'F'
@@ -390,7 +395,7 @@ actualizarEdad() {
     formData.append('Nombres', this.pacienteData.nombres);
     formData.append('FechaNacimiento', this.pacienteData.fechaNacimiento.toString().split('T')[0]);
     formData.append('Edad', this.pacienteData.edad);
-    formData.append('Ocupacion', this.pacienteData.ocupacion);
+    if (this.pacienteData.ocupacion)  {formData.append('Ocupacion', this.pacienteData.ocupacion);}
     formData.append('Direccion', this.pacienteData.direccion);
     formData.append('EstudioId', this.pacienteData.estudioId);
     formData.append('PaisId', this.pacienteData.paisId.toString());
@@ -400,17 +405,17 @@ actualizarEdad() {
     formData.append('EstadoCivilId', this.pacienteData.estadoCivilId);
     formData.append('Sexo', this.pacienteData.sexo);
     formData.append('InformacionClinicaId', this.pacienteData.informacionClinicaId);
-    formData.append('NombreContacto', this.pacienteData.contactoEmergencia);
+    if (this.pacienteData.contactoEmergencia)  {formData.append('contactoEmergencia', this.pacienteData.contactoEmergencia);}
     formData.append('TipoHistoria', this.pacienteData.tipoHistoria);
     formData.append('SedeId', this.sedeId);
     formData.append('ClinicaId', this.pacienteData.clinicaId);
     formData.append('UsuarioId', this.pacienteData.usuarioId);
     formData.append('Estado', this.pacienteData.estado);
 
-    formData.append('observacion',this.pacienteData.observacion);
-    formData.append('telefonoParentesco',this.pacienteData.telefonoParentesco);
-    formData.append('domicilioParentesco',this.pacienteData.domicilioParentesco);
-    formData.append('tipoParentesco',this.pacienteData.tipoParentesco)
+    if (this.pacienteData.observacion)  {formData.append('observacion',this.pacienteData.observacion);}
+    if (this.pacienteData.telefonoParentesco)  {formData.append('telefonoParentesco',this.pacienteData.telefonoParentesco);}
+    if (this.pacienteData.domicilioParentesco)  { formData.append('domicilioParentesco',this.pacienteData.domicilioParentesco);}
+    if (this.pacienteData.tipoParentesco) {formData.append('tipoParentesco',this.pacienteData.tipoParentesco)}
 
     console.log('FormData:', this.formDataToJson(formData));
     this.pacienteService.actualizarPaciente(formData, this.pacienteData.pacienteId).subscribe(
