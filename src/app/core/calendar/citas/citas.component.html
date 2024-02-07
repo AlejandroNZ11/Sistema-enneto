@@ -19,7 +19,7 @@
                             <label for="buscarPor">Especialidad</label>
                             <mat-select [(ngModel)]="especialidadSeleccionada" (ngModelChange)="obtenerCitasMedicas()"
                                 class="form-control select">
-                                <mat-option value="TODOS"> Todos </mat-option>
+                                <mat-option value="todos"> Todos </mat-option>
                                 <mat-option *ngFor="let especialidad of listEspecialidades"
                                     [value]="especialidad.especialidadId">
                                     {{especialidad.nombre}}
@@ -32,7 +32,7 @@
                             <label for="buscarPor">Estado</label>
                             <mat-select [(ngModel)]="estadoSeleccionado" (ngModelChange)="obtenerCitasMedicas()"
                                 class="form-control select">
-                                <mat-option value="TODOS"> Todos </mat-option>
+                                <mat-option value="todos"> Todos </mat-option>
                                 <mat-option *ngFor="let estado of listEstados" [value]="estado.tipoCitadoId">
                                     {{estado.nombre}}
                                 </mat-option>
@@ -46,12 +46,13 @@
                                 (ngModelChange)="obtenerCitasMedicas()" placeholder="Seleccione un Paciente">
                                 <input type="text" class="form-control buscar" autocomplete="off" #multiUserSearch
                                     matInput placeholder="Ingrese Apellidos o Nombres" (input)="buscarPacientes()">
-                                <mat-option [value]=null> TODOS </mat-option>
-                                <mat-option *ngFor="let paciente of listPacientes" [value]="paciente.pacienteId">
-                                    {{paciente.nombres}} {{paciente.apellidos}}
-                                </mat-option>
+                                <mat-option value="todos"> Todos </mat-option>
+                                <ng-container *ngIf="mostrarOpciones">
+                                    <mat-option *ngFor="let paciente of listPacientes" [value]="paciente.pacienteId">
+                                        {{paciente.nombres}} {{paciente.apellidos}}
+                                    </mat-option>
+                                </ng-container>
                             </mat-select>
-
                         </div>
                     </div>
                     <div class="col-lg-2">
@@ -79,8 +80,7 @@
                         <div class="card-box mb-0">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="full-cal" id="calendar">
-                                        <!-- Incorpora el componente FullCalendar aquí -->
+                                    <div class="full-cal capitalize" id="calendar">
                                         <full-calendar [options]="options" [events]="events"></full-calendar>
                                     </div>
                                 </div>

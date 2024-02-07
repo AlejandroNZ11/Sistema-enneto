@@ -8,6 +8,7 @@ import { IApoderado, DataApoderado, Apoderado } from 'src/app/shared/models/apod
 import { AgregarApoderadoComponent } from './agregar-apoderado/agregar-apoderado.component';
 import { EditarApoderadoComponent } from './editar-apoderado/editar-apoderado.component';
 import { environment as env } from 'src/environments/environments';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -78,9 +79,11 @@ export class ApoderadoComponent implements OnInit {
 
   crearApoderado() {
     this.bsModalRef = this.modalService.show(AgregarApoderadoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.apoderadoAgregada$.subscribe((apoderadoAgregada: boolean) => {
+      if (apoderadoAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
 
   editarApoderado(apoderado: IApoderado) {
@@ -88,9 +91,16 @@ export class ApoderadoComponent implements OnInit {
       apoderadoSeleccionado: apoderado.apoderadoId
     };
     this.bsModalRef = this.modalService.show(EditarApoderadoComponent, { initialState });
-    this.bsModalRef.onHidden?.subscribe(() => {
+    const apoderadoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.apoderadoEditada$ = apoderadoEditada$;
+    apoderadoEditada$.subscribe((apoderadoEditada: boolean) => {
+      if (apoderadoEditada) {
       this.getTableData(this.currentPage, this.pageSize);
-    });
+    }
+  });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      apoderadoEditada$.unsubscribe();   
+  });
   }
 
   eliminarApoderado(apoderadoId: string) {

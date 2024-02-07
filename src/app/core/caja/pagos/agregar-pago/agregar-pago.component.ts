@@ -68,10 +68,10 @@ export class AgregarPagoComponent {
       return;
     }
     this.Pago.numeroPago = this.form.get("numeroPago")?.value;
-    this.Pago.estadoPago = 1
     this.Pago.fechaRegistro = this.form.get("fechaRegistro")?.value;
     this.Pago.fechaVencimiento = this.form.get("fechaVencimiento")?.value;
     this.Pago.monto = this.form.get("monto")?.value;
+    this.Pago.estadoPago = 1
     console.log(this.Pago);
     this.pagosService.crearPago(this.Pago).subscribe(
       (response) => {

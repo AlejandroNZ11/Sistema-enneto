@@ -8,7 +8,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-heading">
-                                    <h4>Editar Tipo Citado</h4>
+                                    <h4>Editar Estado Cita</h4>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-12">
@@ -24,7 +24,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Color <span class="login-danger">*</span></label>
+                                    <input formControlName="color" class="form-control" type="color"
+                                        [ngClass]="{'is-invalid': isInvalid('color')}">
+                                    <div *ngIf="isInvalid('color') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('color')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
                                     <mat-select class="form-control select" placeholder="Activo" [disabled]="true">

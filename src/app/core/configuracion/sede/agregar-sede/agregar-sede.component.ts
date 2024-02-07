@@ -9,6 +9,7 @@ import { Iprovincia } from 'src/app/shared/models/provincia';
 import { Idistrito } from 'src/app/shared/models/distrito';
 import { UbicacionService } from 'src/app/shared/services/ubicacion.service';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-sede',
@@ -16,7 +17,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-sede.component.scss']
 })
 export class AgregarSedeComponent implements OnInit{
-  
+  sedeAgregada$: Subject<boolean> = new Subject<boolean>();
   Sede: sede = new sede();
   public routes = routes;
   
@@ -76,6 +77,7 @@ export class AgregarSedeComponent implements OnInit{
     return control?.errors && control.errors['required'];
   }
   Cancelar() {
+    this.sedeAgregada$.next(false);
     this.bsModalRef.hide()
   }
   isTouched() {
@@ -100,6 +102,7 @@ export class AgregarSedeComponent implements OnInit{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.sedeAgregada$.next(true);
         }else{
           console.error(response.message);
         }

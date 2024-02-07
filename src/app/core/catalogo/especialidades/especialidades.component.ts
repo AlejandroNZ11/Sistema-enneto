@@ -8,6 +8,7 @@ import { EditarEspecialidadComponent } from './editar-especialidad/editar-especi
 import { DataEspecialidad, Iespecialidad, especialidad } from 'src/app/shared/models/especialidades';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
@@ -71,19 +72,29 @@ export class EspecialidadesComponent implements OnInit {
 
   crearEspecialidad() {
     this.bsModalRef = this.modalService.show(AgregarEspecialidadComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.especialidadAgregada$.subscribe((especialidadAgregada: boolean) => {
+      if (especialidadAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
   editarEspecialidad(especialidad: Iespecialidad) {
     const initialState = {
       especialidadSeleccionada: especialidad.especialidadId
     };
     this.bsModalRef = this.modalService.show(EditarEspecialidadComponent, { initialState });
-    this.bsModalRef.onHidden?.subscribe(() => {
+    const especialidadEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.especialidadEditada$ = especialidadEditada$;
+    especialidadEditada$.subscribe((especialidadEditada: boolean) => {
+      if (especialidadEditada) {
       this.getTableData(this.currentPage, this.pageSize);
-    });
+    }
+  });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      especialidadEditada$.unsubscribe();   
+  });
   }
+
   eliminarEspecialidad(especialidadId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

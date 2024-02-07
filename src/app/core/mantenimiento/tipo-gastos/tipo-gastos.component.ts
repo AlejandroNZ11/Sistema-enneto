@@ -29,6 +29,7 @@ export class TipoGastosComponent implements OnInit {
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
+  
 
   constructor(private modalService: BsModalService, public tipoGastosService: TipoGastosService) {
   }
@@ -36,7 +37,6 @@ export class TipoGastosComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('ConceptoGasto');
     this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
   }
 
   refreshData() {
@@ -47,7 +47,7 @@ export class TipoGastosComponent implements OnInit {
     this.ListConceptoGasto = [];
     this.serialNumberArray = [];
     this.tipoGastosService.obtenerConceptoGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataConceptoGasto) => {
-      this.totalData = data.totalData;
+      this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
@@ -56,6 +56,7 @@ export class TipoGastosComponent implements OnInit {
       this.dataSource = new MatTableDataSource<IConceptoGasto>(this.ListConceptoGasto);
     });
   }
+
 
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
@@ -76,14 +77,16 @@ export class TipoGastosComponent implements OnInit {
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-
+/////
   crearConceptoGasto() {
     this.bsModalRef = this.modalService.show(AgregarTipoGastosComponent);
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+    this.bsModalRef.content.tipoConceptoAgregado$.subscribe((tipoConceptoAgregado: boolean) => {
+      if (tipoConceptoAgregado) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
     });
   }
-
+/////
   editarConceptoGasto(conceptoGasto: IConceptoGasto) {
     const initialState = {
       conceptoGastoSeleccionado: conceptoGasto
@@ -93,6 +96,7 @@ export class TipoGastosComponent implements OnInit {
       this.getTableData(this.currentPage, this.pageSize);
     });
   }
+
 
   eliminarConceptoGasto(conceptoGastoId: string) {
     Swal.fire({
