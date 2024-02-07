@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { DiagnosticoService } from 'src/app/shared/services/diagnostico.service';
 import { diagnostico } from 'src/app/shared/models/diagnostico';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-crear-diagnostico',
@@ -13,6 +14,7 @@ import { diagnostico } from 'src/app/shared/models/diagnostico';
 })
 export class CrearDiagnosticoComponent {
   
+  diagnosticoAgregado$: Subject<boolean> = new Subject<boolean>();
   Diagnostico: diagnostico = new diagnostico();
   public routes = routes;
   form!: FormGroup;
