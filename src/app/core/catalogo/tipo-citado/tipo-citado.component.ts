@@ -10,6 +10,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { DataTipoCitado, ItipoCitado, tipoCitado } from 'src/app/shared/models/tipoCitado';
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { Accion, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 
 @Component({
   selector: 'app-tipo-citado',
@@ -19,6 +20,8 @@ import Swal from 'sweetalert2';
 export class TipoCitadoComponent implements OnInit{
   public routes = routes;
   public ListTipoCitados: Array<ItipoCitado> = [];
+  columnas: string[] = []
+  acciones: string[] = []
   tipoCitadoSeleccionado: tipoCitado = new tipoCitado();
   dataSource!: MatTableDataSource<ItipoCitado>;
   public showFilter = false;
@@ -38,12 +41,13 @@ export class TipoCitadoComponent implements OnInit{
   constructor(private modalService: BsModalService, public tipoCitadoService: TipoCitadoService) {
   }
   ngOnInit() {
-    this.getTableData();
+    this.columnas = getEntityPropiedades('EstadoCita');
+    this.acciones = ['Editar', 'Eliminar'];
   }
-  private getTableData(): void {
+  private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoCitados = [];
     this.serialNumberArray = [];
-    this.tipoCitadoService.obtenerTiposCitados(env.clinicaId,this.currentPage, this.pageSize).subscribe((data: DataTipoCitado) => {
+    this.tipoCitadoService.obtenerTiposCitados(env.clinicaId,currentPage, pageSize).subscribe((data: DataTipoCitado) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -51,63 +55,27 @@ export class TipoCitadoComponent implements OnInit{
       }
       this.ListTipoCitados = data.data;
       this.dataSource = new MatTableDataSource<ItipoCitado>(this.ListTipoCitados);
-      this.calculateTotalPages(this.totalData, this.pageSize);
     });
   }
-  public searchData(value: any): void {
-    this.dataSource.filter = value.trim().toLowerCase();
-    this.ListTipoCitados = this.dataSource.filteredData;
-  }
-  public sortData(sort: Sort) {
-    const data = this.ListTipoCitados.slice();
-
-    if (!sort.active || sort.direction === '') {
-      this.ListTipoCitados = data;
-    } else {
-      this.ListTipoCitados = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
-  }
-  public getMoreData(event: string): void {
-    if (event == 'next') {
-      this.currentPage++;
-      this.pageIndex = this.currentPage - 1;
-      this.limit += this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
-    } else if (event == 'previous') {
-      this.currentPage--;
-      this.pageIndex = this.currentPage - 1;
-      this.limit -= this.pageSize;
-      this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+  onAction(accion: Accion) {
+    if (accion.accion == 'Crear') {
+      this.crearTipoCitado();
+    } else if (accion.accion == 'Editar') {
+      this.editarTipoCitado(accion.fila)
+    } else if (accion.accion == 'Eliminar') {
+      this.eliminarTipoCitado(accion.fila.tipoConceptoId)
     }
   }
 
-  public moveToPage(pageNumber: number): void {
-    this.currentPage = pageNumber;
-    this.skip = this.pageSelection[pageNumber - 1].skip;
-    this.limit = this.pageSelection[pageNumber - 1].limit;
-    if (pageNumber > this.currentPage) {
-      this.pageIndex = pageNumber - 1;
-    } else if (pageNumber < this.currentPage) {
-      this.pageIndex = pageNumber + 1;
-    }
-    this.getTableData();
-  }
 
-  public PageSize(): void {
-    this.pageSelection = [];
-    this.limit = this.pageSize;
-    this.skip = 0;
-    this.currentPage = 1;
-    this.getTableData();
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
   }
+  
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
@@ -126,14 +94,14 @@ export class TipoCitadoComponent implements OnInit{
   crearTipoCitado() {
     this.bsModalRef = this.modalService.show(AgregarTipoCitadoComponent),
       this.bsModalRef.onHidden?.subscribe(() => {
-        this.getTableData();
+        this.getTableData(this.currentPage, this.pageSize);
       });
   }
   editarTipoCitado(tipoCitado: ItipoCitado) {
     this.bsModalRef = this.modalService.show(EditarTipoCitadoComponent);
-    this.bsModalRef.content.especialidadSeleccionada = tipoCitado.tipoCitadoId;
+    this.bsModalRef.content.tipoCitadoSeleccionado = tipoCitado.tipoCitadoId;
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData();
+      this.getTableData(this.currentPage, this.pageSize);
     });
   }
   eliminarTipoCitado(tipoCitadoId: string) {
@@ -147,8 +115,8 @@ export class TipoCitadoComponent implements OnInit{
         this.tipoCitadoService.eliminarTipoCitado(tipoCitadoId).subscribe(
           (response: { isSuccess: any; message: any; }) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo Citado Eliminado en el sistema correctamente.', 'success');
-              this.getTableData();
+              Swal.fire('Correcto', 'Estado Cita Eliminado en el sistema correctamente.', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);

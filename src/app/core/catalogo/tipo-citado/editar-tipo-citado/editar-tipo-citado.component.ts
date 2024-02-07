@@ -11,17 +11,23 @@ import Swal from 'sweetalert2';
   templateUrl: './editar-tipo-citado.component.html',
   styleUrls: ['./editar-tipo-citado.component.scss']
 })
-export class EditarTipoCitadoComponent implements OnInit{
-  tipoCitadoSeleccionado ?: string;
+export class EditarTipoCitadoComponent implements OnInit {
+  tipoCitadoSeleccionado!: string;
   tipoCitado!: ItipoCitado;
   public routes = routes;
   form: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
-  constructor(public bsModalRef: BsModalRef,private service: TipoCitadoService,
+  ngOnInit(): void { 
+    this.service.obtenerTipoCitadoById(this.tipoCitadoSeleccionado).subscribe((data)=>{
+      this.tipoCitado = data;
+      this.form.patchValue(data);
+    })
+  }
+  constructor(public bsModalRef: BsModalRef, private service: TipoCitadoService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
+      color: ['', Validators.required],
     });
   }
   isInvalid(controlName: string) {
@@ -38,19 +44,18 @@ export class EditarTipoCitadoComponent implements OnInit{
   guardarTipoCitado() {
     if (this.form.invalid) {
       this.mostrarErrores = true;
-      //Swal.fire('Error', 'Complete todos los campos requeridos (*)', 'warning');
       return;
     }
     this.service.actualizarTipoCitado(this.tipoCitado).subscribe(
-      (response)=>{
-        if(response.isSuccess){
+      (response) => {
+        if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
-        }else{
+        } else {
           console.error(response.message);
         }
       },
-      (error)=>{
+      (error) => {
         console.error(error);
       });
   }

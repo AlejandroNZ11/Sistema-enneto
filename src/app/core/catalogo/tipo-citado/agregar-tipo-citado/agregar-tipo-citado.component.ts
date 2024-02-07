@@ -25,6 +25,7 @@ export class AgregarTipoCitadoComponent implements OnInit{
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
+      color: ['', Validators.required],
     });
   }
 
@@ -50,7 +51,7 @@ export class AgregarTipoCitadoComponent implements OnInit{
       return;
     }
     this.tipoCitado.nombre = this.form.get("descripcion")?.value;
-    console.log(this.tipoCitado);
+    this.tipoCitado.color = this.form.get("color")?.value;
     this.service.crearTipoCitado(this.tipoCitado).subscribe(
       (response)=>{
         if(response.isSuccess){

@@ -50,7 +50,7 @@
                       <div class="top-nav-search table-search-blk">
                         <mat-select [(ngModel)]="tipoPaciente" class="form-control select"
                           placeholder="Seleccione Tipo Paciente">
-                          <mat-option value="--TODOS--">--TODOS--</mat-option>
+                          <mat-option value="Todos">Todos</mat-option>
                           <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
                             {{data.nombre}}
                           </mat-option>
@@ -60,7 +60,7 @@
                       <div class="add-group">
                         <a [routerLink]="routes.addPatient" class="btn btn-primary add-pluss ms-2"><img
                             src="assets/img/icons/plus.svg" alt=""></a>
-                        <a (click)="obtenerDatosPacientesConFiltro()" href="javascript:;"
+                        <a (click)="obtenerDatosPacientes()" href="javascript:;"
                           class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg"
                             alt=""></a>
                         <a (click)="modalCumpleanios()" href="javascript:;"
@@ -143,60 +143,36 @@
                 <div class="col-sm-12 col-md-7">
                   <div class="pagination_section">
                     <ul class="pagination">
-                      <li class="page-item" [ngClass]="{
-                                          disabled: currentPage === 1
-                                        }">
+                      <li class="page-item" [ngClass]="{ disabled: currentPage === 1}">
                         <a (click)="getMoreData('previous')" class="page-link" href="javascript:void(0);"
-                          tabindex="-1">Previous</a>
+                          tabindex="-1">Anterior</a>
                       </li>
-
                       <ng-container *ngFor="let item of pageNumberArray; let i = index">
                         <li class="page-item" [class.active]="item === currentPage" [ngClass]="
-                                            (pageNumberArray[currentPage - 2] > item &&
-                                              item !== 1 &&
-                                              pageNumberArray.length > 6) ||
-                                            (pageNumberArray[currentPage] < item &&
-                                              item !== 1 &&
-                                              pageNumberArray.length > 6 &&
-                                              pageNumberArray.length !== item)
-                                              ? 'hide-page-no'
-                                              : 'show-page-no'
-                                          ">
+                         (pageNumberArray[currentPage - 2] > item && item !== 1 && pageNumberArray.length > 6) ||
+                         (pageNumberArray[currentPage] < item && item !== 1 && pageNumberArray.length > 6 &&
+                          pageNumberArray.length !== item) ? 'hide-page-no' : 'show-page-no' ">
                           <a (click)="moveToPage(item)" class="page-link" href="javascript:void(0);">
                             {{ item }}
                           </a>
                         </li>
-                        <li class="page-item" *ngIf="
-                                            i === 0 &&
-                                            pageNumberArray.length > 6 &&
-                                            currentPage > 2
-                                          " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                        <li class="page-item" *ngIf=" i === 0 && pageNumberArray.length > 6 && currentPage > 2"
+                          [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
                           <a class="page-link" href="javascript:void(0);">
                             ...
                           </a>
                         </li>
-                        <li *ngIf="
-                                            i === pageNumberArray.length - 2 &&
-                                            pageNumberArray.length > 6
-                                          " [hidden]="
-                                            currentPage >=
-                                              pageNumberArray[pageNumberArray.length - 2] ||
-                                            totalData <
-                                              serialNumberArray[serialNumberArray.length - 1]
-                                          " class="page-item" (click)="moveToPage(currentPage + 2)">
+                        <li *ngIf=" i === pageNumberArray.length - 2 && pageNumberArray.length > 6" [hidden]="currentPage >=pageNumberArray[pageNumberArray.length - 2] ||totalData <
+                        serialNumberArray[serialNumberArray.length - 1]" class="page-item"
+                          (click)="moveToPage(currentPage + 2)">
                           <a class="page-link" href="javascript:void(0);">
                             ...
                           </a>
                         </li>
                       </ng-container>
-
-                      <li class="page-item" [ngClass]="{
-                                          disabled:
-                                            currentPage ===
-                                              pageNumberArray[pageNumberArray.length - 1] ||
-                                              patientsList.length === 0
-                                        }">
-                        <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
+                      <li class="page-item" [ngClass]="{ disabled: currentPage === pageNumberArray[pageNumberArray.length - 1] 
+                      || patientsList.length === 0 }">
+                        <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Siguiente
                         </a>
                       </li>
                     </ul>

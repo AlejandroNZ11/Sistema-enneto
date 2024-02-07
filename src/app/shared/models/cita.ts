@@ -1,60 +1,76 @@
 
 export class citaMedica {
-    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
-    usuarioId = "";
-    pacienteId = "";
-    medicoId = "";
-    especialidadId = "";
-    sedeId = "";
-    motivoConsulta = "";
-    tipoCitadoId = "";
-    fecha = "";
-    observacion = "";
-    estado = "";
-    horaInicio = "";
-    horaFin = "";
+  clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  usuarioId = "";
+  pacienteId = "";
+  medicoId = "";
+  especialidadId = "";
+  sedeId = "";
+  motivoConsulta = "";
+  tipoCitadoId = "";
+  fecha = "";
+  observacion = "";
+  estado = "";
+  horaInicio = "";
+  horaFin = "";
 }
 export interface DataCitaMedica {
-    totalData: number;
-    data: IcitaMedica[];
+  totalData: number;
+  data: IcitaMedica[];
 }
 export interface IcitaMedica {
-    citaMedicaId: string;
-    pacienteId: string;
-    medicoId: string;
-    especialidadId: string;
-    sedeId: string;
-    motivoConsulta: string;
-    tipoCitadoId: string;
-    fecha: string;
-    observacion: string;
-    estado: string;
-    horaInicio: string;
-    horaFin: string;
-    clinicaId: string;
-    usuarioId: string;
+  citaMedicaId: string;
+  pacienteId: string;
+  medicoId: string;
+  especialidadId: string;
+  sedeId: string;
+  motivoConsulta: string;
+  tipoCitadoId: string;
+  fecha: string;
+  observacion: string;
+  estado: string;
+  horaInicio: string;
+  horaFin: string;
+  clinicaId: string;
+  usuarioId: string;
+}
+
+export interface DataControlCitaMedica {
+  totalData: number;
+  data: IcontrolCitaMedica[];
+}
+export interface IcontrolCitaMedica {
+  citaMedicaId: string;
+  secuencia: number;
+  fecha: string;
+  horaInicio: string;
+  horaFin: string;
+  paciente: string;
+  telefono: string;
+  medico: string;
+  estadoCita:string;
+  historia:string;
+  informacion:string;
 }
 
 export interface IcitaMedicaCalendario {
-    citas: citasCalendario[],
-    medicos: medicosCalendario[]
+  citas: citasCalendario[],
+  medicos: medicosCalendario[]
 }
-
 export interface citasCalendario {
-    id: string;
-    start: Date;
-    end: Date;
-    title: string;
-    backgroundColor: string;
-    borderColor: string;
-    medicoId: string;
+  id: string;
+  start: Date;
+  end: Date;
+  title: string;
+  backgroundColor: string;
+  borderColor: string;
+  medicoId: string;
 }
-
 export interface medicosCalendario {
-    medicoId: string;
-    apellidos: string;
-    nombres: string;
-    color: string;
+  medicoId: string;
+  apellidos: string;
+  nombres: string;
+  color: string;
 }
 
 
