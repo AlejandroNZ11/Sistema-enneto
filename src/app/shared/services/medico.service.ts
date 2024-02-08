@@ -29,7 +29,7 @@ export class MedicoService {
     return this.http.get<MedicoListData>(url);
   }
   listaMedicos(especialidad?: string): Observable<MedicoList[]> {
-    if (especialidad == 'TODOS') {
+    if (especialidad === 'todos') {
       const url = `${this.apiUrl}/Medicos/GetMedicoList`;
       return this.http.get<MedicoList[]>(url);
     } else {

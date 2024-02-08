@@ -27,7 +27,7 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                        <mat-select formControlName="tipoDocumento" [(ngModel)]="tipoDocumento"
+                                        <mat-select formControlName="tipoDocumento" [(ngModel)]="doctor.TipoDocumento"
                                             class="form-control select" placeholder="Seleccione Tipo de Documento"
                                             [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarCantidad()">

@@ -84,24 +84,25 @@
                                         </mat-select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
+                                <div class="col-12 col-md-6 col-xl-2 d-flex">
+                                    <div class="form-group local-forms historia">
                                         <label>Historia</label>
                                         <mat-select [(ngModel)]="historiaSeleccionada" class="form-control select"
                                             placeholder="Seleccione una Historia"
                                             (ngModelChange)="obtenerCitasMedicas()">
-                                            <mat-option value="todos"> Todos </mat-option>
+                                            <mat-option value="todos">Todos</mat-option>
                                             <mat-option value='A'>Antiguo</mat-option>
                                             <mat-option value='N'>Nuevo</mat-option>
                                         </mat-select>
                                     </div>
+                                    <a href="javascript:;" class="mx-2 mt-2"><img src="assets/img/icons/pdf-icon-04.svg"
+                                            alt=""></a>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="isLoading" class="spinner-container">
-                            <div class="custom-spinner"></div>
-                        </div>
-                        <div *ngIf="!isLoading" class="table-responsive">
+
+                        <div class="table-responsive">
+
                             <table matSort (matSortChange)="sortData($event)"
                                 class="table border-0 custom-table comman-table datatable mb-0">
                                 <thead>
@@ -112,43 +113,34 @@
                                         <th mat-sort-header="horaFin">Hora Fin</th>
                                         <th mat-sort-header="paciente">Paciente</th>
                                         <th mat-sort-header="telefono">Teléfono</th>
-                                        <th mat-sort-header="medico">Medico</th>
+                                        <th mat-sort-header="medico">Médico</th>
                                         <th mat-sort-header="estadoCita">Estado Cita</th>
                                         <th mat-sort-header="historia">Historia</th>
-                                        <th mat-sort-header="informacion">Informacion</th>
+                                        <th mat-sort-header="informacion">Información</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <div *ngIf="isLoading" class="spinner-container">
+                                    <div class="custom-spinner"></div>
+                                </div>
+                                <tbody *ngIf="!isLoading">
                                     <tr *ngFor="let cita of citasList">
                                         <td>{{cita.secuencia}}</td>
                                         <td>{{formatoFecha(cita.fecha)}}</td>
-                                        <td>{{cita.horaInicio}}</td>
-                                        <td>{{cita.horaFin}}</td>
-                                        <td>{{cita.paciente}}</td>
+                                        <td>{{formatoHora(cita.horaInicio)}}</td>
+                                        <td>{{formatoHora(cita.horaFin)}}</td>
+                                        <td>{{cita.nombrePaciente}} {{cita.apellidoPaciente}}</td>
                                         <td>{{cita.telefono}}</td>
-                                        <td>{{cita.medico}}</td>
-                                        <td>{{cita.estadoCita}}</td>
+                                        <td>{{cita.nombreMedico}} {{cita.apellidoMedico}}</td>
+                                        <td><button class="custom-badge"
+                                                [style.color]="lightenOrDarkenColor(cita.color)"
+                                                [style.backgroundColor]="cita.color">{{cita.estadoCita}}</button>
+                                        </td>
                                         <td><button class="custom-badge status-yellow "
-                                                *ngIf="cita.historia=== 'A'">Antigua</button>
+                                                *ngIf="cita.historia === 'A'">Antigua</button>
                                             <button class="custom-badge status-green "
-                                                *ngIf="cita.historia=== 'N'">Nueva</button>
+                                                *ngIf="cita.historia === 'N'">Nueva</button>
                                         </td>
                                         <td>{{cita.informacion}}</td>
-                                        <td>
-                                            <div class="dropdown action-label">
-                                                <a [ngClass]="{'status-green': cita.estadoCita === 'Approved', 'status-orange' : cita.estadoCita === 'Pending','status-pink' : cita.estadoCita === 'Rejected','status-purple' : cita.estadoCita === 'New' }"
-                                                    class="custom-badge  dropdown-toggle" href="javascript:void(0);"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{cita.estadoCita}}
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end status-staff">
-                                                    <a class="dropdown-item" href="javascript:;">New</a>
-                                                    <a class="dropdown-item" href="javascript:;">Pending</a>
-                                                    <a class="dropdown-item" href="javascript:;">Approved</a>
-                                                    <a class="dropdown-item" href="javascript:;">Rejected</a>
-                                                </div>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

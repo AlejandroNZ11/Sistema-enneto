@@ -18,7 +18,7 @@
                                             [(ngModel)]="citaNueva.especialidadId" (ngModelChange)="actualizarMedicos()"
                                             class="form-control select" placeholder="Seleccione Especialidad"
                                             [ngClass]="{'is-invalid': isInvalid('especialidad') && isFormSubmitted}">
-                                            <mat-option value="TODOS"> TODOS </mat-option>
+                                            <mat-option value="todos"> TODOS </mat-option>
                                             <mat-option *ngFor="let especialidad of listEspecialidadesCitas"
                                                 [value]="especialidad.especialidadId">
                                                 {{especialidad.nombre}}
