@@ -40,6 +40,10 @@ export class TipoDocumentoComponent implements OnInit {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoDocumento = [];
     this.serialNumberArray = [];
@@ -100,7 +104,7 @@ export class TipoDocumentoComponent implements OnInit {
         this.tipoDocumentoService.eliminarTipoDocumento(tipoDocumentoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo de Documento eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', 'Tipo de Documento eliminado con éxito.', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
