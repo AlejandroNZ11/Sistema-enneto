@@ -21,7 +21,7 @@ export class TipoDocumentoService {
   crearTipoDocumento(tipoDocumento: TipoDocumento): Observable<successResponse> {
     return this.http.post<successResponse>(`${this.apiUrl}/TiposDocumentos/SaveTipoDocumento`, tipoDocumento).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        Swal.fire('Error', error.error, 'warning')
         return throwError(() => error);
       })
     );

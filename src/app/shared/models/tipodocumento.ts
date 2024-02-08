@@ -1,8 +1,7 @@
 export class TipoDocumento {
-    clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+    clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6'
     usuarioId = "";
-    descripcion = "";
-    abreviatura = "";
+    tipoComprobanteId = "";
     serie = "";
     inicio = "";
     fin = "";
@@ -16,8 +15,9 @@ export interface DataTipoDocumento {
 
 export interface ITipoDocumento {
     tipoDocumentoId: string;
+    tipoComprobanteId: string;
+    tipoComprobanteNombre: string;
     descripcion: string;
-    abreviatura: string;
     serie: string;
     inicio: string;
     fin: string;
@@ -25,10 +25,8 @@ export interface ITipoDocumento {
     estado: string;
 }
 
-
 export class tipoDocumentoResponse {
-    descripcion = "";
-    abreviatura = "";
+    tipoComprobanteNombre = "";
     serie = "";
     inicio = "";
     fin = "";

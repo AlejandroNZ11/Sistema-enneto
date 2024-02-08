@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
   templateUrl: './agregar-documento.component.html',
   styleUrls: ['./agregar-documento.component.scss']
 })
+
 export class AgregarDocumentoComponent  {
   public routes = routes;
   Documento: TipoDocumento = new TipoDocumento();
@@ -20,8 +21,7 @@ export class AgregarDocumentoComponent  {
   constructor(public bsModalRef: BsModalRef, private tipoDocumentoService: TipoDocumentoService,
     public fb: FormBuilder) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
-      abreviatura: ['', Validators.required],
+      tipoComprobanteId : ['', Validators.required],
       serie: ['', Validators.required],
       inicio: ['', Validators.required],
       fin: ['', Validators.required],
@@ -55,8 +55,7 @@ export class AgregarDocumentoComponent  {
       return;
     }
 
-    this.Documento.descripcion = this.form.get("descripcion")?.value;
-    this.Documento.abreviatura = this.form.get("abreviatura")?.value;
+    this.Documento.tipoComprobanteId = this.form.get("tipoComprobanteId")?.value;
     this.Documento.serie = this.form.get("serie")?.value;
     this.Documento.inicio = this.form.get("inicio")?.value;
     this.Documento.fin = this.form.get("fin")?.value;
