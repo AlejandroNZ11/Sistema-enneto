@@ -150,8 +150,6 @@ export class CitasComponent implements OnInit {
         }
         return nombres.includes(searchInput) || apellidos.includes(searchInput);
       });
-    } else {
-      this.listPacientes = [...this.listPacientesFiltrados];
     }
   }
   isInvalid(controlName: string) {

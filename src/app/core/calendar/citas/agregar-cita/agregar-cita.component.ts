@@ -48,13 +48,14 @@ export class AgregarCitaComponent implements OnInit {
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService) { }
   ngOnInit(): void {
-    this.citaNueva.especialidadId = 'TODOS'
     this.inicializarFechas();
     this.inicializarFormulario();
     this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
+    this.citaNueva.especialidadId = 'todos'
+    this.actualizarMedicos();
   }
   inicializarFechas() {
     const fechaCita = new Date(this.fechaInicio);

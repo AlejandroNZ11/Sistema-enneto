@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { IApoderado } from 'src/app/shared/models/apoderado';
@@ -25,7 +25,8 @@ export class EditarApoderadoComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private apoderadoService: ApoderadoService,
-    public fb: FormBuilder
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
@@ -50,6 +51,7 @@ export class EditarApoderadoComponent implements OnInit {
       });
   
       console.log('Tipo de Documento:', this.apoderado.tipoDocumento);
+      this.setupDocumentValidation(); 
       this.form.get('tipoDocumento')?.setValue(this.mapTipoDocumento(this.apoderado.tipoDocumento));
     });
   }
@@ -64,18 +66,26 @@ export class EditarApoderadoComponent implements OnInit {
   
       if (tipoDocumento === '01') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+        this.maxLengthDocumento = 8;
       } else if (tipoDocumento === '02') {
         documentoControl.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11)]);
+        this.maxLengthDocumento = 11;
       } else if (tipoDocumento === '03') {
         documentoControl.setValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
+        this.maxLengthDocumento = 9;
       } else if (tipoDocumento === '04') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+        this.maxLengthDocumento = 8;
+      } else if (tipoDocumento === '05') {
+        documentoControl.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
+        this.maxLengthDocumento = 12;
       }
   
+  
       documentoControl.updateValueAndValidity();
+      this.cdr.detectChanges();
     });
   }
-  
   mapTipoDocumento(tipoDocumento: number): string {
     switch (tipoDocumento) {
       case 1: return '01';

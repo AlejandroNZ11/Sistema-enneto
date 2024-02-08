@@ -20,8 +20,7 @@ export class EditarDocumentoComponent implements OnInit {
 
   constructor(public bsModalRef: BsModalRef, private tipoDocumentoService: TipoDocumentoService, public fb: FormBuilder) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
-      abreviatura: ['', Validators.required],
+      tipoComprobanteId: ['', Validators.required],
       serie: ['', Validators.required],
       inicio: ['', Validators.required],
       fin: ['', Validators.required],
@@ -32,17 +31,25 @@ export class EditarDocumentoComponent implements OnInit {
 
   ngOnInit() {
     this.tipoDocumentoService.obtenerTipoDocumento(this.documentoSeleccionado!).subscribe(documento => {
+      console.log('Documento obtenido:', documento)
+
       this.documento = documento;
       this.form.patchValue({
-        descripcion: this.documento.descripcion,
-        abreviatura: this.documento.abreviatura,
+        tipoComprobanteId: this.documento.tipoComprobanteId,
+        tipoComprobanteNombre: this.documento.tipoComprobanteNombre, 
         serie: this.documento.serie,
         inicio: this.documento.inicio,
         fin: this.documento.fin,
         correlativoActual: this.documento.correlativoActual,
         estado: this.documento.estado == '1' ? 'Activo' : 'Inactivo',
+
+  gettipoComprobanteId(tipoComprobanteId: string):string{
+    return this["documento"].find((tipoComprobanteId: { tipoComprobanteNombre: any; }) => tipoComprobanteId.tipoComprobanteNombre === tipoComprobanteId)!.nombre || '';
+  }
       });
-    })
+    },
+    error=>{console.error('Error al obtener el documento:', error);
+      });
   }
 
   isInvalid(controlName: string) {
@@ -66,8 +73,9 @@ export class EditarDocumentoComponent implements OnInit {
     }
     const documentoActualizado: ITipoDocumento = {
       tipoDocumentoId: this.documento.tipoDocumentoId,
+      tipoComprobanteNombre: this.form.value.tipoComprobanteNombre,
+      tipoComprobanteId: this.form.value.tipoComprobanteId,
       descripcion: this.form.value.descripcion,
-      abreviatura: this.form.value.abreviatura,
       serie: this.form.value.serie,
       inicio: this.form.value.inicio,
       fin: this.form.value.fin,

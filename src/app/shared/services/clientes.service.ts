@@ -10,13 +10,13 @@ import { DataClientes, IClientes, clientes } from '../models/clientes';
 })
 export class ClientesService {
     apiUrl = environment.apiURL;
-    constructor(public http: HttpClient,) { }
+    constructor(public http: HttpClient,) {}
 
     obtenerClientes(clinicaId: string, page: number, rows: number): Observable<DataClientes> {
         return this.http.get<DataClientes>(this.apiUrl + `/Clientes/GetAllCliente?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
     crearClientes(clientes: clientes): Observable<successResponse> {
-        return this.http.post<successResponse>(this.apiUrl + '/Clientes/SaveCliente', clientes).pipe(
+        return this.http.post<successResponse>(this.apiUrl + `/Clientes/SaveCliente`, clientes).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');
                 return throwError(() => error);

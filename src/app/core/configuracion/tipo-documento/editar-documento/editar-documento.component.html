@@ -10,16 +10,16 @@
                                     <h4>Editar Documento</h4>
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
-                                    <label>Descripción <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
-                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('descripcion')">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
+                                    <label>Tipo de comprobante <span class="login-danger">*</span></label>
+                                    <select class="form-control form-select" formControlName="tipoComprobanteId">
+                                        <option value="01">Factura</option>
+                                        <option value="03">Boleta</option>
+                                        <option value="07">Nota de crédito</option>
+                                        <option value="33">Nota de venta</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
@@ -31,18 +31,7 @@
                                     </mat-select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Abreviatura <span class="login-danger">*</span></label>
-                                    <input formControlName="abreviatura" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('abreviatura')}">
-                                    <div *ngIf="isInvalid('abreviatura') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('abreviatura')">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Serie <span class="login-danger">*</span></label>

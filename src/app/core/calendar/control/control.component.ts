@@ -100,6 +100,33 @@ export class ControlComponent implements OnInit {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}-${mes}-${anio}`;
   }
+  formatoHora(hora: string): string {
+    return hora.toString().split('T')[1]
+  }
+  lightenOrDarkenColor(hex: string) {
+/*     let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+    let result;
+    if (brightness > 0.5) {
+      r = Math.round(r * (1 - 0.4));
+      g = Math.round(g * (1 - 0.4));
+      b = Math.round(b * (1 - 0.4));
+      result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+    } else {
+      r = Math.round(r + (255 - r) * 0.75);
+      g = Math.round(g + (255 - g) * 0.75);
+      b = Math.round(b + (255 - b) * 0.75);
+      result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+    }
+    return result; */
+    return hex;
+  }
+
+  exportarExcel(){
+    
+  }
 
 
   public sortData(sort: Sort) {
