@@ -1,1 +1,151 @@
-<p>editar-inventario works!</p>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Inventario</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Codigo Barra <span class="login-danger">*</span></label>
+                                    <input formControlName="codigoBarra" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('codigoBarra')}">
+                                    <div *ngIf="isInvalid('codigoBarra') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('codigoBarra')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Nombre del Almacen <span class="login-danger">*</span></label>
+                                    <input formControlName="nombreAlmacen" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombreAlmacen')}">
+                                    <div *ngIf="isInvalid('nombreAlmacen') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombreAlmacen')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Tipo Inventario <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="tipoinventario" class="form-control select"
+                                        placeholder="Seleccione Tipo Inventario"
+                                        [ngClass]="{'is-invalid': isInvalid('tipoinventario') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of tipoinventario_LISTA" [value]="data.tipoinventarioId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('tipoinventario') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('tipoinventario')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Nombre del Producto <span class="login-danger">*</span></label>
+                                    <input formControlName="nombreProducto" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('nombreProducto')}">
+                                    <div *ngIf="isInvalid('nombreProducto') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombreProducto')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Unidad <span class="login-danger">*</span></label>
+                                    <input formControlName="unidad" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('unidad')}">
+                                    <div *ngIf="isInvalid('unidad') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('unidad')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Precio Entrada<span class="login-danger">*</span></label>
+                                    <input formControlName="precioEntrada" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('precioEntrada')}" (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('precioEntrada') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('precioEntrada')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Precio Salida<span class="login-danger">*</span></label>
+                                    <input formControlName="precioSalida" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('precioSalida')}" (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('precioSalida') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('precioSalida')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Stock<span class="login-danger">*</span></label>
+                                    <input formControlName="stock" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('stock')}" (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('stock') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('stock')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Fecha de Registro<span class="text-danger">*</span></label>
+                                    <input formControlName="fecha" class="form-control datetimepicker" type="text" matInput
+                                        [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                    <div *ngIf="isInvalid('fecha') || mostrarErrores" class="invalid-feedback">
+                                        Debe seleccionar una fecha válida.
+                                        <div *ngIf="isRequerido('fecha')|| mostrarErrores" class="invalid-feedback">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="guardarInventario()"
+                                class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
