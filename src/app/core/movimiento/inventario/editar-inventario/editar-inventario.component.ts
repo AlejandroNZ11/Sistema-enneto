@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { Itipoinventario } from 'src/app/shared/models/tipoInventario';
 import { TipoInventarioService } from 'src/app/shared/services/tipoInventario.service';
@@ -35,6 +35,7 @@ export class EditarInventarioComponent implements OnInit {
     public router: Router,
     public bsModalRef: BsModalRef,
     public tipoinventarioservice: TipoInventarioService, 
+    private renderer: Renderer2,
     
   ){
     this.form = this.formBuilder.group({
@@ -74,6 +75,14 @@ export class EditarInventarioComponent implements OnInit {
   }
 
 
+  validarInput(event: any) {
+    const inputValue = event.target.value;
+
+    if (isNaN(inputValue)) {
+      const newValue = inputValue.slice(0, -1);
+      this.renderer.setProperty(event.target, 'value', newValue);
+    }
+  }
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
