@@ -13,12 +13,12 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
-                                    <label>Descripcion <span class="login-danger">*</span></label>
-                                    <input formControlName="descripcion" [(ngModel)]="tipoCitadoSeleccionado"
+                                    <label>Nombre <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre"
                                         class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
-                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('descripcion')">
+                                        [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')">
                                             Debe completar el campo*
                                         </div>
                                     </div>

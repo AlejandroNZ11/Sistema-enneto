@@ -55,8 +55,8 @@ export class CitaService {
     }
     return this.http.get<IcitaMedicaCalendario>(url);
   }
-  obtenerControlCitasMedicas(page: number, rows: number,fechaInicio: string, fechaFin: string, sede?: string, estado?: string, historia?: string, paciente?: string): Observable<DataControlCitaMedica> {
-    let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+  obtenerControlCitasMedicas(page: number, rows: number, fechaInicio: string, fechaFin: string, sede?: string, estado?: string, historia?: string, paciente?: string): Observable<DataControlCitaMedica> {
+    let url = `${this.apiUrl}/CitasMedicas/GetControlCitaMedica?page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (sede != 'todos' && sede) {
       url += `&Sede=${sede}`;
     }

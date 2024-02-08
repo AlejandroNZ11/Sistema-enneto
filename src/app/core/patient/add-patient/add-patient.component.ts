@@ -115,20 +115,9 @@ export class AddPatientComponent implements OnInit {
     { name: 'Masculino', value: 'M', checked: false },
     { name: 'Femenino', value: 'F', checked: false },
   ]
-  historiaPaciente_LISTA = [
-    { name: 'ANTIGUO', value: 'A' },
-    { name: 'NUEVO', value: 'N' },
-  ]
   estado_LISTA = [
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
-  ]
-  tipoDocumento_LISTA = [
-    { name: 'Documento Nacional de Identidad', value: '01' },
-    { name: 'RUC', value: '06' },
-    { name: 'PASAPORTE', value: '07' },
-    { name: 'CARNET EXTRANJERIA', value: '04' },
-    { name: 'OTROS', value: '00' },
   ]
 
   actualizarProvincias() {

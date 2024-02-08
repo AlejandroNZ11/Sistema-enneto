@@ -18,7 +18,7 @@ import { Accion, Paginacion, getEntityPropiedades } from 'src/app/shared/models/
   templateUrl: './tipo-citado.component.html',
   styleUrls: ['./tipo-citado.component.scss']
 })
-export class TipoCitadoComponent implements OnInit{
+export class TipoCitadoComponent implements OnInit {
   public routes = routes;
   public ListTipoCitados: Array<ItipoCitado> = [];
   columnas: string[] = []
@@ -48,7 +48,7 @@ export class TipoCitadoComponent implements OnInit{
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoCitados = [];
     this.serialNumberArray = [];
-    this.tipoCitadoService.obtenerTiposCitados(env.clinicaId,currentPage, pageSize).subscribe((data: DataTipoCitado) => {
+    this.tipoCitadoService.obtenerTiposCitados(env.clinicaId, currentPage, pageSize).subscribe((data: DataTipoCitado) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -76,7 +76,7 @@ export class TipoCitadoComponent implements OnInit{
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-  
+
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
@@ -94,24 +94,28 @@ export class TipoCitadoComponent implements OnInit{
   }
   crearTipoCitado() {
     this.bsModalRef = this.modalService.show(AgregarTipoCitadoComponent),
-    this.bsModalRef.content.citadoAgregada$.subscribe((citadoAgregada: boolean) => {
-      if (citadoAgregada) {
+      this.bsModalRef.content.citadoAgregada$.subscribe((citadoAgregada: boolean) => {
+        if (citadoAgregada) {
+          this.getTableData(this.currentPage, this.pageSize);
+        }
+      });
+  }
+
+  editarTipoCitado(tipoCitado: ItipoCitado) {
+    const initialState = {
+      tipoCitadoSeleccionado: tipoCitado.tipoCitadoId
+    };
+    this.bsModalRef = this.modalService.show(EditarTipoCitadoComponent, { initialState });
+    const citadoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.citadoEditada$ = citadoEditada$;
+    citadoEditada$.subscribe((tipoCitadoEditado: boolean) => {
+      if (tipoCitadoEditado) {
         this.getTableData(this.currentPage, this.pageSize);
       }
     });
-  }
-  editarTipoCitado(tipoCitado: ItipoCitado) {
-    this.bsModalRef = this.modalService.show(EditarTipoCitadoComponent);
-    const citadoEditada$ = new Subject<boolean>();
-    this.bsModalRef.content.citadoEditada$ = citadoEditada$;
-    citadoEditada$.subscribe((citadoEditada: boolean) => {
-      if (citadoEditada) {
-      this.getTableData(this.currentPage, this.pageSize);
-    }
-  });
     this.bsModalRef.onHidden?.subscribe(() => {
-      citadoEditada$.unsubscribe();   
-  });
+      citadoEditada$.unsubscribe();
+    });
   }
 
   eliminarTipoCitado(tipoCitadoId: string) {
