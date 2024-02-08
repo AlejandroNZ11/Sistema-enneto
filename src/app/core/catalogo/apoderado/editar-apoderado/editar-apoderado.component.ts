@@ -1,11 +1,19 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { IApoderado } from 'src/app/shared/models/apoderado';
 import { routes } from 'src/app/shared/routes/routes';
 import { ApoderadoService } from 'src/app/shared/services/apoderado.service';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
+
+export function empiezaCon9Validator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const valido = control.value ? control.value.startsWith('9') : false;
+    return valido ? null : {empiezaCon9: {value: control.value}};
+  };
+}
 
 @Component({
   selector: 'app-editar-apoderado',
@@ -33,7 +41,7 @@ export class EditarApoderadoComponent implements OnInit {
       tipoDocumento: [null, Validators.required],
       documento: ['', Validators.required],
       direccion: ['', Validators.required],
-      telefono: ['', Validators.required],
+      telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/), empiezaCon9Validator()]],
       estado: ['', Validators.required],
     });
   }
