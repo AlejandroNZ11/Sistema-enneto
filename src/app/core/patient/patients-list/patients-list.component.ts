@@ -53,7 +53,7 @@ export class PatientsListComponent implements OnInit {
     this.obtenerDatosPacientes();
 
   }
-   obtenerDatosPacientes(): void {
+  obtenerDatosPacientes(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
     this.isLoading = true;
@@ -68,7 +68,6 @@ export class PatientsListComponent implements OnInit {
           this.serialNumberArray.push(serialNumber);
         }
         this.patientsList = data.data;
-        console.log(this.patientsList);
         this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
         this.calculateTotalPages(this.totalData, this.pageSize);
 

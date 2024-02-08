@@ -33,9 +33,11 @@
                                             placeholder="Seleccione Tipo de Documento"
                                             [ngClass]="{'is-invalid': isInvalid('tipoDocumentoId') && isFormSubmitted}"
                                             (ngModelChange)="actualizarCantidad()">
-                                            <mat-option *ngFor="let data of tipoDocumento_LISTA" [value]="data.value">
-                                                {{data.name}}
-                                            </mat-option>
+                                            <mat-option value="01">Documento Nacional de Identidad </mat-option>
+                                            <mat-option value="06">RUC</mat-option>
+                                            <mat-option value="07">PASAPORTE</mat-option>
+                                            <mat-option value="04">CARNET EXTRANJERIA </mat-option>
+                                            <mat-option value="00"> OTRO</mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoDocumentoId') && isFormSubmitted"
                                             class="invalid-feedback">
@@ -397,10 +399,8 @@
                                         <mat-select formControlName="tipoHistoria" [(ngModel)]="paciente.TipoHistoria"
                                             class="form-control select" placeholder="Seleccione una Opcion"
                                             [ngClass]="{'is-invalid': isInvalid('tipoHistoria') && isFormSubmitted}">
-                                            <mat-option *ngFor="let data of historiaPaciente_LISTA"
-                                                [value]="data.value">
-                                                {{data.name}}
-                                            </mat-option>
+                                            <mat-option value="A">ANTIGUO </mat-option>
+                                            <mat-option value="N">NUEVO</mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoHistoria') && isFormSubmitted"
                                             class="invalid-feedback">

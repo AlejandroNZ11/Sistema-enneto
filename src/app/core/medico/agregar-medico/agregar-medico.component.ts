@@ -78,13 +78,6 @@ export class AgregarMedicoComponent implements OnInit {
     { name: 'Activo', value: 1, checked: true },
     { name: 'Inactivo', value: 0, checked: false },
   ]
-  tipoDocumento_LISTA = [
-    { name: 'Documento Nacional de Identidad', value: '01' },
-    { name: 'RUC', value: '06' },
-    { name: 'PASAPORTE', value: '07' },
-    { name: 'CARNET EXTRANJERIA', value: '04' },
-    { name: 'OTROS', value: '00' },
-  ]
 
   obtenerCliente() {
     if (this.doctor.NumeroDocumento) {
@@ -110,10 +103,10 @@ export class AgregarMedicoComponent implements OnInit {
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
     let maxCaracteres = 0;
     switch (tipoDocumento) {
-      case 'Documento Nacional de Identidad':
+      case '01':
         maxCaracteres = 8;
         break;
-      case 'RUC':
+      case '06':
         maxCaracteres = 11;
         break;
       default:

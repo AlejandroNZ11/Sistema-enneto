@@ -38,7 +38,7 @@ export class EditarMedicoComponent implements OnInit {
   medicoId = "";
   medicoEditar!: MedicoEditar;
   sexoMedico!: string;
-  estadoMedico !:number;
+  estadoMedico !: number;
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -52,7 +52,7 @@ export class EditarMedicoComponent implements OnInit {
       fechaNacimiento: ['', [Validators.required, this.fechaNacimientoValidator()]],
       sexo: ['', [Validators.required]],
       estado: ['', [Validators.required]],
-      especialidades: ['',[Validators.required]],
+      especialidades: ['', [Validators.required]],
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
       foto: [''],
       firma: [''],
@@ -71,9 +71,9 @@ export class EditarMedicoComponent implements OnInit {
         this.imagenTempFoto = this.medicoEditar.foto;
         this.imagenTempFirma = this.medicoEditar.firma;
         this.sexoMedico = this.medicoEditar.sexo;
-        if(this.medicoEditar.estado == "A"){
+        if (this.medicoEditar.estado == "A") {
           this.estadoMedico = 1
-        }else{
+        } else {
           this.estadoMedico = 0
         }
         switch (this.medicoEditar.tipoDocumentoId) {
@@ -147,9 +147,11 @@ export class EditarMedicoComponent implements OnInit {
   /* C A R G A R - I M A G E N */
   deleteIconFuncFoto() {
     this.imagenTempFoto = "assets/img/user.jpg"
+    this.otraFoto = true;
   }
   deleteIconFuncFirma() {
     this.imagenTempFirma = "assets/img/user.jpg"
+    this.otraFirma = true;
   }
   cargarImagenFoto(event: any) {
     const file = event.target.files[0] as File;
@@ -191,7 +193,6 @@ export class EditarMedicoComponent implements OnInit {
   }
   /* C R E A R - M E D I C O */
   actualizarMedico() {
-    console.log(this.especialidades);
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.markAllFieldsAsTouched();
@@ -213,14 +214,16 @@ export class EditarMedicoComponent implements OnInit {
     for (let i = 0; i < this.especialidades.length; i++) {
       formData.append('Especialidades', this.especialidades[i]);
     }
-    if(this.otraFoto){
-      formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name)
-    }else{
+    if (this.otraFoto) {
+      if (this.imagenTempFoto !== "assets/img/user.jpg") { formData.append('fotoForm', this.imagenSubirFoto, this.imagenSubirFoto.name) }
+      else { formData.append('fotoForm', '') }
+    } else {
       formData.append('fotoForm', this.medicoEditar.foto)
     }
-    if(this.otraFirma){
-      formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name)
-    }else{
+    if (this.otraFirma) {
+      if (this.imagenTempFirma !== "assets/img/user.jpg") { formData.append('firmaForm', this.imagenSubirFirma, this.imagenSubirFirma.name) }
+      else { formData.append('firmaForm', '') }
+    } else {
       formData.append('firmaForm', this.medicoEditar.firma)
     }
     formData.append('Nombres', this.medicoEditar.nombre);

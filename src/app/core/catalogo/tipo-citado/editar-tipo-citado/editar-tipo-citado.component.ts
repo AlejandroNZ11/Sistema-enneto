@@ -29,7 +29,7 @@ export class EditarTipoCitadoComponent implements OnInit {
   constructor(public bsModalRef: BsModalRef, private service: TipoCitadoService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      descripcion: ['', Validators.required],
+      nombre: ['', Validators.required],
       color: ['', Validators.required],
     });
   }
