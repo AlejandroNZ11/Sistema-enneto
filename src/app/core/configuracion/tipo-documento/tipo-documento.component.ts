@@ -65,6 +65,8 @@ export class TipoDocumentoComponent implements OnInit {
       this.editarTipoDocumento(accion.fila);
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTipoDocumento(accion.fila.tipoDocumentoId);
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
