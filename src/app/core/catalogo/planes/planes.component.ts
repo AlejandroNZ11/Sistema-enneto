@@ -38,6 +38,10 @@ export class PlanesComponent implements OnInit {
     this.columnas = getEntityPropiedades('Planes');
     this.acciones = ['Editar', 'Eliminar'];
   }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+  
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListPlanes = [];
     this.serialNumberArray = [];
@@ -59,6 +63,8 @@ export class PlanesComponent implements OnInit {
       this.editarPlan(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarPlan(accion.fila.planId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 

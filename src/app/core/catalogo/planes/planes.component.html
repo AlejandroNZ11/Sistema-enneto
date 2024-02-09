@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <app-tabla [total]="totalData" [data]="ListPlanes" [indice]="serialNumberArray"
                             [columns]="columnas" [titulo]="'Lista Planes'" [accion]="acciones"
-                            (action)="onAction($event)" (MoreData)="getMoreData($event)">
+                            (action)="onAction($event)" (MoreData)="getMoreData($event)" (refresh)="refreshData()">
                         </app-tabla>
                     </div>
                 </div>

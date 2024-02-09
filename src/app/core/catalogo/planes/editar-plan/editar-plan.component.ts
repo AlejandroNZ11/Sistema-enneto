@@ -49,7 +49,7 @@ ngOnInit() {
     });
   })
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   validarInput(event: any) {
     const inputValue = event.target.value;
 
