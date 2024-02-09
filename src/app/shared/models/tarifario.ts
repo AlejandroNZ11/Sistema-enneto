@@ -3,7 +3,7 @@ export class tarifario {
     usuarioId = "";
     descripcion = "";
     precio="";
-    grupo="";
+    grupo?: string[];
     estado!: number;
     fechaRegistro!: Date;
     tipoconceptoId?: string[];
