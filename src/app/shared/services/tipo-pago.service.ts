@@ -27,6 +27,14 @@ export class TipoPagoService {
       })
     );
   }
+ // crearTipoPago(TipoPago: TipoPago): Observable<successResponse> {
+    //return this.http.post<successResponse>(this.apiUrl + '/TiposPagos/SaveTipoPago', TipoPago).pipe(
+     //   catchError(error => {
+     //       Swal.fire('Error', error.error, 'warning');
+     //       return throwError(() => error);
+    //    })
+    //    );
+  //  }
 
   obtenerListaPago(): Observable<ITipoPago[]> {
     return this.http.get<ITipoPago[]>(this.apiUrl + `/TiposPagos/GetTipoPagoList`);
