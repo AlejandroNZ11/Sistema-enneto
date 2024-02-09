@@ -37,6 +37,7 @@ export class AgregarTarifarioComponent implements OnInit {
   public categoria !: string[];
   public unidad !: string [];
   public medida !: string [];
+  public grupo !: string [];
 
 
 
@@ -96,6 +97,10 @@ export class AgregarTarifarioComponent implements OnInit {
       const newValue = inputValue.slice(0, -1);
       this.renderer.setProperty(event.target, 'value', newValue);
     }
+  }
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
   }
   
   isInvalid(controlName: string) {

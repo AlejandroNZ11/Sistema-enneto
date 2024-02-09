@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
@@ -18,7 +18,8 @@ export class PlanesService {
     crearPlan(planes: Planes): Observable<successResponse> {
         return this.http.post<successResponse>(this.apiUrl + '/Plan/SavePlan', planes).pipe(
             catchError(error => {
-                Swal.fire('Error', error.error, 'warning');
+                console.error('Error en la solicitud:', error);
+                Swal.fire('Error', 'Ocurrió un error al guardar el plan', 'warning');
                 return throwError(() => error);
             })
         );
@@ -32,7 +33,8 @@ export class PlanesService {
     actualizarPlan(planes: IPlanes): Observable<successResponse> {
         return this.http.put<successResponse>(this.apiUrl + `/Plan/UpdatePlan/${planes.planId}`, planes).pipe(
             catchError(error => {
-                Swal.fire('Error', error.error, 'warning');
+                console.error('Error en la solicitud:', error);
+                Swal.fire('Error', 'Ocurrió un error al actualizar el plan', 'warning');
                 return throwError(() => error);
             })
         );

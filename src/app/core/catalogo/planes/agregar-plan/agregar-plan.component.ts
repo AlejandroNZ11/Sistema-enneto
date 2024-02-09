@@ -1,10 +1,10 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import Swal from 'sweetalert2';
-import { DataPlanes, Planes, IPlanes } from 'src/app/shared/models/planes';
+import { Planes} from 'src/app/shared/models/planes';
 import { Subject } from 'rxjs';
 @Component({
   selector: 'app-agregar-plan',
@@ -33,15 +33,18 @@ export class AgregarPlanComponent {
       fechaFinContrato: ['', Validators.required],
     });
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validarInput(event: any, maxLength: number) {
+    let value = event.target.value;
+    value = value.replace(/[^0-9]/g, '');
 
-  validarInput(event: any) {
-    const inputValue = event.target.value;
-
-    if (isNaN(inputValue)) {
-      const newValue = inputValue.slice(0, -1);
-      this.renderer.setProperty(event.target, 'value', newValue);
+    if (value.length > maxLength) {
+      value = value.substring(0, maxLength);
     }
+
+    this.renderer.setProperty(event.target, 'value', value);
   }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;
@@ -87,6 +90,3 @@ export class AgregarPlanComponent {
       });
   }
 }
-
-
-

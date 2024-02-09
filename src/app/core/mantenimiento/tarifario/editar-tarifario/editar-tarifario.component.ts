@@ -120,6 +120,10 @@ export class EditarTarifarioComponent implements OnInit {
     this.tarifarioEditada$.next(false);
     this.bsModalRef.hide();
   }
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
 
 
   guardarTarifario() {
@@ -135,7 +139,7 @@ export class EditarTarifarioComponent implements OnInit {
       categoriaId: this.form.value.categoria,
       unidadId: this.form.value.unidad,
       tipoconceptoId: this.form.value.tipoconcepto,
-      precio: this.form.value.precio,
+      precio: this.form.value.precio,   
       fechaRegistro: this.form.value.fechaRegistro,
       descripcion: this.form.value.descripcion,
       estado: this.form.value.estado == 'Activo' ? '1' : '0',
