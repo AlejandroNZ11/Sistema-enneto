@@ -23,31 +23,33 @@
             <div class="page-table-header mb-2">
               <div class="row align-items-center">
                 <div class="col">
-                  <div class="doctor-table-blk">
+                  <div class="doctor-table-blk mt-2">
                     <h3>Pacientes</h3>
                     <div class="doctor-search-blk">
-                      <div class="top-nav-search table-search-blk">
+                      <div class="local-forms top-nav-search table-search-blk">
                         <input [(ngModel)]="fechaInicio" style='height:48px' class="form-control" type="text"
                           placeholder="Desde" matInput [matDatepicker]="picker">
                         <mat-datepicker #picker></mat-datepicker>
                         <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
                         <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                       </div>
-                      <div class="top-nav-search table-search-blk">
+                      <div class="local-forms top-nav-search table-search-blk">
                         <input [(ngModel)]="fechaFin" style='height:48px' class="form-control" type="text"
                           placeholder="Hasta" matInput [matDatepicker]="picker2">
                         <mat-datepicker #picker2></mat-datepicker>
                         <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
                         <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                       </div>
-                      <div class="top-nav-search table-search-blk">
+                      <div class="local-forms top-nav-search table-search-blk">
+                        <label>Paciente</label>
                         <input class="form-control" placeholder="Buscar Paciente" [(ngModel)]="paciente">
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                       </div>
-                      <div class="top-nav-search table-search-blk">
-                        <mat-select [(ngModel)]="tipoPaciente" class="form-control select"
+                      <div class="local-forms top-nav-search table-search-blk">
+                        <label>Tipo de Paciente</label>
+                        <mat-select [(ngModel)]="tipoPaciente" class="form-control tipoPaciente"
                           placeholder="Seleccione Tipo Paciente">
-                          <mat-option value="Todos">Todos</mat-option>
+                          <mat-option [value]=null>Todos</mat-option>
                           <mat-option *ngFor="let data of tiposPacientes" [value]="data.tipoPacienteId">
                             {{data.nombre}}
                           </mat-option>
@@ -76,8 +78,6 @@
             <div *ngIf="isLoading" class="spinner-container">
               <div class="custom-spinner"></div>
             </div>
-            <!-- /Table Header -->
-
             <div *ngIf="!isLoading" class="table-responsive">
               <table matSort (matSortChange)="sortData($event)"
                 class="table border-0 custom-table comman-table datatable mb-0">
@@ -110,8 +110,10 @@
                     <td>{{data.numeroDocumento}}</td>
                     <td>{{data.direccion}}</td>
                     <td>{{formatoFecha(data.fechaRegistro)}}</td>
-                    <td><button class="custom-badge status-green " *ngIf="data.estado=='A' || data.estado== '1'">Activo</button>
-                      <button class="custom-badge status-blue " *ngIf="data.estado=='I' || data.estado== '0'">Inactivo</button>
+                    <td><button class="custom-badge status-green "
+                        *ngIf="data.estado=='A' || data.estado== '1'">Activo</button>
+                      <button class="custom-badge status-blue "
+                        *ngIf="data.estado=='I' || data.estado== '0'">Inactivo</button>
                     </td>
                     <td class="text-end">
                       <div class="dropdown dropdown-action">

@@ -240,7 +240,6 @@ export class AgregarMedicoComponent implements OnInit {
       this.doctor.Sexo = 'F'
     }
     this.doctor.Especialidades = this.especialidades;
-    /*this.doctor.TipoDocumento = this.tipoDoc_LISTA.find(tipoDoc => tipoDoc.descripcion === this.tipoDocumento)!.tipoDocumentoId;*/
     const formData = new FormData();
     for (let i = 0; i < this.doctor.Especialidades.length; i++) {
       formData.append('Especialidades', this.doctor.Especialidades[i]);

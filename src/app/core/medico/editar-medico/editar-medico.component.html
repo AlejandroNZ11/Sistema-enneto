@@ -5,9 +5,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.listaMedico">Medico </a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.listaMedico">Médico </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Editar Medico</li>
+                        <li class="breadcrumb-item active">Editar Médico</li>
                     </ul>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                             <div class="row" *ngIf="medicoEditar">
                                 <div class="col-12">
                                     <div class="form-heading">
-                                        <h4>Detalles del Medico</h4>
+                                        <h4>Detalles del Médico</h4>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 col-xl-3">
@@ -65,7 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-12 col-xl-5">
+                                <div class="col-12 col-md-12 col-xl-4">
                                     <div class="form-group local-forms">
                                         <label>Dirección <span class="login-danger">*</span></label>
                                         <input formControlName="direccion" [(ngModel)]="medicoEditar!.direccion"
@@ -94,7 +94,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-6 col-xl-3">
+                                <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Abreviatura <span class="login-danger">*</span></label>
                                         <input formControlName="abreviatura" [(ngModel)]="medicoEditar!.abreviatura"
@@ -106,6 +106,21 @@
                                                 Debe completar el campo*
                                             </div>
                                             <div *ngIf="isCantidad('abreviatura')">
+                                                Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>RNE <span class="login-danger"></span></label>
+                                        <input formControlName="rne" [(ngModel)]="medicoEditar.rne" class="form-control" type="text" maxlength="5"
+                                            (input)="soloNumeros($event)" [ngClass]="{'is-invalid': isInvalid('rne') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('rne') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('rne')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidad('rne')">
                                                 Máximo 4 caracteres*
                                             </div>
                                         </div>
@@ -173,7 +188,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-12 col-xl-6">
+                                <div class="col-12 col-md-12 col-xl-5">
                                     <div class="form-group local-forms">
                                         <label>Especialidad <span class="login-danger">*</span></label>
                                         <mat-select [(ngModel)]="especialidades" formControlName="especialidades"
@@ -193,7 +208,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-6 col-xl-3">
+                                <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Colegiatura <span class="login-danger">*</span></label>
                                         <input formControlName="colegioMedico" [(ngModel)]="medicoEditar!.colegioMedico"
@@ -207,6 +222,18 @@
                                             </div>
                                             <div *ngIf="isCantidad('colegioMedico')">
                                                 Máximo 4 caracteres*
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-6 col-xl-2">
+                                    <div class="form-group local-forms">
+                                        <label>Color <span class="login-danger">*</span></label>
+                                        <input formControlName="color" [(ngModel)]="medicoEditar.color" class="form-control" type="color"
+                                            [ngClass]="{'is-invalid': isInvalid('color') && isFormSubmitted}">
+                                        <div *ngIf="isInvalid('color') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('color')">
+                                                Debe completar el campo*
                                             </div>
                                         </div>
                                     </div>
@@ -281,7 +308,7 @@
                                 <button (click)="actualizarMedico()"
                                     class="btn btn-primary submit-form me-2">Guardar</button>
                                 <button [routerLink]="routes.listaMedico"
-                                    class="btn btn-primary cancel-form">Cancel</button>
+                                    class="btn btn-primary cancel-form">Cancelar</button>
                             </div>
                         </div>
                     </div>

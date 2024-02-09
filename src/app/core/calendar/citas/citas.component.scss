@@ -1,27 +1,9 @@
-.busqueda {
-    margin-top: 5px;
-}
-
-.custom-modal-dialog {
-    max-width: 50%;
-    width: auto;
-}
-
+//Input de Paciente
 .buscar {
     border-left: none;
     border-right: none;
     border-radius: 0;
 }
-
-.clear-icon {
-    cursor: pointer;
-    color: #888;
-}
-
-.clear-icon:hover {
-    color: #f00;
-}
-
 
 .label-medico {
     padding-top: 4px;
@@ -52,4 +34,28 @@
 
 .capitalize {
     text-transform: capitalize;
+}
+
+label {
+    background-color: #f4f5fa;
+    border-radius: 5px;
+}
+
+.busqueda {
+    margin-top: 20px;
+    margin-left: 17.5px;
+}
+
+.selectCita {
+    width: 300px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
+}
+
+.selectCitaPaciente {
+    width: 450px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
 }

@@ -5,26 +5,24 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.listaMedico">Medicos </a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.listaMedico">Médicos </a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista Medicos</li>
+                        <li class="breadcrumb-item active">Lista Médicos</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <!-- /Page Header -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <!-- Table Header -->
                         <div class="page-table-header mb-2">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <div class="doctor-table-blk">
-                                        <h3>Medicos</h3>
-                                        <div class="doctor-search-blk">
-                                            <div class="top-nav-search table-search-blk">
+                                    <div class="doctor-table-blk mt-2">
+                                        <h3>Médicos</h3>
+                                        <div class="doctor-search-blk ">
+                                            <div class="local-forms top-nav-search table-search-blk">
                                                 <input [(ngModel)]="fechaInicio" style='height:48px'
                                                     class="form-control" type="text" placeholder="Desde" matInput
                                                     [matDatepicker]="picker">
@@ -32,28 +30,36 @@
                                                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
-                                            <div class="top-nav-search table-search-blk">
+                                            <div class="local-forms top-nav-search table-search-blk">
                                                 <input [(ngModel)]="fechaFin" style='height:48px' class="form-control"
                                                     type="text" placeholder="Hasta" matInput [matDatepicker]="picker2">
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
-                                            <div class="top-nav-search table-search-blk">
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Médico</label>
                                                 <input class="form-control" placeholder="Buscar Medico"
                                                     [(ngModel)]="medico">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="top-nav-search table-search-blk">
-                                                <input class="form-control" placeholder="Especialidad"
-                                                    [(ngModel)]="especialidad">
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Especialidad</label>
+                                                <mat-select [(ngModel)]="especialidad" class="form-control especialidad"
+                                                    placeholder="Seleccione Especialidad">
+                                                    <mat-option value='todos'>Todos</mat-option>
+                                                    <mat-option *ngFor="let data of especialidades"
+                                                        [value]="data.especialidadId">
+                                                        {{data.nombre}}
+                                                    </mat-option>
+                                                </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="add-group">
                                                 <a [routerLink]="routes.agregarMedico"
                                                     class="btn btn-primary add-pluss ms-2"><img
                                                         src="assets/img/icons/plus.svg" alt=""></a>
-                                                <a (click)="obtenerDatosMedicosConFiltro()" href="javascript:;"
+                                                <a (click)="obtenerDatosMedicos()" href="javascript:;"
                                                     class="btn btn-primary doctor-refresh ms-2"><img
                                                         src="assets/img/icons/re-fresh.svg" alt=""></a>
                                             </div>
@@ -62,10 +68,6 @@
                                 </div>
                                 <div class="col-auto text-end float-end ms-auto download-grp">
                                     <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-02.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-03.svg"
                                             alt=""></a>
                                     <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
                                 </div>
