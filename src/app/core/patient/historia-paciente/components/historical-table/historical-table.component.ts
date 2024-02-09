@@ -13,6 +13,7 @@ export class HistoricalTableComponent implements OnInit{
 
 
   title = '';
+  public totalData = 0;
   dataSource: any = [];
   columnas: string[] = [];
   tableDisplayColumns: string[] = [];
@@ -23,7 +24,7 @@ export class HistoricalTableComponent implements OnInit{
   public currentPage = 1;
   public pageIndex = 0;
   public pageSize = PageSize.size;
-  public totalData = 0;
+
   public limit: number = this.pageSize;
   public skip = 0;
   public pageNumberArray: Array<number> = [];
@@ -33,6 +34,7 @@ export class HistoricalTableComponent implements OnInit{
 
   @Input() set total(data: number) {
     this.totalData = data;
+
   }
   @Input() set data(data: any) {
     this.dataSource = data;
@@ -82,7 +84,10 @@ export class HistoricalTableComponent implements OnInit{
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
     this.pageNumberArray = [];
+    console.log(totalData,pageSize)
     this.totalPages = totalData / pageSize;
+
+    console.log(this.totalPages)
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
@@ -142,6 +147,7 @@ export class HistoricalTableComponent implements OnInit{
   }
 
   ngOnInit(): void {
+
     this.MoreData.emit({ page: this.currentPage, size: this.pageSize, skip: this.skip, limit: this.limit });
   }
 

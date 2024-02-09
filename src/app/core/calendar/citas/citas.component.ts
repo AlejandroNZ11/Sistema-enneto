@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -21,15 +21,12 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EditarCitaComponent } from './editar-cita/editar-cita.component';
 import { AgregarCitaComponent } from './agregar-cita/agregar-cita.component';
-import { ClonarCitaComponent } from './clonar-cita/clonar-cita.component';
-import { Subject } from 'rxjs';
 @Component({
   selector: 'app-citas',
   templateUrl: './citas.component.html',
   styleUrls: ['./citas.component.scss']
 })
 export class CitasComponent implements OnInit {
-  public onModal3Closed = new Subject<void>();
   public routes = routes;
   options: any;
   events: any[] = [];
@@ -37,19 +34,19 @@ export class CitasComponent implements OnInit {
   citas!: citasCalendario[];
   form!: FormGroup;
   listEspecialidades!: Iespecialidad[];
-  especialidadSeleccionada = 'TODOS';
+  especialidadSeleccionada = 'todos';
   listPacientes!: PacienteList[];
   listPacientesFiltrados!: PacienteList[];
   pacienteleccionado!: string;
   listEstados!: ItipoCitado[];
-  estadoSeleccionado = 'TODOS';
+  estadoSeleccionado = 'todos';
   listMedicos!: medicosCalendario[];
   medicosSeleccionados: { [key: string]: boolean } = {};
-  sede = '';
   isFormSubmitted = false;
   modalRef?: BsModalRef;
   inicio!: string;
   fin!: string;
+  mostrarOpciones = false;
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, public modalService: BsModalService, private medicoService: MedicoService) {
@@ -90,7 +87,9 @@ export class CitasComponent implements OnInit {
             initialState: { ...initialState } as Partial<AgregarCitaComponent>,
           };
           this.modalRef = this.modalService.show(AgregarCitaComponent, modalOptions);
-          this.modalRef.onHidden?.subscribe(() => { this.obtenerCitasMedicas() });
+          this.modalRef.content.citaAgregada$.subscribe((citaAgregada: boolean) => {
+            if (citaAgregada) this.obtenerCitasMedicas();
+          });
         }
       }
     }
@@ -109,8 +108,8 @@ export class CitasComponent implements OnInit {
       initialState: Object.assign({}, initialState) as Partial<EditarCitaComponent>,
     };
     this.modalRef = this.modalService.show(EditarCitaComponent, modalOptions);
-    this.modalRef.onHidden?.subscribe(() => {
-      this.onModal3Closed.next(); this.obtenerCitasMedicas()
+    this.modalRef.content.citaAgregada$.subscribe((citaAgregada: boolean) => {
+      if (citaAgregada) this.obtenerCitasMedicas();
     });
   }
   filtrarCitas() {
@@ -132,25 +131,26 @@ export class CitasComponent implements OnInit {
       }
       this.filtrarCitas();
       this.events = this.citas;
-      console.log(this.events);
-      console.log(this.listMedicos)
     })
   }
   buscarPacientes() {
     const searchInput = this.multiPacienteSearchInput.nativeElement.value
       ? this.multiPacienteSearchInput.nativeElement.value.toLowerCase()
       : '';
-    if (!this.listPacientesFiltrados) {
-      this.listPacientesFiltrados = [...this.listPacientes];
-    }
-    this.listPacientes = this.listPacientesFiltrados.filter((paciente) => {
-      const nombres = paciente.nombres.toLowerCase();
-      const apellidos = paciente.apellidos.toLowerCase();
-      if (!searchInput) {
-        return true;
+    this.mostrarOpciones = searchInput.length >= 3;
+    if (this.mostrarOpciones) {
+      if (!this.listPacientesFiltrados) {
+        this.listPacientesFiltrados = [...this.listPacientes];
       }
-      return nombres.includes(searchInput) || apellidos.includes(searchInput);
-    });
+      this.listPacientes = this.listPacientesFiltrados.filter((paciente) => {
+        const nombres = paciente.nombres.toLowerCase();
+        const apellidos = paciente.apellidos.toLowerCase();
+        if (!searchInput) {
+          return true;
+        }
+        return nombres.includes(searchInput) || apellidos.includes(searchInput);
+      });
+    }
   }
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);

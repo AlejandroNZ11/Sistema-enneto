@@ -57,7 +57,12 @@ export class TarifarioComponent  {
       this.editarTarifario(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTarifario(accion.fila.tarifarioId)
+    }else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
+  }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
   getMoreData(pag: Paginacion) {

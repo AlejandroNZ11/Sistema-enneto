@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environments';
-import { DataCitaMedica, DataCitaMedicaPaciente, IcitaMedica, IcitaMedicaCalendario, citaMedica } from '../models/cita';
+import { DataCitaMedica, DataCitaMedicaPaciente, DataControlCitaMedica, IcitaMedica, IcitaMedicaCalendario, IcontrolCitaMedica, citaMedica } from '../models/cita';
 import { Observable, catchError, throwError } from 'rxjs';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -13,7 +13,7 @@ export class CitaService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerCitasMedicas(clinicaId: string, page: number, rows: number, pacienteId?: string ,fechaInicio?: string, fechaFin?: string): Observable<DataCitaMedica> {
+  obtenerCitasMedicas(clinicaId: string, page: number, rows: number, pacienteId?: string, fechaInicio?: string, fechaFin?: string): Observable<DataCitaMedica> {
     let url = `${this.apiUrl}/CitasMedicas/GetAllCitaMedica?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
     if (fechaInicio) {
       url += `&fechaInicio=${fechaInicio}`;
@@ -21,10 +21,10 @@ export class CitaService {
     if (fechaFin) {
       url += `&fechaFin=${fechaFin}`;
     }
-    if (pacienteId){
+    if (pacienteId) {
       url += `&pacienteId=${pacienteId}`;
     }
-    console.log("Service: "+pacienteId)
+    console.log("Service: " + pacienteId)
     return this.http.get<DataCitaMedica>(url);
   }
   obtenerCitaMedica(citaMedicaId: string): Observable<IcitaMedica> {
@@ -41,19 +41,35 @@ export class CitaService {
   }
   obtenerCitasMedicasCalendario(fechaInicio: string, fechaFin: string, medico?: string, estado?: string, especialidad?: string, paciente?: string): Observable<IcitaMedicaCalendario> {
     let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
-    if (medico != 'TODOS' && medico) {
+    if (medico != 'todos' && medico) {
       url += `&Medico=${medico}`;
     }
-    if (estado != 'TODOS' && estado) {
+    if (estado != 'todos' && estado) {
       url += `&TipoCitadoId=${estado}`;
     }
-    if (especialidad != 'TODOS' && especialidad) {
+    if (especialidad != 'todos' && especialidad) {
       url += `&EspecialidadId=${especialidad}`;
     }
-    if (paciente) {
+    if (paciente != 'todos' && paciente) {
       url += `&PacienteId=${paciente}`;
     }
     return this.http.get<IcitaMedicaCalendario>(url);
+  }
+  obtenerControlCitasMedicas(page: number, rows: number, fechaInicio: string, fechaFin: string, sede?: string, estado?: string, historia?: string, paciente?: string): Observable<DataControlCitaMedica> {
+    let url = `${this.apiUrl}/CitasMedicas/GetControlCitaMedica?page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+    if (sede != 'todos' && sede) {
+      url += `&Sede=${sede}`;
+    }
+    if (estado != 'todos' && estado) {
+      url += `&TipoCitadoId=${estado}`;
+    }
+    if (historia != 'todos' && historia) {
+      url += `&Historia=${historia}`;
+    }
+    if (paciente != 'todos' && paciente) {
+      url += `&PacienteId=${paciente}`;
+    }
+    return this.http.get<DataControlCitaMedica>(url);
   }
   crearCitaMedica(cita: citaMedica): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/CitasMedicas/SaveCitaMedica', cita).pipe(
@@ -64,7 +80,7 @@ export class CitaService {
     );
   }
 
-  obtenerCitasMedicasPaciente(clinicaId: string, page: number, rows: number, pacienteId?: string ,fechaInicio?: string, fechaFin?: string):Observable<DataCitaMedicaPaciente>{
+  obtenerCitasMedicasPaciente(clinicaId: string, page: number, rows: number, pacienteId?: string, fechaInicio?: string, fechaFin?: string): Observable<DataCitaMedicaPaciente> {
     let url = `${this.apiUrl}/CitasMedicas/GetCitaMedicaList?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
     if (fechaInicio) {
       url += `&fechaInicio=${fechaInicio}`;
@@ -72,10 +88,10 @@ export class CitaService {
     if (fechaFin) {
       url += `&fechaFin=${fechaFin}`;
     }
-    if (pacienteId){
+    if (pacienteId) {
       url += `&pacienteId=${pacienteId}`;
     }
-    console.log("Service: "+pacienteId)
+    console.log("Service: " + pacienteId)
     return this.http.get<DataCitaMedicaPaciente>(url);
   }
 }

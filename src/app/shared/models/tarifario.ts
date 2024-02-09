@@ -3,12 +3,14 @@ export class tarifario {
     usuarioId = "";
     descripcion = "";
     precio="";
+    grupo="";
     estado!: number;
     fechaRegistro!: Date;
     tipoconceptoId?: string[];
     categoriaId?: string[];
     medidaId?: string[];
     unidadId?: string[];
+  
     
 }
 
@@ -22,6 +24,7 @@ export interface Itarifario{
     descripcion: string;
     tipoconceptoId: string;
     medidaId: string;
+    grupo: string;
     categoriaId: string;
     unidadId: string;
     precio: number;
@@ -31,10 +34,11 @@ export interface Itarifario{
 
 export class tarifarioResponse {
     descripcion = "";
-    tipoConceptoId= "";
-    medidaId= "";
-    categoriaId= "";
-    unidadId= "";
+    tipoConceptoNombre= "";
+    medidaNombre= "";
+    grupo= "";
+    categoriaNombre= "";
+    unidadNombre= "";
     precio= "";
     fechaRegistro= "";
 }

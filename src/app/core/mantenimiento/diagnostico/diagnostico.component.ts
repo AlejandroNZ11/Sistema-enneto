@@ -30,18 +30,18 @@ export class DiagnosticoComponent {
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  constructor(private modalService: BsModalService, public DiagnosticoService: DiagnosticoService) {
+  constructor(private modalService: BsModalService, public diagnosticoService: DiagnosticoService) {
   }
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('Diagnostico');
     this.acciones = ['Eliminar'];
-    
+
   }
-  
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListDiagnostico= [];
     this.serialNumberArray = [];
-    this.DiagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
+    this.diagnosticoService.obtenerDiagnosticos(env.clinicaId, currentPage, pageSize).subscribe((data: DataDiagnostico) => {
       this.totalData = data.totalData
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
@@ -54,37 +54,22 @@ export class DiagnosticoComponent {
   refreshData() {
     this.getTableData(this.currentPage, this.pageSize);
   }
-  
+
   crearDiagnostico() {
     this.bsModalRef = this.modalService.show(CrearDiagnosticoComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.diagnosticoAgregado$.subscribe((diagnosticoAgregado: boolean) => {
+      if (diagnosticoAgregado) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
-  
- 
 
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.ListDiagnostico = this.dataSource.filteredData;
   }
-  
-  
-  public sortData(sort: Sort) {
-    const data = this.ListDiagnostico.slice();
 
-    if (!sort.active || sort.direction === '') {
-      this.ListDiagnostico = data;
-    } else {
-      this.ListDiagnostico = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const bValue = (b as any)[sort.active];
-        return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
-      });
-    }
-  }
+
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
       this.crearDiagnostico();
@@ -93,16 +78,9 @@ export class DiagnosticoComponent {
     } else if (accion.accion == 'Refresh') {
       this.refreshData();
     }
-    
-  }
 
-  getMoreData(pag: Paginacion) {
-    this.getTableData(pag.page, pag.size);
-    this.currentPage = pag.page;
-    this.pageSize = pag.size;
-    this.skip = pag.skip;
-    this.limit = pag.limit;
   }
+  
   eliminarDiagnostico(enfermedadId:string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',
@@ -111,7 +89,7 @@ export class DiagnosticoComponent {
       denyButtonText: `Cancelar`,
     }).then((result) => {
       if (result.isConfirmed) {
-        this.DiagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
+        this.diagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
@@ -131,5 +109,11 @@ export class DiagnosticoComponent {
     })
   }
 
-  
+  getMoreData(pag: Paginacion) {
+    this.getTableData(pag.page, pag.size);
+    this.currentPage = pag.page;
+    this.pageSize = pag.size;
+    this.skip = pag.skip;
+    this.limit = pag.limit;
+  }
 }

@@ -35,6 +35,7 @@ export class PermisoComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   bsModalRef?: BsModalRef;
+  public isLoading = false;
 
   public rolId = '';
   public menuId = '';
@@ -45,8 +46,12 @@ export class PermisoComponent implements OnInit {
   ngOnInit() {
     this.getTableData();
   }
+  refreshData() {
+    this.getTableData();
+  }
 
   private getTableData(): void {
+    this.isLoading = true;
     this.listPermisos = [];
     this.serialNumberArray = [];
     this.permisoService.obtenerPermisos(env.clinicaId, this.currentPage, this.pageSize).subscribe((data: DataPermiso) => {
@@ -55,6 +60,7 @@ export class PermisoComponent implements OnInit {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
+      this.isLoading = false;
       this.listPermisos = data.data;
       this.dataSource = new MatTableDataSource<IPermiso>(this.listPermisos);
       this.calculateTotalPages(this.totalData, this.pageSize);

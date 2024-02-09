@@ -42,6 +42,7 @@ export class EditarTarifarioComponent implements OnInit {
   unidad: Array<string> = [];
   tipoconcepto: Array<string> = [];
   tarifario!: Itarifario;
+  grupo: Array<string> = [];
 
 
   constructor(
@@ -59,6 +60,7 @@ export class EditarTarifarioComponent implements OnInit {
     this.form = this.formBuilder.group({
       tipoconcepto: ['', [Validators.required]],
       descripcion: ['',[Validators.required]],
+      grupo: ['',[Validators.required]],
       categoria: ['', [Validators.required]],
       precio: ['', [Validators.required]],
       medida: ['', [Validators.required]],
@@ -77,6 +79,7 @@ export class EditarTarifarioComponent implements OnInit {
         precio: this.tarifario.precio,
         fechaRegistro: this.tarifario.fechaRegistro,
         tipoconcepto: this.tarifario.tipoconceptoId,
+        grupo: this.tarifario.grupo,
         medida: this.tarifario.medidaId,
         unidad: this.tarifario.unidadId,
         categoria: this.tarifario.categoriaId,
@@ -127,10 +130,11 @@ export class EditarTarifarioComponent implements OnInit {
     
     const tarifarioActualizada: Itarifario = {
       tarifarioId: this.tarifarioId,
+      grupo: this.form.value.grupo,
       medidaId: this.form.value.medida,
       categoriaId: this.form.value.categoria,
       unidadId: this.form.value.unidad,
-      tipoconceptoId: this.form.value.tipoConcepto,
+      tipoconceptoId: this.form.value.tipoconcepto,
       precio: this.form.value.precio,
       fechaRegistro: this.form.value.fechaRegistro,
       descripcion: this.form.value.descripcion,

@@ -1,3 +1,15 @@
+export class evolucion{
+  clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  usuarioId = "";
+  pacienteId = "";
+  especialidadId = "";
+  medicoId = "";
+  descripcion = "";
+  fechaEvolucion ="";
+  estado = 0;
+
+}
+
 export interface DataEvolucionPaciente {
   totalData: number;
   data: IEvolucionPaciente[];

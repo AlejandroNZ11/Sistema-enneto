@@ -26,37 +26,61 @@
                                 <div class="form-group local-forms">
                                     <label>Tipo Concepto <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoconcepto"
-                                        class="form-control select" placeholder="Seleccione Tipo Concepto"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoconcepto')}" placeholder="Seleccione Tipo Concepto"
                                         [ngClass]="{'is-invalid': isInvalid('tipoconcepto') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of tipoconcepto_LISTA"
                                             [value]="data.tipoConceptoId">
                                             {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('tipoconcepto') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('tipoconcepto')">
-                                            Debe completar el campo*
-                                        </div>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
+                                        Debe completar el campo*
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
+                                    <label>Grupo <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="grupo" 
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('grupo')}" placeholder="Seleccionar Grupo"
+                                        [ngClass]="{'is-invalid': isInvalid('grupo') && isFormSubmitted}" >
+                                        <mat-option value="General">General</mat-option>
+                                        <mat-option value="Coronas">Coronas</mat-option>
+                                        <mat-option value="Protesis">Protesis</mat-option>
+                                        <mat-option value="Pernos">Pernos</mat-option>
+                                        <mat-option value="Profilaxis">Profilaxis</mat-option>
+                                        <mat-option value="Resinas">Resinas</mat-option>
+                                        <mat-option value="Sellantes">Sellantes</mat-option>
+                                        <mat-option value="Fluor">Fluor</mat-option>
+                                        <mat-option value="Blanqueamiento">Blanqueamiento</mat-option>
+                                        <mat-option value="Exodoncias">Exodoncias</mat-option>
+                                        <mat-option value="Incrustaciones">Incrustaciones</mat-option>
+                                        <mat-option value="Carillas">Carillas</mat-option>
+                                        <mat-option value="Brackets">Brackets</mat-option>
+                                        <mat-option value="Implantes">Implantes</mat-option>
+                                        <mat-option value="Radiogramas">Radiogramas</mat-option>
+                                        <mat-option value="Endodoncia">Endodoncia</mat-option>
+                                        <mat-option value="Ortodoncia">Ortodoncia</mat-option>
+                                        <mat-option value="Cirugia">Cirugia</mat-option>
+                                    </mat-select>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('grupo')">
+                                        Debe completar el campo*
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-15">
+                                <div class="form-group local-forms">
                                     <label>Categoria <span class="login-danger">*</span></label>
                                     <mat-select formControlName="categoria"
-                                        class="form-control select" placeholder="Seleccione Tipo Categoria"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('categoria')}" placeholder="Seleccione Tipo Categoria"
                                         [ngClass]="{'is-invalid': isInvalid('categoria') && isFormSubmitted}">
-                                        <mat-option *ngFor="let data of categoria_LISTA"
+                                        <mat-option *ngFor="let data of categoria_LISTA" 
                                             [value]="data.categoriaId">
                                             {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('categoria') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('categoria')">
-                                            Debe completar el campo*
-                                        </div>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('categoria')">
+                                        Debe completar el campo*
                                     </div>
                                 </div>
                             </div>
@@ -77,7 +101,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                 <label>Fecha de Registro<span class="text-danger">*</span></label>
-                                <input formControlName="fechaRegistro" class="form-control datetimepicker" type="text" matInput
+                                <input formControlName="fechaRegistro" [ngClass]="{'is-invalid': isInvalid('fechaRegistro')}" class="form-control datetimepicker" type="text" matInput
                                     [matDatepicker]="picker">
                                 <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
                                 <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
@@ -93,37 +117,33 @@
                                 <div class="form-group local-forms">
                                     <label>Unidades <span class="login-danger">*</span></label>
                                     <mat-select formControlName="unidad"
-                                        class="form-control select" placeholder="Seleccione Tipo Unidad"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('unidad')}"placeholder="Seleccione Tipo Unidad"
                                         [ngClass]="{'is-invalid': isInvalid('unidad') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of unidad_LISTA"
                                             [value]="data.unidadId">
                                             {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('unidad') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('unidad')">
-                                            Debe completar el campo*
-                                        </div>
+                                    
+                                    <div class="invalid-feedback" *ngIf="isRequerido('unidad')">
+                                        Debe completar el campo*
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Medida <span class="login-danger">*</span></label>
                                     <mat-select formControlName="medida"
-                                        class="form-control select" placeholder="Seleccione Tipo Medida"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('medida')}" placeholder="Seleccione Tipo Medida"
                                         [ngClass]="{'is-invalid': isInvalid('medida') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of medida_LISTA"
                                             [value]="data.unidadMedidaId">
                                             {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('medida') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('medida')">
-                                            Debe completar el campo*
-                                        </div>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('medida')">
+                                        Debe completar el campo*
                                     </div>
                                 </div>
                             </div>

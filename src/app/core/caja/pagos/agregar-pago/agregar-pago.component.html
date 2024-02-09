@@ -14,7 +14,7 @@
                                 <div class="form-group local-forms">
                                     <label>Monto<span class="login-danger">*</span></label>
                                     <input formControlName="monto" class="form-control"
-                                        type="text" [ngClass]="{'is-invalid': isInvalid('monto')}">
+                                        type="text" [ngClass]="{'is-invalid': isInvalid('monto')}" (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('monto') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('monto')|| mostrarErrores">
                                             Debe completar el campo*
@@ -25,7 +25,8 @@
                             <div class="col-12 col-md-6 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Numero de Pago<span class="login-danger">*</span></label>
-                                    <input formControlName="numeroPago" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('numeroPago')}">
+                                    <input formControlName="numeroPago" class="form-control" 
+                                    type="text" [ngClass]="{'is-invalid': isInvalid('numeroPago')}" (input)="validarInput($event)">
                                     <div *ngIf="isInvalid('numeroPago') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('numeroPago')|| mostrarErrores">
                                             Debe completar el campo*
@@ -33,25 +34,25 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-5">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha de Registro<span class="text-danger">*</span></label>
                                     <input formControlName="fechaRegistro" class="form-control datetimepicker" type="text" matInput
                                         [matDatepicker]="picker">
-                                    <mat-datepicker #picker></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker" class="date-picker-icon"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
                                     <div *ngIf="isInvalid('fechaRegistro')" class="invalid-feedback">
                                         Debe seleccionar una fecha válida.
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-5">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha de Vencimiento<span class="text-danger">*</span></label>
                                     <input formControlName="fechaVencimiento" class="form-control datetimepicker" type="text" matInput
                                         [matDatepicker]="picker2">
-                                    <mat-datepicker #picker2></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker2" class="date-picker-icon"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2 matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
                                     <div *ngIf="isInvalid('fechaVencimiento')" class="invalid-feedback">
                                         Debe seleccionar una fecha válida.
                                     </div>

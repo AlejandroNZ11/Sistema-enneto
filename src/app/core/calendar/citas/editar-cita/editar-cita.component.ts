@@ -17,7 +17,7 @@ import { TipoCitadoService } from 'src/app/shared/services/tipo-citado.service';
 import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
 import Swal from 'sweetalert2';
 import { ClonarCitaComponent } from '../clonar-cita/clonar-cita.component';
-import { finalize } from 'rxjs';
+import { Subject, finalize } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-editar-cita',
@@ -25,8 +25,6 @@ import { DOCUMENT } from '@angular/common';
   styleUrls: ['./editar-cita.component.scss']
 })
 export class EditarCitaComponent implements OnInit {
-
-
   citaEditar!: IcitaMedica;
   form!: FormGroup;
   listEspecialidadesCitas!: Iespecialidad[];
@@ -45,6 +43,7 @@ export class EditarCitaComponent implements OnInit {
   whatsappMessage = '';
   numero = '';
   public routes = routes;
+  citaAgregada$: Subject<boolean> = new Subject<boolean>();
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService,
     public sedeService: SedeService, private router: Router) { }
@@ -96,7 +95,7 @@ export class EditarCitaComponent implements OnInit {
       control.markAsTouched();
     });
   }
-  cerrar() { this.bsModalRef.hide() }
+  cerrar() { this.citaAgregada$.next(false); this.bsModalRef.hide() }
   actualizarMedicos() {
     this.medicoService.listaMedicos(this.citaEditar.especialidadId).subscribe(data => {
       this.listMedicos = data;
@@ -157,6 +156,7 @@ export class EditarCitaComponent implements OnInit {
             if (response.isSuccess) {
               Swal.fire(response.message, '', 'success');
               this.form.reset();
+              this.citaAgregada$.next(true);
               this.bsModalRef.hide();
             } else {
               console.error(response.message);

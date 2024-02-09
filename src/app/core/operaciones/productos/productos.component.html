@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <app-tabla [total]="totalData" [data]="ListProducto"  [indice]="serialNumberArray" [columns]="columnas"
                             [titulo]="'Lista Productos'" [accion]="acciones" (action)="onAction($event)"
-                            (MoreData)="getMoreData($event)">
+                            (MoreData)="getMoreData($event)" (refresh)="refreshData()">
                         </app-tabla>
                     </div>
                 </div>

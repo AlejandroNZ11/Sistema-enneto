@@ -66,7 +66,6 @@ export class HistoriaGeneralComponent implements OnInit {
     this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
 
     this.gradoInstService.obtenerGradoInstruccion().subscribe(data => { this.gradosInstruccion = data; })
-    this.getTableData();
     this.obtenerDatosPacientesSinFiltro();
   }
 
@@ -169,25 +168,27 @@ export class HistoriaGeneralComponent implements OnInit {
 
 
   // Método data Json
-  private getTableData(): void {
-    this.patientsList = [];
-    this.serialNumberArray = [];
+  // private getTableData(): void {
+  //   this.patientsList = [];
+  //   this.serialNumberArray = [];
 
-    this.data.getPatientsList().subscribe((data: apiResultFormat) => {
-      this.totalData = data.totalData;
-      data.data.map((res: patientsList, index: number) => {
-        const serialNumber = index + 1;
-        if (index >= this.skip && serialNumber <= this.limit) {
+  //   this.data.getPatientsList().subscribe((data: apiResultFormat) => {
+  //     this.totalData = data.totalData;
+  //     data.data.map((res: patientsList, index: number) => {
+  //       const serialNumber = index + 1;
+  //       if (index >= this.skip && serialNumber <= this.limit) {
 
-          this.patientsList.push(res);
-          this.serialNumberArray.push(serialNumber);
-        }
-      });
-      this.dataSource = new MatTableDataSource<patientsList>(this.patientsList);
-      this.calculateTotalPages(this.totalData, this.pageSize);
-    });
-  }
+  //         this.patientsList.push(res);
+  //         this.serialNumberArray.push(serialNumber);
+  //       }
+  //     });
+  //     this.dataSource = new MatTableDataSource<patientsList>(this.patientsList);
+  //     this.calculateTotalPages(this.totalData, this.pageSize);
+  //   });
+  // }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+
   public searchData(value: any): void {
     this.dataSource.filter = value.trim().toLowerCase();
     this.patientsList = this.dataSource.filteredData;
@@ -215,13 +216,13 @@ export class HistoriaGeneralComponent implements OnInit {
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosPacientesSinFiltro();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.getTableData();
+      this.obtenerDatosPacientesSinFiltro();
     }
   }
 
@@ -234,7 +235,7 @@ export class HistoriaGeneralComponent implements OnInit {
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
 
   public PageSize(): void {
@@ -242,7 +243,7 @@ export class HistoriaGeneralComponent implements OnInit {
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.getTableData();
+    this.obtenerDatosPacientesSinFiltro();
   }
 
   private calculateTotalPages(totalData: number, pageSize: number): void {

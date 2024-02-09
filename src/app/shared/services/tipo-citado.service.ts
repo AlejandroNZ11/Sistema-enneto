@@ -27,7 +27,10 @@ export class TipoCitadoService {
       })
     );
   }
-  eliminarTipoCitado( tipoCitadoId: string): Observable<successResponse> {
+  obtenerTipoCitadoById(tipoCitadoId: string): Observable<ItipoCitado> {
+    return this.http.get<ItipoCitado>(this.apiUrl + `/TiposCitado/GetTipoCitado/${tipoCitadoId}`);
+  }
+  eliminarTipoCitado(tipoCitadoId: string): Observable<successResponse> {
     return this.http.delete<successResponse>(this.apiUrl + `/TiposCitado/DeleteTipoCitado/${tipoCitadoId}`);
   }
   actualizarTipoCitado(tipoCitado: ItipoCitado): Observable<successResponse> {

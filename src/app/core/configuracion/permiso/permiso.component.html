@@ -91,7 +91,7 @@
                                             </div>
                                             <div class="add-group">
                                                 <a (click)="crearPermiso()" class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""></a>
-                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt=""></a>
+                                                <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img src="assets/img/icons/re-fresh.svg" alt="" (click)="refreshData()"></a>
                                             </div>
                                         </div>
                                     </div>
@@ -105,10 +105,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
+                    <div *ngIf="isLoading" class="spinner-container">
+                        <div class="custom-spinner"></div>
+                    </div>
+                    <div *ngIf="!isLoading" class="table-responsive">
                         <table matSort (matSortChange)="sortData($event)"
                             class="table border-0 custom-table comman-table datatable mb-0">
-                            <thead>
+                        <thead>
                                 <tr>
                                     <th mat-sort-header="permisoId">Nº</th>
                                     <th mat-sort-header="modulo">Módulo</th>

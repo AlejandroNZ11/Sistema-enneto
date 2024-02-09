@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, } from '@angular/material/table';
 import { pageSelection } from 'src/app/shared/models/models';
 import { Accion, PageSize, Paginacion, classIcon } from 'src/app/shared/models/tabla-columna';
-import { SharedModule } from 'src/app/shared/shared.module';
 
 @Component({
   selector: 'app-tabla',
@@ -23,6 +22,7 @@ export class TablaComponent implements OnInit {
   public limit: number = this.pageSize;
   public skip = 0;
   public pageIndex = 0;
+  isLoading = true;
   dataSource: any = [];
   dataFiltro!: MatTableDataSource<any>;
   serialNumberArray: number[] = [];
@@ -35,9 +35,11 @@ export class TablaComponent implements OnInit {
     this.totalData = data;
   }
   @Input() set data(data: any) {
+    this.isLoading = true;
     this.dataSource = data;
     this.dataFiltro = new MatTableDataSource<any>(data);
     this.calculateTotalPages(this.totalData, this.pageSize);
+    this.isLoading = false;
   }
   @Input() set indice(data: number[]) {
     this.serialNumberArray = data;
@@ -62,10 +64,50 @@ export class TablaComponent implements OnInit {
   onAction(accion: string, row?: any) {
     this.action.emit({ accion: accion, fila: row });
   }
-
+  getBgColor(data: any, activo: boolean): string {
+    if (data.color) {
+      return data.color;
+    } else {
+      if (activo) {
+        return '#00d3c71a';
+      } else { return '#e5f3fe'; }
+    }
+  }
+  getTextColor(data: any, activo: boolean): string {
+    if (data.color) {
+      return this.lightenOrDarkenColor(data.color);
+    } else {
+      if (activo) {
+        return '#00d3c7';
+      } else { return '##008cff'; }
+    }
+  }
+  lightenOrDarkenColor(hex: string) {
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+    let result;
+    if (brightness > 0.5) {
+      r = Math.round(r * (1 - 0.4));
+      g = Math.round(g * (1 - 0.4));
+      b = Math.round(b * (1 - 0.4));
+      result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+    } else {
+      r = Math.round(r + (255 - r) * 0.75);
+      g = Math.round(g + (255 - g) * 0.75);
+      b = Math.round(b + (255 - b) * 0.75);
+      result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
+    }
+    return result;
+  }
   refreshData() {
-    this.action.emit({ accion: 'Refresh' });
-}
+    this.isLoading = true;
+    setTimeout(() => {
+      this.action.emit({ accion: 'Refresh' });
+      this.isLoading = false;
+    }, 1000);
+  }
   public sortData(sort: Sort) {
     const data = this.dataSource.slice();
 
@@ -89,7 +131,7 @@ export class TablaComponent implements OnInit {
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    for (var i = 1; i <= this.totalPages; i++) {
+    for (let i = 1; i <= this.totalPages; i++) {
       const limit = pageSize * i;
       const skip = limit - pageSize;
       this.pageNumberArray.push(i);
@@ -133,7 +175,6 @@ export class TablaComponent implements OnInit {
   getIcon(accion: string): string {
     return classIcon(accion);
   }
-  constructor() { }
 
   ngOnInit(): void {
     this.MoreData.emit({ page: this.currentPage, size: this.pageSize, skip: this.skip, limit: this.limit });

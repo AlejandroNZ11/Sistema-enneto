@@ -2,6 +2,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 import { ModalAgregarPacienteComponent } from 'src/app/core/patient/modal-agregar-paciente/modal-agregar-paciente.component';
 import { citaMedica } from 'src/app/shared/models/cita';
 import { Iespecialidad } from 'src/app/shared/models/especialidades';
@@ -42,17 +43,19 @@ export class AgregarCitaComponent implements OnInit {
   horaInicio!: string;
   horaFin!: string;
   modalRef?: BsModalRef;
+  citaAgregada$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService) { }
   ngOnInit(): void {
-    this.citaNueva.especialidadId = 'TODOS'
     this.inicializarFechas();
     this.inicializarFormulario();
     this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
+    this.citaNueva.especialidadId = 'todos'
+    this.actualizarMedicos();
   }
   inicializarFechas() {
     const fechaCita = new Date(this.fechaInicio);
@@ -122,7 +125,7 @@ export class AgregarCitaComponent implements OnInit {
       this.listMedicos = data;
     })
   }
-  cerrar() { this.bsModalRef.hide() }
+  cerrar() { this.citaAgregada$.next(false); this.bsModalRef.hide() }
   guardarCita() {
     if (this.form.invalid) {
       this.isFormSubmitted = true;
@@ -142,6 +145,7 @@ export class AgregarCitaComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.form.reset();
+          this.citaAgregada$.next(true);
           this.bsModalRef.hide();
         } else {
           console.error(response.message);

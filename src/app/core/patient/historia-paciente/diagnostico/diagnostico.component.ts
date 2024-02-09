@@ -10,11 +10,15 @@ import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 import { Enfermedad } from 'src/app/shared/models/enfermedad';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../services/shared-service.service';
+import { environment } from 'src/environments/environments';
+import Swal from 'sweetalert2';
+import { Subject, finalize } from 'rxjs';
 
 interface DiagnosticoDTO {
+  pacienteDiagnosticoId: string;
   diagnostico: string;
   fecha: string;
-  codigoEnfermedad01: string;
+  codigoEnfermedad: string;
 }
 @Component({
   selector: 'app-diagnostico',
@@ -38,14 +42,15 @@ export class DiagnosticoComponent implements OnInit{
   currentPage = 1;
   bsModalRef?: BsModalRef;
   ListDiagnosticoPacienteDTO:Array<DiagnosticoDTO> =[];
-
-
+  ListDiagnosticoPacienteDtoOutput:Array<DiagnosticoDTO> =[];
+  mySkip =0;
+  isLoading = false;
   enfermedadList:Array<Enfermedad> = [];
 
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('HistoriaDiagnostico')
     this.acciones = ['Editar', 'Eliminar'];
-    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;})
+    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;  console.log(this.enfermedadList)})
 
 
     this.route.params.subscribe(params => {
@@ -55,30 +60,60 @@ export class DiagnosticoComponent implements OnInit{
 
     this.sharedService.setPacienteId(this.pacienteId);
   }
-  private getTableData(currentPage?: number, pageSize?: number): void {
+  private getTableData(currentPage: number, pageSize: number): void {
+
     this.ListDiagnosticoPaciente = [];
     this.serialNumberArray = [];
-    this.historiaDiagnosticoService.obtenerDiagnosticoPaciente().subscribe((data: DataHistoriaDiagnostico) => {
+    this.ListDiagnosticoPacienteDTO =[];
+    this.ListDiagnosticoPacienteDtoOutput=[];
+    this.mySkip=0;
+
+    this.historiaDiagnosticoService.obtenerDiagnosticoPacienteList(this.pacienteId, environment.clinicaId, currentPage,pageSize)
+    .pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataHistoriaDiagnostico) => {
       this.totalData = data.totalData
+      console.log(data.data)
       console.log(this.totalData)
+      console.log(this.skip)
+      console.log(this.limit)
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
-
+        console.log("dentro del for:",index);
+        console.log(data.data[this.mySkip].fecha)
         // Filtrar solo los valores necesarios y crear instancias de DiagnosticoDTO
       const diagnosticoDTO: DiagnosticoDTO = {
-        diagnostico: data.data[index].pacienteDiagnosticoId,
-        fecha: data.data[index].fecha,
-        codigoEnfermedad01: data.data[index].codigoEnfermedad01
+        pacienteDiagnosticoId: data.data[this.mySkip].pacienteDiagnosticoId,
+        diagnostico:this.getDiagnostico(data.data[this.mySkip].enfermedadId),
+        // diagnostico: this.getDiagnostico(data.data[index].codigoEnfermedad),
+
+        fecha: this.formatoFecha(data.data[this.mySkip].fecha),
+        codigoEnfermedad: data.data[this.mySkip].enfermedadId
       };
       this.ListDiagnosticoPacienteDTO.push(diagnosticoDTO);
-      }
-      this.ListDiagnosticoPaciente = data.data;
 
-      console.log(this.ListDiagnosticoPaciente)
-      this.dataSource = new MatTableDataSource<DiagnosticoDTO>(this.ListDiagnosticoPacienteDTO);
+      this.mySkip++;
+      }
+
+      this.dataSource = new MatTableDataSource<DiagnosticoDTO>(this.ListDiagnosticoPacienteDtoOutput);
+
+      this.ListDiagnosticoPacienteDtoOutput= this.ListDiagnosticoPacienteDTO;
+      console.log(this.ListDiagnosticoPacienteDtoOutput)
     });
   }
+
+  getDiagnostico(codEnfermendadId:string):string{
+    console.log(codEnfermendadId)
+    return this.enfermedadList.find(enfermedad => enfermedad.enfermedadId === codEnfermendadId)!.descripcion || '';
+  }
+
+  formatoFecha(fecha: string): string {
+
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+
 
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
@@ -86,7 +121,7 @@ export class DiagnosticoComponent implements OnInit{
     } else if (accion.accion == 'Editar') {
       this.editarDiagnosticoPaciente(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarDiagnosticoPaciente(accion.fila.marcaMaterialesId)
+      this.eliminarDiagnosticoPaciente(accion.fila.pacienteDiagnosticoId)
     }
   }
 
@@ -94,7 +129,7 @@ export class DiagnosticoComponent implements OnInit{
 
     this.bsModalRef = this.modalService.show(AgregarDiagnosticoPacienteComponent);
 
-    this.bsModalRef.content.categoriaAgregada$.subscribe((categoriaAgregada: boolean) => {
+    this.bsModalRef.content.diagnosticoAgregado$.subscribe((categoriaAgregada: boolean) => {
       if (categoriaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
       }
@@ -104,17 +139,53 @@ export class DiagnosticoComponent implements OnInit{
 
   editarDiagnosticoPaciente(diagnostico: IHistoriaDagnostico){
     const initialState = {
-      enfermedadSeleccionada: diagnostico.pacienteId
+      diagnosticoSeleccionado: diagnostico.pacienteDiagnosticoId
     };
     this.bsModalRef = this.modalService.show(EditarDiagnosticoPacienteComponent, { initialState });
+
+    const diagnosticoEditado$ = new Subject<boolean>();
+
+    this.bsModalRef.content.diagnosticoEditado$ = diagnosticoEditado$;
+    diagnosticoEditado$.subscribe((diagnosticoEditado: boolean)=>{
+      if(diagnosticoEditado){
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      diagnosticoEditado$.unsubscribe();
+    })
   }
 
-  eliminarDiagnosticoPaciente(diagnosticoId: string){
-    console.log(diagnosticoId)
+  eliminarDiagnosticoPaciente(diagnosticoPacienteId: string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.historiaDiagnosticoService.eliminarDiagnosticoPaciente(diagnosticoPacienteId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message, '', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
   }
 
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
+
     this.currentPage = pag.page;
     this.pageSize = pag.size;
     this.skip = pag.skip;

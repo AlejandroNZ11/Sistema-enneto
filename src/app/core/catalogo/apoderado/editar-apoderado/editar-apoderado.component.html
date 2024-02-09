@@ -31,7 +31,7 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumento" class="form-control select" placeholder="Seleccionar Documento">
+                                    <mat-select formControlName="tipoDocumento" class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoDocumento')}" placeholder="Seleccionar Documento">
                                         <mat-option value="01">DNI</mat-option>
                                         <mat-option value="02">RUC</mat-option>
                                         <mat-option value="03">PASAPORTE</mat-option>
@@ -46,20 +46,19 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nro. Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" class="form-control" type="text" pattern="[0-9]+" [ngClass]="{'is-invalid': isInvalid('documento') || mostrarErrores}">
+                                    <input formControlName="documento" class="form-control" type="text" [attr.maxlength]="maxLengthDocumento" (keydown)="soloNumeros($event)" [ngClass]="{'is-invalid': isInvalid('documento') || mostrarErrores}">
                                     <div *ngIf="isInvalid('documento') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('documento')">Debe completar el campo*</div>
-                                        <div *ngIf="form.get('documento')?.hasError('pattern')">Debe ingresar solo números</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Teléfono <span class="login-danger">*</span></label>
-                                    <input formControlName="telefono" class="form-control" type="text" pattern="[0-9]+" [ngClass]="{'is-invalid': isInvalid('telefono') || mostrarErrores}">
+                                    <input formControlName="telefono" class="form-control" type="text" maxLength="9" (keydown)="soloNumeros($event)" [ngClass]="{'is-invalid': isInvalid('telefono') || mostrarErrores}">
                                     <div *ngIf="isInvalid('telefono') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('telefono')">Debe completar el campo*</div>
-                                        <div *ngIf="form.get('telefono')?.hasError('pattern')">Debe ingresar solo números</div>
+                                        <div *ngIf="form.get('telefono')?.errors?.['required']">Debe completar el campo*</div>
+                                        <div *ngIf="form.get('telefono')?.value && form.get('telefono')?.errors?.['empiezaCon9']">Debe comenzar con 9*</div>
                                     </div>
                                 </div>
                             </div>

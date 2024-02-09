@@ -5,7 +5,7 @@ import { AlmacenService } from 'src/app/shared/services/almacen.service';
 import { almacen } from 'src/app/shared/models/almacen';
 import Swal from 'sweetalert2';
 import { routes } from 'src/app/shared/routes/routes';
-import { Isede, DataSede } from 'src/app/shared/models/sede'; 
+import { Isede,} from 'src/app/shared/models/sede'; 
 import { SedeService } from 'src/app/shared/services/sede.service';
 import { Subject } from 'rxjs';
 

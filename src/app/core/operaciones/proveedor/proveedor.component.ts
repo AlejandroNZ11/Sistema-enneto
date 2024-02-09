@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { environment as env } from 'src/environments/environments';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import { EditarProveedorComponent } from './editar-proveedor/editar-proveedor.component';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-proveedor',
   templateUrl: './proveedor.component.html',
@@ -90,10 +91,15 @@ export class ProveedorComponent {
     } else if (accion.accion == 'Editar') {
       this.editarProveedor(accion.fila)
     }  else if (accion.accion == 'Eliminar') {
-      this.eliminarProveedor(accion.fila.diagnosticoId)
+      this.eliminarProveedor(accion.fila.proveedorId)
+    }else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;
@@ -103,11 +109,18 @@ export class ProveedorComponent {
   }
   editarProveedor(proveedor: Iproveedor) {
     const initialState = {
-      proveedorSeleccionado: proveedor.ruc
+      proveedorSeleccionado: proveedor.proveedorId
     };
     this.bsModalRef = this.modalService.show(EditarProveedorComponent, { initialState });
+    const proveedorActualizado = new Subject<boolean>();
+    this.bsModalRef.content.proveedorActualizado = proveedorActualizado;
+    proveedorActualizado.subscribe((proveedorEditada: boolean) => {
+      if (proveedorEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      proveedorActualizado.unsubscribe();   
     });
   }
   public searchData(value: any): void {

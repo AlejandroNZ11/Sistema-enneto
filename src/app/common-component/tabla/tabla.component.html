@@ -26,7 +26,10 @@
         </div>
     </div>
 </div>
-<div class="table-responsive">
+<div *ngIf="isLoading" class="spinner-container">
+    <div class="custom-spinner"></div>
+</div>
+<div *ngIf="!isLoading" class="table-responsive">
     <table matSort (matSortChange)="sortData($event)" class="table border-0 custom-table comman-table datatable mb-0">
         <thead>
             <tr>
@@ -40,9 +43,15 @@
             <tr *ngFor="let data of dataSource let i = index">
                 <td>{{serialNumberArray[i]}}</td>
                 <td *ngFor="let nombre of columnas">{{getValue(data,nombre)}}</td>
-                <td *ngIf="data.estado==='A'|| data.estado ==='1' || data.estado ===1"><button class="custom-badge status-green">Activo</button></td>
-                <td *ngIf="data.estado==='I'|| data.estado ==='0' || data.estado ===0"><button class="custom-badge status-blue">Inactivo</button></td>
-                <td class="text-end">
+                <td *ngIf="data.estado==='A'|| data.estado ==='1' || data.estado ===1">
+                    <button class="custom-badge"  [style.color]="getTextColor(data,true)"
+                        [style.backgroundColor]="getBgColor(data,true)">Activo</button>
+                </td>
+                <td *ngIf="data.estado==='I'|| data.estado ==='0' || data.estado ===0">
+                    <button class="custom-badge status-blue" [style.color]="getTextColor(data,true)"
+                        [style.backgroundColor]="getBgColor(data,false)">Inactivo</button>
+                </td>
+                <td class="text-end" *ngIf="acciones.length > 0">
                     <div class="dropdown dropdown-action">
                         <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                             aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
@@ -73,49 +82,31 @@
                     </li>
                     <ng-container *ngFor="let item of pageNumberArray; let i = index">
                         <li class="page-item" [class.active]="item === currentPage" [ngClass]="
-                    (pageNumberArray[currentPage - 2] > item &&
-                        item !== 1 &&
-                        pageNumberArray.length > 6) ||
-                    (pageNumberArray[currentPage] < item &&
-                        item !== 1 &&
-                        pageNumberArray.length > 6 &&
-                        pageNumberArray.length !== item)
-                        ? 'hide-page-no'
-                        : 'show-page-no'">
+                        (pageNumberArray[currentPage - 2] > item && item !== 1 && pageNumberArray.length > 6) ||
+                        (pageNumberArray[currentPage] < item && item !== 1 && pageNumberArray.length > 6 &&
+                        pageNumberArray.length !== item) ? 'hide-page-no' : 'show-page-no'">
                             <a (click)="moveToPage(item)" class="page-link" href="javascript:void(0);">
                                 {{ item }}
                             </a>
                         </li>
-                        <li class="page-item" *ngIf="
-                    i === 0 &&
-                    pageNumberArray.length > 6 &&
-                    currentPage > 2
-                    " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                        <li class="page-item" *ngIf=" i === 0 && pageNumberArray.length > 6 && currentPage > 2
+                        " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
                             <a class="page-link" href="javascript:void(0);">
                                 ...
                             </a>
                         </li>
-                        <li *ngIf="
-                    i === pageNumberArray.length - 2 &&
-                    pageNumberArray.length > 6
-                    " [hidden]="
-                    currentPage >=
-                        pageNumberArray[pageNumberArray.length - 2] ||
-                    totalData <
-                        serialNumberArray[serialNumberArray.length - 1]
-                    " class="page-item" (click)="moveToPage(currentPage + 2)">
+                        <li *ngIf=" i === pageNumberArray.length - 2 && pageNumberArray.length > 6
+                        " [hidden]=" currentPage >= pageNumberArray[pageNumberArray.length - 2] ||
+                        totalData < serialNumberArray[serialNumberArray.length - 1]
+                        " class="page-item" (click)="moveToPage(currentPage + 2)">
                             <a class="page-link" href="javascript:void(0);">
                                 ...
                             </a>
                         </li>
                     </ng-container>
-                    <li class="page-item" [ngClass]="{
-                    disabled:
-                    currentPage ===
-                        pageNumberArray[pageNumberArray.length - 1] ||
+                    <li class="page-item" [ngClass]="{ disabled: currentPage === pageNumberArray[pageNumberArray.length - 1] ||
                         dataSource.length === 0  }">
-                        <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Siguiente
-                        </a>
+                        <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Siguiente </a>
                     </li>
                 </ul>
             </div>

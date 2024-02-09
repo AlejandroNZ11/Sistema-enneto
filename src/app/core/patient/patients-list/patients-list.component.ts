@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, OnInit } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
@@ -40,6 +41,7 @@ export class PatientsListComponent implements OnInit {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
+
   tiposPacientes!: ItipoPaciente[];
   isLoading = false;
   bsModalRef?: BsModalRef;
@@ -48,10 +50,10 @@ export class PatientsListComponent implements OnInit {
   }
   ngOnInit() {
     this.tipoPacienteService.obtenerTipoPacientes().subscribe(data => { this.tiposPacientes = data; })
-    this.obtenerDatosPacientesSinFiltro();
+    this.obtenerDatosPacientes();
 
   }
-  private obtenerDatosPacientesSinFiltro(): void {
+  obtenerDatosPacientes(): void {
     this.patientsList = [];
     this.serialNumberArray = [];
     this.isLoading = true;
@@ -89,7 +91,7 @@ export class PatientsListComponent implements OnInit {
     if (this.paciente) {
       paciente = this.paciente;
     }
-    if (this.tipoPaciente != '--TODOS--') {
+    if (this.tipoPaciente != 'Todos') {
       tipoPaciente = this.tipoPaciente;
     }
     this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
@@ -112,7 +114,7 @@ export class PatientsListComponent implements OnInit {
     this.fechaFin = '';
     this.paciente = '';
     this.tipoPaciente = '';
-    this.obtenerDatosPacientesSinFiltro();
+    this.obtenerDatosPacientes();
   }
   formatoFecha(fecha: string): string {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
@@ -131,7 +133,7 @@ export class PatientsListComponent implements OnInit {
           (response) => {
             if (response.isSuccess) {
               Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
-              this.obtenerDatosPacientesSinFiltro();
+              this.obtenerDatosPacientes();
               return;
             } else {
               console.error(response.message);
@@ -148,11 +150,10 @@ export class PatientsListComponent implements OnInit {
 
   modalCumpleanios() {
     const initialState = {
-      // Puedes pasar cualquier dato inicial que necesites al componente del modal
     };
     const modalOptions = {
-      class: 'modal-lg', // Puedes ajustar el tamaño del modal aquí (modal-sm, modal-lg, etc.)
-      ignoreBackdropClick: true, // Evitar que el modal se cierre haciendo clic en el fondo
+      class: 'modal-lg',
+      ignoreBackdropClick: true,
       initialState,
     };
     this.bsModalRef = this.modalService.show(CumpleaniosComponent, modalOptions),
@@ -166,9 +167,7 @@ export class PatientsListComponent implements OnInit {
       this.patientsList = data;
     } else {
       this.patientsList = data.sort((a, b) => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const aValue = (a as any)[sort.active];
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const bValue = (b as any)[sort.active];
         return (aValue < bValue ? -1 : 1) * (sort.direction === 'asc' ? 1 : -1);
       });
@@ -181,13 +180,13 @@ export class PatientsListComponent implements OnInit {
       this.pageIndex = this.currentPage - 1;
       this.limit += this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerDatosPacientesSinFiltro();
+      this.obtenerDatosPacientes();
     } else if (event == 'previous') {
       this.currentPage--;
       this.pageIndex = this.currentPage - 1;
       this.limit -= this.pageSize;
       this.skip = this.pageSize * this.pageIndex;
-      this.obtenerDatosPacientesSinFiltro();
+      this.obtenerDatosPacientes();
     }
   }
 
@@ -200,7 +199,7 @@ export class PatientsListComponent implements OnInit {
     } else if (pageNumber < this.currentPage) {
       this.pageIndex = pageNumber + 1;
     }
-    this.obtenerDatosPacientesSinFiltro();
+    this.obtenerDatosPacientes();
   }
 
   public PageSize(): void {
@@ -208,7 +207,7 @@ export class PatientsListComponent implements OnInit {
     this.limit = this.pageSize;
     this.skip = 0;
     this.currentPage = 1;
-    this.obtenerDatosPacientesSinFiltro();
+    this.obtenerDatosPacientes();
   }
 
   private calculateTotalPages(totalData: number, pageSize: number): void {
@@ -217,10 +216,9 @@ export class PatientsListComponent implements OnInit {
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
     }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      var limit = pageSize * i;
-      var skip = limit - pageSize;
+    for (let i = 1; i <= this.totalPages; i++) {
+      const limit = pageSize * i;
+      const skip = limit - pageSize;
       this.pageNumberArray.push(i);
       this.pageSelection.push({ skip: skip, limit: limit });
     }

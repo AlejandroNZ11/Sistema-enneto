@@ -37,12 +37,9 @@ export class TipoPagoComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('TipoPago');
     this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
   }
 
-  refreshData() {
-    this.getTableData(this.currentPage, this.pageSize);
-  }
+  
 
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoPago = [];
@@ -69,6 +66,9 @@ export class TipoPagoComponent implements OnInit {
       this.refreshData();
     }
   }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
 
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
@@ -80,8 +80,10 @@ export class TipoPagoComponent implements OnInit {
 
   crearTipoPago() {
     this.bsModalRef = this.modalService.show(AgregarTipoPagoComponent);
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+    this.bsModalRef.content.tipopagoAgregado$.subscribe((tipopagoAgregado$: boolean) => {
+      if (tipopagoAgregado$) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
     });
   }
 

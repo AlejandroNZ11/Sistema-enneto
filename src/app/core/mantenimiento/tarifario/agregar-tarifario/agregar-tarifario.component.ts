@@ -20,11 +20,12 @@ import { Subject } from 'rxjs';
   templateUrl: './agregar-tarifario.component.html',
   styleUrls: ['./agregar-tarifario.component.scss']
 })
-export class AgregarTarifarioComponent {
+export class AgregarTarifarioComponent implements OnInit {
   tarifarioAgregada$: Subject<boolean> = new Subject<boolean>();
   fechaRegistro: Date = new Date();
-  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
+  
   categoria_LISTA: Array<Icategoria> = [];
+  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   unidad_LISTA: Array<Iunidad> = [];
   medida_LISTA: Array<Imedida> = [];
   Tarifario: tarifario = new tarifario();
@@ -36,6 +37,7 @@ export class AgregarTarifarioComponent {
   public categoria !: string[];
   public unidad !: string [];
   public medida !: string [];
+
 
 
 
@@ -56,14 +58,14 @@ export class AgregarTarifarioComponent {
   
   
   ngOnInit(): void {
-    
+    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
+      this.categoria_LISTA = data;
+    });
     this.TipoConceptoService.obtenerListaTipoConcepto().subscribe((data: ItipoConcepto[]) => {
       this.tipoconcepto_LISTA = data;
     });
 
-    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
-      this.categoria_LISTA = data;
-    });
+    
 
     this.medidaservice.obtenerListaMedida().subscribe((data: Imedida[]) => {
       this.medida_LISTA = data;
@@ -77,6 +79,7 @@ export class AgregarTarifarioComponent {
     this.form = this.formBuilder.group({
     tipoconcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
+    grupo: ['',[Validators.required]],
     categoria: ['', [Validators.required]],
     precio: ['', [Validators.required]],
     medida: ['', [Validators.required]],
@@ -97,7 +100,7 @@ export class AgregarTarifarioComponent {
   
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
-    return control?.invalid && control?.touched;
+    return control?.invalid && (control?.touched || control?.dirty);
   }
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
@@ -117,7 +120,7 @@ export class AgregarTarifarioComponent {
       this.isTouched()      
       return;
     }
-    
+    this.Tarifario.grupo= this.form.get("grupo")?.value;
     this.Tarifario.categoriaId = this.form.get("categoria")?.value;
     this.Tarifario.tipoconceptoId = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;

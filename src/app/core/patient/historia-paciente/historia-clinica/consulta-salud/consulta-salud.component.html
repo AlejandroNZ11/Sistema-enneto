@@ -1,6 +1,6 @@
 <div  *ngIf="!isLoading" class="card mt-1">
   <div class="card-body ">
-    <form [formGroup]="form">
+    <form (ngSubmit)="agregarConsultaSaludPaciente()" [formGroup]="form" >
       <!-- Group 1 -->
       <div class="row mt-2">
         <div class="col-md-6 ">
@@ -12,17 +12,15 @@
               <div class="form-group d-flex">
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.ortodoncia"
                   formControlName="ortodoncia"
-                  class="form-check-input" type="radio" value="S" id="S">
+                  class="form-check-input" type="radio" value="s" id="s">
                   <label class="form-check-label" >Si</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input
                   name="ortodoncia"
-                  [(ngModel)]="consultaPaciente!.ortodoncia"
                   formControlName="ortodoncia"
-                  class="form-check-input" type="radio" value="N"id="S" >
+                  class="form-check-input" type="radio" value="n"id="n" >
                   <label class="form-check-label" >No</label>
                 </div>
               </div>
@@ -33,7 +31,6 @@
                 <label>Descripcion<span class="login-danger">*</span></label>
                 <div class="input-group">
                   <textarea
-                  [(ngModel)]="consultaPaciente!.ortodonciaTexto"
                   class="form-control" formControlName="ortodonciaTexto" type="text">
                    </textarea>
                 </div>
@@ -52,14 +49,14 @@
               <div class="form-group d-flex">
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.medicamento"
-                  class="form-check-input" type="radio" value="S" formControlName="medicamento">
+
+                  class="form-check-input" type="radio" value="s" formControlName="medicamento">
                   <label class="form-check-label" >Si</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.medicamento"
-                  class="form-check-input" type="radio" value="N" formControlName="medicamento">
+
+                  class="form-check-input" type="radio" value="n" formControlName="medicamento">
                   <label class="form-check-label" >No</label>
                 </div>
               </div>
@@ -70,7 +67,6 @@
                 <label>Descripcion<span class="login-danger">*</span></label>
                 <div class="input-group">
                   <textarea
-                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
 
                   class="form-control" formControlName="medicamentoTexto" type="text">
                  </textarea>
@@ -95,16 +91,14 @@
               <div class="form-group d-flex">
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.alergico"
 
-                  class="form-check-input" type="radio" value="S" formControlName="alergico">
+                  class="form-check-input" type="radio" value="s" formControlName="alergico">
                   <label class="form-check-label" >Si</label>
                 </div>
                 <div
-                [(ngModel)]="consultaPaciente!.alergico"
 
                 class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio"value="N" formControlName="alergico">
+                  <input class="form-check-input" type="radio"value="n" formControlName="alergico">
                   <label class="form-check-label" >No</label>
                 </div>
               </div>
@@ -115,7 +109,6 @@
                 <label>Descripcion<span class="login-danger">*</span></label>
                 <div class="input-group">
                   <textarea
-                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
 
                   class="form-control" formControlName="alergicoTexto" type="text">
                    </textarea>
@@ -134,17 +127,15 @@
               <div class="form-group d-flex">
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.hospitalizacion"
 
-                  class="form-check-input" type="radio" value="S" formControlName="hospitalizacion">
-                  <label class="form-check-label" >No</label>
+                  class="form-check-input" type="radio" value="s" formControlName="hospitalizacion">
+                  <label class="form-check-label" >Si</label>
                 </div>
                 <div
-                [(ngModel)]="consultaPaciente!.medicamento"
 
                 class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" value="N" formControlName="hospitalizacion">
-                  <label class="form-check-label" >Si</label>
+                  <input class="form-check-input" type="radio" value="n" formControlName="hospitalizacion">
+                  <label class="form-check-label" >No</label>
                 </div>
               </div>
             </div>
@@ -154,7 +145,6 @@
                 <label>Descripcion<span class="login-danger">*</span></label>
                 <div class="input-group">
                   <textarea
-                  [(ngModel)]="consultaPaciente!.medicamentoTexto"
 
                   class="form-control" formControlName="hospitalizacionTexto" type="text">
                    </textarea>
@@ -175,8 +165,7 @@
               <div class="form-group">
                 <div *ngFor="let item of enfermedades_LISTA" class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.padecimientos"
-
+                  formControlName="padecimientos"
                   class="form-check-input" type="radio" [value]="item.value" formControlName="padecimientos">
                   <label class="form-check-label" >{{ item.name }}</label>
                 </div>
@@ -195,16 +184,14 @@
               <div class="form-group d-flex">
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.transfusiones"
 
-                  class="form-check-input" type="radio" value="S" formControlName="transfusiones">
+                  class="form-check-input" type="radio" value="s" formControlName="transfusiones">
                   <label class="form-check-label">Si</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input
-                  [(ngModel)]="consultaPaciente!.transfusiones"
 
-                  class="form-check-input" type="radio" value="N" formControlName="transfusiones">
+                  class="form-check-input" type="radio" value="n" formControlName="transfusiones">
                   <label class="form-check-label" >No</label>
                 </div>
               </div>
@@ -215,7 +202,6 @@
                 <label>Descripcion<span class="login-danger">*</span></label>
                 <div class="input-group">
                   <textarea
-                  [(ngModel)]="consultaPaciente!.transfusionesTexto"
 
                   class="form-control" formControlName="transfusionesTexto" type="text">
                    </textarea>
@@ -237,16 +223,16 @@
                 <div class="form-group d-flex">
                   <div class="form-check form-check-inline">
                     <input
-                  [(ngModel)]="consultaPaciente!.cepillado"
 
-                    class="form-check-input" type="radio" value="S" formControlName="cepillado">
+
+                    class="form-check-input" type="radio" value="s" formControlName="cepillado">
                     <label class="form-check-label" >Si</label>
                   </div>
                   <div class="form-check form-check-inline">
                     <input
-                  [(ngModel)]="consultaPaciente!.cepillado"
 
-                    class="form-check-input" type="radio" value="N" formControlName="cepillado">
+
+                    class="form-check-input" type="radio" value="n" formControlName="cepillado">
                     <label class="form-check-label" >No</label>
                   </div>
                 </div>
@@ -257,7 +243,6 @@
                   <label>Descripcion<span class="login-danger">*</span></label>
                   <div class="input-group">
                     <textarea
-                  [(ngModel)]="consultaPaciente!.cepilladoTexto"
 
                     class="form-control" formControlName="cepilladoTexto" type="text">
                      </textarea>
@@ -277,16 +262,16 @@
                 <div class="form-group d-flex">
                   <div class="form-check form-check-inline">
                     <input
-                  [(ngModel)]="consultaPaciente!.presionArterial"
 
-                    class="form-check-input" type="radio" value="S" formControlName="presionArterial">
+
+                    class="form-check-input" type="radio" value="s" formControlName="presionArterial">
                     <label class="form-check-label" >Si</label>
                   </div>
                   <div class="form-check form-check-inline">
                     <input
-                  [(ngModel)]="consultaPaciente!.presionArterial"
 
-                    class="form-check-input" type="radio" value="N" formControlName="presionArterial">
+
+                    class="form-check-input" type="radio" value="n" formControlName="presionArterial">
                     <label class="form-check-label" >No</label>
                   </div>
                 </div>
@@ -297,7 +282,6 @@
                   <label>Descripcion<span class="login-danger">*</span></label>
                   <div class="input-group">
                     <textarea
-                  [(ngModel)]="consultaPaciente!.presionArterialTexto"
 
                     class="form-control" formControlName="presionArterialTexto" type="text">
                    </textarea>

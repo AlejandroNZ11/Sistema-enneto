@@ -27,13 +27,15 @@
                                 <div class="col-12 col-md-6 col-xl-3">
                                     <div class="form-group local-forms">
                                         <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                        <mat-select formControlName="tipoDocumento" [(ngModel)]="tipoDocumento"
+                                        <mat-select formControlName="tipoDocumento" [(ngModel)]="doctor.TipoDocumento"
                                             class="form-control select" placeholder="Seleccione Tipo de Documento"
                                             [ngClass]="{'is-invalid': isInvalid('tipoDocumento') && isFormSubmitted}"
                                             (ngModelChange)="actualizarCantidad()">
-                                            <mat-option *ngFor="let data of tipoDoc_LISTA" [value]="data.descripcion">
-                                                {{data.descripcion}}
-                                            </mat-option>
+                                            <mat-option value="01">Documento Nacional de Identidad </mat-option>
+                                            <mat-option value="06">RUC</mat-option>
+                                            <mat-option value="07">PASAPORTE</mat-option>
+                                            <mat-option value="04">CARNET EXTRANJERIA </mat-option>
+                                            <mat-option value="00"> OTRO</mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('tipoDocumento') && isFormSubmitted"
                                             class="invalid-feedback">
@@ -53,7 +55,7 @@
                                                 [maxLength]='cantidad'>
                                         </div>
                                         <span class="icon-outside"
-                                            *ngIf="this.form.get('tipoDocumento')!.value === 'Documento Nacional de Identidad'">
+                                            *ngIf="this.form.get('tipoDocumento')!.value === '01'">
                                             <i class="fa fa-search" (click)="obtenerCliente()"></i>
                                         </span>
                                         <div *ngIf="isInvalid('numeroDocumento') && isFormSubmitted"
@@ -243,7 +245,7 @@
                                     <div class="form-group local-forms">
                                         <label>Colegiatura <span class="login-danger">*</span></label>
                                         <input formControlName="colegioMedico" [(ngModel)]="doctor.ColegioMedico"
-                                            class="form-control" type="text"
+                                            class="form-control" type="text" (input)="soloNumeros($event)"
                                             [ngClass]="{'is-invalid': isInvalid('colegioMedico') && isFormSubmitted}"
                                             pattern="[0-9]*" maxlength="4">
                                         <div *ngIf="isInvalid('colegioMedico') && isFormSubmitted"

@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form (ngSubmit)="actualizarMedico()" [formGroup]="form">
-                            <div class="row">
+                            <div class="row" *ngIf="medicoEditar">
                                 <div class="col-12">
                                     <div class="form-heading">
                                         <h4>Detalles del Medico</h4>
@@ -35,7 +35,7 @@
                                     <div class="form-group local-forms">
                                         <label>Nro. Documento <span class="login-danger">*</span></label>
                                         <input (input)="soloNumeros($event)"
-                                            placeholder="{{medicoEditar!.numeroDocumento}}" class="form-control"
+                                            placeholder="{{medicoEditar.numeroDocumento}}" class="form-control"
                                             type="text" [disabled]="true">
                                     </div>
                                 </div>

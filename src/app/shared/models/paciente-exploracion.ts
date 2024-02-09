@@ -1,5 +1,23 @@
+export class pacienteExploracion{
+  clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  pacienteId=""
+  presionArterial=""
+  pulso=""
+  temperatura=""
+  frecuenciaCardiaca=""
+  frecuenciaRespiratoria=""
+  peso=""
+  talla=""
+  masa=""
+  examenClinico=""
+  complementoExamen=""
+  odontogramaEstomatologico=""
+
+}
+
 export interface DataPacienteExploracion{
-  data: IPacienteExploracion;
+  data: IPacienteExploracion[];
+  totalData:number;
 }
 
 export interface IPacienteExploracion {

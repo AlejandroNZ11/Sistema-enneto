@@ -5,6 +5,7 @@ import { routes } from 'src/app/shared/routes/routes';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
 import { DataClientes,clientes,IClientes} from 'src/app/shared/models/clientes';
 import { environment as env } from 'src/environments/environments';
+import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import { AgregarClienteComponent } from './agregar-cliente/agregar-cliente.component';
@@ -35,7 +36,9 @@ export class ClientesComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('Clientes');
     this.acciones = ['Editar', 'Eliminar'];
+    this.getTableData(this.currentPage, this.pageSize);
   }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListClientes = [];
     this.serialNumberArray = [];
@@ -70,18 +73,28 @@ export class ClientesComponent implements OnInit {
 
   crearCliente() {
     this.bsModalRef = this.modalService.show(AgregarClienteComponent),
-      this.bsModalRef.onHidden?.subscribe(() => {
+    this.bsModalRef.content.clientesAgregada$.subscribe((clientesAgregada: boolean) => {
+      if (clientesAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
-      });
+      }
+    });
   }
+
   editarCliente(Clientes: IClientes) {
     const initialState = {
       clienteSeleccionado: Clientes.clienteId
     };
     this.bsModalRef = this.modalService.show(EditarClienteComponent, { initialState });
-    this.bsModalRef.onHidden?.subscribe(() => {
+    const clientesEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.clientesEditada$ = clientesEditada$;
+    clientesEditada$.subscribe((clientesEditada: boolean) => {
+      if (clientesEditada) {
       this.getTableData(this.currentPage, this.pageSize);
-    });
+    }
+  });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      clientesEditada$.unsubscribe();   
+  });
   }
   eliminarCliente(clienteId: string) {
     Swal.fire({
