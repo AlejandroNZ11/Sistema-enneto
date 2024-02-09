@@ -22,7 +22,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha de Inicio<span class="text-danger">*</span></label>
-                                    <input formControlName="fechaInicio" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fechaInicio')}" placeholder="Seleccionar Fecha">
+                                    <input formControlName="fechaInicio" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fechaInicio')}" placeholder="Seleccionar Fecha" readonly>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
                                     <div *ngIf="isInvalid('fechaInicio')" class="invalid-feedback">
@@ -33,7 +33,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha fin del contrato<span class="text-danger">*</span></label>
-                                    <input formControlName="fechaFinContrato" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker2" [ngClass]="{'is-invalid': isInvalid('fechaFinContrato')}" placeholder="Seleccionar Fecha">
+                                    <input formControlName="fechaFinContrato" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker2" [ngClass]="{'is-invalid': isInvalid('fechaFinContrato')}" placeholder="Seleccionar Fecha" readonly>
                                     <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
                                     <div *ngIf="isInvalid('fechaFinContrato')" class="invalid-feedback">
