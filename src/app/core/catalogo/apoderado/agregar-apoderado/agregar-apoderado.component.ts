@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 function empiezaCon9Validator(): ValidatorFn {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (control: AbstractControl): {[key: string]: any} | null => {
     const valido = control.value ? control.value.startsWith('9') : false;
     return valido ? null : {empiezaCon9: {value: control.value}};

@@ -57,9 +57,14 @@ export class TipoTarjetaComponent implements OnInit {
       this.editarTipoTarjeta(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminartipoTarjeta(accion.fila.tipoTarjetaId)
+    }else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
+    
   }
-
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;

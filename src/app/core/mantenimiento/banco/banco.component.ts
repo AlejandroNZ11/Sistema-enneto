@@ -59,7 +59,13 @@ export class BancoComponent implements OnInit{
       this.editarBanco(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarBanco(accion.fila.bancoId)
+    }else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
+    
+  }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
   getMoreData(pag: Paginacion) {
@@ -125,5 +131,6 @@ export class BancoComponent implements OnInit{
     })
     
   }
+ 
 }
 

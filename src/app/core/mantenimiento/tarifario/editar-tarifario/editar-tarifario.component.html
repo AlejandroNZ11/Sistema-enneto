@@ -43,6 +43,31 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
+                                    <label>Grupo <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="grupo" class="form-control select" [ngClass]="{'is-invalid': isInvalid('grupo')}" placeholder="Seleccionar Grupo">
+                                        <mat-option value="General">General</mat-option>
+                                        <mat-option value="Coronas">Coronas</mat-option>
+                                        <mat-option value="Protesis">Protesis</mat-option>
+                                        <mat-option value="Pernos">Pernos</mat-option>
+                                        <mat-option value="Profilaxis">Profilaxis</mat-option>
+                                        <mat-option value="Resinas">Resinas</mat-option>
+                                        <mat-option value="Sellantes">Sellantes</mat-option>
+                                        <mat-option value="Fluor">Fluor</mat-option>
+                                        <mat-option value="Blanqueamiento">Blanqueamiento</mat-option>
+                                        <mat-option value="Exodoncias">Exodoncias</mat-option>
+                                        <mat-option value="Incrustaciones">Incrustaciones</mat-option>
+                                        <mat-option value="Carillas">Carillas</mat-option>
+                                        <mat-option value="Brackets">Brackets</mat-option>
+                                        <mat-option value="Implantes">Implantes</mat-option>
+                                        <mat-option value="Radiogramas">Radiogramas</mat-option>
+                                        <mat-option value="Endodoncia">Endodoncia</mat-option>
+                                        <mat-option value="Ortodoncia">Ortodoncia</mat-option>
+                                        <mat-option value="Cirugia">Cirugia</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-15">
+                                <div class="form-group local-forms">
                                     <label>Categoria <span class="login-danger">*</span></label>
                                     <mat-select formControlName="categoria"
                                         class="form-control select" placeholder="Seleccione Tipo Categoria"

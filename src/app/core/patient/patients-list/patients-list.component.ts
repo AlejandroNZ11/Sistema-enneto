@@ -14,6 +14,7 @@ import { ItipoPaciente } from 'src/app/shared/models/tipoPaciente';
 import { finalize } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CumpleaniosComponent } from '../cumpleanios/cumpleanios.component';
+import { DATE } from 'ngx-bootstrap/chronos/units/constants';
 
 @Component({
   selector: 'app-patients-list',
@@ -41,7 +42,6 @@ export class PatientsListComponent implements OnInit {
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
-
   tiposPacientes!: ItipoPaciente[];
   isLoading = false;
   bsModalRef?: BsModalRef;
@@ -57,44 +57,11 @@ export class PatientsListComponent implements OnInit {
     this.patientsList = [];
     this.serialNumberArray = [];
     this.isLoading = true;
-    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize)
-      .pipe(
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe((data: PacienteListData) => {
-        this.totalData = data.totalData;
-        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-          const serialNumber = index + 1;
-          this.serialNumberArray.push(serialNumber);
-        }
-        this.patientsList = data.data;
-        this.dataSource = new MatTableDataSource<PacienteList>(this.patientsList);
-        this.calculateTotalPages(this.totalData, this.pageSize);
-
-      });
-
-  }
-  obtenerDatosPacientesConFiltro(): void {
-    this.patientsList = [];
-    this.serialNumberArray = [];
-    this.isLoading = true;
     let fechaInicioFormateado = undefined
     let fechaFinFormateado = undefined
-    let paciente = undefined
-    let tipoPaciente = undefined
-    if (this.fechaInicio) {
-      fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
-    }
-    if (this.fechaFin) {
-      fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
-    }
-    if (this.paciente) {
-      paciente = this.paciente;
-    }
-    if (this.tipoPaciente != 'Todos') {
-      tipoPaciente = this.tipoPaciente;
-    }
-    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
+    if (this.fechaInicio) fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
+    if (this.fechaFin) fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
+    this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, this.paciente, this.tipoPaciente)
       .pipe(
         finalize(() => this.isLoading = false)
       )
@@ -109,16 +76,10 @@ export class PatientsListComponent implements OnInit {
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
   }
-  limpiarCampos() {
-    this.fechaInicio = '';
-    this.fechaFin = '';
-    this.paciente = '';
-    this.tipoPaciente = '';
-    this.obtenerDatosPacientes();
-  }
+
   formatoFecha(fecha: string): string {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
-    return `${dia}-${mes}-${anio}`;
+    return `${dia}/${mes}/${anio}`;
   }
 
   eliminar(pacienteId: string) {
