@@ -1,0 +1,165 @@
+<div class="content">
+    <div class="row">
+        <div class="col-sm-20">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-15">
+                                <div class="form-heading">
+                                    <h4>Nuevo Gasto</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Tipo Gasto <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="conceptoGasto"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('conceptoGasto')}" placeholder="Seleccione Tipo Gasto"
+                                        [ngClass]="{'is-invalid': isInvalid('conceptoGasto') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of conceptoGasto_LISTA"
+                                            [value]="data.conceptoGastoId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('conceptoGasto')">
+                                        Debe completar el campo*
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-15">
+                                <div class="form-group local-forms">
+                                    <label>Descripcion <span class="login-danger">*</span></label>
+                                    <input formControlName="descripcion" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
+                                    <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('descripcion')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-12 col-xl-15">
+                                <div class="form-group local-forms">
+                                    <label>Tipo Pago <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="cuentaPagar"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('cuentaPagar')}" placeholder="Seleccione Tipo Pago"
+                                        [ngClass]="{'is-invalid': isInvalid('cuentaPagar') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of cuentaPagar_LISTA" 
+                                            [value]="data.cuentaPagarId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('cuentaPagar')">
+                                        Debe completar el campo*
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-12 col-md-12 col-xl-15">
+                                <div class="form-group local-forms">
+                                    <label>Banco <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="banco"
+                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('banco')}" placeholder="Seleccione Banco"
+                                        [ngClass]="{'is-invalid': isInvalid('banco') && isFormSubmitted}">
+                                        <mat-option *ngFor="let data of banco_LISTA" 
+                                            [value]="data.bancoId">
+                                            {{data-descripcion}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div class="invalid-feedback" *ngIf="isRequerido('banco')">
+                                        Debe completar el campo*
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Monto<span class="login-danger">*</span></label>
+                                    <input formControlName="monto" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('monto')}"
+                                            (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('monto') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('monto') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Operacion<span class="login-danger">*</span></label>
+                                    <input formControlName="operacion" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('operacion')}"
+                                            (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('operacion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('operacion') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                <label>Fecha<span class="text-danger">*</span></label>
+                                <input formControlName="fecha" [ngClass]="{'is-invalid': isInvalid('fecha')}" class="form-control datetimepicker" type="text" matInput
+                                    [matDatepicker]="picker">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                                  <div *ngIf="isInvalid('fecha')" class="invalid-feedback">
+                                    Debe seleccionar una fecha válida.
+                                </div>
+                                </div>
+                            </div>
+                            <div class="form-group local-forms col-xl-6">
+                                <label>Sede<span class="login-danger">*</span></label>
+                                <input class="form-control" type="text" name="sede" formControlName="sede">
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Responsable<span class="login-danger">*</span></label>
+                                    <input formControlName="responsable" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('responsable')}"
+                                            (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('responsable') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('responsable') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
+                                    <label>Observacion<span class="login-danger">*</span></label>
+                                    <input formControlName="observacion" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('observacion')}"
+                                            (input)="validarInput($event)">
+                                    <div *ngIf="isInvalid('observacion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('observacion') || mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                            
+                        
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="crearGasto()"
+                                class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()"
+                                class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

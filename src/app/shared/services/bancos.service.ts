@@ -24,6 +24,10 @@ export class BancosService {
       })
     );
   }
+
+  obtenerListaBanco(): Observable<Ibancos[]> {
+    return this.http.get<Ibancos[]>(this.apiUrl + `/Bancos/GetBancoList`);
+  }
   obtenerBanco( bancoId: string): Observable<Ibancos> {
     return this.http.get<Ibancos>(this.apiUrl + `/Bancos/GetBanco/${bancoId}`);
   }
