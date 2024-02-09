@@ -1,13 +1,20 @@
 .button-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .button-container button {
-    flex: 0 0 48%;
-    /* Ajusta el ancho según tus necesidades */
-    margin: 0.5% 1%;
-    /* Margen entre botones */
-  }
-  
-  
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.button-container button {
+  flex: 0 0 48%;
+  margin: 0.5% 1%;
+}
+
+.tipoPaciente {
+  width: 275px;
+  padding-left: 40px;
+  padding-right: 10px;
+}
+
+label {
+  background-color: #f4f5fa;
+  border-radius: 5px;
+}

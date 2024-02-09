@@ -79,7 +79,7 @@ export class TablaComponent implements OnInit {
     } else {
       if (activo) {
         return '#00d3c7';
-      } else { return '##008cff'; }
+      } else { return '#008cff'; }
     }
   }
   lightenOrDarkenColor(hex: string) {

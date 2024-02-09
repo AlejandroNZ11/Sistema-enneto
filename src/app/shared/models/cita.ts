@@ -50,8 +50,8 @@ export interface IcontrolCitaMedica {
   telefono: string;
   nombreMedico: string;
   apellidoMedico: string;
-  estadoCita: string;
-  color: string;
+  nombreTipoCitado: string;
+  colorTipoCitado: string;
   historia: string;
   informacion: string;
 }

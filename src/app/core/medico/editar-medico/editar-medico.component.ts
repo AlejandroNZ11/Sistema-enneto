@@ -56,6 +56,7 @@ export class EditarMedicoComponent implements OnInit {
       colegioMedico: ['', [Validators.required, Validators.maxLength(4)]],
       foto: [''],
       firma: [''],
+      color: ['', [Validators.required]],
     });
     this.isFormSubmitted = false;
     this.especialidadService.obtenerEspecialidades

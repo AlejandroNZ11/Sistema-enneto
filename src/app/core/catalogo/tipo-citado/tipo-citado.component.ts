@@ -64,11 +64,9 @@ export class TipoCitadoComponent implements OnInit {
     } else if (accion.accion == 'Editar') {
       this.editarTipoCitado(accion.fila)
     } else if (accion.accion == 'Eliminar') {
-      this.eliminarTipoCitado(accion.fila.tipoConceptoId)
+      this.eliminarTipoCitado(accion.fila.tipoCitadoId)
     }
   }
-
-
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;
@@ -77,21 +75,6 @@ export class TipoCitadoComponent implements OnInit {
     this.limit = pag.limit;
   }
 
-
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.pageNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    /* eslint no-var: off */
-    for (var i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.pageNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
   crearTipoCitado() {
     this.bsModalRef = this.modalService.show(AgregarTipoCitadoComponent),
       this.bsModalRef.content.citadoAgregada$.subscribe((citadoAgregada: boolean) => {
@@ -129,7 +112,7 @@ export class TipoCitadoComponent implements OnInit {
         this.tipoCitadoService.eliminarTipoCitado(tipoCitadoId).subscribe(
           (response: { isSuccess: any; message: any; }) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Estado Cita Eliminado en el sistema correctamente.', 'success');
+              Swal.fire('Correcto', response.message, 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {

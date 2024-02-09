@@ -5,7 +5,16 @@
 
 .button-container button {
   flex: 0 0 48%;
-  /* Ajusta el ancho según tus necesidades */
   margin: 0.5% 1%;
-  /* Margen entre botones */
+}
+
+.especialidad {
+  width: 275px;
+  padding-left: 40px;
+  padding-right: 10px;
+}
+
+label {
+  background-color: #f4f5fa;
+  border-radius: 5px;
 }

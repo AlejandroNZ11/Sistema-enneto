@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { TipoDocumento } from 'src/app/shared/models/tipodocumento';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./agregar-documento.component.scss']
 })
 
-export class AgregarDocumentoComponent  {
+export class AgregarDocumentoComponent implements OnInit{
   public routes = routes;
   Documento: TipoDocumento = new TipoDocumento();
   form!: FormGroup;
@@ -27,6 +27,10 @@ export class AgregarDocumentoComponent  {
       fin: ['', Validators.required],
       correlativoActual: ['', Validators.required]
     });
+  }
+  
+  ngOnInit(): void {
+    throw new Error('Method not implemented.');
   }
 
   isInvalid(controlName: string) {

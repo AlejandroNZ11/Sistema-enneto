@@ -48,7 +48,7 @@
                         [style.backgroundColor]="getBgColor(data,true)">Activo</button>
                 </td>
                 <td *ngIf="data.estado==='I'|| data.estado ==='0' || data.estado ===0">
-                    <button class="custom-badge status-blue" [style.color]="getTextColor(data,true)"
+                    <button class="custom-badge status-blue" [style.color]="getTextColor(data,false)"
                         [style.backgroundColor]="getBgColor(data,false)">Inactivo</button>
                 </td>
                 <td class="text-end" *ngIf="acciones.length > 0">

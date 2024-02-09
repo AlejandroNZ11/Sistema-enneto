@@ -15,16 +15,16 @@ export class PacienteService {
   obtenerPacientes(page: number, rows: number,
     fechaInicio?: string, fechaFin?: string, paciente?: string, tipoPaciente?: string): Observable<PacienteListData> {
     let url = `${this.apiUrl}/Pacientes/GetAllPaciente?page=${page}&rows=${rows}`;
-    if (fechaInicio) {
+    if (fechaInicio && fechaInicio != '') {
       url += `&FechaInicio=${fechaInicio}`;
     }
-    if (fechaFin) {
+    if (fechaFin && fechaFin != '') {
       url += `&FechaFin=${fechaFin}`;
     }
-    if (paciente) {
+    if (paciente && paciente != '') {
       url += `&NombreCompleto=${paciente}`;
     }
-    if (tipoPaciente) {
+    if (tipoPaciente && tipoPaciente != 'todos') {
       url += `&TipoPacienteId=${tipoPaciente}`;
     }
     return this.http.get<PacienteListData>(url);

@@ -12,6 +12,9 @@ import { DataGastos, Igastos, Gastos } from 'src/app/shared/models/gastos';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
+import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
+import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-gastos',
@@ -26,6 +29,7 @@ export class GastosComponent implements OnInit {
   public gasto = '';
   public fechaInicio = '';
   public fechaFin = '';
+  public tipoGasto = '';
   columnas: string[] = []
   acciones: string[] = []
   pageSize = PageSize.size;
@@ -36,23 +40,29 @@ export class GastosComponent implements OnInit {
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
   isLoading = false;
+  tiposGasto!: IConceptoGasto[];
 
   constructor(
     private modalService: BsModalService, 
     public gastosservice: GastosService,
+    public tipogastoservice: TipoGastosService,
 
   ){}
 
   ngOnInit() {
     this.columnas = getEntityPropiedades('Gasto');
     this.acciones = ['Editar', 'Eliminar'];
+
+    this.tipogastoservice.obtenerConceptoGastoList().subscribe(data => { this.tiposGasto = data; })
+    this.getTableData(this.totalData, this.pageSize);
   }
+  
   
 
   private getTableData(currentPage: number, pageSize: number): void {
     this.GastosList = [];
     this.serialNumberArray = [];
-    this.gastosservice.obtenerGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataGastos) => {
+    this.gastosservice.obtenerGastos( currentPage, pageSize).subscribe((data: DataGastos) => {
         this.totalData = data.totalData
         for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
             const serialNumber = index + 1;
@@ -105,6 +115,50 @@ export class GastosComponent implements OnInit {
   //   });
   // }
 
+  obtenerDatosPacientesConFiltro(): void {
+    this.GastosList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    let fechaInicioFormateado = undefined
+    let fechaFinFormateado = undefined
+    let gasto = undefined
+    let tipoGasto = undefined
+    if (this.fechaInicio) {
+      fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
+    }
+    if (this.fechaFin) {
+      fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
+    }
+    if (this.gasto) {
+      gasto = this.gasto;
+    }
+    if (this.tipoGasto != 'Todos') {
+      tipoGasto = this.tipoGasto;
+    }
+    this.gastosservice.obtenerGastos(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, gasto, tipoGasto)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
+      .subscribe((data: DataGastos) => {
+        this.totalData = data.totalData;
+        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+          const serialNumber = index + 1;
+          this.serialNumberArray.push(serialNumber);
+        }
+        this.GastosList = data.data;
+        this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+        this.getTableData(this.totalData, this.pageSize);
+      });
+  }
+
+  
+  limpiarCampos() {
+    this.fechaInicio = '';
+    this.fechaFin = '';
+    this.gasto = '';
+    this.tipoGasto = '';
+    this.getTableData(this.totalData, this.pageSize);
+  }
 
   formatoFecha(fecha:string) :string{
     const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
