@@ -18,7 +18,7 @@
                                             [(ngModel)]="citaNueva.especialidadId" (ngModelChange)="actualizarMedicos()"
                                             class="form-control select" placeholder="Seleccione Especialidad"
                                             [ngClass]="{'is-invalid': isInvalid('especialidad') && isFormSubmitted}">
-                                            <mat-option value="TODOS"> TODOS </mat-option>
+                                            <mat-option value="todos"> TODOS </mat-option>
                                             <mat-option *ngFor="let especialidad of listEspecialidadesCitas"
                                                 [value]="especialidad.especialidadId">
                                                 {{especialidad.nombre}}
@@ -80,16 +80,18 @@
                                 <div class="row">
                                     <div class="form-group col-lg-9">
                                         <label>Buscar Paciente<span class="login-danger">*</span></label>
-                                        <mat-select formControlName="paciente" [(ngModel)]="citaNueva.pacienteId"
-                                            class="form-control select" placeholder="Seleccione Paciente"
-                                            [ngClass]="{'is-invalid': isInvalid('paciente') && isFormSubmitted}">
+                                        <mat-select [(ngModel)]="pacienteleccionado" class="form-control select"
+                                            placeholder="Seleccione un Paciente">
                                             <input type="text" class="form-control buscar" autocomplete="off"
-                                                #multiUserSearch matInput placeholder="Buscar por nombre"
+                                                #multiUserSearch matInput placeholder="Ingrese Apellidos o Nombres"
                                                 (input)="buscarPacientes()">
-                                            <mat-option *ngFor="let paciente of listPacientes"
-                                                [value]="paciente.pacienteId">
-                                                {{paciente.nombres}} {{paciente.apellidos}}
-                                            </mat-option>
+                                            <mat-option value="todos"> Todos </mat-option>
+                                            <ng-container *ngIf="mostrarOpciones">
+                                                <mat-option *ngFor="let paciente of listPacientes"
+                                                    [value]="paciente.pacienteId">
+                                                    {{paciente.nombres}} {{paciente.apellidos}}
+                                                </mat-option>
+                                            </ng-container>
                                         </mat-select>
                                         <div *ngIf="isInvalid('paciente') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('paciente')">
@@ -142,7 +144,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-lg-6">
-                                        <label>Motivo Consulta</label>
+                                        <label>Motivo Consulta<span class="login-danger">*</span></label>
                                         <input formControlName="motivoConsulta" [(ngModel)]="citaNueva.motivoConsulta"
                                             class="form-control" type="text"
                                             [ngClass]="{'is-invalid': isInvalid('motivoConsulta') && isFormSubmitted}">

@@ -100,6 +100,7 @@ export class AgregarMedicoComponent implements OnInit {
     }
   }
   actualizarCantidad() {
+    this.form.get('numeroDocumento')!.setValue('');
     const tipoDocumento = this.form.get('tipoDocumento')!.value;
     let maxCaracteres = 0;
     switch (tipoDocumento) {
@@ -239,14 +240,6 @@ export class AgregarMedicoComponent implements OnInit {
       this.doctor.Sexo = 'F'
     }
     this.doctor.Especialidades = this.especialidades;
-    switch (this.form.get('tipoDocumento')!.value) {
-      case 'Documento Nacional de Identidad': this.doctor.TipoDocumento = '01'; break;
-      case 'RUC': this.doctor.TipoDocumento = '06'; break;
-      case 'PASAPORTE': this.doctor.TipoDocumento = '07'; break;
-      case 'CARNET EXTRANJERIA': this.doctor.TipoDocumento = '04'; break;
-      case 'OTROS': this.doctor.TipoDocumento = '00'; break;
-    }
-    /*this.doctor.TipoDocumento = this.tipoDoc_LISTA.find(tipoDoc => tipoDoc.descripcion === this.tipoDocumento)!.tipoDocumentoId;*/
     const formData = new FormData();
     for (let i = 0; i < this.doctor.Especialidades.length; i++) {
       formData.append('Especialidades', this.doctor.Especialidades[i]);

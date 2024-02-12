@@ -64,6 +64,7 @@ export class CrearDiagnosticoComponent {
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.diagnosticoAgregado$.next(true);
         }else{
           console.error(response.message);
         }

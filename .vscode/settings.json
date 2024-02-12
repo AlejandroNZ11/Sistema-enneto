@@ -3,5 +3,8 @@
         "Codigo",
         "Itipo",
         "siglas"
+    ],
+    "cSpell.ignoreWords": [
+        "Icategoria"
     ]
 }

@@ -36,7 +36,9 @@ export class ClientesComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('Clientes');
     this.acciones = ['Editar', 'Eliminar'];
+    this.getTableData(this.currentPage, this.pageSize);
   }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListClientes = [];
     this.serialNumberArray = [];
@@ -94,7 +96,6 @@ export class ClientesComponent implements OnInit {
       clientesEditada$.unsubscribe();   
   });
   }
-
   eliminarCliente(clienteId: string) {
     Swal.fire({
       title: '¿Estas seguro que deseas eliminar?',

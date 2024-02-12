@@ -23,8 +23,9 @@ import { Subject } from 'rxjs';
 export class AgregarTarifarioComponent implements OnInit {
   tarifarioAgregada$: Subject<boolean> = new Subject<boolean>();
   fechaRegistro: Date = new Date();
-  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
+  
   categoria_LISTA: Array<Icategoria> = [];
+  tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   unidad_LISTA: Array<Iunidad> = [];
   medida_LISTA: Array<Imedida> = [];
   Tarifario: tarifario = new tarifario();
@@ -36,6 +37,8 @@ export class AgregarTarifarioComponent implements OnInit {
   public categoria !: string[];
   public unidad !: string [];
   public medida !: string [];
+  public grupo !: string [];
+
 
 
 
@@ -56,14 +59,14 @@ export class AgregarTarifarioComponent implements OnInit {
   
   
   ngOnInit(): void {
-    
+    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
+      this.categoria_LISTA = data;
+    });
     this.TipoConceptoService.obtenerListaTipoConcepto().subscribe((data: ItipoConcepto[]) => {
       this.tipoconcepto_LISTA = data;
     });
 
-    this.categoriaservice.obtenerListaCategoria().subscribe((data: Icategoria[]) => {
-      this.categoria_LISTA = data;
-    });
+    
 
     this.medidaservice.obtenerListaMedida().subscribe((data: Imedida[]) => {
       this.medida_LISTA = data;
@@ -77,6 +80,7 @@ export class AgregarTarifarioComponent implements OnInit {
     this.form = this.formBuilder.group({
     tipoconcepto: ['', [Validators.required]],
     descripcion: ['',[Validators.required]],
+    grupo: ['',[Validators.required]],
     categoria: ['', [Validators.required]],
     precio: ['', [Validators.required]],
     medida: ['', [Validators.required]],
@@ -93,6 +97,10 @@ export class AgregarTarifarioComponent implements OnInit {
       const newValue = inputValue.slice(0, -1);
       this.renderer.setProperty(event.target, 'value', newValue);
     }
+  }
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
   }
   
   isInvalid(controlName: string) {
@@ -117,7 +125,7 @@ export class AgregarTarifarioComponent implements OnInit {
       this.isTouched()      
       return;
     }
-    
+    this.Tarifario.grupo= this.form.get("grupo")?.value;
     this.Tarifario.categoriaId = this.form.get("categoria")?.value;
     this.Tarifario.tipoconceptoId = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;

@@ -1,9 +1,38 @@
-.datosPacientes {
-    font-size: 13px
-}
-
 .buscar {
     border-left: none;
     border-right: none;
     border-radius: 0;
+}
+
+label {
+    background-color: #f4f5fa;
+    border-radius: 5px;
+}
+
+.controlSelect {
+    width: 235px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
+}
+
+.controlSelectCorto {
+    width: 215px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
+}
+
+.controlSelectPaciente {
+    width: 315px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
+}
+
+.controlSelectFecha {
+    width: 220px;
+    padding-left: 40px;
+    padding-right: 10px;
+    font-size: 13px
 }

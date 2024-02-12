@@ -45,12 +45,15 @@ export interface IcontrolCitaMedica {
   fecha: string;
   horaInicio: string;
   horaFin: string;
-  paciente: string;
+  nombrePaciente: string;
+  apellidoPaciente: string;
   telefono: string;
-  medico: string;
-  estadoCita:string;
-  historia:string;
-  informacion:string;
+  nombreMedico: string;
+  apellidoMedico: string;
+  nombreTipoCitado: string;
+  colorTipoCitado: string;
+  historia: string;
+  informacion: string;
 }
 
 export interface IcitaMedicaCalendario {

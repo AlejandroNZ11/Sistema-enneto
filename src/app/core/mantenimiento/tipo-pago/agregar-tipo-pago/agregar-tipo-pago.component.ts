@@ -5,6 +5,7 @@ import { TipoPago } from 'src/app/shared/models/tipopago';
 import { TipoPagoService } from 'src/app/shared/services/tipo-pago.service';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-tipo-pago',
@@ -16,6 +17,7 @@ export class AgregarTipoPagoComponent {
   TipoPago: TipoPago = new TipoPago();
   form!: FormGroup;
   public mostrarErrores = false;
+  tipopagoAgregado$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public bsModalRef: BsModalRef, private tipoPagoService: TipoPagoService,
     public fb: FormBuilder) {
@@ -36,7 +38,8 @@ export class AgregarTipoPagoComponent {
   }
 
   Cancelar() {
-    this.bsModalRef.hide();
+    this.tipopagoAgregado$.next(false);
+    this.bsModalRef.hide()
   }
 
   isTouched() {
@@ -59,6 +62,7 @@ export class AgregarTipoPagoComponent {
         if (response.isSuccess) {
           Swal.fire('Correcto', response.message, 'success');
           this.bsModalRef.hide();
+          this.tipopagoAgregado$.next(true);
         } else {
           console.error(response.message);
         }

@@ -15,86 +15,97 @@
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <div class="staff-search-table">
-                            <div class="row">
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label>Desde </label>
-                                        <input class="form-control datetimepicker" type="text" matInput
-                                            [(ngModel)]="fechaInicio" [matDatepicker]="picker1"
-                                            (ngModelChange)="obtenerCitasMedicas()"
-                                            placeholder="Ingrese una Fecha de Inicio">
-                                        <mat-datepicker #picker1></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk mt-3">
+                                        <div class="doctor-search-blk">
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Desde </label>
+                                                <input class="form-control datetimepicker controlSelectFecha"
+                                                    type="text" matInput [(ngModel)]="fechaInicio"
+                                                    [matDatepicker]="picker1" (ngModelChange)="obtenerCitasMedicas()"
+                                                    placeholder="Ingrese una Fecha de Inicio">
+                                                <mat-datepicker #picker1></mat-datepicker>
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker1"></mat-datepicker-toggle>
+                                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Hasta </label>
+                                                <input class="form-control datetimepicker controlSelectFecha"
+                                                    type="text" matInput [(ngModel)]="fechaFin"
+                                                    [matDatepicker]="picker2" (ngModelChange)="obtenerCitasMedicas()"
+                                                    placeholder="Ingrese una Fecha de Fin">
+                                                <mat-datepicker #picker2></mat-datepicker>
+                                                <mat-datepicker-toggle matIconSuffix
+                                                    [for]="picker2"></mat-datepicker-toggle>
+                                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label for="buscarPor">Paciente</label>
+                                                <mat-select [(ngModel)]="pacienteSeleccionado"
+                                                    class="form-control select controlSelectPaciente"
+                                                    placeholder="Seleccione un Paciente"
+                                                    (ngModelChange)="obtenerCitasMedicas()">
+                                                    <input type="text" class="form-control buscar" autocomplete="off"
+                                                        #multiUserSearch matInput
+                                                        placeholder="Ingrese Apellidos o Nombres"
+                                                        (input)="buscarPacientes()">
+                                                    <mat-option [value]=null> Todos </mat-option>
+                                                    <ng-container *ngIf="mostrarOpciones">
+                                                        <mat-option *ngFor="let paciente of listPacientes"
+                                                            class="datosPacientes" [value]="paciente.pacienteId">
+                                                            {{paciente.nombres}} {{paciente.apellidos}}
+                                                        </mat-option>
+                                                    </ng-container>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Sede</label>
+                                                <mat-select [(ngModel)]="sedeSeleccionada"
+                                                    class="form-control select controlSelectCorto"
+                                                    placeholder="Seleccione una Sede"
+                                                    (ngModelChange)="obtenerCitasMedicas()">
+                                                    <mat-option value="todos"> Todos </mat-option>
+                                                    <mat-option *ngFor="let sede of sedes" [value]="sede.id">
+                                                        {{sede.nombre}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Estado Cita</label>
+                                                <mat-select [(ngModel)]="estadoSeleccionado"
+                                                    class="form-control select controlSelect"
+                                                    placeholder="Seleccione un Estado"
+                                                    (ngModelChange)="obtenerCitasMedicas()">
+                                                    <mat-option value="todos"> Todos </mat-option>
+                                                    <mat-option *ngFor="let estado of listEstados"
+                                                        [value]="estado.tipoCitadoId">
+                                                        {{estado.nombre}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label>Historia</label>
+                                                <mat-select [(ngModel)]="historiaSeleccionada"
+                                                    class="form-control select controlSelectCorto"
+                                                    placeholder="Seleccione una Historia"
+                                                    (ngModelChange)="obtenerCitasMedicas()">
+                                                    <mat-option value="todos">Todos</mat-option>
+                                                    <mat-option value='A'>Antiguo</mat-option>
+                                                    <mat-option value='N'>Nuevo</mat-option>
+                                                </mat-select>
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label>Hasta </label>
-                                        <input class="form-control datetimepicker" type="text" matInput
-                                            [(ngModel)]="fechaFin" [matDatepicker]="picker2"
-                                            (ngModelChange)="obtenerCitasMedicas()"
-                                            placeholder="Ingrese una Fecha de Fin">
-                                        <mat-datepicker #picker2></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label for="buscarPor">Paciente</label>
-                                        <mat-select [(ngModel)]="pacienteSeleccionado"
-                                            class="form-control select datosPacientes"
-                                            placeholder="Seleccione un Paciente"
-                                            (ngModelChange)="obtenerCitasMedicas()">
-                                            <input type="text" class="form-control buscar" autocomplete="off"
-                                                #multiUserSearch matInput placeholder="Ingrese Apellidos o Nombres"
-                                                (input)="buscarPacientes()">
-                                            <mat-option value="todos"> Todos </mat-option>
-                                            <ng-container *ngIf="mostrarOpciones">
-                                                <mat-option *ngFor="let paciente of listPacientes"
-                                                    class="datosPacientes" [value]="paciente.pacienteId">
-                                                    {{paciente.nombres}} {{paciente.apellidos}}
-                                                </mat-option>
-                                            </ng-container>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label>Sede</label>
-                                        <mat-select [(ngModel)]="sedeSeleccionada" class="form-control select"
-                                            placeholder="Seleccione una Sede" (ngModelChange)="obtenerCitasMedicas()">
-                                            <mat-option value="todos"> Todos </mat-option>
-                                            <mat-option *ngFor="let sede of sedes" [value]="sede.id">
-                                                {{sede.nombre}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label>Estado Cita</label>
-                                        <mat-select [(ngModel)]="estadoSeleccionado" class="form-control select"
-                                            placeholder="Seleccione un Estado" (ngModelChange)="obtenerCitasMedicas()">
-                                            <mat-option value="todos"> Todos </mat-option>
-                                            <mat-option *ngFor="let estado of listEstados"
-                                                [value]="estado.tipoCitadoId">
-                                                {{estado.nombre}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-2">
-                                    <div class="form-group local-forms">
-                                        <label>Historia</label>
-                                        <mat-select [(ngModel)]="historiaSeleccionada" class="form-control select"
-                                            placeholder="Seleccione una Historia"
-                                            (ngModelChange)="obtenerCitasMedicas()">
-                                            <mat-option value="todos"> Todos </mat-option>
-                                            <mat-option value='A'>Antiguo</mat-option>
-                                            <mat-option value='N'>Nuevo</mat-option>
-                                        </mat-select>
-                                    </div>
+                                <div class="col-auto text-end float-end ms-auto download-grp mt-2">
+                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -112,43 +123,31 @@
                                         <th mat-sort-header="horaFin">Hora Fin</th>
                                         <th mat-sort-header="paciente">Paciente</th>
                                         <th mat-sort-header="telefono">Teléfono</th>
-                                        <th mat-sort-header="medico">Medico</th>
+                                        <th mat-sort-header="medico">Médico</th>
                                         <th mat-sort-header="estadoCita">Estado Cita</th>
                                         <th mat-sort-header="historia">Historia</th>
-                                        <th mat-sort-header="informacion">Informacion</th>
+                                        <th mat-sort-header="informacion">Información</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let cita of citasList">
                                         <td>{{cita.secuencia}}</td>
                                         <td>{{formatoFecha(cita.fecha)}}</td>
-                                        <td>{{cita.horaInicio}}</td>
-                                        <td>{{cita.horaFin}}</td>
-                                        <td>{{cita.paciente}}</td>
+                                        <td>{{formatoHora(cita.horaInicio)}}</td>
+                                        <td>{{formatoHora(cita.horaFin)}}</td>
+                                        <td>{{cita.nombrePaciente}} {{cita.apellidoPaciente}}</td>
                                         <td>{{cita.telefono}}</td>
-                                        <td>{{cita.medico}}</td>
-                                        <td>{{cita.estadoCita}}</td>
-                                        <td><button class="custom-badge status-yellow "
-                                                *ngIf="cita.historia=== 'A'">Antigua</button>
-                                            <button class="custom-badge status-green "
-                                                *ngIf="cita.historia=== 'N'">Nueva</button>
+                                        <td>{{cita.nombreMedico}} {{cita.apellidoMedico}}</td>
+                                        <td><button class="custom-badge"
+                                                [style.color]="lightenOrDarkenColor(cita.colorTipoCitado)"
+                                                [style.backgroundColor]="cita.colorTipoCitado">{{cita.nombreTipoCitado}}</button>
+                                        </td>
+                                        <td><button class="custom-badge status-pink"
+                                                *ngIf="cita.historia === 'A'">Antigua</button>
+                                            <button class="custom-badge status-green"
+                                                *ngIf="cita.historia === 'N'">Nueva</button>
                                         </td>
                                         <td>{{cita.informacion}}</td>
-                                        <td>
-                                            <div class="dropdown action-label">
-                                                <a [ngClass]="{'status-green': cita.estadoCita === 'Approved', 'status-orange' : cita.estadoCita === 'Pending','status-pink' : cita.estadoCita === 'Rejected','status-purple' : cita.estadoCita === 'New' }"
-                                                    class="custom-badge  dropdown-toggle" href="javascript:void(0);"
-                                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                                    {{cita.estadoCita}}
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end status-staff">
-                                                    <a class="dropdown-item" href="javascript:;">New</a>
-                                                    <a class="dropdown-item" href="javascript:;">Pending</a>
-                                                    <a class="dropdown-item" href="javascript:;">Approved</a>
-                                                    <a class="dropdown-item" href="javascript:;">Rejected</a>
-                                                </div>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

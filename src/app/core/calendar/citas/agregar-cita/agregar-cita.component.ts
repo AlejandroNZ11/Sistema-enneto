@@ -43,18 +43,20 @@ export class AgregarCitaComponent implements OnInit {
   horaInicio!: string;
   horaFin!: string;
   modalRef?: BsModalRef;
+  mostrarOpciones = false;
   citaAgregada$: Subject<boolean> = new Subject<boolean>();
   @ViewChild('multiUserSearch') multiPacienteSearchInput !: ElementRef;
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService) { }
   ngOnInit(): void {
-    this.citaNueva.especialidadId = 'TODOS'
     this.inicializarFechas();
     this.inicializarFormulario();
     this.sede = this.user.selectedSucursal.nombre;
     this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data })
     this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data })
     this.pacienteService.obtenerPacientesNombre().subscribe(data => { this.listPacientes = data; })
+    this.citaNueva.especialidadId = 'todos'
+    this.actualizarMedicos();
   }
   inicializarFechas() {
     const fechaCita = new Date(this.fechaInicio);
@@ -82,19 +84,21 @@ export class AgregarCitaComponent implements OnInit {
   }
   buscarPacientes() {
     const searchInput = this.multiPacienteSearchInput.nativeElement.value
-      ? this.multiPacienteSearchInput.nativeElement.value.toLowerCase()
-      : '';
-    if (!this.listPacientesFiltrados) {
-      this.listPacientesFiltrados = [...this.listPacientes];
-    }
-    this.listPacientes = this.listPacientesFiltrados.filter((paciente) => {
-      const nombres = paciente.nombres.toLowerCase();
-      const apellidos = paciente.apellidos.toLowerCase();
-      if (!searchInput) {
-        return true;
+      ? this.multiPacienteSearchInput.nativeElement.value.toLowerCase() : '';
+    this.mostrarOpciones = searchInput.length >= 3;
+    if (this.mostrarOpciones) {
+      if (!this.listPacientesFiltrados) {
+        this.listPacientesFiltrados = [...this.listPacientes];
       }
-      return nombres.includes(searchInput) || apellidos.includes(searchInput);
-    });
+      this.listPacientes = this.listPacientesFiltrados.filter((paciente) => {
+        const nombres = paciente.nombres.toLowerCase();
+        const apellidos = paciente.apellidos.toLowerCase();
+        if (!searchInput) {
+          return true;
+        }
+        return nombres.includes(searchInput) || apellidos.includes(searchInput);
+      });
+    }
   }
   registrarPaciente() {
     const initialState = {};
