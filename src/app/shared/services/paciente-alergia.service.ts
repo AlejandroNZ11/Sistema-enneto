@@ -24,7 +24,7 @@ export class PacienteAlergiaService {
   }
 
   actualizarPacienteAlergia(pacienteAlergia:updatePacienteAlergia):Observable<successResponse>{
-    return this.http.post<successResponse>(this.apiUrl + `/api/PacientesAlergias/UpdatePacienteAlergia/${pacienteAlergia.pacienteAlergiaId}`,pacienteAlergia);
+    return this.http.put<successResponse>(this.apiUrl + `/PacientesAlergias/UpdatePacienteAlergia/${pacienteAlergia.pacienteAlergiaId}`,pacienteAlergia);
   }
 
 }

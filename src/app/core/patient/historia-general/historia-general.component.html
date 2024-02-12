@@ -80,6 +80,9 @@
                             </div>
                         </div>
                         <!-- /Table Header -->
+                        <div *ngIf="isLoading" class="spinner-container">
+                          <div class="custom-spinner"></div>
+                        </div>
 
                         <div *ngIf="!isLoading" class="table-responsive">
                             <table matSort (matSortChange)="sortData($event)"
@@ -201,6 +204,4 @@
     </div>
 </div>
 
-<div *ngIf="isLoading" class="spinner-container">
-  <div class="custom-spinner"></div>
-</div>
+

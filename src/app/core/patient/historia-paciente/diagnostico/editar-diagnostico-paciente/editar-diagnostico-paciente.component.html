@@ -4,7 +4,7 @@
       <div class="col-sm-12">
           <div class="card">
               <div class="card-body">
-                  <form (ngSubmit)="editarCategoriaPaciente()" [formGroup]="form">
+                  <form  [formGroup]="form">
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
@@ -45,17 +45,17 @@
                                 </mat-select>
                             </div>
                         </div>
-                        <div class="col-12">
-                          <div class="doctor-submit text-end">
-                              <button type="submit"
-                                  class="btn btn-primary submit-form me-2">Guardar</button>
-                              <button (click)="cancelar()" type="submit"
-                                  class="btn btn-primary cancel-form">Cancelar</button>
-                          </div>
-                      </div>
+
                       </div>
                   </form>
-
+                  <div class="col-12">
+                    <div class="doctor-submit text-end">
+                        <button type="submit"
+                            class="btn btn-primary submit-form me-2" (click)="editarCategoriaPaciente()">Guardar</button>
+                        <button type="submit" (click)="cancelar()" type="submit"
+                            class="btn btn-primary cancel-form">Cancelar</button>
+                    </div>
+                </div>
               </div>
           </div>
       </div>

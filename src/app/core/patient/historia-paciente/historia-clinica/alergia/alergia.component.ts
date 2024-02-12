@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { pageSelection } from 'src/app/shared/models/models';
 import { IcitaMedica } from 'src/app/shared/models/cita';
 import { PacienteAlergiaService } from 'src/app/shared/services/paciente-alergia.service';
-import { finalize } from 'rxjs';
+import { Subject, finalize } from 'rxjs';
 import { DataPacienteAlergia, IPacienteAlergia } from 'src/app/shared/models/paciente-alergia';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AgregarAlergiaPacienteComponent } from './agregar-alergia-paciente/agregar-alergia-paciente.component';
@@ -12,13 +12,16 @@ import { EditarAlergiaPacienteComponent } from './editar-alergia-paciente/editar
 import { environment } from 'src/environments/environments';
 import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
+import { AlergiasService } from 'src/app/shared/services/alergias.service';
+import { Ialergias } from 'src/app/shared/models/alergia';
+import { diagnostico } from '../../../../../shared/models/diagnostico';
 @Component({
   selector: 'app-alergia',
   templateUrl: './alergia.component.html',
   styleUrls: ['./alergia.component.scss']
 })
 export class AlergiaComponent implements OnInit{
-  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, ) { }
+  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, private alergiaService: AlergiasService ) { }
 
 
   public serialNumberArray: Array<number> = [];
@@ -34,6 +37,7 @@ export class AlergiaComponent implements OnInit{
   dataSource!: MatTableDataSource<IPacienteAlergia>;
   pacienteAlergiasList: Array<IPacienteAlergia> = [];
   public totalPages = 0;
+  ListAlergias?: Ialergias[];
 
   isLoading = false;
   pacienteId = "";
@@ -42,6 +46,7 @@ export class AlergiaComponent implements OnInit{
   bsModalRef?: BsModalRef;
 
   ngOnInit() {
+    this.obtenerListaAlergias();
 
 
     this.route.params.subscribe(params => {
@@ -51,6 +56,17 @@ export class AlergiaComponent implements OnInit{
     this.sharedService.setPacienteId(this.pacienteId);
 
     this.getTableData();
+  }
+
+  private obtenerListaAlergias(): void {
+
+    this.alergiaService.obtenerListaAlergias().subscribe((datas: Ialergias[]) => {
+
+      console.log(datas)
+      this.ListAlergias = datas;
+      console.log(this.ListAlergias)
+    });
+
   }
 
   getTableData(){
@@ -83,8 +99,19 @@ export class AlergiaComponent implements OnInit{
           });
   }
 
+  getAlergiaName(alergiaId: string){
+    return this.ListAlergias?.find(alergia => alergia.alergiaId === alergiaId)!.nombre || '';
+  }
+
+
   crearAlergiaPaciente() {
-    this.bsModalRef = this.modalService.show(AgregarAlergiaPacienteComponent)
+    this.bsModalRef = this.modalService.show(AgregarAlergiaPacienteComponent);
+
+    this.bsModalRef.content.alergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
+      if(alergiaAgregada){
+        this.getTableData();
+      }
+    })
   }
 
   editar(pacienteAlergia: IPacienteAlergia) {
@@ -97,6 +124,18 @@ export class AlergiaComponent implements OnInit{
     }
 
     this.bsModalRef = this.modalService.show(EditarAlergiaPacienteComponent, { initialState});
+
+    const pacienteAlergiaEditado$ = new Subject<boolean>();
+
+    this.bsModalRef.content.pacienteAlergiaEditado$ = pacienteAlergiaEditado$;
+    pacienteAlergiaEditado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+      if(pacienteAlergiaEditado){
+        this.getTableData();
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      pacienteAlergiaEditado$.unsubscribe();
+    })
 
 }
 

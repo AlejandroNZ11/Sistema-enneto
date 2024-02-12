@@ -1,9 +1,13 @@
 
 
 
-              <div *ngIf="!isLoading" class="doctor-personals-grp">
+
+              <div  class="doctor-personals-grp">
                   <div class="card">
-                      <div class="card-body">
+                    <div *ngIf="isLoading" class="spinner-container">
+                      <div class="custom-spinner"></div>
+                    </div>
+                      <div class="card-body" *ngIf="!isLoading">
                           <form [formGroup]="form" class="row my-4">
                               <div class="col-12">
                                   <div class="form-heading">
@@ -211,11 +215,11 @@
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
                                       <label>Departamento <span class="login-danger">*</span></label>
-                                      <mat-select formControlName="departamento" [(ngModel)]="departamento"
+                                      <mat-select formControlName="departamentoId"
                                           class="form-control select" placeholder="Seleccione Departamento"
                                           [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
                                           (ngModelChange)="actualizarProvincias()">
-                                          <mat-option *ngFor="let data of departamentos" [value]="data.nombre">
+                                          <mat-option *ngFor="let data of departamentos" [value]="data.departamentoId">
                                               {{data.nombre}}
                                           </mat-option>
                                       </mat-select>
@@ -230,11 +234,11 @@
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
                                       <label>Provincia <span class="login-danger">*</span></label>
-                                      <mat-select formControlName="provincia" [(ngModel)]="provincia"
+                                      <mat-select formControlName="provinciaId"
                                           class="form-control select" placeholder="Seleccione Provincia"
                                           [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
                                           (ngModelChange)="actualizarDistritos()">
-                                          <mat-option *ngFor="let data of provincias" [value]="data.nombre">
+                                          <mat-option *ngFor="let data of provincias" [value]="data.provinciaId">
                                               {{data.nombre}}
                                           </mat-option>
                                       </mat-select>
@@ -249,7 +253,6 @@
                                   <div class="form-group local-forms">
                                       <label>Distrito <span class="login-danger">*</span></label>
                                       <mat-select
-                                      [(ngModel)]="pacienteData!.ubigeo"
                                       formControlName="ubigeo"
                                           class="form-control select" placeholder="Seleccione Distrito"
                                           [ngClass]="{'is-invalid': isInvalid('ubigeo') && isFormSubmitted}">
@@ -450,6 +453,3 @@
                 </div>
               </div>
 
-              <div *ngIf="isLoading" class="spinner-container">
-                <div class="custom-spinner"></div>
-              </div>

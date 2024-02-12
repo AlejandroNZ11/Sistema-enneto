@@ -3,7 +3,7 @@
       <div class="col-sm-12">
           <div class="card">
               <div class="card-body">
-                  <form (ngSubmit)="crearCategoria()" [formGroup]="form">
+                  <form  [formGroup]="form">
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
@@ -25,7 +25,7 @@
                                             <div *ngIf="isRequerido('fecha')">
                                                 Debe completar el campo*
                                             </div>
-                                            <div *ngIf="isFechaNacimientoMayorActual()">
+                                            <div *ngIf="isFechaMayorActual()">
                                                 Fecha no valida*
                                             </div>
                                         </div>
@@ -62,16 +62,18 @@
                                   </div>
                               </div>
                           </div> -->
-                          <div class="col-12">
-                            <div class="doctor-submit text-end">
-                                <button type="submit"
-                                    class="btn btn-primary submit-form me-2">Guardar</button>
-                                <button type="submit" (click)="Cancelar()"
-                                    class="btn btn-primary cancel-form">Cancelar</button>
-                            </div>
-                        </div>
+
                       </div>
                   </form>
+                  <div class="col-12">
+                    <div class="doctor-submit text-end">
+                        <button type="submit"
+                        (click)="crearCategoria()"
+                            class="btn btn-primary submit-form me-2" >Guardar</button>
+                        <button type="submit" (click)="Cancelar()"
+                            class="btn btn-primary cancel-form">Cancelar</button>
+                    </div>
+                </div>
 
               </div>
           </div>

@@ -16,7 +16,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./agregar-alergia-paciente.component.scss']
 })
 export class AgregarAlergiaPacienteComponent implements OnInit{
-  pacienteAlergiaAgregado$: Subject<boolean> = new Subject<boolean>();
+  pacienteAlergiaAgregada$: Subject<boolean> = new Subject<boolean>();
   form!: FormGroup;
   isFormSubmitted = false;
   pacienteId="";
@@ -91,7 +91,7 @@ export class AgregarAlergiaPacienteComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
-          this.pacienteAlergiaAgregado$.next(true);
+          this.pacienteAlergiaAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
@@ -103,7 +103,10 @@ export class AgregarAlergiaPacienteComponent implements OnInit{
     )
   }
 
-
+  Cancelar() {
+    this.pacienteAlergiaAgregada$.next(false);
+    this.bsModalRef.hide()
+  }
 
 
 

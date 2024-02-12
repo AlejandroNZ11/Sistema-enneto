@@ -98,6 +98,7 @@ export class EditarEvolucionPacienteComponent implements OnInit{
 
   editarEvolucion(){
     if (this.form.invalid) {
+      this.isFormSubmitted = true;
       this.isTouched()
       return;
     }

@@ -17,23 +17,38 @@
                                 <mat-select
                                 formControlName="especialidadId"
                                 [(ngModel)]="especialidadId"
-                                          class="form-control select" placeholder="Seleccione Grado de Instruccion"
-                                          (ngModelChange)="actualizarMedicos()" >
+                                          class="form-control select" placeholder="Seleccione Especialidad"
+                                          (ngModelChange)="actualizarMedicos()"
+                                          [ngClass]="{'is-invalid': isInvalid('especialidadId') && isFormSubmitted}" >
                                           <mat-option *ngFor="let data of especialidadList" [value]="data.especialidadId">
                                               {{data.nombre}}
                                           </mat-option>
                                       </mat-select>
+                                      <div *ngIf="isInvalid('especialidadId') && isFormSubmitted"
+                          class="invalid-feedback">
+                          <div *ngIf="isRequerido('especialidadId')">
+                              Debe seleccionar una especialidad*
+                          </div>
+                      </div>
                             </div>
                         </div>
                           <div class="col-12 col-md-12 col-xl-6">
                             <div class="form-group local-forms">
-                              <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
+                              <label>Fecha<span class="login-danger">*</span></label>
                               <input formControlName="fechaEvolucion"
                                   style='height:48px' class="form-control datetimepicker" type="text"
-                                  placeholder="" matInput [matDatepicker]="picker">
+                                  placeholder="" matInput [matDatepicker]="picker"
+                                  [ngClass]="{'is-invalid': isInvalid('fechaEvolucion') && isFormSubmitted}">
                               <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                               <mat-datepicker-toggle matIconSuffix [for]="picker"
                                   matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                  <div *ngIf="isInvalid('fechaEvolucion') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fechaEvolucion')">
+                                                Debe completar el campo*
+                                            </div>
+
+                                        </div>
                           </div>
                           </div>
                         <div class="col-12 col-md-12 col-xl-12">
@@ -41,12 +56,18 @@
                               <label>Medicos<span class="login-danger">*</span></label>
                               <mat-select
                               formControlName="medicoId"
-                                        class="form-control select" placeholder="Seleccione Grado de Instruccion"
-                                        >
+                                        class="form-control select" placeholder="Seleccione Medico"
+                                        [ngClass]="{'is-invalid': isInvalid('medicoId') && isFormSubmitted}">
                                         <mat-option *ngFor="let data of listaMedicos" [value]="data.medicoId">
                                             {{data.nombre}}
                                         </mat-option>
                                     </mat-select>
+                                    <div *ngIf="isInvalid('medicoId') && isFormSubmitted"
+                          class="invalid-feedback">
+                          <div *ngIf="isRequerido('medicoId')">
+                              Debe seleccionar un medico*
+                          </div>
+                      </div>
                           </div>
                       </div>
                       <div class="col-6 col-md-12 col-xl-12">
@@ -68,10 +89,10 @@
                       <label>Descripción</label>
                       <textarea formControlName="descripcion"
                           class="form-control" type="text"
-                          [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}"></textarea>
-                      <div *ngIf="isInvalid('observacion') && isFormSubmitted"
+                          [ngClass]="{'is-invalid': isInvalid('descripcion')}"></textarea>
+                      <div *ngIf="isInvalid('descripcion') || mostrarErrores"
                           class="invalid-feedback">
-                          <div *ngIf="isRequerido('observacion')">
+                          <div *ngIf="isRequerido('descripcion') || mostrarErrores">
                               Debe completar el campo*
                           </div>
                       </div>
