@@ -35,8 +35,9 @@ export class ClientesService {
     actualizarCliente(clientes: IClientes): Observable<successResponse> {
     return this.http.put<successResponse>(`${this.apiUrl}/Clientes/UpdateCliente/${clientes.clienteId}`, clientes).pipe(
         catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
-        return throwError(() => error);
+            console.error('Error en la solicitud:', error);
+            Swal.fire('Error', 'Ocurrió un error al actualizar el cliente', 'warning');
+            return throwError(() => error);
         })
     );
     }
