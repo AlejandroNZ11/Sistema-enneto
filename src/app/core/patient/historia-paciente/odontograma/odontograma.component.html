@@ -1,9 +1,29 @@
+<div class="settings-menu-links">
+  <ul class="nav nav-tabs menu-tabs" style="margin-bottom: 0px;">
+      <li class="nav-item" [routerLinkActive]="['active']" >
+          <a class="nav-link"  >Odo. Inicial</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" >
+          <a  class="nav-link" >Odo. Alta</a>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']" >
+          <a  class="nav-link"  >Odo. Evolucion</a>
+      </li>
+  </ul>
+</div>
 <div class="card">
   <div class="card-body">
     <main>
-      <canvas id="heCanvas" #myCanvas width="1200" height="650" style="border:1px solid">
+      <canvas #myCanvas width="1200" height="650" >
 
       </canvas>
+      <!-- <canvas  #myCanvas2 width="1200" height="650" >
+
+      </canvas>
+
+      <canvas  #myCanvas3 width="1200" height="650" >
+
+      </canvas> -->
     </main>
 
   </div>
