@@ -130,8 +130,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let cita of citasList">
-                                        <td>{{cita.secuencia}}</td>
+                                    <tr *ngFor="let cita of citasList let i = index">
+                                        <td>{{serialNumberArray[i]}}</td>
                                         <td>{{formatoFecha(cita.fecha)}}</td>
                                         <td>{{formatoHora(cita.horaInicio)}}</td>
                                         <td>{{formatoHora(cita.horaFin)}}</td>

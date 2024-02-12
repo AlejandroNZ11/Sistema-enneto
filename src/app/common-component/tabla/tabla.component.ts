@@ -89,14 +89,14 @@ export class TablaComponent implements OnInit {
     const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
     let result;
     if (brightness > 0.5) {
-      r = Math.round(r * (1 - 0.4));
-      g = Math.round(g * (1 - 0.4));
-      b = Math.round(b * (1 - 0.4));
+      r = Math.round(r * (1 - 0.75));
+      g = Math.round(g * (1 - 0.75));
+      b = Math.round(b * (1 - 0.75));
       result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
     } else {
-      r = Math.round(r + (255 - r) * 0.75);
-      g = Math.round(g + (255 - g) * 0.75);
-      b = Math.round(b + (255 - b) * 0.75);
+      r = Math.round(r + (255 - r) * 0.8);
+      g = Math.round(g + (255 - g) * 0.8);
+      b = Math.round(b + (255 - b) * 0.8);
       result = "#" + ((r << 16) | (g << 8) | b).toString(16).padStart(6, "0");
     }
     return result;

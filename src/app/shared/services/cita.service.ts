@@ -58,13 +58,13 @@ export class CitaService {
   obtenerControlCitasMedicas(page: number, rows: number, fechaInicio: string, fechaFin: string, sede?: string, estado?: string, historia?: string, paciente?: string): Observable<DataControlCitaMedica> {
     let url = `${this.apiUrl}/CitasMedicas/GetControlCitaMedica?page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (sede != 'todos' && sede) {
-      url += `&Sede=${sede}`;
+      url += `&SedeId=${sede}`;
     }
     if (estado != 'todos' && estado) {
       url += `&TipoCitadoId=${estado}`;
     }
     if (historia != 'todos' && historia) {
-      url += `&Historia=${historia}`;
+      url += `&TipoHistoria=${historia}`;
     }
     if (paciente != 'todos' && paciente) {
       url += `&PacienteId=${paciente}`;

@@ -26,7 +26,7 @@ export class AgregarTipoCitadoComponent implements OnInit{
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       descripcion: ['', Validators.required],
-      color: ['', Validators.required],
+      color: ['#000000', Validators.required],
     });
   }
 
