@@ -80,8 +80,8 @@
                                 <div class="row">
                                     <div class="form-group col-lg-9">
                                         <label>Buscar Paciente<span class="login-danger">*</span></label>
-                                        <mat-select [(ngModel)]="pacienteleccionado" class="form-control select"
-                                            placeholder="Seleccione un Paciente">
+                                        <mat-select [(ngModel)]="citaNueva.pacienteId" class="form-control select"
+                                            placeholder="Seleccione un Paciente" formControlName="paciente">
                                             <input type="text" class="form-control buscar" autocomplete="off"
                                                 #multiUserSearch matInput placeholder="Ingrese Apellidos o Nombres"
                                                 (input)="buscarPacientes()">
@@ -112,7 +112,7 @@
                                     <div class="form-group col-lg-4">
                                         <label>Tipo Ingreso</label>
                                         <mat-select formControlName="estado" [(ngModel)]="citaNueva.estado"
-                                            class="form-control select" placeholder="Seleccione Tipo Citado"
+                                            class="form-control select" placeholder="Seleccione Tipo Ingreso"
                                             [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
                                             <mat-option value='0'>Nuevo</mat-option>
                                             <mat-option value='1'>Reingreso</mat-option>

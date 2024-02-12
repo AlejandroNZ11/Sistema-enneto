@@ -12,12 +12,11 @@ export class HomeComponent implements OnInit {
   public routes = routes;
   public today = new Date();
   public currentHour = this.today.getHours();
-  constructor(public auth:AuthService){}
+  constructor(public auth: AuthService) { }
   ngOnInit(): void {
     this.checkTime(this.currentHour);
     const token = this.auth.getAccessTokenSilently();
-    console.log(token)
-    }
+  }
 
   checkTime(i: number) {
     if (i >= 0 && i < 12) { this.saludo = 'Buenos días' }

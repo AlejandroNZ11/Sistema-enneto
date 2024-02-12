@@ -63,6 +63,9 @@ export class AgregarApoderadoComponent {
       case '04':
         documentoControl.setValidators([Validators.required, Validators.pattern(/^\d{8}$/)]);
         break;
+      case '05':
+        documentoControl.setValidators([Validators.required, Validators.pattern(/^\d{12}$/)]);
+        break;
       default:
         documentoControl.setValidators(Validators.required);
         break;
@@ -83,6 +86,9 @@ export class AgregarApoderadoComponent {
         this.maxLengthDocumento = 9;
         break;
       case '04':
+        this.maxLengthDocumento = 8;
+        break;
+      case '05':
         this.maxLengthDocumento = 12;
         break;
       default:

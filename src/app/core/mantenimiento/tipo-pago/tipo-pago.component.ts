@@ -9,6 +9,7 @@ import { DataTipoPago, ITipoPago, TipoPago } from 'src/app/shared/models/tipopag
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tipo-pago',
@@ -91,9 +92,17 @@ export class TipoPagoComponent implements OnInit {
     const initialState = {
       tipoPagoSeleccionado: tipoPago.tipoPagoId
     };
+  
     this.bsModalRef = this.modalService.show(EditarTipoPagoComponent, { initialState });
+    const tipopagoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.tipopagoEditada$ = tipopagoEditada$;
+    tipopagoEditada$.subscribe((tipopagoEditada: boolean) => {
+      if (tipopagoEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tipopagoEditada$.unsubscribe();   
     });
   }
 

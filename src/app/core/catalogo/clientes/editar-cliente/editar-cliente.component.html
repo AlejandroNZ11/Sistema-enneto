@@ -1,1 +1,96 @@
-<p>editar-cliente works!</p>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-heading">
+                                    <h4>Editar Cliente</h4>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nombres <span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombre')}">
+                                    <div *ngIf="isInvalid('nombre') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('nombre')|| mostrarErrores">Debe completar el campo*</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Tipo de Documento <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="tipoDocumento" class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoDocumento')}" placeholder="Seleccionar Documento">
+                                        <mat-option value="01">DNI</mat-option>
+                                        <mat-option value="02">RUC</mat-option>
+                                        <mat-option value="03">PASAPORTE</mat-option>
+                                        <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
+                                        <mat-option value="05">OTROS</mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('tipoDocumento')" class="invalid-feedback">Debe completar el campo*</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Nro. Documento <span class="login-danger">*</span></label>
+                                    <input formControlName="documento" type="text" [attr.maxLength]="maxLengthDocumento" (keydown)="soloNumeros($event)" class="form-control" [ngClass]="{'is-invalid': isInvalid('documento')}"/>
+                                    <div *ngIf="isInvalid('documento')" class="invalid-feedback">Debe completar el campo*</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Direccion <span class="login-danger">*</span></label>
+                                    <input formControlName="direccion" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('direccion')}">
+                                    <div *ngIf="isInvalid('direccion') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('direccion')|| mostrarErrores">Debe completar el campo*</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Contacto <span class="login-danger">*</span></label>
+                                    <input formControlName="contacto" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('contacto')}">
+                                    <div *ngIf="isInvalid('contacto') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('contacto')|| mostrarErrores">Debe completar el campo*</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Teléfono <span class="login-danger">*</span></label>
+                                    <input formControlName="telefono" type="text" maxLength="9" (keydown)="soloNumeros($event)" class="form-control" [ngClass]="{'is-invalid': isInvalid('telefono')}"/>
+                                    <div *ngIf="isInvalid('telefono') && form.get('telefono')?.errors?.['required']" class="invalid-feedback">Debe completar el campo*</div>
+                                    <div *ngIf="form.get('telefono')?.value && form.get('telefono')?.errors?.['empiezaCon9']" class="invalid-feedback">Debe comenzar con 9*</div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Email <span class="login-danger">*</span></label>
+                                    <input formControlName="email" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('email')}">
+                                    <div *ngIf="isInvalid('email') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('email')|| mostrarErrores">Debe completar el campo*</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="col-12">
+                        <div class="doctor-submit text-end">
+                            <button type="submit" (click)="guardarCliente()" class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
