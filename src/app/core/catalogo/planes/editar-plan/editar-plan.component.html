@@ -4,17 +4,14 @@
             <div class="card">
                 <div class="card-body">
                     <form [formGroup]="form">
+                        <div class="form-heading">
+                            <h4>Editar Plan</h4>
+                        </div>
                         <div class="row">
                             <div class="col-12">
-                                <div class="form-heading">
-                                    <h4>Nuevo Plan</h4>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Nombre del Plan <span class="login-danger">*</span></label>
-                                    <input formControlName="nombrePlan" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('nombrePlan')}">
+                                    <input formControlName="nombrePlan" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombrePlan')}">
                                     <div *ngIf="isInvalid('nombrePlan') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('nombrePlan')|| mostrarErrores">
                                             Debe completar el campo*
@@ -22,58 +19,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha de Inicio<span class="text-danger">*</span></label>
-                                    <input formControlName="fechaInicio" class="form-control datetimepicker" type="text"
-                                        matInput [matDatepicker]="picker">
+                                    <input formControlName="fechaInicio" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fechaInicio')}" placeholder="Seleccionar Fecha" readonly>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker"
-                                        class="date-picker-icon"></mat-datepicker-toggle>
                                     <div *ngIf="isInvalid('fechaInicio')" class="invalid-feedback">
-                                        Debe seleccionar una fecha válida.
+                                        Debe completar el campo*
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
                                     <label>Fecha fin del contrato<span class="text-danger">*</span></label>
-                                    <input formControlName="fechaFinContrato" class="form-control datetimepicker"
-                                        type="text" matInput [matDatepicker]="picker2">
+                                    <input formControlName="fechaFinContrato" class="form-control datetimepicker" type="text" matInput [matDatepicker]="picker2" [ngClass]="{'is-invalid': isInvalid('fechaFinContrato')}" placeholder="Seleccionar Fecha" readonly>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"
-                                        class="date-picker-icon"></mat-datepicker-toggle>
                                     <div *ngIf="isInvalid('fechaFinContrato')" class="invalid-feedback">
-                                        Debe seleccionar una fecha válida.
+                                        Debe completar el campo*
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="estado" class="form-control select">
-                                        <mat-option value='Activo'>Activo</mat-option>
-                                        <mat-option value='Inactivo'>Inactivo</mat-option>
-                                    </mat-select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Costo del Plan <span class="login-danger">*</span></label>
-                                    <input formControlName="costoPlan" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('costoPlan')}" (input)="validarInput($event)">
-                                    <div *ngIf="isInvalid('costoPlan') || mostrarErrores" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('costoPlan')|| mostrarErrores">
-                                            Debe completar el campo*
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
                                     <label>Max Plan <span class="login-danger">*</span></label>
-                                    <input formControlName="maxPlan" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('maxPlan')}" (input)="validarInput($event)">
+                                    <input formControlName="maxPlan" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('maxPlan')}" (input)="validarInput($event, 5)">
                                     <div *ngIf="isInvalid('maxPlan') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('maxPlan')|| mostrarErrores">
                                             Debe completar el campo*
@@ -81,11 +52,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group local-forms">
-                                    <label>Usu Plan <span class="login-danger">*</span></label>
-                                    <input formControlName="usuMax" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('usuMax')}" (input)="validarInput($event)">
+                                    <label>Usu Max <span class="login-danger">*</span></label>
+                                    <input formControlName="usuMax" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('usuMax')}" (input)="validarInput($event, 5)">
                                     <div *ngIf="isInvalid('usuMax') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('usuMax')|| mostrarErrores">
                                             Debe completar el campo*
@@ -93,17 +63,32 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group local-forms">
+                                    <label>Costo del Plan <span class="login-danger">*</span></label>
+                                    <input formControlName="costoPlan" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('costoPlan')}" (input)="validarInput($event, 6)">
+                                    <div *ngIf="isInvalid('costoPlan') || mostrarErrores" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('costoPlan')|| mostrarErrores">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
+                                    </mat-select>
+                                </div>
+                            </div>
                         </div>
-                        
-                    </form>
-                    <div class="col-12">
                         <div class="doctor-submit text-end">
-                            <button type="submit" (click)="actualizarPlan()"
-                                class="btn btn-primary submit-form me-2">Actualizar</button>
-                            <button type="submit" (click)="Cancelar()"
-                                class="btn btn-primary cancel-form">Cancelar</button>
+                            <button type="submit" (click)="actualizarPlan()" class="btn btn-primary submit-form me-2">Guardar</button>
+                            <button type="submit" (click)="Cancelar()" class="btn btn-primary cancel-form">Cancelar</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

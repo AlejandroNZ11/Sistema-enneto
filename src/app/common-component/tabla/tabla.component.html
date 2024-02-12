@@ -10,10 +10,10 @@
                         <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                     </div>
                     <div class="add-group">
-                        <a class="btn btn-primary add-pluss ms-2"><img src="assets/img/icons/plus.svg" alt=""
-                                (click)="onCreate()"></a>
-                        <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2"><img
-                                src="assets/img/icons/re-fresh.svg" alt="" (click)="refreshData()"></a>
+                        <a class="btn btn-primary add-pluss ms-2" (click)="onCreate()"><img
+                                src="assets/img/icons/plus.svg" alt=""></a>
+                        <a href="javascript:;" class="btn btn-primary doctor-refresh ms-2" (click)="refreshData()"><img
+                                src="assets/img/icons/re-fresh.svg" alt=""></a>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 <td>{{serialNumberArray[i]}}</td>
                 <td *ngFor="let nombre of columnas">{{getValue(data,nombre)}}</td>
                 <td *ngIf="data.estado==='A'|| data.estado ==='1' || data.estado ===1">
-                    <button class="custom-badge"  [style.color]="getTextColor(data,true)"
+                    <button class="custom-badge" [style.color]="getTextColor(data,true)"
                         [style.backgroundColor]="getBgColor(data,true)">Activo</button>
                 </td>
                 <td *ngIf="data.estado==='I'|| data.estado ==='0' || data.estado ===0">

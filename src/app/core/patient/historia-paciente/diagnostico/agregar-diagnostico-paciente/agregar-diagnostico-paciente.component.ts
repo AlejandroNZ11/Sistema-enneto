@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 })
 export class AgregarDiagnosticoPacienteComponent implements OnInit{
   pacienteId="";
-  diagnosticoAgregado$: Subject<boolean> = new Subject<boolean>();
+  diagnosticoAgregada$: Subject<boolean> = new Subject<boolean>();
   form!: FormGroup;
   public mostrarErrores = false;
   enfermedadList:Array<Enfermedad> = [];
@@ -53,19 +53,19 @@ export class AgregarDiagnosticoPacienteComponent implements OnInit{
     });
   }
 
-  isFechaNacimientoMayorActual() {
+  isFechaMayorActual() {
     return this.form.get('fecha')?.hasError('fechaMayorActual');
   }
 
   fechaNacimientoValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
-      const fechaNacimiento = control.value;
-      if (!fechaNacimiento) {
+      const fecha = control.value;
+      if (!fecha) {
         return null;
       }
-      const fechaNacimientoDate = new Date(fechaNacimiento);
+      const fechaDate = new Date(fecha);
       const fechaActual = new Date();
-      if (fechaNacimientoDate > fechaActual) {
+      if (fechaDate > fechaActual) {
         return { 'fechaMayorActual': true };
       }
       return null;
@@ -78,21 +78,15 @@ export class AgregarDiagnosticoPacienteComponent implements OnInit{
       this.isTouched()
       return;
     }
-    this.isFormSubmitted = true;
-
-
     this.diagnosticoHistoria.pacienteId = this.pacienteId;
     this.diagnosticoHistoria.fecha = this.form.get("fecha")?.value;
     this.diagnosticoHistoria.enfermedadId = this.form.get("enfermedadId")?.value;
-
-    console.log(this.diagnosticoHistoria)
-
 
     this.historiaDiagnosticoService.agregarDiagnosticoPaciente(this.diagnosticoHistoria).subscribe(
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
-          this.diagnosticoAgregado$.next(true);
+          this.diagnosticoAgregada$.next(true);
           this.bsModalRef.hide();
         }else{
           console.error(response.message);
@@ -105,7 +99,7 @@ export class AgregarDiagnosticoPacienteComponent implements OnInit{
   }
 
   Cancelar() {
-    this.diagnosticoAgregado$.next(false);
+    this.diagnosticoAgregada$.next(false);
     this.bsModalRef.hide()
   }
 

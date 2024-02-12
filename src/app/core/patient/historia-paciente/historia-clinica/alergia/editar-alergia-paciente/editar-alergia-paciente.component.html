@@ -4,7 +4,7 @@
       <div class="col-sm-12">
           <div class="card">
               <div class="card-body">
-                  <form>
+                  <form [formGroup]="form">
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
@@ -15,12 +15,19 @@
                             <div class="form-group local-forms">
                                 <label>Alergia <span class="login-danger">*</span></label>
                                 <mat-select
-                                [(ngModel)]="pacienteAlergiaId"
-                                class="form-control select" placeholder="Seleccione Alergia" >
+                                formControlName="alergiaId"
+                                class="form-control select" placeholder="Seleccione Alergia"
+                                [ngClass]="{'is-invalid': isInvalid('alergiaId') && isFormSubmitted}">
                                   <mat-option *ngFor="let data of ListAlergias" [value]="data.alergiaId">
                                     {{ data.nombre }}
                                   </mat-option>
                                 </mat-select>
+                                <div *ngIf="isInvalid('alergiaId') && isFormSubmitted"
+                                class="invalid-feedback">
+                                <div *ngIf="isRequerido('alergiaId')">
+                                    Debe elegir una alergia*
+                                </div>
+                            </div>
                             </div>
                         </div>
                           <div class="col-12 col-md-12 col-xl-12">
@@ -28,22 +35,24 @@
                                   <label>Observacion <span class="login-danger">*</span></label>
                                   <div class="input-group">
                                     <textarea
-
+                                    formControlName="observacion"
                                     class="form-control" type="text">
                                      </textarea>
                                   </div>
                               </div>
                           </div>
+
+
                       </div>
                   </form>
                   <div class="col-12">
-                      <div class="doctor-submit text-end">
-                          <button type="submit"
-                              class="btn btn-primary submit-form me-2">Guardar</button>
-                          <button (click)="cancelar()" type="submit"
-                              class="btn btn-primary cancel-form">Cancelar</button>
-                      </div>
-                  </div>
+                    <div class="doctor-submit text-end">
+                        <button type="submit"
+                            class="btn btn-primary submit-form me-2" (click)="actualizarPacienteAlergia()" >Guardar</button>
+                        <button (click)="cancelar()" type="submit"
+                            class="btn btn-primary cancel-form">Cancelar</button>
+                    </div>
+                </div>
               </div>
           </div>
       </div>

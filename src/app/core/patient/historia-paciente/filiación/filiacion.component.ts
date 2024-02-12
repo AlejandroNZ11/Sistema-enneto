@@ -97,7 +97,7 @@ export class FiliacionComponent implements OnInit {
     this.estadoCivilService.obtenerEstadosCiviles().subscribe(data => { this.estadosCiviles = data; })
     this.gradoInstService.obtenerGradoInstruccion().subscribe(data => { this.gradosInstruccion = data; })
     this.ubicacionService.obtenerPaises().subscribe(data => { this.paises = data; })
-    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; console.log(this.departamentos)})
 
 
     // Obteniendo data para la tabla historial de citas
@@ -138,6 +138,8 @@ export class FiliacionComponent implements OnInit {
       telefonoParentesco:['',[Validators.maxLength(9), Validators.minLength(9)]],
       domicilioParentesco:['',[Validators.maxLength(100)]],
       tipoParentesco:['',[Validators.maxLength(9)]],
+      departamentoId:[''],
+      provinciaId:[''],
     })
 
     this.route.params.subscribe(params => {
@@ -170,6 +172,7 @@ export class FiliacionComponent implements OnInit {
           }
           console.log(this.pacienteData)
         }
+        console.log(this.pacienteData.ubigeo);
          // Patch valores al formulario
          this.form.patchValue({
           nombres: this.pacienteData.nombres,
@@ -190,12 +193,26 @@ export class FiliacionComponent implements OnInit {
           contactoEmergencia: this.pacienteData.contactoEmergencia,
           telefonoParentesco: this.pacienteData.telefonoParentesco,
           domicilioParentesco: this.pacienteData.domicilioParentesco,
-          tipoParentesco: this.pacienteData.tipoParentesco
+          tipoParentesco: this.pacienteData.tipoParentesco,
+          departamentoId:'15',
+          provinciaId: "1503",
         });
 
         const departamentoId = (this.pacienteData!.ubigeo.substring(0, 2));
         const provinciaId = (this.pacienteData!.ubigeo.substring(0, 4));
-        this.cargarUbicacion(departamentoId, provinciaId);
+
+
+        this.ubicacionService.obtenerProvincias("15").subscribe(data => {
+          console.log(data)
+          this.provincias = data;
+          this.ubicacionService.obtenerDistritos("1503").subscribe(dataDistrito => {
+            console.log(dataDistrito)
+            console.log()
+            this.distritos = dataDistrito;
+          })
+        })
+
+
       })
     }
 
@@ -208,33 +225,22 @@ export class FiliacionComponent implements OnInit {
     { name: 'Femenino', value: 'F', checked: false },
   ]
 
-  actualizarProvincias(id?: string) {
-    if (this.departamento) {
-      if (id) {
-        this.ubicacionService.obtenerProvincias(id).subscribe(data => {
-          this.provincias = data;
-        })
-      } else {
-        const departamentoEncontrado = this.departamentos.find(dep => dep.nombre === this.departamento!.toString())!.departamentoId;
+  actualizarProvincias() {
+
+        const departamentoEncontrado = this.departamentos.find(dep => dep.departamentoId === this.form.get('departamentoId')?.value)!.departamentoId;
         this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
+          console.log(data)
           this.provincias = data;
-        })
-      }
-    }
+        });
+
   }
-  actualizarDistritos(id?: string) {
-    if (this.provincia) {
-      if (id) {
-        this.ubicacionService.obtenerDistritos(id).subscribe(data => {
-          this.distritos = data;
-        })
-      } else {
-        const provinciaEncotrada = this.provincias.find(prov => prov.nombre == this.provincia!.toString())!.provinciaId;
+  actualizarDistritos() {
+
+        const provinciaEncotrada = this.provincias.find(prov => prov.provinciaId == this.form.get('provinciaId')?.value)!.provinciaId;
         this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
           this.distritos = data;
-        })
-      }
-    }
+        });
+
   }
 
   cargarUbicacion(departamento: string, provincia: string) {

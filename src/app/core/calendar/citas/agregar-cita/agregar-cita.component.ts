@@ -31,7 +31,6 @@ export class AgregarCitaComponent implements OnInit {
   listEspecialidadesCitas!: Iespecialidad[];
   listPacientes!: PacienteList[];
   listPacientesFiltrados!: PacienteList[];
-  pacienteleccionado!: string;
   nombreBusqueda = '';
   listEstadosCitas!: ItipoCitado[];
   estadoSeleccionadoCita = '';
