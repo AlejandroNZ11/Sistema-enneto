@@ -2,8 +2,21 @@
 
 
 canvas{
-  background-color: #ebebeb;
-  border: 2px solid #222;
+  background-color: rgb(255, 255, 255);
+  // border: 2px solid #9095cf;
+  // border-radius: 15px;
 
 }
 
+
+#myCanvas {
+  z-index: 1;
+}
+
+#myCanvas2 {
+  z-index: 2;
+}
+
+#myCanvas3 {
+  z-index: 3;
+}
