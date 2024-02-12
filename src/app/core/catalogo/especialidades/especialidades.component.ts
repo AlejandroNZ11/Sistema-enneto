@@ -38,6 +38,11 @@ export class EspecialidadesComponent implements OnInit {
     this.columnas = getEntityPropiedades('Especialidad');
     this.acciones = ['Editar', 'Eliminar'];
   }
+  
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListEspecialidad = [];
     this.serialNumberArray = [];
@@ -59,6 +64,8 @@ export class EspecialidadesComponent implements OnInit {
       this.editarEspecialidad(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarEspecialidad(accion.fila.especialidadId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
