@@ -14,8 +14,9 @@ export class GastosService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
-  obtenerGastos( page: number, rows: number,fechaInicio?: string, fechaFin?: string, gasto?: string, tipoGasto?: string): Observable<DataGastos> {
-    let url = `${this.apiUrl}/Gasto/GetAllGasto?page=${page}&rows=${rows}`;
+  obtenerGastos( page: number, rows: number,
+    fechaInicio?: string, fechaFin?: string, gasto?: string, tipoGasto?: string): Observable<DataGastos> {
+    let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}`;
     if (fechaInicio) {
       url += `&fechaInicio=${fechaInicio}`;
     }
@@ -23,10 +24,10 @@ export class GastosService {
       url += `&fechaFin=${fechaFin}`;
     }
     if (gasto) {
-      url += `&medico=${gasto}`;
+      url += `&gasto=${gasto}`;
     }
     if (tipoGasto) {
-      url += `&TipoPacienteId=${tipoGasto}`;
+      url += `&TipoGastoId=${tipoGasto}`;
     }
     return this.http.get<DataGastos>(url);
   }

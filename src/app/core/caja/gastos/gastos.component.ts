@@ -44,7 +44,7 @@ export class GastosComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService, 
-    public gastosservice: GastosService,
+    private gastosservice: GastosService,
     public tipogastoservice: TipoGastosService,
 
   ){}
@@ -55,6 +55,7 @@ export class GastosComponent implements OnInit {
 
     this.tipogastoservice.obtenerConceptoGastoList().subscribe(data => { this.tiposGasto = data; })
     this.getTableData(this.totalData, this.pageSize);
+    this.getTableData(1, 10);
   }
   
   
@@ -62,14 +63,18 @@ export class GastosComponent implements OnInit {
   private getTableData(currentPage: number, pageSize: number): void {
     this.GastosList = [];
     this.serialNumberArray = [];
-    this.gastosservice.obtenerGastos( currentPage, pageSize).subscribe((data: DataGastos) => {
-        this.totalData = data.totalData
-        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-            const serialNumber = index + 1;
-            this.serialNumberArray.push(serialNumber);
-        }
-        this.GastosList = data.data;
-        this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+
+    // Llama al método obtenerGastos del servicio
+    this.gastosservice.obtenerGastos(currentPage, pageSize).subscribe((data: DataGastos) => {
+      this.totalData = data.totalData;
+
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+
+      this.GastosList = data.data;
+      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
     });
   }
 
@@ -83,6 +88,8 @@ export class GastosComponent implements OnInit {
         this.eliminarGasto(accion.fila.gastoId)
     }
   }
+
+  
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;
@@ -182,6 +189,8 @@ export class GastosComponent implements OnInit {
       });
   }
 
+  
+  
   
   limpiarCampos() {
     this.fechaInicio = '';

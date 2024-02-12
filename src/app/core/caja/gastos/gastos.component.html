@@ -18,46 +18,10 @@
             <div class="col-sm-12">
                 <div class="card card-table show-entire">
                     <div class="card-body">
-                        <br>
-                        <div class="doctor-search-blk">
-                            <div class="top-nav-search table-search-blk">
-                                <input [(ngModel)]="fechaInicio" style='height:48px'
-                                    class="form-control" type="text" placeholder="Desde" matInput
-                                    [matDatepicker]="picker">
-                                <mat-datepicker #picker></mat-datepicker>
-                                <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
-                            </div>
-                            <div class="top-nav-search table-search-blk">
-                                <input [(ngModel)]="fechaFin" style='height:48px' class="form-control"
-                                    type="text" placeholder="Hasta" matInput [matDatepicker]="picker2">
-                                <mat-datepicker #picker2></mat-datepicker>
-                                <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
-                                <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
-                            </div>
-                            <div class="add-group">
-                                <!-- <a (click)="obtenerDatosMedicosConFiltro()" href="javascript:;"
-                                    class="btn btn-primary doctor-refresh ms-2"><img
-                                        src="assets/img/icons/re-fresh.svg" alt=""></a> -->
-                            </div>
-                            <div class="top-nav-search table-search-blk">
-                                <mat-select [(ngModel)]="tipoGasto" class="form-control select"
-                                    placeholder="Seleccione Tipo Gastos">
-                                    <mat-option value="Todos">Todos</mat-option>
-                                    <mat-option *ngFor="let data of tiposGasto" [value]="data.conceptoGastoId">
-                                        {{data.nombre}}
-                                    </mat-option>
-                                </mat-select>
-                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                            </div>
-                        </div>
-                        
                         <app-tabla [total]="totalData" [data]="GastosList" [indice]="serialNumberArray"
-                            [columns]="columnas" [titulo]="'Lista de Gastos'"
-                            [accion]="acciones"
+                            [columns]="columnas" [titulo]="'Lista de Gastos'" [accion]="acciones"
                             (action)="onAction($event)" (MoreData)="getMoreData($event)">
                         </app-tabla>
-                        
                         
                     </div>
                 </div>
