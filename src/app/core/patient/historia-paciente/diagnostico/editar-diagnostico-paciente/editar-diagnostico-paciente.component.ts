@@ -120,6 +120,7 @@ export class EditarDiagnosticoPacienteComponent implements OnInit{
   }
 
   cancelar() {
+    this.diagnosticoEditado$.next(false);
     this.bsModalRef.hide()
   }
 

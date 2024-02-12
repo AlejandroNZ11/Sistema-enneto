@@ -49,15 +49,18 @@ ngOnInit() {
     });
   })
   }
-
-  validarInput(event: any) {
-    const inputValue = event.target.value;
-
-    if (isNaN(inputValue)) {
-      const newValue = inputValue.slice(0, -1);
-      this.renderer.setProperty(event.target, 'value', newValue);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validarInput(event: any, maxLength: number) {
+    let inputValue = event.target.value;
+    inputValue = inputValue.replace(/[^0-9]/g, '');
+  
+    if (inputValue.length > maxLength) {
+      inputValue = inputValue.slice(0, maxLength);
     }
+  
+    this.renderer.setProperty(event.target, 'value', inputValue);
   }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;

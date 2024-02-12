@@ -15,12 +15,8 @@
       <table class="table border-0 custom-table comman-table datatable mb-0">
         <thead>
           <tr>
-              <th>
-                  <div class="form-check check-tables">
-                      <input class="form-check-input" type="checkbox" value="something">
-                  </div>
-              </th>
-              <th >Secuencia</th>
+
+              <th >N°</th>
               <!-- <th mat-sort-header="specialization">Especializacion</th> -->
               <th>Nombre</th>
               <th >Observacion</th>
@@ -28,14 +24,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of pacienteAlergiasList let i = index">
-            <td>
-                <div class="form-check check-tables">
-                    <input class="form-check-input" type="checkbox" value="something">
-                </div>
-            </td>
+
             <td>{{serialNumberArray[i]}}</td>
             <!-- <td>{{ data.citaMedicaId }}</td> -->
-            <td>{{ data.alergiaId }}</td>
+            <td>{{ getAlergiaName(data.alergiaId)}}</td>
             <td>{{ data.observacion }}</td>
             <td class="text-end">
               <div class="dropdown dropdown-action">

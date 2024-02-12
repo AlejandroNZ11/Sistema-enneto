@@ -24,6 +24,7 @@ export class AgregarEvolucionPacienteComponent implements OnInit{
   especialidadList:Array<Iespecialidad> =[];
   especialidadId:any;
   listaMedicos:Array<MedicoList>=[];
+  public mostrarErrores = false;
   constructor(public bsModalRef: BsModalRef, public fb: FormBuilder, public especialidadService: EspecialidadesService, public medicoService: MedicoService, public sharedService:SharedService,public evolucionPacienteService: EvolucionPacienteService){
     this.form = this.fb.group({
       especialidadId: ['', Validators.required],
@@ -77,6 +78,7 @@ export class AgregarEvolucionPacienteComponent implements OnInit{
 
   crearEvolucion(){
     if (this.form.invalid) {
+      this.isFormSubmitted = true;
       this.isTouched()
       return;
     }

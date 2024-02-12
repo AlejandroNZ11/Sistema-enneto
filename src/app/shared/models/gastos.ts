@@ -2,6 +2,16 @@ export class Gastos {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
     fecha!:Date;
+    descripcion = "";
+    conceptoGastoId= "";
+    bancoId= "";
+    cuentaPagarId= "";
+    
+    monto= "";
+    operacion= "";
+    sedeId= "";
+    responsable= "";
+    observacion= "";
 
 }
 
@@ -27,7 +37,7 @@ export interface DataGastos {
 
 export class GastosResponse {
     descripcion = "";
-    tipogastos = ""; 
+    tipoGastos = ""; 
     fecha = "";
     observacion = "";
     monto = "";

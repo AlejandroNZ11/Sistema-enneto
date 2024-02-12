@@ -1,5 +1,12 @@
-<div  *ngIf="!isLoading" class="card mt-1">
-  <div class="card-body ">
+
+
+<div   class="card mt-1">
+
+<div *ngIf="isLoading" class="spinner-container">
+  <div class="custom-spinner"></div>
+</div>
+
+  <div class="card-body "*ngIf="!isLoading">
     <form (ngSubmit)="agregarConsultaSaludPaciente()" [formGroup]="form" >
       <!-- Group 1 -->
       <div class="row mt-2">
@@ -301,7 +308,3 @@
   </div>
 </div>
 
-
-<div *ngIf="isLoading" class="spinner-container">
-  <div class="custom-spinner"></div>
-</div>

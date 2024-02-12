@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { DataHistoriaDiagnostico, IHistoriaDagnostico } from '../models/historiaDiagnostico';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
+import Swal from 'sweetalert2';
 
 @Injectable({providedIn: 'root'})
 export class HistoriaDiagnosticoService {
@@ -27,7 +28,12 @@ export class HistoriaDiagnosticoService {
   }
 
   actualizarDiagnosticoPaciente(diagnosticoPaciente: IHistoriaDagnostico):Observable<successResponse>{
-    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnosticoPaciente.pacienteDiagnosticoId}`,diagnosticoPaciente);
+    return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnosticoPaciente.pacienteDiagnosticoId}`,diagnosticoPaciente).pipe(
+      catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+      })
+    );
   }
 
 }

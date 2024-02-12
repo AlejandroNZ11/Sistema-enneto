@@ -7,7 +7,7 @@ import { GastosService } from 'src/app/shared/services/gastos.service';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { environment as env} from 'src/environments/environments';
 import { DataGastos, Igastos, Gastos } from 'src/app/shared/models/gastos';
-//import { AgregarGastoComponent } from './agregar-gasto/agregar-gasto.component';
+import { AgregarGastosComponent } from './agregar-gastos/agregar-gastos.component';
 //import { EditarGastoComponent } from './editar-gasto/editar-gasto.component';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
@@ -76,7 +76,7 @@ export class GastosComponent implements OnInit {
 
   onAction(accion: Accion) {
     if (accion.accion == 'Crear') {
-    //    this.crearGasto();
+      this.crearGasto();
     } else if (accion.accion == 'Editar') {
    //     this.editarGasto(accion.fila)
     } else if (accion.accion == 'Eliminar') {
@@ -90,14 +90,16 @@ export class GastosComponent implements OnInit {
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-  // crearGasto() {
-  //   this.bsModalRef = this.modalService.show(AgregarGastoComponent),
-  //   this.bsModalRef.content.gastoAgregada$.subscribe((gastoAgregada: boolean) => {
-  //   if (gastoAgregada) {
-  //       this.getTableData(this.currentPage, this.pageSize);
-  //       }
-  //   });
-  // }
+  
+  crearGasto() {
+    this.bsModalRef = this.modalService.show(AgregarGastosComponent),
+    this.bsModalRef.content.gastoAgregada$.subscribe((gastoAgregada: boolean) => {
+    if (gastoAgregada) {
+        this.getTableData(this.currentPage, this.pageSize);
+        }
+    });
+  }
+
   // editarGasto(gasto: Igastos) {
   //   const initialState = {
   //     gastoSeleccionada: gasto.gastoId
@@ -114,6 +116,35 @@ export class GastosComponent implements OnInit {
   //     gastoEditada$.unsubscribe();   
   //   });
   // }
+
+  
+
+  eliminarGasto(gastosId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.gastosservice.eliminarGastos(gastosId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message, '', 'success');
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
+    
+  }
 
   obtenerDatosPacientesConFiltro(): void {
     this.GastosList = [];
@@ -163,32 +194,5 @@ export class GastosComponent implements OnInit {
   formatoFecha(fecha:string) :string{
     const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
     return `${dia}-${mes}-${anio}`;
-  }
-
-  eliminarGasto(gastosId:string){
-    Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: 'Eliminar',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if(result.isConfirmed){
-        this.gastosservice.eliminarGastos(gastosId).subscribe(
-          (response) => {
-            if (response.isSuccess) {
-              Swal.fire(response.message, '', 'success');
-              return;
-            } else {
-              console.error(response.message);
-            }
-          },
-          (error) => {
-            console.error(error);
-          });
-      }else{
-        return;
-      }
-    })
-    
   }
 }
