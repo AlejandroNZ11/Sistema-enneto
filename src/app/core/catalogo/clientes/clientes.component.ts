@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
-import { DataClientes,clientes,IClientes} from 'src/app/shared/models/clientes';
+import { DataClientes,Clientes,IClientes} from 'src/app/shared/models/clientes';
 import { environment as env } from 'src/environments/environments';
 import { Subject } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -21,7 +21,7 @@ export class ClientesComponent implements OnInit {
   ListClientes: Array<IClientes> = [];
   columnas: string[] = []
   acciones: string[] = []
-  clienteSeleccionado: clientes = new clientes();
+  clienteSeleccionado: Clientes = new Clientes();
   dataSource!: MatTableDataSource<IClientes>;
   pageSize = PageSize.size;
   totalData = 0;
@@ -36,6 +36,10 @@ export class ClientesComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('Clientes');
     this.acciones = ['Editar', 'Eliminar'];
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
+  refreshData() {
     this.getTableData(this.currentPage, this.pageSize);
   }
 
@@ -60,6 +64,8 @@ export class ClientesComponent implements OnInit {
       this.editarCliente(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarCliente(accion.fila.clienteId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
@@ -121,6 +127,6 @@ export class ClientesComponent implements OnInit {
         return;
       }
     })
-
   }
 }
+
