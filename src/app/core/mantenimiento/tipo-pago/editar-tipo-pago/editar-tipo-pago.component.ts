@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 import { ITipoPago } from 'src/app/shared/models/tipopago';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoPagoService } from 'src/app/shared/services/tipo-pago.service';
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-pago.component.scss']
 })
 export class EditarTipoPagoComponent implements OnInit {
+  tipopagoEditada$: Subject<boolean> = new Subject<boolean>();
   tipoPago!: ITipoPago;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tipoPagoSeleccionado: any;
@@ -49,6 +51,7 @@ export class EditarTipoPagoComponent implements OnInit {
   }
 
   Cancelar() {
+    this.tipopagoEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -69,6 +72,7 @@ export class EditarTipoPagoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.tipopagoEditada$.next(true);
         } else {
           console.error(response.message);
         }
