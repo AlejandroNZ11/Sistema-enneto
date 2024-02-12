@@ -36,6 +36,11 @@ export class TipoConceptoComponent implements OnInit{
     this.columnas = getEntityPropiedades('TipoConcepto');
     this.acciones = ['Editar', 'Eliminar'];
   }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+  
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListtipoConcepto = [];
     this.serialNumberArray = [];
@@ -57,6 +62,8 @@ export class TipoConceptoComponent implements OnInit{
       this.editarTipoConcepto(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTipoConcepto(accion.fila.tipoConceptoId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 

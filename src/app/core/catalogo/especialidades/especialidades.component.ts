@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
@@ -38,7 +38,7 @@ export class EspecialidadesComponent implements OnInit {
     this.columnas = getEntityPropiedades('Especialidad');
     this.acciones = ['Editar', 'Eliminar'];
   }
-  
+
   refreshData() {
     this.getTableData(this.currentPage, this.pageSize);
   }

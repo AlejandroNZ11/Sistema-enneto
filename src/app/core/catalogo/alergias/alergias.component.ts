@@ -36,6 +36,11 @@ export class AlergiasComponent implements OnInit{
     this.columnas = getEntityPropiedades('Alergia');
     this.acciones = ['Editar', 'Eliminar'];
   }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+  
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListAlergias = [];
     this.serialNumberArray = [];
@@ -57,6 +62,8 @@ export class AlergiasComponent implements OnInit{
       this.editarAlergia(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarAlergia(accion.fila.alergiaId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
