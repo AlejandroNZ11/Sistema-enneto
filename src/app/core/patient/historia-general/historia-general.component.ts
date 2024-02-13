@@ -140,7 +140,7 @@ export class HistoriaGeneralComponent implements OnInit {
     // if(this.paciente || this.fechaDesde & this.fechaHasta){}
 
     // Verifica si se cumplen las condiciones para realizar la llamada al endpoint
-    if (this.paciente ) {
+    if (this.paciente || (this.fechaDesde && this.fechaHasta)) {
 
       this.pacienteService.obtenerPacientes(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, paciente, tipoPaciente)
       .pipe(

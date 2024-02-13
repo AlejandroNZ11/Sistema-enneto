@@ -58,6 +58,7 @@ export interface PacienteList {
     sedeId: string;
     fechaRegistro: string;
     estado: string;
+    nombreDepartamento:string;
 }
 export interface PacienteListData {
     data: PacienteList[];

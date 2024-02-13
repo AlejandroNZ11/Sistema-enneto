@@ -13,7 +13,7 @@ const routes: Routes = [
           import('./filiación/filiación.module').then((m) => m.FiliacionModule),
       },
       {
-        path: 'odontograma/:pacienteId',
+        path: 'odontograma',
         loadChildren: () =>
           import('./odontograma/odontograma.module').then((m) => m.OdontogramaModule),
       },
