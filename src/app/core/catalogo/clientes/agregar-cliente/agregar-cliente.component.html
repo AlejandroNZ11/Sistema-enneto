@@ -22,21 +22,21 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
-                                    <mat-select formControlName="tipoDocumento" class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoDocumento')}" placeholder="Seleccionar Documento">
+                                    <mat-select formControlName="tipoDocumentoIdentidadId" class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoDocumentoIdentidadId')}" placeholder="Seleccionar Documento">
                                         <mat-option value="01">DNI</mat-option>
                                         <mat-option value="02">RUC</mat-option>
                                         <mat-option value="03">PASAPORTE</mat-option>
                                         <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
                                         <mat-option value="05">OTROS</mat-option>
                                     </mat-select>
-                                    <div *ngIf="isInvalid('tipoDocumento')" class="invalid-feedback">Debe completar el campo*</div>
+                                    <div *ngIf="isInvalid('tipoDocumentoIdentidadId')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Nro. Documento <span class="login-danger">*</span></label>
-                                    <input formControlName="documento" type="text" [attr.maxLength]="maxLengthDocumento" (keydown)="soloNumeros($event)" class="form-control" [ngClass]="{'is-invalid': isInvalid('documento')}"/>
-                                    <div *ngIf="isInvalid('documento')" class="invalid-feedback">Debe completar el campo*</div>
+                                    <input formControlName="numeroDocumento" type="text" [attr.maxLength]="maxLengthDocumento" (keydown)="soloNumeros($event)" class="form-control" [ngClass]="{'is-invalid': isInvalid('numeroDocumento')}"/>
+                                    <div *ngIf="isInvalid('numeroDocumento')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
