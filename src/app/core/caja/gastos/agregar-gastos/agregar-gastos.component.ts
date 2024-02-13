@@ -30,7 +30,7 @@ export class AgregarGastosComponent implements OnInit{
   conceptoGasto_LISTA: Array<IConceptoGasto>=[];
   banco_LISTA: Array<Ibancos>=[];
   cuentaPagar_LISTA: Array<Icuenta>=[];
-  public conceptoGastos !: string[];
+  public conceptoGasto !: string[];
   public banco !: string [];
   public cuentaPagar !: string [];
 
@@ -38,9 +38,9 @@ export class AgregarGastosComponent implements OnInit{
   ngOnInit(): void { 
     this.sede = this.user.selectedSucursal.nombre;
 
-    // this.cuentaservice.obtenerListaCategoria().subscribe((data: Icuenta[]) => {
-    //   this.cuentaPagar_LISTA = data;
-    // });
+    this.cuentaservice.obtenerCuentaList().subscribe((data: Icuenta[]) => {
+      this.cuentaPagar_LISTA = data;
+    });
     this.bancoservice.obtenerListaBanco().subscribe((data: Ibancos[]) => {
       this.banco_LISTA = data;
     });
@@ -116,6 +116,7 @@ export class AgregarGastosComponent implements OnInit{
     this.Gasto.sedeId = this.user.selectedSucursal.id.toString();
     this.Gasto.responsable= this.form.get("responsable")?.value;
     this.Gasto.observacion= this.form.get("observacion")?.value;
+    this.Gasto.estado = "1";
     console.log(this.Gasto);
     this.gastoservice.crearGastos(this.Gasto).subscribe(
       (response)=>{

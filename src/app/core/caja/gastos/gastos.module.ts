@@ -4,13 +4,15 @@ import { GastosComponent } from './gastos.component';
 import { GastosRoutingModule } from './gastos-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AgregarGastosComponent } from './agregar-gastos/agregar-gastos.component';
+import { EditarGastosComponent } from './editar-gastos/editar-gastos.component';
 
 
 
 @NgModule({
   declarations: [
     GastosComponent,
-    AgregarGastosComponent
+    AgregarGastosComponent,
+    EditarGastosComponent
   ],
   imports: [
     CommonModule,

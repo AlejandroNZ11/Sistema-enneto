@@ -45,6 +45,11 @@ export class TipoCitadoComponent implements OnInit {
     this.columnas = getEntityPropiedades('EstadoCita');
     this.acciones = ['Editar', 'Eliminar'];
   }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListTipoCitados = [];
     this.serialNumberArray = [];
@@ -65,6 +70,8 @@ export class TipoCitadoComponent implements OnInit {
       this.editarTipoCitado(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarTipoCitado(accion.fila.tipoCitadoId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
   getMoreData(pag: Paginacion) {

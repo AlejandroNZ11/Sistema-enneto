@@ -6,7 +6,7 @@ export class Gastos {
     conceptoGastoId= "";
     bancoId= "";
     cuentaPagarId= "";
-    
+    estado="";
     monto= "";
     operacion= "";
     sedeId= "";
@@ -37,7 +37,7 @@ export interface DataGastos {
 
 export class GastosResponse {
     descripcion = "";
-    tipoGastos = ""; 
+    conceptoGastoId = ""; 
     fecha = "";
     observacion = "";
     monto = "";

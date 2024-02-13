@@ -41,6 +41,10 @@ export class ConsentimientoComponent implements OnInit {
     this.acciones = ['Editar','Eliminar'];
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListConsentimiento = [];
     this.serialNumberArray = [];
@@ -62,6 +66,8 @@ export class ConsentimientoComponent implements OnInit {
       this.editarConsentimiento(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarConsentimiento(accion.fila.consentimientoId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 

@@ -77,7 +77,9 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    <mat-select formControlName="estado" class="form-control select" placeholder="Seleccionar Estado">
+                                        <mat-option value="Activo">Activo</mat-option>
+                                        <mat-option value="Inactivo">Inactivo</mat-option>
                                     </mat-select>
                                 </div>
                             </div>

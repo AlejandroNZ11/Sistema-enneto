@@ -38,6 +38,10 @@ export class CategoriaComponent implements OnInit {
     this.columnas = getEntityPropiedades('Categoria');
     this.acciones = ['Editar', 'Eliminar'];
   }
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListCategoria = [];
     this.serialNumberArray = [];
@@ -59,6 +63,8 @@ export class CategoriaComponent implements OnInit {
       this.editarCategoria(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarCategoria(accion.fila.categoriaId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 

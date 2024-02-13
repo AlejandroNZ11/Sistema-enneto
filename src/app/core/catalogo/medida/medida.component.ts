@@ -35,6 +35,11 @@ export class MedidaComponent implements OnInit{
     this.columnas = getEntityPropiedades('Medida');
     this.acciones = ['Editar', 'Eliminar'];
   }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
+
   private getTableData(currentPage: number, pageSize: number): void {
     this.ListMedida = [];
     this.serialNumberArray = [];
@@ -56,6 +61,8 @@ export class MedidaComponent implements OnInit{
       this.editarMedida(accion.fila)
     } else if (accion.accion == 'Eliminar') {
       this.eliminarMedida(accion.fila.unidadMedidaId)
+    } else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
