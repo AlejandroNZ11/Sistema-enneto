@@ -17,6 +17,11 @@ export class CuentaService {
   obtenerCuentas(clinicaId: string, page: number, rows: number): Observable<DataCuenta> {
     return this.http.get<DataCuenta>(this.apiUrl + `/CuentasPagar/GetAllCuentaPagar?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
+
+  obtenerCuentaList(): Observable<Icuenta[]> {
+    return this.http.get<Icuenta[]>(`${this.apiUrl}/CuentasPagar/GetCuentaPagarList`);
+  }
+
   crearCuenta(cuenta: cuenta): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/CuentasPagar/SaveCuentaPagar', cuenta).pipe(
       catchError(error => {

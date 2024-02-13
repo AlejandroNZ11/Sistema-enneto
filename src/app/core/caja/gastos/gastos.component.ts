@@ -8,7 +8,7 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { environment as env} from 'src/environments/environments';
 import { DataGastos, Igastos, Gastos } from 'src/app/shared/models/gastos';
 import { AgregarGastosComponent } from './agregar-gastos/agregar-gastos.component';
-//import { EditarGastoComponent } from './editar-gasto/editar-gasto.component';
+import { EditarGastosComponent } from './editar-gastos/editar-gastos.component';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
@@ -63,16 +63,12 @@ export class GastosComponent implements OnInit {
   private getTableData(currentPage: number, pageSize: number): void {
     this.GastosList = [];
     this.serialNumberArray = [];
-
-    // Llama al método obtenerGastos del servicio
-    this.gastosservice.obtenerGastos(currentPage, pageSize).subscribe((data: DataGastos) => {
+    this.gastosservice.obtenerGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataGastos) => {
       this.totalData = data.totalData;
-
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-
       this.GastosList = data.data;
       this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
     });
@@ -83,12 +79,17 @@ export class GastosComponent implements OnInit {
     if (accion.accion == 'Crear') {
       this.crearGasto();
     } else if (accion.accion == 'Editar') {
-   //     this.editarGasto(accion.fila)
+      this.editarGasto(accion.fila)
     } else if (accion.accion == 'Eliminar') {
         this.eliminarGasto(accion.fila.gastoId)
+    }else if (accion.accion == 'Refresh') {
+      this.refreshData();
     }
   }
 
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
+  }
   
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
@@ -107,22 +108,22 @@ export class GastosComponent implements OnInit {
     });
   }
 
-  // editarGasto(gasto: Igastos) {
-  //   const initialState = {
-  //     gastoSeleccionada: gasto.gastoId
-  //   };
-  //   this.bsModalRef = this.modalService.show(EditarGastoComponent, { initialState });
-  //   const gastoEditada$ = new Subject<boolean>();
-  //   this.bsModalRef.content.gastoEditada$ = gastoEditada$;
-  //   gastoEditada$.subscribe((gastoEditada: boolean) => {
-  //       if (gastoEditada) {
-  //           this.getTableData(this.currentPage, this.pageSize);
-  //       }
-  //   });
-  //   this.bsModalRef.onHidden?.subscribe(() => {
-  //     gastoEditada$.unsubscribe();   
-  //   });
-  // }
+  editarGasto(gasto: Igastos) {
+    const initialState = {
+      gastoSeleccionada: gasto.gastoId
+    };
+    this.bsModalRef = this.modalService.show(EditarGastosComponent, { initialState });
+    const gastoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.gastoEditada$ = gastoEditada$;
+    gastoEditada$.subscribe((gastoEditada: boolean) => {
+        if (gastoEditada) {
+            this.getTableData(this.currentPage, this.pageSize);
+        }
+    });
+    this.bsModalRef.onHidden?.subscribe(() => {
+      gastoEditada$.unsubscribe();   
+    });
+  }
 
   
 
@@ -153,41 +154,41 @@ export class GastosComponent implements OnInit {
     
   }
 
-  obtenerDatosPacientesConFiltro(): void {
-    this.GastosList = [];
-    this.serialNumberArray = [];
-    this.isLoading = true;
-    let fechaInicioFormateado = undefined
-    let fechaFinFormateado = undefined
-    let gasto = undefined
-    let tipoGasto = undefined
-    if (this.fechaInicio) {
-      fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
-    }
-    if (this.fechaFin) {
-      fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
-    }
-    if (this.gasto) {
-      gasto = this.gasto;
-    }
-    if (this.tipoGasto != 'Todos') {
-      tipoGasto = this.tipoGasto;
-    }
-    this.gastosservice.obtenerGastos(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, gasto, tipoGasto)
-      .pipe(
-        finalize(() => this.isLoading = false)
-      )
-      .subscribe((data: DataGastos) => {
-        this.totalData = data.totalData;
-        for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-          const serialNumber = index + 1;
-          this.serialNumberArray.push(serialNumber);
-        }
-        this.GastosList = data.data;
-        this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
-        this.getTableData(this.totalData, this.pageSize);
-      });
-  }
+  // obtenerDatosPacientesConFiltro(): void {
+  //   this.GastosList = [];
+  //   this.serialNumberArray = [];
+  //   this.isLoading = true;
+  //   let fechaInicioFormateado = undefined
+  //   let fechaFinFormateado = undefined
+  //   let gasto = undefined
+  //   let tipoGasto = undefined
+  //   if (this.fechaInicio) {
+  //     fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
+  //   }
+  //   if (this.fechaFin) {
+  //     fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
+  //   }
+  //   if (this.gasto) {
+  //     gasto = this.gasto;
+  //   }
+  //   if (this.tipoGasto != 'Todos') {
+  //     tipoGasto = this.tipoGasto;
+  //   }
+  //   this.gastosservice.obtenerGastos(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, gasto, tipoGasto)
+  //     .pipe(
+  //       finalize(() => this.isLoading = false)
+  //     )
+  //     .subscribe((data: DataGastos) => {
+  //       this.totalData = data.totalData;
+  //       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+  //         const serialNumber = index + 1;
+  //         this.serialNumberArray.push(serialNumber);
+  //       }
+  //       this.GastosList = data.data;
+  //       this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+  //       this.getTableData(this.totalData, this.pageSize);
+  //     });
+  // }
 
   
   
