@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Enfermedad } from 'src/app/shared/models/enfermedad';
-import { IHistoriaDagnostico } from 'src/app/shared/models/historiaDiagnostico';
+import { IHistoriaDiagnostico } from 'src/app/shared/models/historiaDiagnostico';
 import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 import { HistoriaDiagnosticoService } from 'src/app/shared/services/historia-diagnostico.service';
 import { SharedService } from '../../services/shared-service.service';
@@ -21,7 +21,7 @@ export class EditarDiagnosticoPacienteComponent implements OnInit{
   form!: FormGroup;
   enfermedadList:Array<Enfermedad> = [];
   enfermedadId:any;
-  diagnostico!:IHistoriaDagnostico;
+  diagnostico!:IHistoriaDiagnostico;
   diagnosticoSeleccionado?: string;
   listaDiagnosticos: Array<any> = [];
   isFormSubmitted = false;
@@ -93,7 +93,7 @@ export class EditarDiagnosticoPacienteComponent implements OnInit{
     }
     this.isFormSubmitted = true;
 
-    const diagnosticoHistoriaActualizada: IHistoriaDagnostico ={
+    const diagnosticoHistoriaActualizada: IHistoriaDiagnostico ={
       pacienteDiagnosticoId:this.diagnostico.pacienteDiagnosticoId,
       pacienteId: this.diagnostico.pacienteId,
       fecha: this.form.get("fecha")?.value,

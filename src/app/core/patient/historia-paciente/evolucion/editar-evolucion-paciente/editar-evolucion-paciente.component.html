@@ -68,13 +68,8 @@
                       <label>Descripción</label>
                       <textarea formControlName="descripcion"
                           class="form-control" type="text"
-                          [ngClass]="{'is-invalid': isInvalid('observacion') && isFormSubmitted}"></textarea>
-                      <div *ngIf="isInvalid('observacion') && isFormSubmitted"
-                          class="invalid-feedback">
-                          <div *ngIf="isRequerido('observacion')">
-                              Debe completar el campo*
-                          </div>
-                      </div>
+                          ></textarea>
+
                   </div>
                       </div>
                   </form>

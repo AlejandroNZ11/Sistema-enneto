@@ -35,7 +35,7 @@ export class EditarEvolucionPacienteComponent implements OnInit{
       fechaEvolucion:['',Validators.required],
       medicoId:['',Validators.required],
       estado:['',Validators.required],
-      descripcion:['', Validators.required],
+      descripcion:[''],
 
 
     })

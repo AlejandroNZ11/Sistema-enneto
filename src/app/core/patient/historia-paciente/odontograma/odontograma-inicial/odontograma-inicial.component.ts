@@ -27,27 +27,52 @@ export class OdontogramaInicialComponent implements OnInit{
     }
 
 
-    agregarHallazgo(numeroDiente:string){
-      this.modalRef.hide();
-      const initialState ={
-      numeroDiente$:numeroDiente
+    agregarHallazgo(numeroDiente:string, hallazgo:string){
 
+      if(hallazgo==='fijo'){
+        this.modalRef.hide();
+        const initialState ={
+        numeroDiente$:numeroDiente,
+        hallazgo$:hallazgo
+        }
+
+
+        this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
+
+        const hallazgoAgregado$ = new Subject<boolean>();
+
+        this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+        hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+          if(pacienteAlergiaEditado){
+            console.log("Traer data odontograma paciente")
+          }
+        });
+        this.bsModalRef.onHidden?.subscribe(()=>{
+          hallazgoAgregado$.unsubscribe();
+        })
+      }else{
+        this.modalRef.hide();
+        const initialState ={
+        numeroDiente$:numeroDiente,
+        hallazgo$:hallazgo
+        }
+
+
+        this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
+
+        const hallazgoAgregado$ = new Subject<boolean>();
+
+        this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+        hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+          if(pacienteAlergiaEditado){
+            console.log("Traer data odontograma paciente")
+          }
+        });
+        this.bsModalRef.onHidden?.subscribe(()=>{
+          hallazgoAgregado$.unsubscribe();
+        })
       }
 
-
-      this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
-
-      const hallazgoAgregado$ = new Subject<boolean>();
-
-      this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
-      hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
-        if(pacienteAlergiaEditado){
-          console.log("Traer data odontograma paciente")
-        }
-      });
-      this.bsModalRef.onHidden?.subscribe(()=>{
-        hallazgoAgregado$.unsubscribe();
-      })
     }
 
 

@@ -17,7 +17,7 @@ import { Ipais } from 'src/app/shared/models/pais';
 import { CitaService } from 'src/app/shared/services/cita.service';
 
 import { environment as env, environment } from 'src/environments/environments';
-import { CitaMedicaPaciente, DataCitaMedica, DataCitaMedicaPaciente, IcitaMedica, MedicoPaciente } from 'src/app/shared/models/cita';
+import { CitaMedicaPaciente, CitasMedicaPacienteById, DataCitaMedica, DataCitaMedicaPaciente, IcitaMedica, MedicoPaciente } from 'src/app/shared/models/cita';
 import { MatTableDataSource } from '@angular/material/table';
 import { finalize } from 'rxjs';
 import { pageSelection } from 'src/app/shared/models/models';
@@ -75,11 +75,11 @@ export class FiliacionComponent implements OnInit {
   public skip = 0;
   public serialNumberArray: Array<number> = [];
   public citasList: Array<IcitaMedica> = [];
-  public citasListPaciente: Array<CitaMedicaPaciente> = [];
+  public citasListPaciente: Array<CitasMedicaPacienteById> = [];
   public medicosListPaciente: Array<MedicoPaciente> = [];
 
   dataSource!: MatTableDataSource<IcitaMedica>;
-  dataSource2!: MatTableDataSource<CitaMedicaPaciente>
+  dataSource2!: MatTableDataSource<CitasMedicaPacienteById>
   public pageNumberArray: Array<number> = [];
   public totalPages = 0;
   public pageSelection: Array<pageSelection> = [];
@@ -100,12 +100,6 @@ export class FiliacionComponent implements OnInit {
     this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; console.log(this.departamentos)})
 
 
-    // Obteniendo data para la tabla historial de citas
-    this.tipoCitadoService.obtenerListaTipoCitado().subscribe(data => { this.listEstadosCitas = data; })
-    this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data; })
-    this.medicoService.obtenerMedicos(environment.clinicaId, 1, 100).subscribe(data => {
-      this.listaMedicos = data.data; })
-      console.log("clinicaId",environment.clientId)
 
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
@@ -138,8 +132,8 @@ export class FiliacionComponent implements OnInit {
       telefonoParentesco:['',[Validators.maxLength(9), Validators.minLength(9)]],
       domicilioParentesco:['',[Validators.maxLength(100)]],
       tipoParentesco:['',[Validators.maxLength(9)]],
-      departamentoId:[''],
-      provinciaId:[''],
+      departamentoId:['', [Validators.required]],
+      provinciaId:['',  [Validators.required]],
     })
 
     this.route.params.subscribe(params => {
@@ -170,7 +164,9 @@ export class FiliacionComponent implements OnInit {
             case '04': this.tipoDocumento = 'CARNET EXTRANJERIA'; break;
             case '00': this.tipoDocumento = 'OTROS'; break;
           }
-          console.log(this.pacienteData)
+          console.log(this.pacienteData.departamentoId)
+          console.log(this.pacienteData.provinciaId)
+
         }
         console.log(this.pacienteData.ubigeo);
          // Patch valores al formulario
@@ -194,18 +190,18 @@ export class FiliacionComponent implements OnInit {
           telefonoParentesco: this.pacienteData.telefonoParentesco,
           domicilioParentesco: this.pacienteData.domicilioParentesco,
           tipoParentesco: this.pacienteData.tipoParentesco,
-          departamentoId:'15',
-          provinciaId: "1503",
+          departamentoId:this.pacienteData.departamentoId.toString(),
+          provinciaId: this.pacienteData.departamentoId.toString() +this.pacienteData.provinciaId.toString(),
         });
 
-        const departamentoId = (this.pacienteData!.ubigeo.substring(0, 2));
-        const provinciaId = (this.pacienteData!.ubigeo.substring(0, 4));
+        const departamentoId = this.pacienteData.departamentoId.toString();
+        const provinciaId = this.pacienteData.provinciaId.toString();
 
 
-        this.ubicacionService.obtenerProvincias("15").subscribe(data => {
+        this.ubicacionService.obtenerProvincias(departamentoId).subscribe(data => {
           console.log(data)
           this.provincias = data;
-          this.ubicacionService.obtenerDistritos("1503").subscribe(dataDistrito => {
+          this.ubicacionService.obtenerDistritos('1503').subscribe(dataDistrito => {
             console.log(dataDistrito)
             console.log()
             this.distritos = dataDistrito;
@@ -226,7 +222,6 @@ export class FiliacionComponent implements OnInit {
   ]
 
   actualizarProvincias() {
-
         const departamentoEncontrado = this.departamentos.find(dep => dep.departamentoId === this.form.get('departamentoId')?.value)!.departamentoId;
         this.ubicacionService.obtenerProvincias(departamentoEncontrado).subscribe(data => {
           console.log(data)
@@ -235,7 +230,6 @@ export class FiliacionComponent implements OnInit {
 
   }
   actualizarDistritos() {
-
         const provinciaEncotrada = this.provincias.find(prov => prov.provinciaId == this.form.get('provinciaId')?.value)!.provinciaId;
         this.ubicacionService.obtenerDistritos(provinciaEncotrada).subscribe(data => {
           this.distritos = data;
@@ -243,72 +237,36 @@ export class FiliacionComponent implements OnInit {
 
   }
 
-  cargarUbicacion(departamento: string, provincia: string) {
-    this.departamento = this.departamentos?.find(dep => dep.departamentoId === departamento)!.nombre;
-    this.ubicacionService.obtenerProvincias(departamento).subscribe(data => {
-      this.provincias = data;
-      this.provincia = this.provincias.find(prov => prov.provinciaId === provincia)!.nombre;
-      this.ubicacionService.obtenerDistritos(provincia).subscribe(data => {
-        this.distritos = data;
-      });
-    })
-  }
+  // cargarUbicacion(departamento: string, provincia: string) {
+  //   this.departamento = this.departamentos?.find(dep => dep.departamentoId === departamento)!.nombre;
+  //   this.ubicacionService.obtenerProvincias(departamento).subscribe(data => {
+  //     this.provincias = data;
+  //     this.provincia = this.provincias.find(prov => prov.provinciaId === provincia)!.nombre;
+  //     this.ubicacionService.obtenerDistritos(provincia).subscribe(data => {
+  //       this.distritos = data;
+  //     });
+  //   })
+  // }
 
   soloNumeros(event:Event){
     this.validatorPatientService.soloNumeros(event);
   }
 
 
-  // private obtenerCitasSinFiltro(): void {
-  //   this.citasList = [];
-  //   this.serialNumberArray = [];
-  //   this.isLoading = true;
-  //   this.citaService.obtenerCitasMedicas(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
-  //     .pipe(
-  //       finalize(() => this.isLoading = false)
-  //     )
-  //     .subscribe((data: DataCitaMedica) => {
-  //       console.log("Respuesta del Servidor:", data);
 
-  //       this.totalData = data.totalData;
-  //       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-  //         const serialNumber = index + 1;
-  //         this.serialNumberArray.push(serialNumber);
-  //       }
-  //       this.citasList = data.data;
-  //       console.log("Lista de Citas del Paciente")
-  //       console.log(this.citasList)
-  //       this.dataSource = new MatTableDataSource<IcitaMedica>(this.citasList);
-  //       this.calculateTotalPages(this.totalData, this.pageSize);
-
-  //     });
-  // }
-
-  fechaInicio = '2024-01-08';
-  fechaFin = '2024-01-15';
   private obtenerCitasSinFiltro(): void {
     this.citasListPaciente = [];
     this.serialNumberArray = [];
     this.isLoading = true;
-    this.citaService.obtenerCitasMedicasPaciente(env.clinicaId,this.currentPage, this.pageSize, this.pacienteId, this.fechaInicio,this.fechaFin)
+    this.citaService.ObtenerCitasMedicasByPacienteId( this.pacienteId)
       .pipe(
         finalize(() => this.isLoading = false)
       )
-      .subscribe((data: DataCitaMedicaPaciente) => {
+      .subscribe((data: CitasMedicaPacienteById[]) => {
         console.log("Respuesta del Servidor:", data);
 
-        if (Array.isArray(data)) {
-          this.citasListPaciente = [];
-
-          data.forEach((item) => {
-            const citasArray = item?.citas;
-            console.log("aqui:", citasArray)
-
-            if (Array.isArray(citasArray)) {
-              this.citasListPaciente.push(...citasArray);
-            }
-          });
-        }
+        this.citasListPaciente = data;
+        console.log("lista de citas:",this.citasListPaciente)
         this.totalData = this.citasListPaciente.length;
         console.log(this.totalData)
         for (let index = this.skip; index < Math.min(this.limit, this.totalData); index++) {
@@ -317,7 +275,7 @@ export class FiliacionComponent implements OnInit {
         }
         console.log("Lista de Citas del Paciente2")
         console.log(this.citasListPaciente)
-        this.dataSource2 = new MatTableDataSource<CitaMedicaPaciente>(this.citasListPaciente);
+        this.dataSource2 = new MatTableDataSource<CitasMedicaPacienteById>(this.citasListPaciente);
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
   }
@@ -513,18 +471,6 @@ actualizarEdad() {
     return estadoInfo;
   }
 
-  getEspecialidad(especialidadId: string):string{
-
-    return this.listEspecialidadesCitas.find(citas => citas.especialidadId === especialidadId)!.nombre || '';
-  }
-
-  getMedico(medicoId: string){
-
-    if(this.listaMedicos){
-    return this.listaMedicos.find(medico => medico.medicoId === medicoId)!.nombre || '';
-    }
-    return ''
-  }
 
 
 

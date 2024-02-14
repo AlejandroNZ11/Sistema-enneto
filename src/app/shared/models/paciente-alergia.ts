@@ -29,4 +29,5 @@ export interface IPacienteAlergia {
   alergiaId: string,
   observacion: string,
   estado: string
+  nombreAlergia:string;
 }

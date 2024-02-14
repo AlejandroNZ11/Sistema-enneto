@@ -59,6 +59,7 @@ export interface PacienteList {
     fechaRegistro: string;
     estado: string;
     nombreDepartamento:string;
+    nombreEstudio:string;
 }
 export interface PacienteListData {
     data: PacienteList[];
@@ -95,6 +96,7 @@ export interface PacienteEditar {
     estado: string;
     clinicaId: string;
     usuarioId: string;
+
 }
 
 
@@ -133,6 +135,9 @@ export interface PacienteEditar {
     telefonoParentesco: string;
     domicilioParentesco: string;
     tipoParentesco: string;
+    departamentoId:number;
+    provinciaId:number;
+
 }
 export interface PacienteByDNI {
     apellido_materno: string

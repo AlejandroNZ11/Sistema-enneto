@@ -114,3 +114,15 @@ export interface DataCitaMedicaPaciente {
   }[];
   totalData: number;
 }
+
+
+export interface CitasMedicaPacienteById {
+  citaMedicaId:       string;
+  pacienteId:         string;
+  nombreMedico:       string;
+  nombreEspecialidad: string;
+  motivoConsulta:     string;
+  fecha:              string;
+  fechaFinal:         string;
+  estado:             string;
+}

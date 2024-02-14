@@ -62,10 +62,7 @@ export class HistoriaGeneralComponent implements OnInit {
 
   ngOnInit() {
 
-    // Cargar departamentos
-    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
 
-    this.gradoInstService.obtenerGradoInstruccion().subscribe(data => { this.gradosInstruccion = data; })
     this.obtenerDatosPacientesSinFiltro();
   }
 
@@ -95,10 +92,6 @@ export class HistoriaGeneralComponent implements OnInit {
     return this.gradosInstruccion.find(grad => grad.estudioId === gradoId)?.descripcion || '';
   }
 
-  getDepartamento(ubigeo: string): string {
-    const departamentoId = ubigeo.substring(0, 2);
-    return this.departamentos.find(dep => dep.departamentoId === departamentoId)?.nombre || '';
-  }
 
   // Ubicacion del paciente
   cargarUbicacion(departamento: string, provincia: string) {
@@ -137,7 +130,7 @@ export class HistoriaGeneralComponent implements OnInit {
       tipoPaciente = this.tipoPaciente;
     }
 
-    // if(this.paciente || this.fechaDesde & this.fechaHasta){}
+
 
     // Verifica si se cumplen las condiciones para realizar la llamada al endpoint
     if (this.paciente || (this.fechaDesde && this.fechaHasta)) {
@@ -159,34 +152,10 @@ export class HistoriaGeneralComponent implements OnInit {
       });
     }
     else{
-      // No hay filtros, puedes manejarlo de acuerdo a tus necesidades
       this.isLoading = false;
     }
 
   }
-
-
-
-  // Método data Json
-  // private getTableData(): void {
-  //   this.patientsList = [];
-  //   this.serialNumberArray = [];
-
-  //   this.data.getPatientsList().subscribe((data: apiResultFormat) => {
-  //     this.totalData = data.totalData;
-  //     data.data.map((res: patientsList, index: number) => {
-  //       const serialNumber = index + 1;
-  //       if (index >= this.skip && serialNumber <= this.limit) {
-
-  //         this.patientsList.push(res);
-  //         this.serialNumberArray.push(serialNumber);
-  //       }
-  //     });
-  //     this.dataSource = new MatTableDataSource<patientsList>(this.patientsList);
-  //     this.calculateTotalPages(this.totalData, this.pageSize);
-  //   });
-  // }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 
   public searchData(value: any): void {
