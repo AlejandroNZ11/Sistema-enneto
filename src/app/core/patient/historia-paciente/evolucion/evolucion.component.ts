@@ -18,8 +18,8 @@ import { Subject } from 'rxjs';
 interface EvolucionPacienteDTO {
   pacienteEvolucionId:string;
   fechaEvolucion: string;
-  especialidad: string;
-  medico: string;
+  especialidad?: string;
+  medico?: string;
   descripcion: string;
   estado:number;
 }
@@ -57,9 +57,6 @@ export class EvolucionComponent implements OnInit{
 
   ngOnInit(): void {
 
-    // Cargando Data:
-    this.especialidadService.obtenerListaEspecialidad().subscribe(data => { this.listEspecialidadesCitas = data; })
-
      this.columnas = getEntityPropiedades('EvolucionPaciente')
      this.acciones = ['Editar', 'Eliminar'];
 
@@ -92,36 +89,32 @@ export class EvolucionComponent implements OnInit{
     this.evolucionPacienteService.obtenerEvolucionPacienteList(env.clinicaId,currentPage,pageSize, this.pacienteId).subscribe((data: DataEvolucionPaciente)=>{
       this.totalData = data.totalData
 
-
+      console.log(data.data)
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
 
-        if (data.data[this.mySkip] && data.data[this.mySkip].medicoId) {
 
-          this.medicoService.obtenerMedico(data.data[this.mySkip].medicoId).subscribe((medicoData) => {
-            console.log(medicoData.medicoId)
-            if (medicoData) { // Verifica si medicoData está definido
-              const evolucionPaciente: EvolucionPacienteDTO = {
-                pacienteEvolucionId: data.data[this.mySkip].pacienteEvolucionId,
-                fechaEvolucion: this.formatoFecha(data.data[this.mySkip].fechaEvolucion),
-                especialidad: this.getEspecialidad(data.data[this.mySkip].especialidadId),
-                medico: medicoData.nombre,
-                descripcion: data.data[this.mySkip].descripcion,
-                estado: data.data[this.mySkip].estado,
-              };
-              this.ListEvolucionPacienteDto.push(evolucionPaciente);
-            }
-            this.mySkip++;
-          });
-        }
+
+
+          const evolucionPaciente: EvolucionPacienteDTO = {
+            pacienteEvolucionId: data.data[this.mySkip].pacienteEvolucionId,
+            fechaEvolucion: this.formatoFecha(data.data[this.mySkip].fechaEvolucion),
+            especialidad: data.data[this.mySkip].especialidadNombre,
+            medico: data.data[this.mySkip].medicoNombre,
+            descripcion: data.data[this.mySkip].descripcion,
+            estado: data.data[this.mySkip].estado,
+          };
+          this.ListEvolucionPacienteDto.push(evolucionPaciente);
+
+        this.mySkip++;
       }
 
       this.dataSource = new MatTableDataSource<EvolucionPacienteDTO>(this.ListEvolucionPacienteDtoOutput)
 
       this.ListEvolucionPacienteDtoOutput = this.ListEvolucionPacienteDto;
       this.ListEvolucionPaciente = data.data;
-
+      console.log(this.ListEvolucionPacienteDtoOutput)
 
     })
   }
@@ -147,9 +140,10 @@ export class EvolucionComponent implements OnInit{
 
     const evolucionEditada$ = new Subject<boolean>();
 
-    this.bsModalRef.content.evolucionEditata$ = evolucionEditada$;
+    this.bsModalRef.content.evolucionEditada$ = evolucionEditada$;
     evolucionEditada$.subscribe((evolucionEditada: boolean)=>{
       if(evolucionEditada){
+        console.log("get table data")
         this.getTableData(this.currentPage, this.pageSize);
       }
     });
@@ -197,12 +191,6 @@ export class EvolucionComponent implements OnInit{
 
   }
 
-
-
-  getEspecialidad(especialidadId: string):string{
-
-    return this.listEspecialidadesCitas.find(citas => citas.especialidadId === especialidadId)!.nombre || '';
-  }
 
 
   formatoFecha(fecha: string): string {

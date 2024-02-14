@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
-import { DataHistoriaDiagnostico, IHistoriaDagnostico } from '../models/historiaDiagnostico';
+import { DataHistoriaDiagnostico, IHistoriaDiagnostico } from '../models/historiaDiagnostico';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -23,11 +23,11 @@ export class HistoriaDiagnosticoService {
     return this.http.delete<successResponse>(this.apiUrl + `/PacientesDiagnosticos/DeletePacienteDiagnostico/${diagnosticoPacienteId}`);
   }
 
-  obtenerDiagnosticoPaciente(diagnosticoPacienteId: string):Observable<IHistoriaDagnostico>{
-    return this.http.get<IHistoriaDagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${diagnosticoPacienteId}`);
+  obtenerDiagnosticoPaciente(diagnosticoPacienteId: string):Observable<IHistoriaDiagnostico>{
+    return this.http.get<IHistoriaDiagnostico>(this.apiUrl + `/PacientesDiagnosticos/GetPacienteDiagnostico/${diagnosticoPacienteId}`);
   }
 
-  actualizarDiagnosticoPaciente(diagnosticoPaciente: IHistoriaDagnostico):Observable<successResponse>{
+  actualizarDiagnosticoPaciente(diagnosticoPaciente: IHistoriaDiagnostico):Observable<successResponse>{
     return this.http.put<successResponse>(this.apiUrl + `/PacientesDiagnosticos/UpdatePacienteDiagnostico/${diagnosticoPaciente.pacienteDiagnosticoId}`,diagnosticoPaciente).pipe(
       catchError(error => {
         Swal.fire('Error', error.error, 'warning');

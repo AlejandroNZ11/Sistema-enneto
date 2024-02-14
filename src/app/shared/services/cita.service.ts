@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environments';
-import { DataCitaMedica, DataCitaMedicaPaciente, DataControlCitaMedica, IcitaMedica, IcitaMedicaCalendario, IcontrolCitaMedica, citaMedica } from '../models/cita';
+import { CitasMedicaPacienteById, DataCitaMedica, DataCitaMedicaPaciente, DataControlCitaMedica, IcitaMedica, IcitaMedicaCalendario, IcontrolCitaMedica, citaMedica } from '../models/cita';
 import { Observable, catchError, throwError } from 'rxjs';
 import { successResponse } from '../models/successResponse';
 import Swal from 'sweetalert2';
@@ -93,5 +93,9 @@ export class CitaService {
     }
     console.log("Service: " + pacienteId)
     return this.http.get<DataCitaMedicaPaciente>(url);
+  }
+
+  ObtenerCitasMedicasByPacienteId(pacienteId:string):Observable<CitasMedicaPacienteById[]>{
+    return this.http.get<CitasMedicaPacienteById[]>(this.apiUrl + `/CitasMedicas/GetCitaMedicaListById?pacienteId=${pacienteId}`)
   }
 }

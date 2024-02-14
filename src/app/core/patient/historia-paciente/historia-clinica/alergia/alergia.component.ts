@@ -46,7 +46,7 @@ export class AlergiaComponent implements OnInit{
   bsModalRef?: BsModalRef;
 
   ngOnInit() {
-    this.obtenerListaAlergias();
+
 
 
     this.route.params.subscribe(params => {
@@ -58,16 +58,6 @@ export class AlergiaComponent implements OnInit{
     this.getTableData();
   }
 
-  private obtenerListaAlergias(): void {
-
-    this.alergiaService.obtenerListaAlergias().subscribe((datas: Ialergias[]) => {
-
-      console.log(datas)
-      this.ListAlergias = datas;
-      console.log(this.ListAlergias)
-    });
-
-  }
 
   getTableData(){
     this.isLoading = true;
@@ -107,7 +97,7 @@ export class AlergiaComponent implements OnInit{
   crearAlergiaPaciente() {
     this.bsModalRef = this.modalService.show(AgregarAlergiaPacienteComponent);
 
-    this.bsModalRef.content.alergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
+    this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
       if(alergiaAgregada){
         this.getTableData();
       }

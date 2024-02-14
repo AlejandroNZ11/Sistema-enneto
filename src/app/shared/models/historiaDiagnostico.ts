@@ -8,16 +8,17 @@ export class diagnosticoHistoria{
 }
 
 export interface DataHistoriaDiagnostico{
-  data: IHistoriaDagnostico[];
+  data: IHistoriaDiagnostico[];
   totalData: number
 }
 
-export interface IHistoriaDagnostico {
+export interface IHistoriaDiagnostico {
   pacienteDiagnosticoId: string,
   pacienteId: string,
   fecha: string,
   enfermedadId: string
   estado: number
+  nombreEnfermedad?:string
 }
 
 

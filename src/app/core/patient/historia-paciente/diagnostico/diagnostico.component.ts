@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { DataHistoriaDiagnostico, IHistoriaDagnostico } from 'src/app/shared/models/historiaDiagnostico';
+import { DataHistoriaDiagnostico, IHistoriaDiagnostico } from 'src/app/shared/models/historiaDiagnostico';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
 import { HistoriaDiagnosticoService } from 'src/app/shared/services/historia-diagnostico.service';
 import { AgregarDiagnosticoPacienteComponent } from './agregar-diagnostico-paciente/agregar-diagnostico-paciente.component';
@@ -15,8 +15,8 @@ import Swal from 'sweetalert2';
 import { Subject, finalize } from 'rxjs';
 
 interface DiagnosticoDTO {
-  pacienteDiagnosticoId: string;
-  diagnostico: string;
+  pacienteDiagnosticoId:string;
+  diagnostico?: string;
   fecha: string;
   codigoEnfermedad: string;
 }
@@ -36,7 +36,7 @@ export class DiagnosticoComponent implements OnInit{
   totalData = 0;
   limit: number = this.pageSize;
   dataSource!: MatTableDataSource<DiagnosticoDTO>;
-  ListDiagnosticoPaciente: Array<IHistoriaDagnostico> = [];
+  ListDiagnosticoPaciente: Array<IHistoriaDiagnostico> = [];
   columnas: string[] = []
   acciones: string[] = []
   currentPage = 1;
@@ -50,7 +50,6 @@ export class DiagnosticoComponent implements OnInit{
   ngOnInit(): void {
     this.columnas = getEntityPropiedades('HistoriaDiagnostico')
     this.acciones = ['Editar', 'Eliminar'];
-    this.enfermedadService.obtenerEnfermedadesList().subscribe(data => {this.enfermedadList = data;  console.log(this.enfermedadList)})
 
 
     this.route.params.subscribe(params => {
@@ -83,17 +82,21 @@ export class DiagnosticoComponent implements OnInit{
         console.log("dentro del for:",index);
         console.log(data.data[this.mySkip].fecha)
         // Filtrar solo los valores necesarios y crear instancias de DiagnosticoDTO
-      const diagnosticoDTO: DiagnosticoDTO = {
-        pacienteDiagnosticoId: data.data[this.mySkip].pacienteDiagnosticoId,
-        diagnostico:this.getDiagnostico(data.data[this.mySkip].enfermedadId),
-        // diagnostico: this.getDiagnostico(data.data[index].codigoEnfermedad),
 
-        fecha: this.formatoFecha(data.data[this.mySkip].fecha),
-        codigoEnfermedad: data.data[this.mySkip].enfermedadId
-      };
-      this.ListDiagnosticoPacienteDTO.push(diagnosticoDTO);
+        if(data.data){
+          const diagnosticoDTO: DiagnosticoDTO = {
+          pacienteDiagnosticoId:data.data[this.mySkip].pacienteDiagnosticoId,
+            diagnostico:data.data[this.mySkip].nombreEnfermedad,
+            // diagnostico: this.getDiagnostico(data.data[index].codigoEnfermedad),
 
-      this.mySkip++;
+            fecha: this.formatoFecha(data.data[this.mySkip].fecha),
+            codigoEnfermedad: data.data[this.mySkip].enfermedadId
+          };
+          this.ListDiagnosticoPacienteDTO.push(diagnosticoDTO);
+
+          this.mySkip++;
+        }
+
       }
 
       this.dataSource = new MatTableDataSource<DiagnosticoDTO>(this.ListDiagnosticoPacienteDtoOutput);
@@ -103,10 +106,7 @@ export class DiagnosticoComponent implements OnInit{
     });
   }
 
-  getDiagnostico(codEnfermendadId:string):string{
-    console.log(codEnfermendadId)
-    return this.enfermedadList.find(enfermedad => enfermedad.enfermedadId === codEnfermendadId)!.descripcion || '';
-  }
+
 
   formatoFecha(fecha: string): string {
 
@@ -129,7 +129,7 @@ export class DiagnosticoComponent implements OnInit{
 
     this.bsModalRef = this.modalService.show(AgregarDiagnosticoPacienteComponent);
 
-    this.bsModalRef.content.diagnosticoAgregado$.subscribe((categoriaAgregada: boolean) => {
+    this.bsModalRef.content.diagnosticoAgregada$.subscribe((categoriaAgregada: boolean) => {
       if (categoriaAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
       }
@@ -137,7 +137,7 @@ export class DiagnosticoComponent implements OnInit{
 
   }
 
-  editarDiagnosticoPaciente(diagnostico: IHistoriaDagnostico){
+  editarDiagnosticoPaciente(diagnostico: IHistoriaDiagnostico){
     const initialState = {
       diagnosticoSeleccionado: diagnostico.pacienteDiagnosticoId
     };

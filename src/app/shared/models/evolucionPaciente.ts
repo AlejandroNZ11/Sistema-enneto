@@ -22,6 +22,8 @@ export interface IEvolucionPaciente {
   descripcion: string,
   fechaEvolucion: string,
   estado: 0
+  medicoNombre?:string,
+  especialidadNombre?:string,
 }
 
 export class EvolucionPacienteResponse{

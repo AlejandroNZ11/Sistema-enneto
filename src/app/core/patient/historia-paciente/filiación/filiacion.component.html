@@ -215,17 +215,18 @@
                               <div class="col-12 col-md-6 col-xl-3">
                                   <div class="form-group local-forms">
                                       <label>Departamento <span class="login-danger">*</span></label>
-                                      <mat-select formControlName="departamentoId"
+                                      <mat-select
+                                      formControlName="departamentoId"
                                           class="form-control select" placeholder="Seleccione Departamento"
-                                          [ngClass]="{'is-invalid': isInvalid('departamento') && isFormSubmitted}"
+                                          [ngClass]="{'is-invalid': isInvalid('departamentoId') && isFormSubmitted}"
                                           (ngModelChange)="actualizarProvincias()">
                                           <mat-option *ngFor="let data of departamentos" [value]="data.departamentoId">
                                               {{data.nombre}}
                                           </mat-option>
                                       </mat-select>
-                                      <div *ngIf="isInvalid('departamento') && isFormSubmitted"
+                                      <div *ngIf="isInvalid('departamentoId') && isFormSubmitted"
                                       class="invalid-feedback">
-                                      <div *ngIf="isRequerido('departamento')">
+                                      <div *ngIf="isRequerido('departamentoId')">
                                           Debe completar el campo*
                                       </div>
                                   </div>
@@ -236,14 +237,14 @@
                                       <label>Provincia <span class="login-danger">*</span></label>
                                       <mat-select formControlName="provinciaId"
                                           class="form-control select" placeholder="Seleccione Provincia"
-                                          [ngClass]="{'is-invalid': isInvalid('provincia') && isFormSubmitted}"
+                                          [ngClass]="{'is-invalid': isInvalid('provinciaId') && isFormSubmitted}"
                                           (ngModelChange)="actualizarDistritos()">
                                           <mat-option *ngFor="let data of provincias" [value]="data.provinciaId">
                                               {{data.nombre}}
                                           </mat-option>
                                       </mat-select>
-                                      <div *ngIf="isInvalid('provincia') && isFormSubmitted" class="invalid-feedback">
-                                        <div *ngIf="isRequerido('provincia')">
+                                      <div *ngIf="isInvalid('provinciaId') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('provinciaId')">
                                             Debe completar el campo*
                                         </div>
                                     </div>
@@ -357,16 +358,12 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let data of citasListPaciente let i = index">
-                              <td>
-                                  <div class="form-check check-tables">
-                                      <input class="form-check-input" type="checkbox" value="something">
-                                  </div>
-                              </td>
+
                               <td>{{serialNumberArray[i]}}</td>
                               <!-- <td>{{ data.citaMedicaId }}</td> -->
                               <td>{{formatoFecha(data.fecha)}}</td>
-                              <td>{{getEspecialidad(data.especialidadId)}}</td>
-                              <td>{{getMedico(data.medicoId)}}</td>
+                              <td>{{data.nombreEspecialidad}}</td>
+                              <td>{{data.nombreMedico}}</td>
                               <td>{{data.motivoConsulta}}</td>
                               <td><button [ngClass]="getEstadoInfo(data.estado).clase">{{getEstadoInfo(data.estado).nombre}}</button></td>
 
