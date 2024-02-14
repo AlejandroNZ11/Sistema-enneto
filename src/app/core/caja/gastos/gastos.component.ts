@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,20 +27,28 @@ export class GastosComponent implements OnInit {
   dataSource!: MatTableDataSource<Igastos>;
   gastoSeleccionado: Gastos = new Gastos();
   public gasto = '';
-  public fechaInicio = '';
-  public fechaFin = '';
   public tipoGasto = '';
   columnas: string[] = []
   acciones: string[] = []
   pageSize = PageSize.size;
   totalData = 0;
+  public totalPages = 0;
   skip = 0;
   serialNumberArray: Array<number> = [];
+  public pageSelection: Array<pageSelection> = [];
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
   isLoading = false;
   tiposGasto!: IConceptoGasto[];
+  fechaInicio = new Date();
+  fechaFin = new Date();
+  estadoSeleccionado = 'todos';
+  gastoSeleccionada='todos';
+  @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
+  mostrarOpciones = false;
+  listGastoFiltrados!: IConceptoGasto[]
+  listEstados!: IConceptoGasto[];
 
   constructor(
     private modalService: BsModalService, 
@@ -48,6 +56,7 @@ export class GastosComponent implements OnInit {
     public tipogastoservice: TipoGastosService,
 
   ){}
+  
 
   ngOnInit() {
     this.columnas = getEntityPropiedades('Gasto');
@@ -90,7 +99,7 @@ export class GastosComponent implements OnInit {
   refreshData() {
     this.getTableData(this.currentPage, this.pageSize);
   }
-  
+
   getMoreData(pag: Paginacion) {
     this.getTableData(pag.page, pag.size);
     this.currentPage = pag.page;
@@ -139,6 +148,7 @@ export class GastosComponent implements OnInit {
           (response) => {
             if (response.isSuccess) {
               Swal.fire(response.message, '', 'success');
+              this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
               console.error(response.message);
@@ -154,52 +164,60 @@ export class GastosComponent implements OnInit {
     
   }
 
-  // obtenerDatosPacientesConFiltro(): void {
-  //   this.GastosList = [];
-  //   this.serialNumberArray = [];
-  //   this.isLoading = true;
-  //   let fechaInicioFormateado = undefined
-  //   let fechaFinFormateado = undefined
-  //   let gasto = undefined
-  //   let tipoGasto = undefined
-  //   if (this.fechaInicio) {
-  //     fechaInicioFormateado = new Date(this.fechaInicio).toISOString().split('T')[0];
-  //   }
-  //   if (this.fechaFin) {
-  //     fechaFinFormateado = new Date(this.fechaFin).toISOString().split('T')[0];
-  //   }
-  //   if (this.gasto) {
-  //     gasto = this.gasto;
-  //   }
-  //   if (this.tipoGasto != 'Todos') {
-  //     tipoGasto = this.tipoGasto;
-  //   }
-  //   this.gastosservice.obtenerGastos(this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, gasto, tipoGasto)
-  //     .pipe(
-  //       finalize(() => this.isLoading = false)
-  //     )
-  //     .subscribe((data: DataGastos) => {
-  //       this.totalData = data.totalData;
-  //       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-  //         const serialNumber = index + 1;
-  //         this.serialNumberArray.push(serialNumber);
-  //       }
-  //       this.GastosList = data.data;
-  //       this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
-  //       this.getTableData(this.totalData, this.pageSize);
-  //     });
-  // }
-
-  
-  
-  
-  limpiarCampos() {
-    this.fechaInicio = '';
-    this.fechaFin = '';
-    this.gasto = '';
-    this.tipoGasto = '';
-    this.getTableData(this.totalData, this.pageSize);
+  obtenerGastos() {
+    this.GastosList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    const inicio = this.fechaInicio.toISOString().split('T')[0]
+    const fin = this.fechaFin.toISOString().split('T')[0]
+    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataGastos) => {
+      this.totalData = data.totalData;
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.GastosList = data.data;
+      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+      this.calculateTotalPages(this.totalData, this.pageSize);
+    })
   }
+
+  buscargasto() {
+    const searchInput = this.multiGastoSearchInput.nativeElement.value
+      ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
+      : '';
+    this.mostrarOpciones = searchInput.length >= 3;
+    if (this.mostrarOpciones) {
+      if (!this.listGastoFiltrados) {
+        this.listGastoFiltrados = [...this.tiposGasto];
+      }
+      this.tiposGasto = this.listGastoFiltrados.filter((conceptogasto) => {
+        const nombres = conceptogasto.nombre.toLowerCase();
+        if (!searchInput) {
+          return true;
+        }
+        return nombres.includes(searchInput);
+      });
+    }
+  }
+  private calculateTotalPages(totalData: number, pageSize: number): void {
+    this.serialNumberArray = [];
+    this.totalPages = totalData / pageSize;
+    if (this.totalPages % 1 != 0) {
+      this.totalPages = Math.trunc(this.totalPages + 1);
+    }
+    for (let i = 1; i <= this.totalPages; i++) {
+      const limit = pageSize * i;
+      const skip = limit - pageSize;
+      this.serialNumberArray.push(i);
+      this.pageSelection.push({ skip: skip, limit: limit });
+    }
+  }
+  
+  
+  
 
   formatoFecha(fecha:string) :string{
     const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');

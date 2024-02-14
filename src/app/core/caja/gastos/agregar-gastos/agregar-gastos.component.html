@@ -100,11 +100,15 @@
                                 <label>Fecha<span class="text-danger">*</span></label>
                                 <input formControlName="fecha" [ngClass]="{'is-invalid': isInvalid('fecha')}" class="form-control datetimepicker" type="text" matInput
                                     [matDatepicker]="picker">
+
                                 <mat-datepicker-toggle matIconSuffix [for]="picker" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+
                                 <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
-                                  <div *ngIf="isInvalid('fecha')" class="invalid-feedback">
+
+                                <div *ngIf="isInvalid('fecha')" class="invalid-feedback">
                                     Debe seleccionar una fecha válida.
                                 </div>
+
                                 </div>
                             </div>
                             <div class="form-group local-forms col-xl-6">
