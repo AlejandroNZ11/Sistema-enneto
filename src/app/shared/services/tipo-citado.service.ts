@@ -37,9 +37,10 @@ export class TipoCitadoService {
   actualizarTipoCitado(tipoCitado: ItipoCitado): Observable<successResponse> {
     return this.http.put<successResponse>(`${this.apiUrl}/TiposCitado/UpdateTipoCitado${tipoCitado.tipoCitadoId}`, tipoCitado).pipe(
       catchError(error => {
-        Swal.fire('Error', error.error, 'warning');
+        console.error('Error en la solicitud:', error);
+        Swal.fire('Error', 'Ocurrió un error al guardar el Tipo Citado', 'warning');
         return throwError(() => error);
       })
     );
-  }
+  }  
 }
