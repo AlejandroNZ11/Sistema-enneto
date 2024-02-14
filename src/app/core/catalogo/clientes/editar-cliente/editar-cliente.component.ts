@@ -38,8 +38,8 @@ export class EditarClienteComponent implements OnInit {
   ) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
-      tipoDocumento: [null, Validators.required],
-      documento: ['', Validators.required],
+      tipoDocumentoIdentidadId: [null, Validators.required],
+      numeroDocumento: ['', Validators.required],
       direccion: ['', Validators.required],
       contacto: ['', Validators.required],
       telefono: ['', [Validators.required, Validators.pattern(/^9\d{8}$/), empiezaCon9Validator()]],
@@ -53,8 +53,8 @@ export class EditarClienteComponent implements OnInit {
       this.cliente = cliente;
       this.form.patchValue({
         nombre: this.cliente.nombre,
-        tipoDocumento: this.mapTipoDocumento(this.cliente.tipoDocumento),
-        documento: this.cliente.documento,
+        tipoDocumentoIdentidadId: this.mapTipoDocumento(this.cliente.tipoDocumentoIdentidadId),
+        numeroDocumento: this.cliente.numeroDocumento,
         direccion: this.cliente.direccion,
         contacto: this.cliente.contacto, 
         telefono: this.cliente.telefono,
@@ -67,26 +67,26 @@ export class EditarClienteComponent implements OnInit {
   }
 
   setupDocumentValidation() {
-    this.form.get('tipoDocumento')?.valueChanges.subscribe(tipoDocumento => {
-      const documentoControl = this.form.get('documento');
+    this.form.get('tipoDocumentoIdentidadId')?.valueChanges.subscribe(tipoDocumentoIdentidadId => {
+      const documentoControl = this.form.get('numeroDocumento');
       if (!documentoControl) return;
   
       documentoControl.clearValidators();
       documentoControl.setValidators([Validators.required]);
   
-      if (tipoDocumento === '01') {
+      if (tipoDocumentoIdentidadId === '01') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
         this.maxLengthDocumento = 8;
-      } else if (tipoDocumento === '02') {
+      } else if (tipoDocumentoIdentidadId === '02') {
         documentoControl.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11)]);
         this.maxLengthDocumento = 11;
-      } else if (tipoDocumento === '03') {
+      } else if (tipoDocumentoIdentidadId === '03') {
         documentoControl.setValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
         this.maxLengthDocumento = 9;
-      } else if (tipoDocumento === '04') {
+      } else if (tipoDocumentoIdentidadId === '04') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
         this.maxLengthDocumento = 8;
-      } else if (tipoDocumento === '05') {
+      } else if (tipoDocumentoIdentidadId === '05') {
         documentoControl.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
         this.maxLengthDocumento = 12;
       }
@@ -97,8 +97,8 @@ export class EditarClienteComponent implements OnInit {
     });
   }
 
-  mapTipoDocumento(tipoDocumento: number): string {
-    switch (tipoDocumento) {
+  mapTipoDocumento(tipoDocumentoIdentidadId: number): string {
+    switch (tipoDocumentoIdentidadId) {
       case 1: return '01';
       case 2: return '02';
       case 3: return '03';
@@ -140,8 +140,8 @@ export class EditarClienteComponent implements OnInit {
     const clienteActualizado: IClientes = {
       clienteId: this.cliente.clienteId,
       nombre: this.form.value.nombre,
-      tipoDocumento: this.form.value.tipoDocumento,
-      documento: this.form.value.documento,
+      tipoDocumentoIdentidadId: this.form.value.tipoDocumentoIdentidadId,
+      numeroDocumento: this.form.value.numeroDocumento,
       direccion: this.form.value.direccion,
       contacto: this.form.value.contacto,
       telefono: this.form.value.telefono,

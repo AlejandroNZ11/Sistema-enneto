@@ -1,8 +1,8 @@
 export class Clientes {
     clinicaId = '3fa85f64-5717-4562-b3fc-2c963f66afa6';
     usuarioId = "";
-    tipoDocumento = 0;
-    documento = "";
+    tipoDocumentoIdentidadId = 0;
+    numeroDocumento = "";
     nombre = "";
     direccion = "";
     contacto = "";
@@ -12,8 +12,8 @@ export class Clientes {
 }
 export interface IClientes {
     clienteId: string;
-    tipoDocumento: number;
-    documento: string;
+    tipoDocumentoIdentidadId: number;
+    numeroDocumento: string;
     nombre: string;
     direccion: string;
     contacto: string;
@@ -28,7 +28,7 @@ export interface DataClientes {
 
 export class ClienteResponse {
     nombre = "";
-    documento = "";
+    numeroDocumento = "";
     direccion = "";
     telefono = "";
     contacto = "";

@@ -32,8 +32,8 @@ export class AgregarClienteComponent {
   constructor(public bsModalRef: BsModalRef, private service: ClientesService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
-      tipoDocumento: [null, Validators.required],
-      documento: ['', [Validators.required]],
+      tipoDocumentoIdentidadId: [null, Validators.required],
+      numeroDocumento: ['', [Validators.required]],
       nombre: ['', Validators.required],
       direccion: ['', Validators.required],
       contacto: ['', Validators.required],
@@ -41,14 +41,14 @@ export class AgregarClienteComponent {
       email: ['', [Validators.required, Validators.email]],
     });
     
-    this.form.get('tipoDocumento')?.valueChanges.subscribe((tipo) => {
+    this.form.get('tipoDocumentoIdentidadId')?.valueChanges.subscribe((tipo) => {
       this.setDocumentoValidators(tipo);
       this.setMaxLengthDocumento(tipo);
     });
   }
 
   private setDocumentoValidators(tipo: string): void {
-    const documentoControl = this.form.get('documento');
+    const documentoControl = this.form.get('numeroDocumento');
     if (!documentoControl) return;
 
     documentoControl.clearValidators();
@@ -127,16 +127,16 @@ export class AgregarClienteComponent {
       this.isTouched()
       return;
     }
-    this.Cliente.documento = this.form.get("documento")?.value;
+    this.Cliente.numeroDocumento = this.form.get("numeroDocumento")?.value;
     this.Cliente.nombre = this.form.get("nombre")?.value;
     this.Cliente.direccion = this.form.get("direccion")?.value;
     this.Cliente.contacto = this.form.get("contacto")?.value;
     this.Cliente.telefono = this.form.get("telefono")?.value;
     this.Cliente.email = this.form.get("email")?.value;
-    this.Cliente.tipoDocumento = this.form.get("tipoDocumento")?.value;
+    this.Cliente.tipoDocumentoIdentidadId = this.form.get("tipoDocumentoIdentidadId")?.value;
     this.Cliente.estado = this.form.get("estado")?.value;
 
-    console.log(this.form.get("documento")?.value);
+    console.log(this.form.get("numeroDocumento")?.value);
     console.log(this.Cliente);
     
     this.service.crearClientes(this.Cliente).subscribe(
