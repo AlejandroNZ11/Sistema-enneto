@@ -120,13 +120,11 @@ export class EditarTarifarioComponent implements OnInit {
     this.tarifarioEditada$.next(false);
     this.bsModalRef.hide();
   }
-  formatoFecha(fecha: string): string {
-    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
-    return `${dia}-${mes}-${anio}`;
-  }
+  
 
   
   editarTarifario() {
+    console.log('funciona')
     if (!this.tarifarioId || this.form.invalid) {
       this.mostrarErrores = true;
       return;
