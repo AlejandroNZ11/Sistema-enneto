@@ -127,7 +127,7 @@ export class AgregarTarifarioComponent implements OnInit {
     }
     this.Tarifario.grupo= this.form.get("grupo")?.value;
     this.Tarifario.categoriaId = this.form.get("categoria")?.value;
-    this.Tarifario.tipoconceptoId = this.form.get("tipoconcepto")?.value;
+    this.Tarifario.tipoConceptoId = this.form.get("tipoconcepto")?.value;
     this.Tarifario.descripcion = this.form.get("descripcion")?.value;
     this.Tarifario.precio = this.form.get("precio")?.value;
     this.Tarifario.medidaId = this.form.get("medida")?.value;

@@ -78,7 +78,7 @@ export class EditarTarifarioComponent implements OnInit {
         descripcion: this.tarifario.descripcion,
         precio: this.tarifario.precio,
         fechaRegistro: this.tarifario.fechaRegistro,
-        tipoconcepto: this.tarifario.tipoconceptoId,
+        tipoconcepto: this.tarifario.tipoConceptoId,
         grupo: this.tarifario.grupo,
         medida: this.tarifario.medidaId,
         unidad: this.tarifario.unidadId,
@@ -120,13 +120,11 @@ export class EditarTarifarioComponent implements OnInit {
     this.tarifarioEditada$.next(false);
     this.bsModalRef.hide();
   }
-  formatoFecha(fecha: string): string {
-    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
-    return `${dia}-${mes}-${anio}`;
-  }
+  
 
-
-  guardarTarifario() {
+  
+  editarTarifario() {
+    console.log('funciona')
     if (!this.tarifarioId || this.form.invalid) {
       this.mostrarErrores = true;
       return;
@@ -138,7 +136,7 @@ export class EditarTarifarioComponent implements OnInit {
       medidaId: this.form.value.medida,
       categoriaId: this.form.value.categoria,
       unidadId: this.form.value.unidad,
-      tipoconceptoId: this.form.value.tipoconcepto,
+      tipoConceptoId: this.form.value.tipoconcepto,
       precio: this.form.value.precio,   
       fechaRegistro: this.form.value.fechaRegistro,
       descripcion: this.form.value.descripcion,
@@ -160,3 +158,5 @@ export class EditarTarifarioComponent implements OnInit {
       });
   }
 }
+
+

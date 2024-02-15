@@ -1,5 +1,5 @@
 import { Component, OnInit, Renderer2} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Gastos, DataGastos, Igastos } from 'src/app/shared/models/gastos';
 import { routes } from 'src/app/shared/routes/routes';
@@ -14,10 +14,11 @@ import { UserLoggedService } from 'src/app/shared/services/user-logged.service';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 
+
 @Component({
   selector: 'app-agregar-gastos',
   templateUrl: './agregar-gastos.component.html',
-  styleUrls: ['./agregar-gastos.component.scss']
+  styleUrls: ['./agregar-gastos.component.scss'],
 })
 export class AgregarGastosComponent implements OnInit{
   gastoAgregada$: Subject<boolean> = new Subject<boolean>();
@@ -33,6 +34,7 @@ export class AgregarGastosComponent implements OnInit{
   public conceptoGasto !: string[];
   public banco !: string [];
   public cuentaPagar !: string [];
+  fechaControl = new FormControl(); 
 
 
   ngOnInit(): void { 
@@ -95,11 +97,26 @@ export class AgregarGastosComponent implements OnInit{
     this.gastoAgregada$.next(false);
     this.bsModalRef.hide();
   }
+  
   isTouched() {
     Object.values(this.form.controls).forEach((control) => {
       control.markAsTouched();
     });
   }
+  
+
+  obtenerFechaEnFormatoDeseado(): string {
+    const fecha = this.fechaControl.value;
+    if (fecha) {
+      const fechaObj = new Date(fecha);
+      const dia = fechaObj.getDate().toString().padStart(2, '0');
+      const mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0'); // El mes se cuenta desde 0
+      const año = fechaObj.getFullYear();
+      return `${dia}/${mes}/${año}`;
+    }
+    return '';
+  }
+
   crearGasto() {
     if (this.form.invalid) {
       this.isTouched()      

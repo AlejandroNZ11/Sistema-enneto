@@ -9,6 +9,7 @@ import { DataConceptoGasto, IConceptoGasto, ConceptoGasto } from 'src/app/shared
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tipo-gastos',
@@ -91,9 +92,17 @@ export class TipoGastosComponent implements OnInit {
     const initialState = {
       conceptoGastoSeleccionado: conceptoGasto
     };
+  
     this.bsModalRef = this.modalService.show(EditarTipoGastosComponent, { initialState });
+    const tipogastoEditada$ = new Subject<boolean>();
+    this.bsModalRef.content.tipogastoEditada$ = tipogastoEditada$;
+    tipogastoEditada$.subscribe((tipogastoEditada: boolean) => {
+      if (tipogastoEditada) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      tipogastoEditada$.unsubscribe();   
     });
   }
 

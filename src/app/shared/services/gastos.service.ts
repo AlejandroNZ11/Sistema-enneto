@@ -19,23 +19,16 @@ export class GastosService {
   }
 
 
-  // obtenerGastos( page: number, rows: number,
-  //   fechaInicio?: string, fechaFin?: string, gasto?: string, tipoGasto?: string): Observable<DataGastos> {
-  //   let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}`;
-  //   if (fechaInicio) {
-  //     url += `&fechaInicio=${fechaInicio}`;
-  //   }
-  //   if (fechaFin) {
-  //     url += `&fechaFin=${fechaFin}`;
-  //   }
-  //   if (gasto) {
-  //     url += `&gasto=${gasto}`;
-  //   }
-  //   if (tipoGasto) {
-  //     url += `&TipoGastoId=${tipoGasto}`;
-  //   }
-  //   return this.http.get<DataGastos>(url);
-  // }
+  obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string): Observable<DataGastos> {
+    let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+    if (estado != 'todos' && estado) {
+      url += `&TipoCitadoId=${estado}`;
+    }
+    if (gasto != 'todos' && gasto) {
+      url += `&conceptoGasto=${gasto}`;
+    }
+    return this.http.get<DataGastos>(url);
+  }
 
 crearGastos(gastos: Gastos): Observable<successResponse> {
   return this.http.post<successResponse>(this.apiUrl + '/Gasto/SaveGasto', gastos).pipe(

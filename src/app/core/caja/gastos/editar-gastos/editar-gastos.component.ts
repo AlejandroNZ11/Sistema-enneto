@@ -78,15 +78,16 @@ export class EditarGastosComponent implements OnInit  {
         operacion: this.gasto.operacion,
         sede: this.gasto.sedeId,
         responsable: this.gasto.responsable,
+        observacion: this.gasto.observacion,
         estado: this.gasto.estado == '1' ? 'Activo' : 'Inactivo',
       })
     });
 
     this.sede = this.user.selectedSucursal.nombre;
 
-    // this.cuentaservice.obtenerListaCuenta().subscribe((data: Icuenta[]) => {
-    //   this.cuentaPagar_LISTA = data;
-    // });
+    this.cuentaservice.obtenerCuentaList().subscribe((data: Icuenta[]) => {
+      this.cuentaPagar_LISTA = data;
+    });
     this.bancoservice.obtenerListaBanco().subscribe((data: Ibancos[]) => {
       this.banco_LISTA = data;
     });
@@ -130,14 +131,14 @@ export class EditarGastosComponent implements OnInit  {
       fecha: this.form.value.fecha,
       observacion: this.form.value.observacion,
       descripcion: this.form.value.descripcion,
-      conceptoGastoId: this.form.value.conceptoGastoId,
-      cuentaPagarId: this.form.value.cuentaPagarId,
-      bancoId: this.form.value.bancoId,   
-      monto: this.form.value.montoo,
+      conceptoGastoId: this.form.value.conceptoGasto,
+      cuentaPagarId: this.form.value.cuentaPagar,
+      bancoId: this.form.value.banco,   
+      monto: this.form.value.monto,
       operacion: this.form.value.operacion,
-      sedeId: this.form.value.sedeId,
+      sedeId: this.form.value.sede,
       responsable: this.form.value.responsable,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
+      estado: this.form.value.estado == '1' ? 'Activo' : 'Inactivo',
     };
 
     this.gastosservice.actualizarGastos(gastoActualizada).subscribe(
