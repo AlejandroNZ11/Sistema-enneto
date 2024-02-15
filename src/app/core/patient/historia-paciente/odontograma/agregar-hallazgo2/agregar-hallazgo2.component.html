@@ -1,0 +1,101 @@
+<div  class="content">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+<!-- form -->
+          <div class="row">
+
+              <div class="form-heading">
+                <h4>Agregar Hallazgos caries</h4>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label>Hallazgo <span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" [disabled]="true">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group local-forms">
+                  <label>N° de Diente <span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label>Estado<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" value="Buen Estado" [disabled]="true">
+                </div>
+              </div>
+          </div>
+
+          <div class="row d-flex flex-nowrap  align-items-center ">
+
+            <div class="col-md-6">
+              <canvas  #myCanvasModal width="150" height="150" ></canvas>
+            </div>
+            <div class="col-12 col-sm-12">
+              <div class="profile-check-blk form-group">
+                <!-- <div class="remember-me">
+                  <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Todos
+                  <input type="checkbox" name="checkboxPrincipal" [(ngModel)]="checkboxPrincipal" (change)="onCheckboxChange()">
+                  <span class="checkmark"></span>
+                  </label>
+              </div> -->
+                  <div class="remember-me">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Vestibular
+                      <input type="checkbox" name="checkboxVestibular" [(ngModel)]="checkboxVestibular" (change)="onCheckboxChange()">
+                      <span class="checkmark"></span>
+                      </label>
+                  </div>
+                  <div class="remember-me">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Palatino
+                      <input type="checkbox" name="checkboxPalatino" [(ngModel)]="checkboxPalatino" (change)="onCheckboxChange()">
+                      <span class="checkmark"></span>
+                      </label>
+                  </div>
+                  <div class="remember-me">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Distal
+                      <input type="checkbox" name="checkboxDistal" [(ngModel)]="checkboxDistal" (change)="onCheckboxChange()">
+                      <span class="checkmark"></span>
+                      </label>
+                  </div>
+                  <div class="remember-me">
+                    <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Mesial
+                    <input type="checkbox" name="checkboxMesial" [(ngModel)]="checkboxMesial" (change)="onCheckboxChange()">
+                    <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div *ngIf="numeroDiente$==='18'" class="remember-me">
+                  <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Oclusal
+                  <input type="checkbox" name="checkboxOclusal" [(ngModel)]="checkboxOclusal" (change)="onCheckboxChange()">
+                  <span class="checkmark"></span>
+                  </label>
+              </div>
+              </div>
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Diagnostico - Especificaciones</label>
+              <textarea
+                  class="form-control" type="text"
+                  ></textarea>
+          </div>
+          </div>
+          <!-- form cierre -->
+          <div class="col-12">
+            <div class="doctor-submit text-end">
+                <button type="submit"
+                    class="btn btn-primary submit-form me-2" >Guardar</button>
+                <button type="submit"
+                    class="btn btn-primary cancel-form">Cancelar</button>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

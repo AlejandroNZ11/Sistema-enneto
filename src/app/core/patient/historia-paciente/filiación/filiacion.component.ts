@@ -110,8 +110,6 @@ export class FiliacionComponent implements OnInit {
       direccion: ['', [Validators.required, Validators.maxLength(100)]],
       estudioId: ['', [Validators.required, Validators.maxLength(100)]],
       paisId: ['', [Validators.required, Validators.maxLength(100)]],
-      departamento: ['', [Validators.required, Validators.maxLength(100)]],
-      provincia: ['', [Validators.required, Validators.maxLength(100)]],
       ubigeo: ['', [Validators.required, Validators.maxLength(100)]],
       celular: ['', [Validators.maxLength(9), Validators.minLength(9), Validators.required]],
       // tipoPacienteId: ['', [Validators.required, Validators.maxLength(100)]],
@@ -191,7 +189,7 @@ export class FiliacionComponent implements OnInit {
           domicilioParentesco: this.pacienteData.domicilioParentesco,
           tipoParentesco: this.pacienteData.tipoParentesco,
           departamentoId:this.pacienteData.departamentoId.toString(),
-          provinciaId: this.pacienteData.departamentoId.toString() +this.pacienteData.provinciaId.toString(),
+          provinciaId: this.pacienteData.provinciaId.toString(),
         });
 
         const departamentoId = this.pacienteData.departamentoId.toString();
@@ -201,7 +199,7 @@ export class FiliacionComponent implements OnInit {
         this.ubicacionService.obtenerProvincias(departamentoId).subscribe(data => {
           console.log(data)
           this.provincias = data;
-          this.ubicacionService.obtenerDistritos('1503').subscribe(dataDistrito => {
+          this.ubicacionService.obtenerDistritos(provinciaId).subscribe(dataDistrito => {
             console.log(dataDistrito)
             console.log()
             this.distritos = dataDistrito;
@@ -334,10 +332,13 @@ actualizarEdad() {
   actualizarPaciente() {
     if (this.form.invalid) {
       this.isFormSubmitted = true;
+      console.log("update return")
       this.markAllFieldsAsTouched();
       return;
     }
-    this.isFormSubmitted = false;
+    console.log("update done")
+
+    this.isFormSubmitted = true;
     this.pacienteData.clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     if (this.form.get("sexo")!.value == "M") {
       this.pacienteData.sexo = 'M'

@@ -7,7 +7,7 @@
           <div class="row">
 
               <div class="form-heading">
-                <h4>Agregar Hallazgos Macrodoncia</h4>
+                <h4>Agregar Hallazgos puente</h4>
               </div>
 
               <div class="col-md-6">
@@ -16,14 +16,37 @@
                   <input class="form-control" type="text" [disabled]="true">
                 </div>
               </div>
-              <div class="col-md-4">
+
+              <div class="col-md-6">
                 <div class="form-group local-forms">
-                  <label>N° de Diente <span class="login-danger">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+                  <label>Estados<span class="login-danger">*</span></label>
+                  <mat-select
+                       class="form-control select" placeholder="Seleccione un estado"
+                       >
+                       <mat-option *ngFor="let data of estados_list" [value]="data.value">
+                        {{data.name}}
+                       </mat-option>
+                  </mat-select>
                 </div>
               </div>
-
           </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group local-forms">
+                <label>Desde Pieza <span class="login-danger">*</span></label>
+                <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group local-forms">
+                <label>Hasta Pieza <span class="login-danger">*</span></label>
+                <input class="form-control" type="text">
+              </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="form-group col-md-12">
               <label>Diagnostico - Especificaciones</label>
@@ -46,5 +69,6 @@
     </div>
   </div>
 </div>
+
 
 

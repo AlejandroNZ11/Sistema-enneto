@@ -4,6 +4,11 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaHallazgosComponent } from '../odontograma-hallazgos/odontograma-hallazgos.component';
 import { Subject } from 'rxjs';
+import { AgregarHallazgo2Component } from '../agregar-hallazgo2/agregar-hallazgo2.component';
+import { AgregarHallazgo3Component } from '../agregar-hallazgo3/agregar-hallazgo3.component';
+import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
+import { IodontogramaPaciente } from 'src/app/shared/models/odontrograma';
+
 
 @Component({
   selector: 'app-odontograma-inicial',
@@ -13,17 +18,30 @@ import { Subject } from 'rxjs';
 export class OdontogramaInicialComponent implements OnInit{
 
 
-    constructor(private modalService: BsModalService,private route: ActivatedRoute, private sharedService:SharedService){}
+    constructor(private modalService: BsModalService,private route: ActivatedRoute, private sharedService:SharedService, private odontogramaService: OdontogramaService){}
     pacienteId='';
     bsModalRef?: BsModalRef;
 
     modalRef!: BsModalRef;
     numeroDiente: string = '';
+
+    odotogramaPacienteList:IodontogramaPaciente[]=[];
     ngOnInit(): void {
       this.route.params.subscribe(params => {
         this.pacienteId = params['pacienteId'];
       })
       this.sharedService.setPacienteId(this.pacienteId);
+
+      this.odontogramaService.obtenerOdontogramaPacienteList().subscribe((data)=>{
+        this.odotogramaPacienteList = data.data;
+        console.log(this.odotogramaPacienteList);
+      })
+
+
+          this.odotogramaPacienteList.map(marcas => {
+            console.log(marcas.marcas)
+          });
+
     }
 
 
@@ -50,7 +68,7 @@ export class OdontogramaInicialComponent implements OnInit{
         this.bsModalRef.onHidden?.subscribe(()=>{
           hallazgoAgregado$.unsubscribe();
         })
-      }else{
+      }else if(hallazgo==='caries'){
         this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
@@ -58,7 +76,29 @@ export class OdontogramaInicialComponent implements OnInit{
         }
 
 
-        this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
+        this.bsModalRef = this.modalService.show(AgregarHallazgo2Component, { initialState});
+
+        const hallazgoAgregado$ = new Subject<boolean>();
+
+        this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+        hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+          if(pacienteAlergiaEditado){
+            console.log("Traer data odontograma paciente")
+          }
+        });
+        this.bsModalRef.onHidden?.subscribe(()=>{
+          hallazgoAgregado$.unsubscribe();
+        })
+      }
+      else{
+        this.modalRef.hide();
+        const initialState ={
+        numeroDiente$:numeroDiente,
+        hallazgo$:hallazgo
+        }
+
+
+        this.bsModalRef = this.modalService.show(AgregarHallazgo3Component, { initialState});
 
         const hallazgoAgregado$ = new Subject<boolean>();
 
@@ -169,8 +209,11 @@ export class OdontogramaInicialComponent implements OnInit{
 
         for (let index = 0; index < 16; index++) {
           const posicionX = this.definePosicaoXInicialDente(index);
+
           this.dibujarTrapezoide(context, posicionX + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente);
 
+
+          this.marcarTrapezoide(context, posicionX + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index] );
           // this.dibujarImagen('/assets/img/18.png', context, canvas, posicionX);
 
           this.dibujarNumerosSuperior(context,index);
@@ -186,9 +229,8 @@ export class OdontogramaInicialComponent implements OnInit{
         },
         context)
         }
+
         //* Inferior
-
-
         for (let index = 0; index < 16; index++) {
           const posicionX = this.definePosicaoXInicialDente(index);
           this.dibujarTrapezoide(context, posicionX + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente);
@@ -470,6 +512,59 @@ export class OdontogramaInicialComponent implements OnInit{
       context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
       context.closePath();
       context.stroke();
+    }
+
+    private marcarTrapezoide(context: CanvasRenderingContext2D, x: number, y: number, tamanhoDiente: number, pacienteOdontograma: IodontogramaPaciente){
+
+
+      this.dimensionesTrapezio = {
+        baseMaior: tamanhoDiente,
+        lateral: tamanhoDiente / 4,
+        baseMenor: (tamanhoDiente / 4) * 3
+      };
+
+
+
+
+      if(pacienteOdontograma){
+         // Convertir el JSON en un objeto JavaScript
+      const objeto = JSON.parse(pacienteOdontograma.marcas);
+      console.log(objeto)
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, y);
+        context.lineTo(this.dimensionesTrapezio.baseMenor + x, this.dimensionesTrapezio.lateral + y);
+        context.lineTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.lateral + y);
+        context.closePath();
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(this.dimensionesTrapezio.baseMenor + x, this.dimensionesTrapezio.lateral + y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, this.dimensionesTrapezio.baseMaior + y);
+        context.lineTo(this.dimensionesTrapezio.baseMenor + x, this.dimensionesTrapezio.baseMenor + y);
+        context.closePath();
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.baseMenor + y);
+        context.lineTo(this.dimensionesTrapezio.baseMenor + x, this.dimensionesTrapezio.baseMenor + y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, this.dimensionesTrapezio.baseMaior + y);
+        context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
+        context.closePath();
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.lateral + y);
+        context.lineTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.baseMenor + y);
+        context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
+        context.closePath();
+        context.stroke();
+      }
+
+
+
     }
 
 
