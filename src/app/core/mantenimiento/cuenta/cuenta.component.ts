@@ -104,7 +104,7 @@ export class CuentaComponent implements OnInit{
   
   eliminarCuenta(cuentaId:string){
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Estás seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,
