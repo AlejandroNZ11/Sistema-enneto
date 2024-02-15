@@ -33,11 +33,12 @@ export class TarifarioService {
         return this.http.delete<successResponse>(this.apiUrl + `/Tarifarios/DeleteTarifario/${tarifarioId}`);
     }
     actualizarTarifario(tarifario: Itarifario): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Tarifarios/UpdateTarifario/${tarifario.tarifarioId}`, tarifario).pipe(
-        catchError(error => {
-            Swal.fire('Error', error.error, 'warning');
-            return throwError(() => error);
-        })
+        return this.http.put<successResponse>(this.apiUrl + `/Tarifarios/UpdateTarifario/${tarifario.tarifarioId}`, tarifario).pipe(
+            catchError(error => {
+                console.error('Error en la solicitud:', error);
+                Swal.fire('Error', 'Ocurrió un error al guardar el Tipo Citado', 'warning');
+                return throwError(() => error);
+            })
         );
     }
 }

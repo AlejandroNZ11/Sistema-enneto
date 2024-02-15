@@ -125,8 +125,8 @@ export class EditarTarifarioComponent implements OnInit {
     return `${dia}-${mes}-${anio}`;
   }
 
-
-  guardarTarifario() {
+  
+  editarTarifario() {
     if (!this.tarifarioId || this.form.invalid) {
       this.mostrarErrores = true;
       return;
@@ -160,3 +160,5 @@ export class EditarTarifarioComponent implements OnInit {
       });
   }
 }
+
+
