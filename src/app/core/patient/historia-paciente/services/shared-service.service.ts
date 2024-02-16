@@ -9,7 +9,11 @@ export class SharedService {
   constructor() { }
 
   private pacienteIdSource = new BehaviorSubject<string>('');
+  private pacienteNameSource = new BehaviorSubject<string>('');
+
   pacienteId$ = this.pacienteIdSource.asObservable();
+  pacienteName$ = this.pacienteNameSource.asObservable();
+
 
   setPacienteId(pacienteId: string) {
     this.pacienteIdSource.next(pacienteId);
@@ -18,6 +22,14 @@ export class SharedService {
 
   public get pacientID() : Observable<string> {
     return  this.pacienteId$
+  }
+
+  setPacienteName(name:string){
+    this.pacienteNameSource.next(name);
+  }
+
+  public get pacienteName():Observable<string>{
+    return this.pacienteName$;
   }
 
 

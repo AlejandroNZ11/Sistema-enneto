@@ -87,9 +87,9 @@ export class TarifarioComponent  {
     };
     this.bsModalRef = this.modalService.show(EditarTarifarioComponent, { initialState });
     const tarifarioEditada$ = new Subject<boolean>();
-    this.bsModalRef.content.categoriaEditada$ = tarifarioEditada$;
-    tarifarioEditada$.subscribe((categoriaEditada: boolean) => {
-      if (categoriaEditada) {
+    this.bsModalRef.content.tarifarioEditada$ = tarifarioEditada$;
+    tarifarioEditada$.subscribe((tarifarioEditada: boolean) => {
+      if (tarifarioEditada) {
         this.getTableData(this.currentPage, this.pageSize);
       }
     });
@@ -100,7 +100,7 @@ export class TarifarioComponent  {
 
   eliminarTarifario(tarifarioId: string) {
     Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
+      title: '¿Estás seguro que deseas eliminar?',
       showDenyButton: true,
       confirmButtonText: 'Eliminar',
       denyButtonText: `Cancelar`,

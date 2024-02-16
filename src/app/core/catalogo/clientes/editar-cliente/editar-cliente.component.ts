@@ -61,8 +61,9 @@ export class EditarClienteComponent implements OnInit {
         email: this.cliente.email,
         estado: this.cliente.estado == '1' ? 'Activo' : 'Inactivo',
       });
-
+  
       this.setupDocumentValidation();
+      this.cdr.detectChanges();
     });
   }
 
@@ -77,34 +78,32 @@ export class EditarClienteComponent implements OnInit {
       if (tipoDocumentoIdentidadId === '01') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
         this.maxLengthDocumento = 8;
-      } else if (tipoDocumentoIdentidadId === '02') {
+      } else if (tipoDocumentoIdentidadId === '06') {
         documentoControl.setValidators([Validators.required, Validators.minLength(11), Validators.maxLength(11)]);
         this.maxLengthDocumento = 11;
-      } else if (tipoDocumentoIdentidadId === '03') {
+      } else if (tipoDocumentoIdentidadId === '07') {
         documentoControl.setValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
         this.maxLengthDocumento = 9;
       } else if (tipoDocumentoIdentidadId === '04') {
         documentoControl.setValidators([Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
         this.maxLengthDocumento = 8;
-      } else if (tipoDocumentoIdentidadId === '05') {
+      } else if (tipoDocumentoIdentidadId === '00') {
         documentoControl.setValidators([Validators.required, Validators.minLength(12), Validators.maxLength(12)]);
         this.maxLengthDocumento = 12;
       }
-  
   
       documentoControl.updateValueAndValidity();
       this.cdr.detectChanges();
     });
   }
 
-  mapTipoDocumento(tipoDocumentoIdentidadId: number): string {
+  mapTipoDocumento(tipoDocumentoIdentidadId: string): string {
     switch (tipoDocumentoIdentidadId) {
-      case 1: return '01';
-      case 2: return '02';
-      case 3: return '03';
-      case 4: return '04';
-      case 5: return '05';
-  
+      case '1': return '01';
+      case '2': return '06';
+      case '3': return '07';
+      case '4': return '04';
+      case '5': return '00';
       default: return '';
     }
   }

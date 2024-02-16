@@ -19,6 +19,7 @@ export class MiniSidebarComponent implements OnInit, OnDestroy{
 public routes = routes;
   activeLink='HistoriaContenidoFiliacion'
   pacienteId: string = ''; // Inicializar con algún valor predeterminado
+  pacienteName:string ='';
 
   base='' //Inicializar la base Url
   terminosBuscados:string[] = ['historia-clinica', 'odontograma', 'filiacion','ortodoncia','presupuesto','diagnostico','evolucion','imagenes','estado-cuenta','consentimiento','recetas'];
@@ -65,19 +66,25 @@ public routes = routes;
 
   ngOnInit() {
 
-    this.pacienteIdSubscription = this.sharedService.pacienteId$.subscribe((id: string) => {
-      this.idPaciente = id;
-      if(this.idPaciente){
-        this.pacienteNameSubscription= this.pacienteService.obtenerPaciente(this.idPaciente)
-      .subscribe(async (paciente: PacienteEditar) => {
-        if (paciente) {
-          this.nombres = paciente.nombres;
-          this.apellidos = paciente.apellidos
-        }
-      })
-      }
+    // this.pacienteIdSubscription = this.sharedService.pacienteId$.subscribe((id: string) => {
+    //   this.idPaciente = id;
+    //   if(this.idPaciente){
+    //     this.pacienteNameSubscription= this.pacienteService.obtenerPaciente(this.idPaciente)
+    //   .subscribe(async (paciente: PacienteEditar) => {
+    //     if (paciente) {
+    //       this.nombres = paciente.nombres;
+    //       this.apellidos = paciente.apellidos
+    //     }
+    //   })
+    //   }
 
-    });
+    // });
+
+    this.sharedService.pacienteName.subscribe((name)=>{
+      this.pacienteName = name
+    })
+
+
   }
 
 
