@@ -82,16 +82,16 @@ export class AgregarClienteComponent {
       case '01':
         this.maxLengthDocumento = 8;
         break;
-      case '02':
+      case '06':
         this.maxLengthDocumento = 11;
         break;
-      case '03':
+      case '07':
         this.maxLengthDocumento = 9;
         break;
       case '04':
         this.maxLengthDocumento = 8;
         break;
-      case '05':
+      case '00':
         this.maxLengthDocumento = 12;
         break;
       default:

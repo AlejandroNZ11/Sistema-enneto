@@ -24,10 +24,10 @@
                                     <label>Tipo de Documento <span class="login-danger">*</span></label>
                                     <mat-select formControlName="tipoDocumentoIdentidadId" class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoDocumentoIdentidadId')}" placeholder="Seleccionar Documento">
                                         <mat-option value="01">DNI</mat-option>
-                                        <mat-option value="02">RUC</mat-option>
-                                        <mat-option value="03">PASAPORTE</mat-option>
+                                        <mat-option value="06">RUC</mat-option>
+                                        <mat-option value="07">PASAPORTE</mat-option>
                                         <mat-option value="04">CARNET DE EXTRANJERIA</mat-option>
-                                        <mat-option value="05">OTROS</mat-option>
+                                        <mat-option value="00">OTROS</mat-option>
                                     </mat-select>
                                     <div *ngIf="isInvalid('tipoDocumentoIdentidadId')" class="invalid-feedback">Debe completar el campo*</div>
                                 </div>
