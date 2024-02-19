@@ -29,6 +29,8 @@ export class TarifarioComponent  {
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
+  public fechaInicio = '';
+  public fechaFin = '';
   constructor(private modalService: BsModalService, public tarifarioService: TarifarioService) {
   }
 
@@ -45,6 +47,7 @@ export class TarifarioComponent  {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
+      
       this.ListTarifario = data.data;
       this.dataSource = new MatTableDataSource<Itarifario>(this.ListTarifario);
     });
@@ -72,7 +75,10 @@ export class TarifarioComponent  {
     this.skip = pag.skip;
     this.limit = pag.limit;
   }
-
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}/${mes}/${anio}`;
+  }
   crearTarifario() {
     this.bsModalRef = this.modalService.show(AgregarTarifarioComponent),
     this.bsModalRef.content.tarifarioAgregada$.subscribe((tarifarioAgregada: boolean) => {

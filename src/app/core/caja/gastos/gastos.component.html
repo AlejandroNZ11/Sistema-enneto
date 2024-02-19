@@ -22,12 +22,12 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk mt-3">
-                                        <div class="doctor-search-blk">
+                                        <!-- <div class="doctor-search-blk">
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Desde </label>
                                                 <input class="form-control datetimepicker controlSelectFecha"
                                                     type="text" matInput [(ngModel)]="fechaInicio"
-                                                    [matDatepicker]="picker1" (ngModelChange)="obtenerGastos()"
+                                                    [matDatepicker]="picker1" (ngModelChange)="obtenerGastoss()"
                                                     placeholder="Ingrese una Fecha de Inicio">
                                                 <mat-datepicker #picker1></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
@@ -38,7 +38,7 @@
                                                 <label>Hasta </label>
                                                 <input class="form-control datetimepicker controlSelectFecha"
                                                     type="text" matInput [(ngModel)]="fechaFin"
-                                                    [matDatepicker]="picker2" (ngModelChange)="obtenerGastos()"
+                                                    [matDatepicker]="picker2" (ngModelChange)="obtenerGastoss()"
                                                     placeholder="Ingrese una Fecha de Fin">
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
@@ -50,7 +50,7 @@
                                                 <mat-select [(ngModel)]="gastoSeleccionada"
                                                     class="form-control select controlSelectCorto"
                                                     placeholder="Seleccione una Sede"
-                                                    (ngModelChange)="obtenerGastos()">
+                                                    (ngModelChange)="obtenerGastoss()">
                                                     <mat-option value="todos"> Todos </mat-option>
                                                     <mat-option *ngFor="let sede of tiposGasto" [value]="sede.conceptoGastoId">
                                                         {{sede.nombre}}
@@ -63,7 +63,7 @@
                                                 <mat-select [(ngModel)]="estadoSeleccionado"
                                                     class="form-control select controlSelect"
                                                     placeholder="Seleccione un Estado"
-                                                    (ngModelChange)="obtenerGastos()">
+                                                    (ngModelChange)="obtenerGastoss()">
                                                     <mat-option value="todos"> Todos </mat-option>
                                                     <mat-option *ngFor="let estado of listEstados"
                                                         [value]="estado.conceptoGastoId">
@@ -73,7 +73,7 @@
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

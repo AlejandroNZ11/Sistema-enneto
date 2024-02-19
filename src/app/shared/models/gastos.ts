@@ -37,10 +37,11 @@ export interface DataGastos {
 
 export class GastosResponse {
     descripcion = "";
-    conceptoGastoId = ""; 
+    conceptoGastoNombre = ""
     fecha = "";
     observacion = "";
+    operacion = "";
+    responsable = "";
     monto = "";
-    
 }
 

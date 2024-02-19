@@ -35,7 +35,7 @@ export class EditarTarifarioComponent implements OnInit {
   tipoconcepto_LISTA: Array<ItipoConcepto> = [];
   form!: FormGroup;
   isFormSubmitted = false;
-  tarifarioId = "";
+  
   public mostrarErrores = false;
   medida: Array<string> = [];
   categoria: Array<string> = [];
@@ -43,6 +43,7 @@ export class EditarTarifarioComponent implements OnInit {
   tipoconcepto: Array<string> = [];
   tarifario!: Itarifario;
   grupo: Array<string> = [];
+  
 
 
   constructor(
@@ -75,6 +76,7 @@ export class EditarTarifarioComponent implements OnInit {
     this.tarifarioservice.obtenerTarifario(this.tarifarioSeleccionada!).subscribe(tarifario=>{
       this.tarifario=tarifario;
       this.form.patchValue({
+
         descripcion: this.tarifario.descripcion,
         precio: this.tarifario.precio,
         fechaRegistro: this.tarifario.fechaRegistro,
@@ -121,17 +123,20 @@ export class EditarTarifarioComponent implements OnInit {
     this.bsModalRef.hide();
   }
   
-
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}/${mes}/${anio}`;
+  }
   
   editarTarifario() {
-    console.log('funciona')
-    if (!this.tarifarioId || this.form.invalid) {
+    
+    if (!this.tarifario || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
-    
+    console.log('funciona')
     const tarifarioActualizada: Itarifario = {
-      tarifarioId: this.tarifarioId,
+      tarifarioId: this.tarifario.tarifarioId,
       grupo: this.form.value.grupo,
       medidaId: this.form.value.medida,
       categoriaId: this.form.value.categoria,
