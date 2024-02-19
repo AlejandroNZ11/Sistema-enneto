@@ -26,29 +26,29 @@ export class GastosComponent implements OnInit {
   public GastosList: Array<Igastos> = [];
   dataSource!: MatTableDataSource<Igastos>;
   gastoSeleccionado: Gastos = new Gastos();
-  public gasto = '';
-  public tipoGasto = '';
+  //public gasto = '';
+  //public tipoGasto = '';
   columnas: string[] = []
   acciones: string[] = []
   pageSize = PageSize.size;
   totalData = 0;
-  public totalPages = 0;
+  //public totalPages = 0;
   skip = 0;
   serialNumberArray: Array<number> = [];
-  public pageSelection: Array<pageSelection> = [];
+  //public pageSelection: Array<pageSelection> = [];
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  isLoading = false;
-  tiposGasto!: IConceptoGasto[];
-  fechaInicio = new Date();
-  fechaFin = new Date();
-  estadoSeleccionado = 'todos';
-  gastoSeleccionada='todos';
-  @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
-  mostrarOpciones = false;
-  listGastoFiltrados!: IConceptoGasto[]
-  listEstados!: IConceptoGasto[];
+  // isLoading = false;
+  // tiposGasto!: IConceptoGasto[];
+  // fechaInicio = new Date();
+  // fechaFin = new Date();
+  // estadoSeleccionado = 'todos';
+  // gastoSeleccionada='todos';
+  // @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
+  // mostrarOpciones = false;
+  // listGastoFiltrados!: IConceptoGasto[]
+  // listEstados!: IConceptoGasto[];
 
   constructor(
     private modalService: BsModalService, 
@@ -176,43 +176,43 @@ export class GastosComponent implements OnInit {
   //   })
   // }
 
-  buscargasto() {
-    const searchInput = this.multiGastoSearchInput.nativeElement.value
-      ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
-      : '';
-    this.mostrarOpciones = searchInput.length >= 3;
-    if (this.mostrarOpciones) {
-      if (!this.listGastoFiltrados) {
-        this.listGastoFiltrados = [...this.tiposGasto];
-      }
-      this.tiposGasto = this.listGastoFiltrados.filter((conceptogasto) => {
-        const nombres = conceptogasto.nombre.toLowerCase();
-        if (!searchInput) {
-          return true;
-        }
-        return nombres.includes(searchInput);
-      });
-    }
-  }
-  private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.serialNumberArray = [];
-    this.totalPages = totalData / pageSize;
-    if (this.totalPages % 1 != 0) {
-      this.totalPages = Math.trunc(this.totalPages + 1);
-    }
-    for (let i = 1; i <= this.totalPages; i++) {
-      const limit = pageSize * i;
-      const skip = limit - pageSize;
-      this.serialNumberArray.push(i);
-      this.pageSelection.push({ skip: skip, limit: limit });
-    }
-  }
+  // buscargasto() {
+  //   const searchInput = this.multiGastoSearchInput.nativeElement.value
+  //     ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
+  //     : '';
+  //   this.mostrarOpciones = searchInput.length >= 3;
+  //   if (this.mostrarOpciones) {
+  //     if (!this.listGastoFiltrados) {
+  //       this.listGastoFiltrados = [...this.tiposGasto];
+  //     }
+  //     this.tiposGasto = this.listGastoFiltrados.filter((conceptogasto) => {
+  //       const nombres = conceptogasto.nombre.toLowerCase();
+  //       if (!searchInput) {
+  //         return true;
+  //       }
+  //       return nombres.includes(searchInput);
+  //     });
+  //   }
+  // }
+  // private calculateTotalPages(totalData: number, pageSize: number): void {
+  //   this.serialNumberArray = [];
+  //   this.totalPages = totalData / pageSize;
+  //   if (this.totalPages % 1 != 0) {
+  //     this.totalPages = Math.trunc(this.totalPages + 1);
+  //   }
+  //   for (let i = 1; i <= this.totalPages; i++) {
+  //     const limit = pageSize * i;
+  //     const skip = limit - pageSize;
+  //     this.serialNumberArray.push(i);
+  //     this.pageSelection.push({ skip: skip, limit: limit });
+  //   }
+  // }
   
   
   
 
-  formatoFecha(fecha:string) :string{
-    const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
-    return `${dia}-${mes}-${anio}`;
-  }
+  // formatoFecha(fecha:string) :string{
+  //   const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
+  //   return `${dia}-${mes}-${anio}`;
+  // }
 }
