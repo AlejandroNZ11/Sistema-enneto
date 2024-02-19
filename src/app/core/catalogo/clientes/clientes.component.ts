@@ -36,7 +36,6 @@ export class ClientesComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('Clientes');
     this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
   }
 
   refreshData() {
