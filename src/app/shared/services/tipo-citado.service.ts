@@ -20,14 +20,14 @@ export class TipoCitadoService {
     return this.http.get<ItipoCitado[]>(`${this.apiUrl}/TiposCitado/GetTipoCitadoList`);
   }
   crearTipoCitado(tipoCitado: tipoCitado): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/TiposCitado/SaveTipoCitado', tipoCitado).pipe(
+    return this.http.post<successResponse>(`${this.apiUrl}/TiposCitado/SaveTipoCitado`, tipoCitado).pipe(
       catchError(error => {
-        console.error('Error en la solicitud:', error);
-        Swal.fire('Error', 'Ocurrió un error al guardar el Tipo Citado', 'warning');
-        return throwError(() => error);
+      console.error('Error en la solicitud:', error);
+      Swal.fire('Error', 'Ocurrió un error al guardar el Tipo Citado', 'warning');
+      return throwError(() => error);
       })
-    );
-  }  
+  );
+  } 
   obtenerTipoCitadoById(tipoCitadoId: string): Observable<ItipoCitado> {
     return this.http.get<ItipoCitado>(`${this.apiUrl}/TiposCitado/GetTipoCitado/${tipoCitadoId}`);
   }
