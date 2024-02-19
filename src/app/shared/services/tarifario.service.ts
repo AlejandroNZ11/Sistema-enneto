@@ -14,9 +14,20 @@ export class TarifarioService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient,) {}
 
-    obtenerTarifarios(clinicaId: string, page: number, rows: number): Observable<DataTarifario> {
+    obtenerTarifarios(clinicaId: string, page: number, rows: number ): Observable<DataTarifario> {
         return this.http.get<DataTarifario>(this.apiUrl + `/Tarifarios/GetAllTarifario?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    
     }
+    obtenerregistro(page: number, rows: number,fechaRegistro?: string,): Observable<DataTarifario> {
+        let url = `${this.apiUrl}/Tarifarios/GetAllTarifario?page=${page}&rows=${rows}`;
+        if (fechaRegistro && fechaRegistro != '') {
+            url += `&fechaRegistro=${fechaRegistro}`;
+          }
+
+          return this.http.get<DataTarifario>(url);
+    
+    }
+    
     crearTarifario(tarifario: tarifario): Observable<successResponse> {
     return this.http.post<successResponse>(this.apiUrl + '/Tarifarios/SaveTarifario', tarifario).pipe(
         catchError(error => {
@@ -36,7 +47,7 @@ export class TarifarioService {
         return this.http.put<successResponse>(this.apiUrl + `/Tarifarios/UpdateTarifario/${tarifario.tarifarioId}`, tarifario).pipe(
             catchError(error => {
                 console.error('Error en la solicitud:', error);
-                Swal.fire('Error', 'Ocurrió un error al guardar el Tipo Citado', 'warning');
+                Swal.fire('Error', 'Ocurrió un error al actualizar el Tarifario', 'warning');
                 return throwError(() => error);
             })
         );

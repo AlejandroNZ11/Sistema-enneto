@@ -67,7 +67,7 @@
                     <span class="checkmark"></span>
                     </label>
                 </div>
-                <div *ngIf="numeroDiente$==='18'" class="remember-me">
+                <div *ngIf="dientesOclusales.includes(numeroDiente$!)" class="remember-me">
                   <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Oclusal
                   <input type="checkbox" name="checkboxOclusal" [(ngModel)]="checkboxOclusal" (change)="onCheckboxChange()">
                   <span class="checkmark"></span>

@@ -36,7 +36,6 @@ export class ApoderadoComponent implements OnInit {
   ngOnInit() {
     this.columnas = getEntityPropiedades('Apoderado');
     this.acciones = ['Editar', 'Eliminar'];
-    this.getTableData(this.currentPage, this.pageSize);
   }
 
   refreshData() {
