@@ -12,6 +12,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
   hallazgo$?:string;
   numeroDiente$?:string;
 
+  dientesOclusales:string[] =['18','17','16','15','14','24','25','26','27','28','38','37','36','35','34','44','45','46','47','48']
 
   @ViewChild('myCanvasModal', { static: true })
   myCanvasModal!: ElementRef<HTMLCanvasElement>;
