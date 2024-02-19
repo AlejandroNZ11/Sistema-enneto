@@ -111,6 +111,7 @@ export class AgregarTarifarioComponent implements OnInit {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
+  
   Cancelar() {
     this.tarifarioAgregada$.next(false);
     this.bsModalRef.hide()
