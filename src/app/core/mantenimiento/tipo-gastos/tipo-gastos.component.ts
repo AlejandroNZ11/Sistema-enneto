@@ -118,7 +118,7 @@ export class TipoGastosComponent implements OnInit {
         this.tipoGastosService.eliminarConceptoGasto(conceptoGastoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Concepto de Gasto eliminado en el sistema correctamente.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
