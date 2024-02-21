@@ -1,0 +1,189 @@
+
+<div  class="content">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+<!-- form -->
+          <div class="row">
+
+              <div class="form-heading">
+                <h4>Agregar Hallazgo</h4>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label>Hallazgo <span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" [disabled]="true" [(ngModel)]="hallazgo$">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group local-forms">
+                  <label>N° de Diente <span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label>Siglas<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" value="Siglas" [disabled]="true">
+                </div>
+              </div>
+          </div>
+
+          <div class="row d-flex flex-nowrap  align-items-center ">
+
+            <div class="col-md-4">
+              <canvas  #myCanvasModal width="150" height="150" ></canvas>
+            </div>
+            <div class="col-12 col-sm-12">
+              <div class="profile-check-blk form-group">
+                <!-- <div class="remember-me">
+                  <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Todos
+                  <input type="checkbox" name="checkboxPrincipal" [(ngModel)]="checkboxPrincipal" (change)="onCheckboxChange()">
+                  <span class="checkmark"></span>
+                  </label>
+              </div> -->
+                  <div class="remember-me d-flex" style="font-size: 13px;">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Vestibular
+                      <input type="checkbox" name="checkboxVestibular" [(ngModel)]="checkboxVestibular" (change)="onCheckboxChange('checkboxVestibular')">
+                      <span class="checkmark"></span>
+                      </label>
+                      <div *ngIf="checkboxVestibular" >
+                        <div class="form-check-inline" style="padding-left: 8px;">
+                          <label class="form-check-label">
+                              <input type="radio"
+
+                                  class="form-check-input" name="checkVestibularEstado" [value]="checkVestibularBueno" (change)="onCheckboxRadio('checkVestibularEstado')">Buen Estado
+                          </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio"
+                            [value]="checkVestibularMalo" (change)="onCheckboxRadio2('checkVestibularEstado')"
+                                class="form-check-input" name="checkVestibularEstado" >Mal Estado
+                        </label>
+                    </div>
+                      </div>
+
+                  </div>
+                  <div class="remember-me d-flex" style="font-size: 13px;">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Palatino
+                      <input type="checkbox" name="checkboxPalatino" [(ngModel)]="checkboxPalatino" (change)="onCheckboxChange('checkboxPalatino')">
+                      <span class="checkmark"></span>
+                      </label>
+
+                      <div *ngIf="checkboxPalatino" >
+                        <div class="form-check-inline" style="padding-left: 8px;">
+                          <label class="form-check-label">
+                              <input type="radio"
+
+                                  class="form-check-input" name="checkPalatinoEstado" [value]="checkPalatinoBueno" (change)="onCheckboxRadio('checkPalatinoEstado')">Buen Estado
+                          </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio"
+                            [value]="checkPalatinoMalo" (change)="onCheckboxRadio2('checkPalatinoEstado')"
+                                class="form-check-input" name="checkPalatinoEstado" >Mal Estado
+                        </label>
+                    </div>
+                      </div>
+
+                  </div>
+                  <div class="remember-me d-flex" style="font-size: 13px;">
+                      <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Distal
+                      <input type="checkbox" name="checkboxDistal" [(ngModel)]="checkboxDistal" (change)="onCheckboxChange('checkboxDistal')">
+                      <span class="checkmark"></span>
+                      </label>
+
+                      <div *ngIf="checkboxDistal" >
+                        <div class="form-check-inline" style="padding-left: 8px;">
+                          <label class="form-check-label">
+                              <input type="radio"
+
+                                  class="form-check-input" name="checkDistalEstado" [value]="checkDistalBueno" (change)="onCheckboxRadio('checkDistalEstado')">Buen Estado
+                          </label>
+                      </div>
+                      <div class="form-check-inline">
+                        <label class="form-check-label">
+                            <input type="radio"
+                            [value]="checkDistalMalo" (change)="onCheckboxRadio2('checkDistalEstado')"
+                                class="form-check-input" name="checkDistalEstado" >Mal Estado
+                        </label>
+                    </div>
+                      </div>
+                  </div>
+                  <div class="remember-me d-flex" style="font-size: 13px;">
+                    <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Mesial
+                    <input type="checkbox" name="checkboxMesial" [(ngModel)]="checkboxMesial" (change)="onCheckboxChange('checkboxMesial')">
+                    <span class="checkmark"></span>
+                    </label>
+
+                    <div *ngIf="checkboxMesial" >
+                      <div class="form-check-inline" style="padding-left: 8px;">
+                        <label class="form-check-label">
+                            <input type="radio"
+
+                                class="form-check-input" name="checkMesialEstado" [value]="checkMesialBueno" (change)="onCheckboxRadio('checkMesialEstado')">Buen Estado
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                      <label class="form-check-label">
+                          <input type="radio"
+                          [value]="checkMesialMalo" (change)="onCheckboxRadio2('checkMesialEstado')"
+                              class="form-check-input" name="checkMesialEstado" >Mal Estado
+                      </label>
+                  </div>
+                    </div>
+                </div>
+                <div *ngIf="dientesOclusales.includes(numeroDiente$!)" class="remember-me d-flex" style="font-size: 13px;">
+                  <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Oclusal
+                  <input type="checkbox" name="checkboxOclusal" [(ngModel)]="checkboxOclusal" (change)="onCheckboxChange('checkboxOclusal')">
+                  <span class="checkmark"></span>
+                  </label>
+
+
+                  <div *ngIf="checkboxOclusal" >
+                    <div class="form-check-inline" style="padding-left: 8px;">
+                      <label class="form-check-label">
+                          <input type="radio"
+
+                              class="form-check-input" name="checkOclusalEstado" [value]="checkOclusalBueno" (change)="onCheckboxRadio('checkOclusalEstado')">Buen Estado
+                      </label>
+                  </div>
+                  <div class="form-check-inline">
+                    <label class="form-check-label">
+                        <input type="radio"
+                        [value]="checkOclusalMalo" (change)="onCheckboxRadio2('checkOclusalEstado')"
+                            class="form-check-input" name="checkOclusalEstado" >Mal Estado
+                    </label>
+                </div>
+                  </div>
+              </div>
+              </div>
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="form-group col-md-12">
+              <label>Diagnostico - Especificaciones</label>
+              <textarea
+                  class="form-control" type="text"
+                  ></textarea>
+          </div>
+          </div>
+          <!-- form cierre -->
+          <div class="col-12">
+            <div class="doctor-submit text-end">
+                <button type="submit"
+                    class="btn btn-primary submit-form me-2" >Guardar</button>
+                <button type="submit"
+                    class="btn btn-primary cancel-form" (click)="cancelar()">Cancelar</button>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
