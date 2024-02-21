@@ -26,29 +26,29 @@ export class GastosComponent implements OnInit {
   public GastosList: Array<Igastos> = [];
   dataSource!: MatTableDataSource<Igastos>;
   gastoSeleccionado: Gastos = new Gastos();
-  //public gasto = '';
-  //public tipoGasto = '';
+  public gasto = '';
+  public tipoGasto = '';
   columnas: string[] = []
   acciones: string[] = []
   pageSize = PageSize.size;
   totalData = 0;
-  //public totalPages = 0;
+  public totalPages = 0;
   skip = 0;
   serialNumberArray: Array<number> = [];
-  //public pageSelection: Array<pageSelection> = [];
+  public pageSelection: Array<pageSelection> = [];
   currentPage = 1;
   bsModalRef?: BsModalRef;
   limit: number = this.pageSize;
-  // isLoading = false;
-  // tiposGasto!: IConceptoGasto[];
-  // fechaInicio = new Date();
-  // fechaFin = new Date();
-  // estadoSeleccionado = 'todos';
-  // gastoSeleccionada='todos';
-  // @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
-  // mostrarOpciones = false;
-  // listGastoFiltrados!: IConceptoGasto[]
-  // listEstados!: IConceptoGasto[];
+  isLoading = false;
+  tiposGasto!: IConceptoGasto[];
+  fechaInicio = new Date();
+  fechaFin = new Date();
+  estadoSeleccionado = 'todos';
+  gastoSeleccionada='todos';
+  @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
+  mostrarOpciones = false;
+  listGastoFiltrados!: IConceptoGasto[]
+  listEstados!: IConceptoGasto[];
 
   constructor(
     private modalService: BsModalService, 
@@ -62,6 +62,7 @@ export class GastosComponent implements OnInit {
     this.columnas = getEntityPropiedades('Gasto');
     this.acciones = ['Editar', 'Eliminar'];
 
+    this.tipogastoservice.obtenerConceptoGastoList().subscribe(data => { this.tiposGasto = data; })
 
   }
   
@@ -90,6 +91,10 @@ export class GastosComponent implements OnInit {
     } else if (accion.accion == 'Eliminar') {
         this.eliminarGasto(accion.fila.gastoId)
     }
+  }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
   getMoreData(pag: Paginacion) {
@@ -156,63 +161,63 @@ export class GastosComponent implements OnInit {
     
   }
 
-  // obtenerGastoss() {
-  //   this.GastosList = [];
-  //   this.serialNumberArray = [];
-  //   this.isLoading = true;
-  //   const inicio = this.fechaInicio.toISOString().split('T')[0]
-  //   const fin = this.fechaFin.toISOString().split('T')[0]
-  //   this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
-  //     finalize(() => this.isLoading = false)
-  //   ).subscribe((data: DataGastos) => {
-  //     this.totalData = data.totalData;
-  //     for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-  //       const serialNumber = index + 1;
-  //       this.serialNumberArray.push(serialNumber);
-  //     }
-  //     this.GastosList = data.data;
-  //     this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
-  //     this.calculateTotalPages(this.totalData, this.pageSize);
-  //   })
-  // }
+  obtenerGastos() {
+    this.GastosList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    const inicio = this.fechaInicio.toISOString().split('T')[0]
+    const fin = this.fechaFin.toISOString().split('T')[0]
+    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataGastos) => {
+      this.totalData = data.totalData;
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.GastosList = data.data;
+      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+      this.calculateTotalPages(this.totalData, this.pageSize);
+    })
+  }
 
-  // buscargasto() {
-  //   const searchInput = this.multiGastoSearchInput.nativeElement.value
-  //     ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
-  //     : '';
-  //   this.mostrarOpciones = searchInput.length >= 3;
-  //   if (this.mostrarOpciones) {
-  //     if (!this.listGastoFiltrados) {
-  //       this.listGastoFiltrados = [...this.tiposGasto];
-  //     }
-  //     this.tiposGasto = this.listGastoFiltrados.filter((conceptogasto) => {
-  //       const nombres = conceptogasto.nombre.toLowerCase();
-  //       if (!searchInput) {
-  //         return true;
-  //       }
-  //       return nombres.includes(searchInput);
-  //     });
-  //   }
-  // }
-  // private calculateTotalPages(totalData: number, pageSize: number): void {
-  //   this.serialNumberArray = [];
-  //   this.totalPages = totalData / pageSize;
-  //   if (this.totalPages % 1 != 0) {
-  //     this.totalPages = Math.trunc(this.totalPages + 1);
-  //   }
-  //   for (let i = 1; i <= this.totalPages; i++) {
-  //     const limit = pageSize * i;
-  //     const skip = limit - pageSize;
-  //     this.serialNumberArray.push(i);
-  //     this.pageSelection.push({ skip: skip, limit: limit });
-  //   }
-  // }
+  buscargasto() {
+    const searchInput = this.multiGastoSearchInput.nativeElement.value
+      ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
+      : '';
+    this.mostrarOpciones = searchInput.length >= 3;
+    if (this.mostrarOpciones) {
+      if (!this.listGastoFiltrados) {
+        this.listGastoFiltrados = [...this.tiposGasto];
+      }
+      this.tiposGasto = this.listGastoFiltrados.filter((conceptogasto) => {
+        const nombres = conceptogasto.nombre.toLowerCase();
+        if (!searchInput) {
+          return true;
+        }
+        return nombres.includes(searchInput);
+      });
+    }
+  }
+  private calculateTotalPages(totalData: number, pageSize: number): void {
+    this.serialNumberArray = [];
+    this.totalPages = totalData / pageSize;
+    if (this.totalPages % 1 != 0) {
+      this.totalPages = Math.trunc(this.totalPages + 1);
+    }
+    for (let i = 1; i <= this.totalPages; i++) {
+      const limit = pageSize * i;
+      const skip = limit - pageSize;
+      this.serialNumberArray.push(i);
+      this.pageSelection.push({ skip: skip, limit: limit });
+    }
+  }
   
   
   
 
-  // formatoFecha(fecha:string) :string{
-  //   const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
-  //   return `${dia}-${mes}-${anio}`;
-  // }
+  formatoFecha(fecha:string) :string{
+    const [anio,mes,dia] =  fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
 }
