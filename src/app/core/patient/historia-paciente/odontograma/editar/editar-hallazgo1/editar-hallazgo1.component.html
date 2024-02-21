@@ -1,0 +1,123 @@
+<div  class="col-12 col-md-12  col-xl-8 w-100 ">
+  <div class="card">
+    <div class="d-flex align-items-center  justify-content-between ">
+      <div class="card-header">
+        <h4 class="card-title d-inline-block">Lista de Hallazgos</h4>
+    </div>
+    <div class="form-heading">
+      <button (click)="agregarHallazgoModal()" class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
+    </div>
+    </div>
+
+      <div class="card-body p-0 table-dash">
+          <div class="table-responsive">
+              <table  class="table mb-0 border-0 datatable custom-table">
+                  <thead>
+                      <tr>
+                          <th >Nombre</th>
+                          <th >Categoria</th>
+                          <th >Diente</th>
+                          <th >Diente Final</th>
+                          <th >Diente</th>
+                          <th >Dibujo</th>
+                          <th >Especificaciones</th>
+
+                          <th></th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of odontogramaPacienteList$">
+                          <td>{{data.hallazgosId}}</td>
+                          <td>{{data.categoria}}</td>
+                          <td>{{data.numeroDiente}}</td>
+                          <td>{{data.dienteFinal}}</td>
+                          <td>Oclusal</td>
+                          <td>{{data.especificacion}}</td>
+                          <td></td>
+                          <td class="text-center  align-middle">
+                            <a href="javascript:;"><img src="assets/img/icons/trash.svg" class="me-2" alt="img" style="width: 25px;"></a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<ng-template #myModal>
+  <div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div>
+                                    <h4>Diente Número: {{numeroDiente$}}</h4>
+                                </div>
+                            </div>
+                            <div class="col col-md-12 col-xl-12">
+                              <div class="col">
+                                <div class="">
+                                    <div class="doctor-search-blk" style="padding-bottom: 25px;">
+                                        <div class="top-nav-search table-search-blk">
+                                                <input type="text" class="form-control" placeholder="Buscar Simbolo"
+                                                >
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div (click)="agregarHallazgo(numeroDiente$,'fijo')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+                          <div class="chat-users chat-user-blk"  >
+                            <div class="user-titles ">
+                                <h5>Macrodoncia</h5>
+                            </div>
+                            <div class="chat-user-icon">
+                                <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+                                <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div (click)="agregarHallazgo(numeroDiente$,'caries')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+                      <div class="chat-users chat-user-blk"  >
+                        <div class="user-titles ">
+                            <h5>Caries Dental</h5>
+                        </div>
+                        <div class="chat-user-icon">
+                            <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+                            <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div (click)="agregarHallazgo(numeroDiente$,'puente')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+                  <div class="chat-users chat-user-blk"  >
+                    <div class="user-titles ">
+                        <h5>Aparato Orto.fijo</h5>
+                    </div>
+                    <div class="chat-user-icon">
+                        <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+                        <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+                    </div>
+                </div>
+
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+</ng-template>

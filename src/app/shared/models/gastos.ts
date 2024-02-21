@@ -37,7 +37,7 @@ export interface DataGastos {
 
 export class GastosResponse {
     descripcion = "";
-    conceptoGastoNombre = ""
+    tipoGasto = ""
     fecha = "";
     observacion = "";
     operacion = "";

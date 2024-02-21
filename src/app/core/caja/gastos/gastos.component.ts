@@ -62,6 +62,7 @@ export class GastosComponent implements OnInit {
     this.columnas = getEntityPropiedades('Gasto');
     this.acciones = ['Editar', 'Eliminar'];
 
+    this.tipogastoservice.obtenerConceptoGastoList().subscribe(data => { this.tiposGasto = data; })
 
   }
   
@@ -90,6 +91,10 @@ export class GastosComponent implements OnInit {
     } else if (accion.accion == 'Eliminar') {
         this.eliminarGasto(accion.fila.gastoId)
     }
+  }
+
+  refreshData() {
+    this.getTableData(this.currentPage, this.pageSize);
   }
 
   getMoreData(pag: Paginacion) {
@@ -156,25 +161,25 @@ export class GastosComponent implements OnInit {
     
   }
 
-  // obtenerGastoss() {
-  //   this.GastosList = [];
-  //   this.serialNumberArray = [];
-  //   this.isLoading = true;
-  //   const inicio = this.fechaInicio.toISOString().split('T')[0]
-  //   const fin = this.fechaFin.toISOString().split('T')[0]
-  //   this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
-  //     finalize(() => this.isLoading = false)
-  //   ).subscribe((data: DataGastos) => {
-  //     this.totalData = data.totalData;
-  //     for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-  //       const serialNumber = index + 1;
-  //       this.serialNumberArray.push(serialNumber);
-  //     }
-  //     this.GastosList = data.data;
-  //     this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
-  //     this.calculateTotalPages(this.totalData, this.pageSize);
-  //   })
-  // }
+  obtenerGastos() {
+    this.GastosList = [];
+    this.serialNumberArray = [];
+    this.isLoading = true;
+    const inicio = this.fechaInicio.toISOString().split('T')[0]
+    const fin = this.fechaFin.toISOString().split('T')[0]
+    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
+      finalize(() => this.isLoading = false)
+    ).subscribe((data: DataGastos) => {
+      this.totalData = data.totalData;
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.GastosList = data.data;
+      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+      this.calculateTotalPages(this.totalData, this.pageSize);
+    })
+  }
 
   buscargasto() {
     const searchInput = this.multiGastoSearchInput.nativeElement.value
