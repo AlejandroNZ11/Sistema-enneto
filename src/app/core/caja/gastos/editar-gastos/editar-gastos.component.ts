@@ -13,6 +13,8 @@ import { BancosService } from 'src/app/shared/services/bancos.service';
 import { Ibancos } from 'src/app/shared/models/bancos';
 import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
+import { SedeService } from 'src/app/shared/services/sede.service';
+import { Isede } from 'src/app/shared/models/sede';
 
 @Component({
   selector: 'app-editar-gastos',
@@ -28,12 +30,14 @@ export class EditarGastosComponent implements OnInit  {
   form!: FormGroup;
   isFormSubmitted = false;
   gastosId = "";
-  sede = '';
+  sedes = '';
   gasto!: Igastos;
   public mostrarErrores = false;
   conceptoGasto: Array<string>=[];
   banco: Array<string>=[];
   cuentaPagar: Array<string>=[];
+  sede_LISTA: Array<Isede> = [];
+  sede: Array<string> = [];
 
 
   constructor(
@@ -46,6 +50,7 @@ export class EditarGastosComponent implements OnInit  {
     public user: UserLoggedService,
     public bsModalRef: BsModalRef,
     private renderer: Renderer2,
+    public sedeService: SedeService
   ){
     this.form = this.formBuilder.group({
       fecha: ['', Validators.required],
@@ -55,7 +60,8 @@ export class EditarGastosComponent implements OnInit  {
       cuentaPagar: ['', Validators.required],
       monto: ['', Validators.required],
       operacion: ['', Validators.required],
-      sede: [{ value: this.user.selectedSucursal.nombre, disabled: true }, [Validators.required, Validators.maxLength(10)]],
+      //sede: [{ value: this.user.selectedSucursal.nombre, disabled: true }, [Validators.required, Validators.maxLength(10)]],
+      sedes: ['', Validators.required],
       responsable: ['', Validators.required],
       observacion: ['', Validators.required],
       estado: ['Activo',[Validators.required]],
@@ -83,7 +89,7 @@ export class EditarGastosComponent implements OnInit  {
       })
     });
 
-    this.sede = this.user.selectedSucursal.nombre;
+    this.sedes = this.user.selectedSucursal.nombre;
 
     this.cuentaservice.obtenerCuentaList().subscribe((data: Icuenta[]) => {
       this.cuentaPagar_LISTA = data;
@@ -94,6 +100,10 @@ export class EditarGastosComponent implements OnInit  {
 
     this.conceptogastoservice.obtenerConceptoGastoList().subscribe((data: IConceptoGasto[]) => {
       this.conceptoGasto_LISTA = data;
+    });
+
+    this.sedeService.obtenerSedesList().subscribe((data: Isede[]) => {
+      this.sede_LISTA = data;
     });
   }
 
