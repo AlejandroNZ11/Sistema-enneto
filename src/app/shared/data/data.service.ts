@@ -538,7 +538,7 @@ export class DataService {
               base: routes.apoderadoCat,
             },
             {
-              menuValue: 'Consentimineto',
+              menuValue: 'Consentimiento',
               route: routes.consentimientoCat,
               base: routes.consentimientoCat,
             },

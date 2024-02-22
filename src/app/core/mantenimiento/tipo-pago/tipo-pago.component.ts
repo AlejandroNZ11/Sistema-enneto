@@ -117,7 +117,7 @@ export class TipoPagoComponent implements OnInit {
         this.tipoPagoService.eliminarTipoPago(tipoPagoId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Tipo de Pago eliminado en el sistema correctamente.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
