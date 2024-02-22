@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { pageSelection } from 'src/app/shared/models/models';
 import { routes } from 'src/app/shared/routes/routes';
 import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import { DataPlanes, Planes, IPlanes } from 'src/app/shared/models/planes';
