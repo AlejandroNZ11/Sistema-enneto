@@ -1,13 +1,29 @@
-<div class="card">
-  <div class="card-body">
-    <main>
-      <canvas #myCanvas width="1200" height="650" >
+<div class="row">
+  <!-- <div class="col-12 col-md-12  col-xl-9"> -->
+    <div class="card">
+      <div class="card-body">
+        <main>
+          <canvas #myCanvas width="1200" height="650" >
 
-      </canvas>
-    </main>
+          </canvas>
+        </main>
 
-  </div>
+      </div>
+    </div>
+  <!-- </div> -->
+  <!-- <div class="col-12 col-lg-12 col-xl-3">
+    <div class="card flex-fill comman-shadow">
+      <div class="card-header">
+          <h4 class="card-title d-inline-block">Recent Appointments</h4> <a class="patient-views float-end">Show all</a>
+      </div>
+      <div class="card-body">
+
+         </div>
+      </div>
+  </div> -->
 </div>
+
+
 
 <ng-template #myModal>
   <div class="content">
@@ -90,6 +106,35 @@
                 </div>
             </div>
         </div>
+
+        <div (click)="agregarHallazgo(numeroDiente,'Restauracion Temporal')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+          <div class="chat-users chat-user-blk"  >
+            <div class="user-titles ">
+                <h5>Restauración Temporal</h5>
+            </div>
+            <div class="chat-user-icon">
+                <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+                <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div (click)="agregarHallazgo(numeroDiente,'Sellantes')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+      <div class="chat-users chat-user-blk"  >
+        <div class="user-titles ">
+            <h5>Sellantes</h5>
+        </div>
+        <div class="chat-user-icon">
+            <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+            <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+        </div>
+    </div>
+</div>
+
+
                 </div>
             </div>
         </div>
