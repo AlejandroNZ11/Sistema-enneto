@@ -7,6 +7,7 @@ import { OdontogramaHallazgosComponent } from '../../odontograma-hallazgos/odont
 import { AgregarHallazgo2Component } from '../../agregar-hallazgo2/agregar-hallazgo2.component';
 import { AgregarHallazgo3Component } from '../../agregar-hallazgo3/agregar-hallazgo3.component';
 import { Subject } from 'rxjs';
+import { AgregarHallazgo4Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo4/agregar-hallazgo4.component';
 
 @Component({
   selector: 'app-editar-hallazgo1',
@@ -96,7 +97,7 @@ export class EditarHallazgo1Component implements OnInit {
         hallazgoAgregado$.unsubscribe();
       })
     }
-    else{
+    else if(hallazgo==='puente'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
@@ -105,6 +106,28 @@ export class EditarHallazgo1Component implements OnInit {
 
 
       this.bsModalRef = this.modalService.show(AgregarHallazgo3Component, { initialState});
+
+      const hallazgoAgregado$ = new Subject<boolean>();
+
+      this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+      hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+        if(pacienteAlergiaEditado){
+          console.log("Traer data odontograma paciente")
+        }
+      });
+      this.bsModalRef.onHidden?.subscribe(()=>{
+        hallazgoAgregado$.unsubscribe();
+      })
+    }
+    else if(hallazgo==='Restauracion Definitiva'){
+      this.modalRef.hide();
+      const initialState ={
+      numeroDiente$:numeroDiente,
+      hallazgo$:hallazgo
+      }
+
+
+      this.bsModalRef = this.modalService.show(AgregarHallazgo4Component, { initialState});
 
       const hallazgoAgregado$ = new Subject<boolean>();
 

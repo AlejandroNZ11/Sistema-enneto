@@ -24,15 +24,15 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group local-forms">
-                  <label>Estado<span class="login-danger">*</span></label>
-                  <input class="form-control" type="text" value="Buen Estado" [disabled]="true">
+                  <label>Siglas<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" value="Siglas" [disabled]="true">
                 </div>
               </div>
           </div>
 
           <div class="row d-flex flex-nowrap  align-items-center ">
 
-            <div class="col-md-6">
+            <div class="col-md-4">
               <canvas  #myCanvasModal width="150" height="150" ></canvas>
             </div>
             <div class="col-12 col-sm-12">
@@ -43,7 +43,7 @@
                   <span class="checkmark"></span>
                   </label>
               </div> -->
-                  <div class="remember-me">
+                  <div class="remember-me " style="font-size: 13px;">
                       <label class="custom_check mr-2 mb-0 d-inline-flex remember-me"> Vestibular
                       <input type="checkbox" name="checkboxVestibular" [(ngModel)]="checkboxVestibular" (change)="onCheckboxChange()">
                       <span class="checkmark"></span>

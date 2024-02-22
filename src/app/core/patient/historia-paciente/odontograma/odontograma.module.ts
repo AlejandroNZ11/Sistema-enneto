@@ -10,6 +10,7 @@ import { AgregarHallazgo3Component } from './agregar-hallazgo3/agregar-hallazgo3
 import { EditarHallazgo1Component } from './editar/editar-hallazgo1/editar-hallazgo1.component';
 import { EditarHallazgo2Component } from './editar/editar-hallazgo2/editar-hallazgo2.component';
 import { EditarHallazgo3Component } from './editar/editar-hallazgo3/editar-hallazgo3.component';
+import { AgregarHallazgo4Component } from './agregar-hallazgo-odontograma/agregar-hallazgo4/agregar-hallazgo4.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { EditarHallazgo3Component } from './editar/editar-hallazgo3/editar-halla
     AgregarHallazgo3Component,
     EditarHallazgo1Component,
     EditarHallazgo2Component,
-    EditarHallazgo3Component
+    EditarHallazgo3Component,
+    AgregarHallazgo4Component
   ],
   imports: [
     CommonModule,

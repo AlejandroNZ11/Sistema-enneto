@@ -50,10 +50,11 @@ export class EditarClienteComponent implements OnInit {
 
   ngOnInit() {
     this.clientesService.obtenerCliente(this.clienteSeleccionado!).subscribe(cliente => {
+      console.log("Cliente cargado:", cliente);
       this.cliente = cliente;
       this.form.patchValue({
         nombre: this.cliente.nombre,
-        tipoDocumentoIdentidadId: this.mapTipoDocumento(this.cliente.tipoDocumentoIdentidadId),
+        tipoDocumentoIdentidadId: this.cliente.tipoDocumentoIdentidadId,
         numeroDocumento: this.cliente.numeroDocumento,
         direccion: this.cliente.direccion,
         contacto: this.cliente.contacto, 
@@ -97,16 +98,6 @@ export class EditarClienteComponent implements OnInit {
     });
   }
 
-  mapTipoDocumento(tipoDocumentoIdentidadId: string): string {
-    switch (tipoDocumentoIdentidadId) {
-      case '1': return '01';
-      case '2': return '06';
-      case '3': return '07';
-      case '4': return '04';
-      case '5': return '00';
-      default: return '';
-    }
-  }
 
   soloNumeros(event: KeyboardEvent): void {
     const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
