@@ -92,7 +92,7 @@ export class DiagnosticoComponent {
         this.diagnosticoService.eliminarDiagnostico(enfermedadId).subscribe(
           (response) => {
             if (response.isSuccess) {
-              Swal.fire('Correcto', 'Diagnostico Eliminado en el sistema correctamente.', 'success');
+              Swal.fire(response.message,'', 'success');
               this.getTableData(this.currentPage, this.pageSize);
               return;
             } else {
@@ -101,7 +101,6 @@ export class DiagnosticoComponent {
           },
           (error) => {
             console.error(error);
-            Swal.fire('Error', 'Ocurrió un error al eliminar diagnostico', 'error');
           });
       } else {
         return;
