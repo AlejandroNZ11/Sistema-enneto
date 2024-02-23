@@ -112,6 +112,22 @@
                                 <label>Sede<span class="login-danger">*</span></label>
                                 <input class="form-control" type="text" name="sede" formControlName="sede">
                             </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Sedes <span class="login-danger">*</span></label>
+                                    <mat-select formControlName="sedes" class="form-control select"
+                                        placeholder="Seleccione Sede" [ngClass]="{'is-invalid': isInvalid('sedes') && isFormSubmitted}" isSelectDisabled>
+                                        <mat-option *ngFor="let data of sede_LISTA" [value]="data.sedeId">
+                                            {{data.nombre}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <div *ngIf="isInvalid('sedes') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('sedes')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-md-12 col-xl-12">
                                 <div class="form-group local-forms">
                                     <label>Responsable<span class="login-danger">*</span></label>

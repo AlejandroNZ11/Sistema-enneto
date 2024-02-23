@@ -6,11 +6,14 @@ import { PlanesService } from 'src/app/shared/services/planes.servicie';
 import Swal from 'sweetalert2';
 import { Planes} from 'src/app/shared/models/planes';
 import { Subject } from 'rxjs';
+import { DatePipe } from '@angular/common'; 
 @Component({
   selector: 'app-agregar-plan',
   templateUrl: './agregar-plan.component.html',
-  styleUrls: ['./agregar-plan.component.scss']
+  styleUrls: ['./agregar-plan.component.scss'],
+  providers: [DatePipe]
 })
+
 export class AgregarPlanComponent {
   planAgregada$: Subject<boolean> = new Subject<boolean>();
   Plan:Planes = new Planes();
@@ -23,7 +26,8 @@ export class AgregarPlanComponent {
     private renderer: Renderer2,
     public bsModalRef: BsModalRef, 
     private service: PlanesService, 
-    public fb: FormBuilder) {
+    public fb: FormBuilder,
+    private datePipe: DatePipe) {
     this.form = this.fb.group({
       nombrePlan: ['', Validators.required],
       costoPlan: ['', Validators.required],
@@ -64,11 +68,16 @@ export class AgregarPlanComponent {
   }
   crearPlan() {
     if (this.form.invalid) {
-      this.isTouched()
+      this.isTouched();
       return;
     }
-    this.Plan.fechaInicio = this.form.get("fechaInicio")?.value;
-    this.Plan.fechaFinContrato = this.form.get("fechaFinContrato")?.value;
+  
+
+    const formattedInicio = this.datePipe.transform(this.form.get("fechaInicio")?.value, 'yyyy-MM-ddTHH:mm:ss') || '';
+    const formattedFin = this.datePipe.transform(this.form.get("fechaFinContrato")?.value, 'yyyy-MM-ddTHH:mm:ss') || '';
+
+    this.Plan.fechaInicio = formattedInicio;
+    this.Plan.fechaFinContrato = formattedFin;
     this.Plan.costoPlan = this.form.get("costoPlan")?.value;
     this.Plan.maxPlan = this.form.get("maxPlan")?.value;
     this.Plan.usuMax = this.form.get("usuMax")?.value;

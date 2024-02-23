@@ -22,24 +22,27 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <div class="doctor-table-blk mt-3">
+                                        
                                         <div class="doctor-search-blk">
+                                            <h3>Lista de Gasto</h3>
+                                            
                                             <div class="local-forms top-nav-search table-search-blk">
-                                                <label>Desde </label>
+                                                <label>Fecha de Inicio </label>
                                                 <input class="form-control datetimepicker controlSelectFecha"
-                                                    type="text" matInput [(ngModel)]="fechaInicio"
+                                                    type="text" matInput formControlName="fechaInicio"
                                                     [matDatepicker]="picker1" (ngModelChange)="obtenerGastos()"
-                                                    placeholder="Ingrese una Fecha de Inicio">
+                                                    placeholder="Desde">
                                                 <mat-datepicker #picker1></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
                                                     [for]="picker1"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
-                                                <label>Hasta </label>
+                                                <label>Fecha de Fin</label>
                                                 <input class="form-control datetimepicker controlSelectFecha"
-                                                    type="text" matInput [(ngModel)]="fechaFin"
+                                                    type="text" matInput formControlName="fechaFin"
                                                     [matDatepicker]="picker2" (ngModelChange)="obtenerGastos()"
-                                                    placeholder="Ingrese una Fecha de Fin">
+                                                    placeholder="Hasta">
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
                                                     [for]="picker2"></mat-datepicker-toggle>
@@ -47,11 +50,11 @@
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Tipo Gasto</label>
-                                                <mat-select [(ngModel)]="gastoSeleccionada"
+                                                <mat-select formControlName="gastoSeleccionada"
                                                     class="form-control select controlSelectCorto"
-                                                    placeholder="Seleccione una Sede"
+                                                    placeholder="Seleccione Gasto"
                                                     (ngModelChange)="obtenerGastos()">
-                                                    <mat-option value="todos"> Todos </mat-option>
+                                                    <mat-option value="todos">Todos</mat-option>
                                                     <mat-option *ngFor="let sede of tiposGasto" [value]="sede.conceptoGastoId">
                                                         {{sede.nombre}}
                                                     </mat-option>
@@ -60,11 +63,11 @@
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Estado Pago</label>
-                                                <mat-select [(ngModel)]="estadoSeleccionado"
+                                                <mat-select formControlName="estadoSeleccionado"
                                                     class="form-control select controlSelect"
-                                                    placeholder="Seleccione un Estado"
+                                                    placeholder="Seleccione Estado"
                                                     (ngModelChange)="obtenerGastos()">
-                                                    <mat-option value="todos"> Todos </mat-option>
+                                                    <mat-option value="todos">Todos</mat-option>
                                                     <mat-option *ngFor="let estado of listEstados"
                                                         [value]="estado.conceptoGastoId">
                                                         {{estado.nombre}}
@@ -79,7 +82,7 @@
                             </div>
                         </div>
                         <app-tabla [total]="totalData" [data]="GastosList" [indice]="serialNumberArray"
-                            [columns]="columnas" [titulo]="'Lista de Gastos'" [accion]="acciones"
+                            [columns]="columnas" [accion]="acciones"
                             (action)="onAction($event)" (MoreData)="getMoreData($event)">
                         </app-tabla>
                         
