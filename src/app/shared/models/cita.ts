@@ -124,5 +124,5 @@ export interface CitasMedicaPacienteById {
   motivoConsulta:     string;
   fecha:              string;
   fechaFinal:         string;
-  estado:             string;
+  estado:             number;
 }

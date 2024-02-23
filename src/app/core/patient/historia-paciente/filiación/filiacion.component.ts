@@ -442,19 +442,19 @@ actualizarEdad() {
   }
 
   // data historial cita
-  getEstadoInfo(estado: string): { nombre: string, clase: string } {
+  getEstadoInfo(estado: number): { nombre: string, clase: string } {
     let estadoInfo = { nombre: '', clase: '' };
 
     switch (estado) {
-      case '0':
+      case 0:
         estadoInfo.nombre = 'Nuevo';
         estadoInfo.clase = 'custom-badge status-green';
         break;
-      case '1':
+      case 1:
         estadoInfo.nombre = 'Reingreso';
         estadoInfo.clase = 'custom-badge status-orange';
         break;
-      case '2':
+      case 2:
         estadoInfo.nombre = 'Continuador';
         estadoInfo.clase = 'custom-badge status-blue';
         break;

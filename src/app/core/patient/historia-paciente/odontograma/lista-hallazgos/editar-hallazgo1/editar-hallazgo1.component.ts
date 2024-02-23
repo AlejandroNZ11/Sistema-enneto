@@ -10,6 +10,12 @@ import { Subject } from 'rxjs';
 import { AgregarHallazgo4Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo4/agregar-hallazgo4.component';
 import { AgregarHallazgo5Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo5/agregar-hallazgo5.component';
 
+
+interface THallazgo{
+  nombre:string;
+  tipo:string;
+}
+
 @Component({
   selector: 'app-editar-hallazgo1',
   templateUrl: './editar-hallazgo1.component.html',
@@ -29,6 +35,24 @@ export class EditarHallazgo1Component implements OnInit {
 
 
   odontogramaPacienteList$:IodontogramaPaciente[]=[];
+
+  hallazgosList: THallazgo[]=[
+    {nombre:'Macrodoncia', tipo:'fijo'},
+    {nombre:'Caries Dental', tipo:'caries'},
+    {nombre:'Aparato Orto.fijo', tipo:'puente'},
+    {nombre:'Restauración Definitiva', tipo:'Restauracion Definitiva'},
+    {nombre:'Restauración Temporal', tipo:'Restauracion Temporal'},
+    {nombre:'Sellantes', tipo:'Sellantes'},
+
+  ]
+
+  terminoBusqueda: string = '';
+
+get hallazgosFiltrados(): THallazgo[] {
+  return this.hallazgosList.filter(producto =>
+    producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
+  );
+}
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
