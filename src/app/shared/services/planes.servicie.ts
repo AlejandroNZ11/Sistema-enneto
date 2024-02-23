@@ -13,10 +13,10 @@ export class PlanesService {
     constructor(public http: HttpClient) { }
 
     obtenerPlanes(clinicaId: string, page: number, rows: number): Observable<DataPlanes> {
-        return this.http.get<DataPlanes>(this.apiUrl + `/Plan/GetAllPlan?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+        return this.http.get<DataPlanes>(`${this.apiUrl}/Plan/GetAllPlan?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
     }
     crearPlan(planes: Planes): Observable<successResponse> {
-        return this.http.post<successResponse>(this.apiUrl + '/Plan/SavePlan', planes).pipe(
+        return this.http.post<successResponse>(`${this.apiUrl}/Plan/SavePlan`, planes).pipe(
             catchError(error => {
                 console.error('Error en la solicitud:', error);
                 Swal.fire('Error', 'Ocurrió un error al guardar el plan', 'warning');
@@ -25,13 +25,13 @@ export class PlanesService {
         );
     }
     obtenerPlan(planId: string): Observable<IPlanes> {
-        return this.http.get<IPlanes>(this.apiUrl + `/Plan/GetPlan/${planId}`);
+        return this.http.get<IPlanes>(`${this.apiUrl}/Plan/GetPlan/${planId}`);
     }
     eliminarPlan(planId: string): Observable<successResponse> {
-        return this.http.delete<successResponse>(this.apiUrl + `/Plan/DeletePlan/${planId}`);
+        return this.http.delete<successResponse>(`${this.apiUrl}/Plan/DeletePlan/${planId}`);
     }
     actualizarPlan(planes: IPlanes): Observable<successResponse> {
-        return this.http.put<successResponse>(this.apiUrl + `/Plan/UpdatePlan/${planes.planId}`, planes).pipe(
+        return this.http.put<successResponse>(`${this.apiUrl}/Plan/UpdatePlan/${planes.planId}`, planes).pipe(
             catchError(error => {
                 console.error('Error en la solicitud:', error);
                 Swal.fire('Error', 'Ocurrió un error al actualizar el plan', 'warning');
