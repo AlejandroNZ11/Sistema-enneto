@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-tipo-citado.component.scss']
 })
 export class EditarTipoCitadoComponent implements OnInit {
-  tipoCitadoEditada$: Subject<boolean> = new Subject<boolean>();
+  citadoEditada$: Subject<boolean> = new Subject<boolean>();
   tipoCitado: ItipoCitado | undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tipoCitadoSeleccionado: any;
@@ -51,7 +51,7 @@ export class EditarTipoCitadoComponent implements OnInit {
   }
 
   Cancelar() {
-    this.tipoCitadoEditada$.next(false);
+    this.citadoEditada$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -72,7 +72,7 @@ export class EditarTipoCitadoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
-          this.tipoCitadoEditada$.next(true);
+          this.citadoEditada$.next(true);
         } else {
           console.error(response.message);
         }

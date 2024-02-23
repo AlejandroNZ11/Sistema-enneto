@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TarifarioComponent } from './tarifario.component';
 import { TarifarioRoutingModule } from './tarifario-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -9,15 +9,18 @@ import { EditarTarifarioComponent } from './editar-tarifario/editar-tarifario.co
 
 
 @NgModule({
+  
   declarations: [
     TarifarioComponent,
     AgregarTarifarioComponent,
     EditarTarifarioComponent
+    
   ],
   imports: [
     CommonModule,
     TarifarioRoutingModule,
     SharedModule,
-  ]
+  ],
+  providers: [DatePipe],
 })
 export class TarifarioModule { }
