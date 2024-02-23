@@ -116,7 +116,6 @@ export class CitasComponent implements OnInit {
     const medicosSeleccionadosIds = Object.keys(this.medicosSeleccionados).filter(id => this.medicosSeleccionados[id]);
     if (Array.isArray(this.citas)) {
       const citasFiltradas = this.citas.filter(cita => medicosSeleccionadosIds.includes(cita.medicoId.toString()));
-      console.log(citasFiltradas);
       this.events = citasFiltradas;
     }
   }
@@ -164,6 +163,19 @@ export class CitasComponent implements OnInit {
     Object.values(this.form.controls).forEach((control) => {
       control.markAsTouched();
     });
+  }
+  lightenOrDarkenColor(hex: string) {
+    let r = parseInt(hex.substring(1, 3), 16);
+    let g = parseInt(hex.substring(3, 5), 16);
+    let b = parseInt(hex.substring(5, 7), 16);
+    const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
+    let result;
+    if (brightness > 0.5) {
+      result = "#000000"
+    } else {
+      result = "#ffffff";
+    }
+    return result;
   }
 }
 
