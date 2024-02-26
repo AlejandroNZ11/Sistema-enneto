@@ -22,7 +22,7 @@ import { Isede } from 'src/app/shared/models/sede';
   styleUrls: ['./editar-gastos.component.scss']
 })
 export class EditarGastosComponent implements OnInit  {
-  gastosEditada$: Subject<boolean> = new Subject<boolean>();
+  gastoEditada$: Subject<boolean> = new Subject<boolean>();
   gastoSeleccionada: any;
   conceptoGasto_LISTA: Array<IConceptoGasto>=[];
   banco_LISTA: Array<Ibancos>=[];
@@ -30,7 +30,6 @@ export class EditarGastosComponent implements OnInit  {
   form!: FormGroup;
   isFormSubmitted = false;
   gastosId = "";
-  sedes = '';
   gasto!: Igastos;
   public mostrarErrores = false;
   conceptoGasto: Array<string>=[];
@@ -59,9 +58,7 @@ export class EditarGastosComponent implements OnInit  {
       banco: ['', Validators.required],
       cuentaPagar: ['', Validators.required],
       monto: ['', Validators.required],
-      operacion: ['', Validators.required],
-      //sede: [{ value: this.user.selectedSucursal.nombre, disabled: true }, [Validators.required, Validators.maxLength(10)]],
-      sedes: ['', Validators.required],
+      operacion: ['', Validators.required],sedes: ['', Validators.required],
       responsable: ['', Validators.required],
       observacion: ['', Validators.required],
       estado: ['Activo',[Validators.required]],
@@ -82,14 +79,13 @@ export class EditarGastosComponent implements OnInit  {
         cuentaPagar: this.gasto.cuentaPagarId,
         monto: this.gasto.monto,
         operacion: this.gasto.operacion,
-        sede: this.gasto.sedeId,
+        sedes: this.gasto.sedeId,
         responsable: this.gasto.responsable,
         observacion: this.gasto.observacion,
         estado: this.gasto.estado == '1' ? 'Activo' : 'Inactivo',
       })
     });
 
-    this.sedes = this.user.selectedSucursal.nombre;
 
     this.cuentaservice.obtenerCuentaList().subscribe((data: Icuenta[]) => {
       this.cuentaPagar_LISTA = data;
@@ -126,18 +122,18 @@ export class EditarGastosComponent implements OnInit  {
   }
 
   Cancelar() {
-    this.gastosEditada$.next(false);
+    this.gastoEditada$.next(false);
     this.bsModalRef.hide();
   }
 
   guardarGasto() {
-    if (!this.gastosId || this.form.invalid) {
+    if (!this.gasto || this.form.invalid) {
       this.mostrarErrores = true;
       return;
     }
     
     const gastoActualizada: Igastos = {
-      gastoId: this.gastosId,
+      gastoId: this.gasto.gastoId,
       fecha: this.form.value.fecha,
       observacion: this.form.value.observacion,
       descripcion: this.form.value.descripcion,
@@ -146,17 +142,17 @@ export class EditarGastosComponent implements OnInit  {
       bancoId: this.form.value.banco,   
       monto: this.form.value.monto,
       operacion: this.form.value.operacion,
-      sedeId: this.form.value.sede,
+      sedeId: this.form.value.sedes,
       responsable: this.form.value.responsable,
-      estado: this.form.value.estado == '1' ? 'Activo' : 'Inactivo',
+      estado: this.form.value.estado == 'Activo' ? '1' : '0',
     };
 
     this.gastosservice.actualizarGastos(gastoActualizada).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
+          this.gastoEditada$.next(true);
           this.bsModalRef.hide();
-          this.gastosEditada$.next(true);
         } else {
           console.error(response.message);
         }
