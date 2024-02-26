@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-consentimiento-paciente',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./agregar-consentimiento-paciente.component.scss']
 })
 export class AgregarConsentimientoPacienteComponent {
+
+  consentimientoPacienteAgregado$: Subject<boolean> = new Subject<boolean>();
+
 
 }

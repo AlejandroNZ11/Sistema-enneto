@@ -378,9 +378,8 @@ export class OdontogramaInicialComponent implements OnInit{
 
         }
 
-        this.odontogramaService.obtenerOdontogramaPacienteList().subscribe((data)=>{
-          this.odotogramaPacienteList = data.data;
-
+        this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+          this.odotogramaPacienteList = data
 
 
         //* Dibujar data del odontograma del paciente:
@@ -404,8 +403,8 @@ export class OdontogramaInicialComponent implements OnInit{
 
 
           if(numeroDienteSuperior!=-1){
-            console.log("superior:",this.odotogramaPacienteList[index].hallazgosId);
-            if(this.odotogramaPacienteList[index].hallazgosId=== 1 || this.odotogramaPacienteList[index].hallazgosId=== 3){
+            console.log(this.odotogramaPacienteList);
+            if(this.odotogramaPacienteList[index].halllazgosId=== 1 || this.odotogramaPacienteList[index].halllazgosId=== 1){
               this.marcarTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
             }
             else if(this.odotogramaPacienteList[index].hallazgosId===2){
