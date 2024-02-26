@@ -13,6 +13,7 @@ import { Subject } from 'rxjs';
 })
 export class EditarAlergiasComponent  implements OnInit{
   alergiaEditada$: Subject<boolean> = new Subject<boolean>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   alergiaSeleccionada: any;
   Alergia!: Ialergias;
   public routes = routes;
@@ -36,6 +37,15 @@ export class EditarAlergiasComponent  implements OnInit{
       estado: ['Activo', Validators.required],
     });
   }
+
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && control?.touched;

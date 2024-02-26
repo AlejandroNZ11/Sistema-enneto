@@ -1,1 +1,159 @@
-<p>consentimiento works!</p>
+<div class="card">
+  <div class="card-body">
+    <div class="row" data-select2-id="46" style="align-items: baseline;">
+      <div class="col-md-2">
+        <div class="form-group local-forms">
+          <label>Desde<span class="login-danger">*</span></label>
+          <input  style='height:48px' class="form-control datetimepicker" type="text"
+            placeholder="" matInput [matDatepicker]="pickerDesde">
+          <mat-datepicker #pickerDesde matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerDesde" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group local-forms">
+          <label>Hasta<span class="login-danger">*</span></label>
+          <input  style='height:48px' class="form-control datetimepicker" type="text"
+            placeholder="" matInput [matDatepicker]="pickerHasta">
+          <mat-datepicker #pickerHasta matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+          <mat-datepicker-toggle matIconSuffix [for]="pickerHasta" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+
+        </div>
+      </div>
+
+
+
+      <div class="col-md-5">
+        <div class="form-group local-forms">
+          <label>Tipo Consentimiento<span class="login-danger">*</span></label>
+          <mat-select  class="form-control select" placeholder="Seleccione un tipo consentimiento">
+            <mat-option *ngFor="let data of consentimientoList" [value]="data">
+              {{data}}
+            </mat-option>
+          </mat-select>
+
+        </div>
+      </div>
+
+    <div class="col-md-3">
+      <div class="doctor-search-blk">
+                   <div class="form-heading" >
+                     <button class="btn btn-primary submit-form me-2" (click)="crearConsentimientoPaciente()"><i class="fa-solid fa-plus" style="padding-right: 10px;" ></i>Agregar</button>
+                   </div>
+               </div>
+     </div>
+    </div>
+
+
+    <div  class="table-responsive">
+      <table matSort (matSortChange)="sortData($event)"
+          class="table border-0 custom-table comman-table datatable mb-0">
+          <thead>
+              <tr>
+                <th mat-sort-header="numero">Nº</th>
+                <th mat-sort-header="Fecha">Fecha</th>
+                  <th mat-sort-header="Medico">Medico</th>
+                  <th mat-sort-header="Tipo">Tipo</th>
+                  <!-- <th mat-sort-header="specialization">Especializacion</th> -->
+                  <th></th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let data of pacienteConsentimientoList let i = index">
+                <td>{{serialNumberArray[i]}}</td>
+                  <td>{{data.fecha}}</td>
+                  <td>{{data.medicoId}}</td>
+                  <td>{{data.tipoConsentimientoId}}</td>
+                  <td class="text-end">
+                    <div class="dropdown dropdown-action">
+                      <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                      <div class="dropdown-menu dropdown-menu-end">
+                        <a class="dropdown-item" href="javascript:void(0);"><i
+                            class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
+                        <a class="dropdown-item" href="javascript:void(0);" ><i
+                            class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
+                      </div>
+                    </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <div class="table_footer">
+          <div class="col-sm-12 col-md-5">
+              <div class="dataTables_info">
+                  Showing {{ serialNumberArray[0] }} to
+                  {{ serialNumberArray[serialNumberArray.length - 1] }} of
+                  {{ totalData }} entries
+              </div>
+          </div>
+
+          <div class="col-sm-12 col-md-7">
+              <div class="pagination_section">
+                  <ul class="pagination">
+                      <li class="page-item" [ngClass]="{
+                    disabled: currentPage === 1
+                  }">
+                          <a (click)="getMoreData('previous')" class="page-link"
+                              href="javascript:void(0);" tabindex="-1">Previous</a>
+                      </li>
+
+                      <ng-container *ngFor="let item of pageNumberArray; let i = index">
+                          <li class="page-item" [class.active]="item === currentPage" [ngClass]="
+                      (pageNumberArray[currentPage - 2] > item &&
+                        item !== 1 &&
+                        pageNumberArray.length > 6) ||
+                      (pageNumberArray[currentPage] < item &&
+                        item !== 1 &&
+                        pageNumberArray.length > 6 &&
+                        pageNumberArray.length !== item)
+                        ? 'hide-page-no'
+                        : 'show-page-no'
+                    ">
+                              <a (click)="moveToPage(item)" class="page-link"
+                                  href="javascript:void(0);">
+                                  {{ item }}
+                              </a>
+                          </li>
+                          <li class="page-item" *ngIf="
+                      i === 0 &&
+                      pageNumberArray.length > 6 &&
+                      currentPage > 2
+                    " [hidden]="currentPage === 1" (click)="moveToPage(currentPage - 2)">
+                              <a class="page-link" href="javascript:void(0);">
+                                  ...
+                              </a>
+                          </li>
+                          <li *ngIf="
+                      i === pageNumberArray.length - 2 &&
+                      pageNumberArray.length > 6
+                    " [hidden]="
+                      currentPage >=
+                        pageNumberArray[pageNumberArray.length - 2] ||
+                      totalData <
+                        serialNumberArray[serialNumberArray.length - 1]
+                    " class="page-item" (click)="moveToPage(currentPage + 2)">
+                              <a class="page-link" href="javascript:void(0);">
+                                  ...
+                              </a>
+                          </li>
+                      </ng-container>
+
+                      <li class="page-item" [ngClass]="{
+                    disabled:
+                      currentPage ===
+                        pageNumberArray[pageNumberArray.length - 1] ||
+                        pacienteConsentimientoList.length === 0
+                  }">
+                          <a (click)="getMoreData('next')" class="page-link"
+                              href="javascript:void(0);">Next
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+</div>

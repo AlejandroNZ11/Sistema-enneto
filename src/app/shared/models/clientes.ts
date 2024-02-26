@@ -8,7 +8,7 @@ export class Clientes {
     contacto = "";
     telefono = "";
     email = "";
-    estado = "";
+    estado!:number;
 }
 export interface IClientes {
     clienteId: string;

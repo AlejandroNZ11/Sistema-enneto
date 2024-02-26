@@ -64,7 +64,7 @@
                                     <div class="doctor-search-blk" style="padding-bottom: 25px;">
                                         <div class="top-nav-search table-search-blk">
                                                 <input type="text" class="form-control" placeholder="Buscar Simbolo"
-                                                >
+                                                [(ngModel)]="terminoBusqueda">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                         </div>
                                     </div>
@@ -73,72 +73,28 @@
                         </div>
                       </div>
 
-                      <div (click)="agregarHallazgo(numeroDiente$,'fijo')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+                      <div style="max-height: 300px;
+                      overflow-y: auto; " *ngIf="hallazgosFiltrados.length > 0; else noResultados">
 
-                          <div class="chat-users chat-user-blk"  >
-                            <div class="user-titles ">
-                                <h5>Macrodoncia</h5>
-                            </div>
-                            <div class="chat-user-icon">
-                                <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
-                                <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
-                            </div>
-                        </div>
+              <div *ngFor="let hallazgo of hallazgosFiltrados" (click)="agregarHallazgo(numeroDiente$,hallazgo.tipo)"
+                class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
 
-                    </div>
-
-                    <div (click)="agregarHallazgo(numeroDiente$,'caries')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
-
-                      <div class="chat-users chat-user-blk"  >
-                        <div class="user-titles ">
-                            <h5>Caries Dental</h5>
-                        </div>
-                        <div class="chat-user-icon">
-                            <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
-                            <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div (click)="agregarHallazgo(numeroDiente$,'puente')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
-
-                  <div class="chat-users chat-user-blk"  >
-                    <div class="user-titles ">
-                        <h5>Aparato Orto.fijo</h5>
-                    </div>
-                    <div class="chat-user-icon">
-                        <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
-                        <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
-                    </div>
-                </div>
-            </div>
-
-
-            <div (click)="agregarHallazgo(numeroDiente$,'Restauracion Definitiva')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
-
-              <div class="chat-users chat-user-blk"  >
-                <div class="user-titles ">
-                    <h5>Restauración Definitiva</h5>
-                </div>
-                <div class="chat-user-icon">
+                <div class="chat-users chat-user-blk">
+                  <div class="user-titles ">
+                    <h5>{{ hallazgo.nombre }}</h5>
+                  </div>
+                  <div class="chat-user-icon">
                     <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
-                    <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
+                    <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg" alt="img"></a>
+                  </div>
                 </div>
-            </div>
-        </div>
-        <div (click)="agregarHallazgo(numeroDiente$,'Restauracion Temporal')" class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
 
-          <div class="chat-users chat-user-blk"  >
-            <div class="user-titles ">
-                <h5>Restauración Temporal</h5>
+              </div>
+
             </div>
-            <div class="chat-user-icon">
-                <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
-                <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg"  alt="img"></a>
-            </div>
-        </div>
-    </div>
+            <ng-template #noResultados>
+              <p>No se encontraron resultados para "{{ terminoBusqueda }}"</p>
+            </ng-template>
                 </div>
             </div>
         </div>

@@ -1,0 +1,43 @@
+{
+  "data":[
+    {
+      "clinicaId": "D30C2D1E-E883-4B2D-818A-6813E15046E6",
+      "usuarioId": "string",
+      "pacienteConsentimientoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pacienteId": "c678c105-b9d5-45fe-aa25-08dc28df1a99",
+      "tipoConsentimientoId": 1,
+      "cuerpo": "string",
+      "fecha": "2019-01-06T17:16:40Z",
+      "hora": {
+        "ticks": 1
+      },
+      "apoderadoNombre": "string",
+      "apoderadoDocumento": "string",
+      "apoderadoDireccion": "string",
+      "pacienteRelacionadoId": 0,
+      "medicoId": 0,
+      "estado": 0,
+      "firma": "8-1707409634.png"
+    },
+    {
+      "clinicaId": "D30C2D1E-E883-4B2D-818A-6813E15046E6",
+      "usuarioId": "string",
+      "pacienteConsentimientoId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pacienteId": "c678c105-b9d5-45fe-aa25-08dc28df1a99",
+      "tipoConsentimientoId": 2,
+      "cuerpo": "string",
+      "fecha": "2019-01-06T17:16:40Z",
+      "hora": {
+        "ticks": 1
+      },
+      "apoderadoNombre": "string",
+      "apoderadoDocumento": "string",
+      "apoderadoDireccion": "string",
+      "pacienteRelacionadoId": 0,
+      "medicoId": 0,
+      "estado": 0,
+      "firma": "8-1707409634.png"
+    }
+  ],
+  "totalData":2
+}

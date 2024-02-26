@@ -9,7 +9,7 @@
                       <div class="row">
                           <div class="col-12">
                               <div class="form-heading">
-                                  <h4>Nueva Evolución Paciente</h4>
+                                  <h4>Editar Evolución Paciente</h4>
                               </div>
                           </div>
                           <div class="col-12 col-md-12 col-xl-6">
@@ -31,10 +31,17 @@
                               <label>Fecha de Nacimiento <span class="login-danger">*</span></label>
                               <input formControlName="fechaEvolucion"
                                   style='height:48px' class="form-control datetimepicker" type="text"
-                                  placeholder="" matInput [matDatepicker]="picker">
+                                  placeholder="" matInput [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fechaEvolucion') && isFormSubmitted}">
                               <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                               <mat-datepicker-toggle matIconSuffix [for]="picker"
                                   matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                  <div *ngIf="isInvalid('fechaEvolucion') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fechaEvolucion')">
+                                                Debe completar el campo*
+                                            </div>
+
+                                        </div>
                           </div>
                           </div>
                         <div class="col-12 col-md-12 col-xl-12">

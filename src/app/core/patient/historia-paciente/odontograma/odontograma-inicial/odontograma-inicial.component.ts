@@ -13,12 +13,19 @@ import { AgregarHallazgo4Component } from '../agregar-hallazgo-odontograma/agreg
 import { AgregarHallazgo5Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo5/agregar-hallazgo5.component';
 import { AgregarHallazgo6Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo6/agregar-hallazgo6.component';
 
-
+interface Producto {
+  nombre: string;
+}
+interface THallazgo{
+  nombre:string;
+  tipo:string;
+}
 @Component({
   selector: 'app-odontograma-inicial',
   templateUrl: './odontograma-inicial.component.html',
   styleUrls: ['./odontograma-inicial.component.scss']
 })
+
 export class OdontogramaInicialComponent implements OnInit{
 
 
@@ -38,6 +45,32 @@ export class OdontogramaInicialComponent implements OnInit{
     //   this.calcularTamanhoDiente(); // Recalcular el tamaño del diente cuando cambia el tamaño de la ventana
     // }
 
+    productos: Producto[] = [
+      { nombre: 'Producto 1' },
+      { nombre: 'Producto 2' },
+      { nombre: 'Producto 3' },
+      // Agregar más productos...
+    ];
+
+    hallazgosList: THallazgo[]=[
+      {nombre:'Macrodoncia', tipo:'fijo'},
+      {nombre:'Caries Dental', tipo:'caries'},
+      {nombre:'Aparato Orto.fijo', tipo:'puente'},
+      {nombre:'Restauración Definitiva', tipo:'Restauracion Definitiva'},
+      {nombre:'Restauración Temporal', tipo:'Restauracion Temporal'},
+      {nombre:'Sellantes', tipo:'Sellantes'},
+
+    ]
+
+    terminoBusqueda: string = '';
+
+  get hallazgosFiltrados(): THallazgo[] {
+    return this.hallazgosList.filter(producto =>
+      producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
+    );
+  }
+
+
     pacienteId='';
     bsModalRef?: BsModalRef;
 
@@ -53,6 +86,9 @@ export class OdontogramaInicialComponent implements OnInit{
     }
 
     agregarHallazgo(numeroDiente:string, hallazgo:string){
+
+      // Limpiar la búsqueda:
+      this.terminoBusqueda='';
 
       if(hallazgo==='fijo'){
         this.modalRef.hide();
@@ -342,9 +378,8 @@ export class OdontogramaInicialComponent implements OnInit{
 
         }
 
-        this.odontogramaService.obtenerOdontogramaPacienteList().subscribe((data)=>{
-          this.odotogramaPacienteList = data.data;
-
+        this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+          this.odotogramaPacienteList = data
 
 
         //* Dibujar data del odontograma del paciente:
@@ -368,8 +403,8 @@ export class OdontogramaInicialComponent implements OnInit{
 
 
           if(numeroDienteSuperior!=-1){
-            console.log("superior:",this.odotogramaPacienteList[index].hallazgosId);
-            if(this.odotogramaPacienteList[index].hallazgosId=== 1 || this.odotogramaPacienteList[index].hallazgosId=== 3){
+            console.log(this.odotogramaPacienteList);
+            if(this.odotogramaPacienteList[index].halllazgosId=== 1 || this.odotogramaPacienteList[index].halllazgosId=== 1){
               this.marcarTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
             }
             else if(this.odotogramaPacienteList[index].hallazgosId===2){
@@ -407,6 +442,18 @@ export class OdontogramaInicialComponent implements OnInit{
                 largura: index === 15 ? this.tamanhoDiente + this.posicionPadre.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre.margemXEntreDentes
             },
             context, this.odotogramaPacienteList[index].sigla)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===12){
+              this.dibujarCirculoSinRelleno(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 15)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===13){
+              this.dibujarFusión(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===14){
+              this.dibujarTriangulo(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===15){
+              this.dibujarPiezaDentaria(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,13,'S')
             }
           }else if(numeroDienteInferior!=-1){
             console.log("inferior:",this.odotogramaPacienteList[index].hallazgosId);
@@ -453,6 +500,15 @@ export class OdontogramaInicialComponent implements OnInit{
             else if(this.odotogramaPacienteList[index].hallazgosId===12){
               this.dibujarCirculoSinRelleno(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, 15)
             }
+            else if(this.odotogramaPacienteList[index].hallazgosId===13){
+              this.dibujarFusión(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===14){
+              this.dibujarTriangulo(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].hallazgosId===15){
+              this.dibujarPiezaDentaria(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,13,'S')
+            }
           }
         }
         })
@@ -460,6 +516,50 @@ export class OdontogramaInicialComponent implements OnInit{
         this.hoverEventSuperior(canvas,context);
     }
   }
+
+  private dibujarPiezaDentaria(context: CanvasRenderingContext2D, x: number, y: number, radio: number,texto:string): void {
+    context.save();
+    // Establecer estilo de la flecha
+    context.strokeStyle = "blue";
+
+    context.lineWidth = 2;
+    context.beginPath(); // Inicia la ruta de dibujo
+    context.arc(x+35, y-30, radio, 0, Math.PI * 2); // Dibuja un arco completo (un círculo completo)
+    context.stroke(); // Dibuja el contorno del círculo sin rellenarlo
+    context.closePath(); // Cierra la ruta de dibujo
+
+
+    // Calcula las coordenadas para colocar el texto
+    const angulo = -Math.PI / 4; // Angulo donde quieres colocar el texto (en radianes)
+    const textoX = x+35
+    const textoY = y-30
+
+    // Dibuja el texto centrado en las coordenadas calculadas
+    context.fillStyle = "blue";
+    context.font = "bold 18px Arial"; // Establece el tamaño y tipo de fuente
+    context.textAlign = "center"; // Centra el texto horizontalmente
+    context.textBaseline = "middle"; // Centra el texto verticalmente
+    context.fillText(texto, textoX, textoY);
+
+    context.restore();
+
+}
+
+  private dibujarTriangulo(context: CanvasRenderingContext2D, x: number, y: number, lado: number): void {
+    context.save();
+    // Establecer estilo del triángulo
+    context.strokeStyle = "blue";
+    context.lineWidth = 2;
+    context.beginPath(); // Inicia la ruta de dibujo
+    context.moveTo(x, (y-50) - lado); // Mueve el lápiz al vértice superior (en lugar del inferior)
+    context.lineTo(x + lado / 1.5, y-50); // Dibuja línea al vértice inferior derecho
+    context.lineTo(x - lado / 1.5, y-50);
+    context.closePath(); // Cierra el triángulo
+    context.stroke(); // Dibuja el contorno del triángulo
+    context.restore();
+}
+
+
 
 
   private dibujarCirculoSinRelleno(context: CanvasRenderingContext2D, x: number, y: number, radio: number): void {
@@ -476,6 +576,28 @@ export class OdontogramaInicialComponent implements OnInit{
     context.restore();
 
   }
+
+  private dibujarFusión(context: CanvasRenderingContext2D, x: number, y: number, radio: number, radioX: number, radioY: number): void {
+
+    context.save();
+    // Establecer estilo de la flecha
+    context.strokeStyle = "blue";
+
+    context.lineWidth = 2;
+    context.beginPath(); // Inicia la ruta de dibujo
+    context.ellipse(x+10, y-65, radioX, radioY, 0, 0, Math.PI * 2); // Dibuja una elipse con los radios dados
+    context.stroke(); // Dibuja el contorno del círculo sin rellenarlo
+    context.closePath(); // Cierra la ruta de dibujo
+
+    context.beginPath(); // Inicia la ruta de dibujo
+    context.ellipse(x+60, y-65, radioX, radioY, 0, 0, Math.PI * 2); // Dibuja una elipse con los radios dados
+    context.stroke(); // Dibuja el contorno del círculo sin rellenarlo
+    context.closePath(); // Cierra la ruta de dibujo
+    context.restore();
+
+  }
+
+
   private piezaDentariaExtruida(context: CanvasRenderingContext2D, startX: number, startY: number, angle: number) {
     // Longitud de la flecha
 

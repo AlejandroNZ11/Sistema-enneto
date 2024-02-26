@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule} from '@angular/common';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MatSortModule } from '@angular/material/sort';
 import { PlanesRoutingModule } from './planes-routing.module';
@@ -15,10 +15,10 @@ import { EditarPlanComponent } from './editar-plan/editar-plan.component';
     EditarPlanComponent
   ],
   imports: [
-    MatSortModule,
     CommonModule,
     SharedModule,
-    PlanesRoutingModule
-  ]
+    PlanesRoutingModule,
+    MatSortModule,
+  ],
 })
 export class PlanesModule { }

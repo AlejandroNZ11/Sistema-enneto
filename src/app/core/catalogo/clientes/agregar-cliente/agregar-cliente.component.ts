@@ -107,6 +107,14 @@ export class AgregarClienteComponent {
     }
   }
 
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
     return control?.invalid && (control?.touched || control?.dirty);
@@ -134,7 +142,7 @@ export class AgregarClienteComponent {
     this.Cliente.telefono = this.form.get("telefono")?.value;
     this.Cliente.email = this.form.get("email")?.value;
     this.Cliente.tipoDocumentoIdentidadId = this.form.get("tipoDocumentoIdentidadId")?.value;
-    this.Cliente.estado = this.form.get("estado")?.value;
+    this.Cliente.estado = 1
 
     console.log(this.form.get("numeroDocumento")?.value);
     console.log(this.Cliente);

@@ -42,7 +42,14 @@
         <tbody>
             <tr *ngFor="let data of dataSource let i = index">
                 <td>{{serialNumberArray[i]}}</td>
-                <td *ngFor="let nombre of columnas">{{getValue(data,nombre)}}</td>
+                <td *ngFor="let nombre of columnas">
+                  <ng-container *ngIf="nombre === 'fechaRegistro' || nombre === 'fechaInicio' || nombre === 'fechaFinContrato'">
+                    {{data[nombre] | date: 'dd/MM/yyyy'}}
+                  </ng-container>
+                  <ng-container *ngIf="nombre !== 'fechaRegistro' && nombre !== 'fechaInicio' && nombre !== 'fechaFinContrato'">
+                    {{data[nombre]}}
+                  </ng-container>
+                </td>
                 <td *ngIf="data.estado==='A'|| data.estado ==='1' || data.estado ===1">
                     <button class="custom-badge" [style.color]="getTextColor(data,true)"
                         [style.backgroundColor]="getBgColor(data,true)">Activo</button>

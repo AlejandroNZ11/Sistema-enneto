@@ -63,7 +63,7 @@ export class EditarCitaComponent implements OnInit {
         finalize(() => this.isLoading = false)
       ).subscribe(data => {
         this.pacienteseleccionado = data.nombres + ' ' + data.apellidos,
-        this.numero = data.celular
+          this.numero = data.celular
         this.whatsappMessage = ` Hola ${this.pacienteseleccionado} somos *ENNETO DENTAL*, te escribimos para recordar tu cita el dia *${this.citaEditar.fecha.split("T")[0]}*  a las *${this.citaEditar.horaInicio}* MOTIVO DE LA CONSULTA: *${this.citaEditar.motivoConsulta}* . en la Sede ${this.sede}  . Para confirmar tu reserva, escribe *CONFIRMO*, para cancelarla *CANCELAR* y si desea reprogramar una cita escribe *REPROGRAMAR*.`
       })
     })
@@ -106,22 +106,14 @@ export class EditarCitaComponent implements OnInit {
     this.router.navigate([`/paciente/historia-paciente/${this.citaEditar.pacienteId}`]);
   }
   clonar() {
-    if (this.bsModalRef) {
-      this.bsModalRef.hide();
-      const onHideCallback = () => {
-        const initialState = {
-          citaId: this.citaEditar.citaMedicaId,
-        };
-        const modalOptions = {
-          ignoreBackdropClick: true,
-          initialState: { ...initialState } as Partial<ClonarCitaComponent>,
-        };
-        this.modalRef = this.modalService.show(ClonarCitaComponent, modalOptions);
-      };
-      if (this.bsModalRef.onHidden) {
-        this.bsModalRef.onHidden.subscribe(onHideCallback);
-      }
-    }
+    const initialState = {
+      citaId: this.citaEditar.citaMedicaId,
+    };
+    const modalOptions = {
+      ignoreBackdropClick: true,
+      initialState: { ...initialState } as Partial<ClonarCitaComponent>,
+    };
+    this.modalRef = this.modalService.show(ClonarCitaComponent, modalOptions);
   }
   #document = inject(DOCUMENT);
   enviarMensaje() {

@@ -8,10 +8,10 @@ export interface DataOdontogramaPaciente{
 
 export interface IodontogramaPaciente {
   clinicaId:      string;
-  usuarioId:      string;
   pacienteId:     string;
   tipo:           string;
   hallazgosId:    number;
+  halllazgosId:    number;
   categoria:      string;
   estado:         string;
   marcas:         string;
