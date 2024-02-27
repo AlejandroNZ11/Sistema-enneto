@@ -4,7 +4,7 @@
       <div class="col-md-2">
         <div class="form-group local-forms">
           <label>Desde<span class="login-danger">*</span></label>
-          <input  style='height:48px' class="form-control datetimepicker" type="text"
+          <input  style='height:48px; background-color: #f4f5fa; border:none;' class="form-control datetimepicker" type="text"
             placeholder="" matInput [matDatepicker]="pickerDesde">
           <mat-datepicker #pickerDesde matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
           <mat-datepicker-toggle matIconSuffix [for]="pickerDesde" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
@@ -14,7 +14,7 @@
       <div class="col-md-2">
         <div class="form-group local-forms">
           <label>Hasta<span class="login-danger">*</span></label>
-          <input  style='height:48px' class="form-control datetimepicker" type="text"
+          <input  style='height:48px;background-color: #f4f5fa; border:none;' class="form-control datetimepicker" type="text"
             placeholder="" matInput [matDatepicker]="pickerHasta">
           <mat-datepicker #pickerHasta matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
           <mat-datepicker-toggle matIconSuffix [for]="pickerHasta" matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
@@ -27,7 +27,7 @@
       <div class="col-md-5">
         <div class="form-group local-forms">
           <label>Tipo Consentimiento<span class="login-danger">*</span></label>
-          <mat-select  class="form-control select" placeholder="Seleccione un tipo consentimiento">
+          <mat-select style="background-color: #f4f5fa; border:none;"  class="form-control select" placeholder="Seleccione un tipo consentimiento">
             <mat-option *ngFor="let data of consentimientoList" [value]="data">
               {{data}}
             </mat-option>

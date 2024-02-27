@@ -1,122 +1,146 @@
 
+
 <div class="modal-body" data-select2-id="70">
   <div class="box box-default box-solid box-default ">
-        <div class="box-body" data-select2-id="69">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="form-group" data-select2-id="68">
-            <label class="control-label">Medico:</label>
-            <select name="medico" class="form-control select2 select2-hidden-accessible" style="width: 100%" data-select2-id="13" tabindex="-1" aria-hidden="true">
-              <option value="" data-select2-id="15">--Seleccionar--</option>
-                                    <option value="1" data-select2-id="73">Miguel Sanchez</option>
-                                  <option value="2" data-select2-id="74">Miguel Angel Sanchez Lopez</option>
-                                </select><span class="select2 select2-container select2-container--default select2-container--below" dir="ltr" data-select2-id="14" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-medico-co-container"><span class="select2-selection__rendered" id="select2-medico-co-container" role="textbox" aria-readonly="true" title="--Seleccionar--">--Seleccionar--</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+    <div class="box-body" data-select2-id="69">
+      <form [formGroup]="form" >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Medico:</label>
+                  <mat-select formControlName="medicoId"  class="form-control select"
+                    placeholder="--Seleccionar--" >
+                    <input type="text" class="form-control buscar" autocomplete="off"
+                    placeholder="Ingrese Apellidos o Nombres" matInput
+                    formControlName="terminoBusquedaMedico">
+                    <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
+                    <ng-container *ngIf="medicosFiltrados.length > 0; else noResultadosMedico">
+                      <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico.id">
+                        {{medico.nombre}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <ng-template #noResultadosMedico>
+                    <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaMedico')?.value}}"</p>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div class="form-group local-forms">
+                  <label>Nombre apoderado:</label>
+                  <input formControlName="nombreApoderado" class="form-control" type="text">
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-group local-forms">
+                  <label class="control-label">Documento:</label>
+                  <input formControlName="documentoApoderado" class="form-control" type="text">
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Tipo Consentimiento:</label>
+                  <mat-select formControlName="tipoConsentimientoId" class="form-control select" placeholder="Seleccione Estado Civil">
+                    <mat-option *ngFor="let data of consentimiento" [value]="data">
+                      {{data}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div>
+
+            </div>
+
+
+
           </div>
-        </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label class="control-label">Fecha:</label>
+                  <input formControlName="fecha" style='height:48px' class="form-control datetimepicker" type="text" placeholder="" matInput
+                    [matDatepicker]="picker">
+                  <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"
+                    matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                </div>
+              </div>
 
-        <div class="col-md-8">
-          <div class="form-group">
-            <label class="control-label">Nombre apoderado:</label>
-            <input type="text" name="apoderado" class="form-control input-sm" data-dashlane-rid="a5e6966781a55dc9" data-kwimpalastatus="alive" data-form-type="name,first" data-kwimpalaid="1708970849427-22">
-          </div>
-        </div>
+              <div class="col-md-4">
+                <div class="form-group local-forms">
+                  <label>Hora:<span class="login-danger">*</span></label>
+                  <input formControlName="hora"  class="form-control">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Direccion apoderado:</label>
+                  <input formControlName="direccionApoderado" class="form-control" type="text">
+                </div>
+              </div>
 
-        <div class="col-md-4">
-          <div class="form-group">
-            <label class="control-label">Documento:</label>
-            <input type="text" name="documento" class="form-control input-sm" data-dashlane-rid="ac2165e5225a2330" data-form-type="id_document,id_card">
-          </div>
-        </div>
-
-      </div>
-      <div class="row">
-       <div class="col-md-12">
-          <div class="form-group">
-            <label class="control-label">Tipo Consentimiento:</label>
-            <select name="tipo" class="form-control" data-dashlane-rid="77e2a3fbb660ef17" data-form-type="other">
-              <option value=""></option>
-                                    <option value="4">aaaa</option>
-                                  <option value="3">AAAAAAAAAAAAAAA</option>
-                                  <option value="2">cerre</option>
-                                  <option value="1">CONSENTIMIENTO INFORMADO PARA LA EXODONCIA DE LA TERCERA MOLAR</option>
-                                </select>
-          </div>
-        </div>
-
-      </div>
-
-
-
-    </div>
-    <div class="col-md-6">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">Fecha:</label>
-            <input type="text" name="fecha" class="form-control  datepicker input-sm" value="2024-02-26" data-dashlane-rid="7d77b398a30b923a" data-form-type="date">
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">Hora:</label>
-            <input type="text" name="hora" class="form-control input-sm" value="13:07:25" readonly="" data-dashlane-rid="551122f1a05b23b6" data-form-type="other">
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="control-label">Direccion apoderado:</label>
-            <input type="text" name="direccion" class="form-control input-sm" data-dashlane-rid="b96f9b65cea0756d" data-kwimpalastatus="alive" data-form-type="address" data-kwimpalaid="1708970849427-23">
-          </div>
-        </div>
-
-        <div class="col-md-12">
-          <div class="form-group">
-            <label class="control-label">Menor de edad:</label>
-              <select name="paciente01" class="form-control select2 select2-hidden-accessible" style="width: 100%" data-select2-id="16" tabindex="-1" aria-hidden="true">
-              <option value="" data-select2-id="18">--Seleccionar--</option>
-                                    <option value="3">LOPEZ SANDRO</option>
-                                  <option value="5">ROBLES HARO RAFAEL</option>
-                                  <option value="6">LOPEZ SUAREZ JOSE</option>
-                                  <option value="7">TRUJILLO GABRIEL  CHRISTIAN SMITH </option>
-                                  <option value="8">MENDEZ ALBUJAR ROBERTO CARLOS</option>
-                                  <option value="10">LOZANO LOPEZ LORENA</option>
-                                  <option value="11">GUTIERREZ PARAGUAY NEMECIO </option>
-                                </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="17" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-paciente01-79-container"><span class="select2-selection__rendered" id="select2-paciente01-79-container" role="textbox" aria-readonly="true" title="--Seleccionar--">--Seleccionar--</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </div>
-
-
-
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-
-            <div id="signature-pad" class="signature-pad">
-              <div class="signature-pad--body">
-                 <h5>Firmar aqui <i class="fa fa-fw fa-hand-o-down"></i></h5>
-                <canvas width="330" height="200" style="border: 1px solid rgb(221, 221, 221); padding: 0px; margin: auto; display: block; inset: 0px; touch-action: none;"></canvas>
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Menor de edad:</label>
+                  <mat-select formControlName="pacienteId"  class="form-control select"
+                    placeholder="--Seleccionar--" >
+                    <input type="text" class="form-control buscar" autocomplete="off"
+                    placeholder="Ingrese Apellidos o Nombres" matInput
+                    formControlName="terminoBusquedaMenorEdad">
+                    <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
+                    <ng-container *ngIf="menorDeEdadFiltrados.length > 0; else noResultadosMenorEdad">
+                      <mat-option *ngFor="let paciente of menorDeEdadFiltrados" [value]="paciente.id">
+                        {{paciente.nombre}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <ng-template #noResultadosMenorEdad>
+                    <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaMenorEdad')?.value }}"</p>
+                  </ng-template>
+                </div>
               </div>
             </div>
-            <!-- <button class="btn btn-warning btn-sm mt-2" type="button" id="limpiarFirma">Limpiar firma</button> -->
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+
+                <div id="signature-pad" class="signature-pad">
+                  <div class="signature-pad--body">
+                    <h5>Firmar aqui: <i class="fa fa-fw fa-hand-o-down"></i></h5>
+                    <canvas id="canvasId" width="330" height="200"
+                      style="border: 1px solid rgb(221, 221, 221); padding: 0px; margin: auto; display: block; inset: 0px; touch-action: none;"></canvas>
+                  </div>
+                </div>
+                <!-- <button class="btn btn-warning btn-sm mt-2" type="button" id="limpiarFirma">Limpiar firma</button> -->
+              </div>
+            </div>
+            <div class="row justify-content-center ">
+              <div class="form-group col-lg-6">
+                  <div class="doctor-submit text-end d-flex justify-content-center ">
+                      <button
+                          class="btn btn-primary cancel-form me-2" (click)="limpiarCanvas()">Limpiar firma</button>
+                  </div>
+              </div>
+          </div>
+          </div>
+
+          <div class="doctor-submit text-end d-flex justify-content-end ">
+            <button class="btn btn-primary submit-form" (click)="agregarConsentimiento()"
+          >Guardar</button>
+          </div>
         </div>
-      </div>
-      <div class="text-center">
-        <button class="btn btn-warning pull-center" type="button" id="limpiarFirma" data-dashlane-rid="1a7d3015b14e71f7" data-dashlane-label="true" data-form-type="other">Limpiar firma</button>
-        <button type="submit" class="btn btn-info" data-dashlane-rid="8c8ce5c81a367383" data-dashlane-label="true" data-form-type="action"><i class="fa fa-save"></i> Guardar</button>
-     </div>
-     </div>
+      </form>
 
+    </div>
 
-
-</div>
-</div>
-
+  </div>
 </div>
