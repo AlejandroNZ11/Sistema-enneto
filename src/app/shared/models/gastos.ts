@@ -1,7 +1,7 @@
 export class Gastos {
     clinicaId = 'D30C2D1E-E883-4B2D-818A-6813E15046E6';
     usuarioId = "";
-    fecha!:Date;
+    fecha= "";
     descripcion = "";
     conceptoGastoId= "";
     bancoId= "";
@@ -17,7 +17,7 @@ export class Gastos {
 
 export interface Igastos {
     gastoId: string;
-    fecha: Date;
+    fecha:  string;
     descripcion: string;
     conceptoGastoId: string;
     bancoId: string;
@@ -34,6 +34,33 @@ export interface DataGastos {
     totalData: number;
     data: Igastos[];
 }
+
+
+export interface DataControlGasto {
+    totalData: number;
+    data: IcontrolGasto[];
+}
+
+export interface IcontrolGasto {
+    gastoId: string;
+    Nº: number;
+    fecha:  string;
+    descripcion: string;
+    conceptoGastoId: string;
+    nombreTipoGasto: string;
+    bancoId: string;
+    cuentaPagarId: string;
+    monto: number;
+    operacion: string;
+    sedeId: string;
+    responsable: string;
+    observacion: string;
+    estado: string;
+}
+
+
+
+
 
 export class GastosResponse {
     descripcion = "";

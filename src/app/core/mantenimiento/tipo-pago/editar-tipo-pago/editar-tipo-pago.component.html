@@ -26,7 +26,7 @@
                                     <label>Descripción <span class="login-danger">*</span></label>
                                     <input formControlName="descripcion"
                                         class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}">
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}"(keydown)="soloLetras($event)" maxlength="30">
                                     <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('descripcion')">
                                             Debe completar el campo*

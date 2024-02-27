@@ -14,13 +14,27 @@ export class GastosService {
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient,) { }
 
+  // obtenerGastos(clinicaId: string, page: number, rows: number, conceptoGastoId?: string, fechaInicio?: string, fechaFin?: string): Observable<DataGastos> {
+  //   let url = `${this.apiUrl}/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
+  //   if (fechaInicio) {
+  //     url += `&fechaInicio=${fechaInicio}`;
+  //   }
+  //   if (fechaFin) {
+  //     url += `&fechaFin=${fechaFin}`;
+  //   }
+  //   if (conceptoGastoId) {
+  //     url += `&conceptoGastoId=${conceptoGastoId}`;
+  //   }
+  //   console.log("Service: " + conceptoGastoId)
+  //   return this.http.get<DataGastos>(url);
+  // }
+
   obtenerGastos(clinicaId: string, page: number, rows: number): Observable<DataGastos> {
     return this.http.get<DataGastos>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
-
   obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string): Observable<DataGastos> {
-    let url = `${this.apiUrl}/Gasto/GetGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+    let url = `${this.apiUrl}/Gasto/GetControlGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (estado != 'todos' && estado) {
       url += `&estado=${estado}`;
     }
@@ -38,9 +52,31 @@ crearGastos(gastos: Gastos): Observable<successResponse> {
       })
   );
 }
-obtenerGasto (gastoId: string): Observable<Igastos> {
-  return this.http.get<Igastos>(this.apiUrl + `/Gasto/GetGasto/${gastoId}`);
+// obtenerGasto (gastoId: string): Observable<Igastos> {
+//   const url = `${this.apiUrl}/Gasto/GetGasto/${gastoId}`;
+//     return this.http.get<Igastos>(url);
+// }
+
+obtenerGasto( sedeId: string): Observable<Igastos> {
+  return this.http.get<Igastos>(this.apiUrl + `/Gasto/GetGasto/${sedeId}`);
 }
+
+obtenerGastosList(clinicaId: string, page: number, rows: number, conceptoGastoId?: string, fechaInicio?: string, fechaFin?: string): Observable<DataGastos> {
+  let url = `${this.apiUrl}/CitasGasto/GetGastoList?clinicaid=${clinicaId}&page=${page}&rows=${rows}`;
+  if (fechaInicio) {
+    url += `&fechaInicio=${fechaInicio}`;
+  }
+  if (fechaFin) {
+    url += `&fechaFin=${fechaFin}`;
+  }
+  if (conceptoGastoId) {
+    url += `&conceptoGastoId=${conceptoGastoId}`;
+  }
+  console.log("Service: " + conceptoGastoId)
+  return this.http.get<DataGastos>(url);
+}
+
+
 eliminarGastos (gastosId: string): Observable<successResponse> {
   return this.http.delete<successResponse>(this.apiUrl + `/Gasto/DeleteGasto/${gastosId}`);
 }
@@ -52,5 +88,10 @@ actualizarGastos (gastos: Igastos): Observable<successResponse> {
       })
   );
 }
+
+
+
+
+
 
 }
