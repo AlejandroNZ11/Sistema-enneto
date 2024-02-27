@@ -11,7 +11,7 @@
                             <div class="col-12">
                                 <div class="form-group local-forms">
                                     <label>Nombre del Plan <span class="login-danger">*</span></label>
-                                    <input formControlName="nombrePlan" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombrePlan')}">
+                                    <input formControlName="nombrePlan" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombrePlan')}" (keydown)="soloLetras($event)" maxlength="30">
                                     <div *ngIf="isInvalid('nombrePlan') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('nombrePlan')|| mostrarErrores">
                                             Debe completar el campo*
