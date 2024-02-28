@@ -78,7 +78,7 @@ export class ConsentimientoComponent implements OnInit {
 
 
 crearConsentimientoPaciente(){
-  this.bsModalRef = this.modalService.show(AgregarConsentimientoPacienteComponent);
+  this.bsModalRef = this.modalService.show(AgregarConsentimientoPacienteComponent,{class:'modal-lg'});
 
   this.bsModalRef.content.consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
     if (consentimientoPacienteAgregado) {

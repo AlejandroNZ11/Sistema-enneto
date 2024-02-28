@@ -35,6 +35,13 @@ export class AgregarTipoGastosComponent {
       this.renderer.setProperty(event.target, 'value', newValue);
     }
   }
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
