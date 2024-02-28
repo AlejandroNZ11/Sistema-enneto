@@ -43,11 +43,9 @@ export interface DataControlGasto {
 
 export interface IcontrolGasto {
     gastoId: string;
-    Nº: number;
     fecha:  string;
     descripcion: string;
-    conceptoGastoId: string;
-    nombreTipoGasto: string;
+    tipoGasto: string;
     bancoId: string;
     cuentaPagarId: string;
     monto: number;
@@ -55,7 +53,7 @@ export interface IcontrolGasto {
     sedeId: string;
     responsable: string;
     observacion: string;
-    estado: string;
+    estado: number;
 }
 
 

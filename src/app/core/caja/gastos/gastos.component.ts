@@ -23,8 +23,8 @@ import { finalize } from 'rxjs';
 })
 export class GastosComponent implements OnInit {
   public routes = routes;
-  public GastosList: Array<Igastos> = [];
-  dataSource!: MatTableDataSource<Igastos>;
+  public GastosList: Array<IcontrolGasto> = [];
+  dataSource!: MatTableDataSource<IcontrolGasto>;
   public showFilter = false;
   public lastIndex = 0;
   public pageSize = 10;
@@ -38,7 +38,7 @@ export class GastosComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
-  gastoSeleccionado!: string;
+  gastoSeleccionada!: string;
   listGastoFiltrados!: IConceptoGasto[]
   tiposGasto!: IConceptoGasto[];
   listEstados!: IConceptoGasto[];
@@ -96,7 +96,7 @@ export class GastosComponent implements OnInit {
     });
   }
 
-  editarGasto(gasto: Igastos) {
+  editarGasto(gasto: IcontrolGasto) {
     const initialState = {
       gastoSeleccionada: gasto.gastoId
     };
@@ -149,32 +149,21 @@ export class GastosComponent implements OnInit {
     this.isLoading = true;
     const inicio = this.fechaInicio.toISOString().split('T')[0]
     const fin = this.fechaFin.toISOString().split('T')[0]
-    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionado, this.estadoSeleccionado).pipe(
+    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
       finalize(() => this.isLoading = false)
-    ).subscribe((data: DataGastos) => {
+    ).subscribe((data: DataControlGasto) => {
       this.totalData = data.totalData;
       for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
         const serialNumber = index + 1;
         this.serialNumberArray.push(serialNumber);
       }
-      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
+      this.GastosList= data.data;
+      this.dataSource = new MatTableDataSource<IcontrolGasto>(this.GastosList);
       this.calculateTotalPages(this.totalData, this.pageSize);
     })
   }
 
-  private getTableData(currentPage: number, pageSize: number): void {
-    this.GastosList = [];
-    this.serialNumberArray = [];
-    this.gastosservice.obtenerGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataGastos) => {
-      this.totalData = data.totalData
-      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
-        const serialNumber = index + 1;
-        this.serialNumberArray.push(serialNumber);
-      }
-      this.GastosList = data.data;
-      this.dataSource = new MatTableDataSource<Igastos>(this.GastosList);
-    });
-  }
+  
   buscargasto() {
     const searchInput = this.multiGastoSearchInput.nativeElement.value
       ? this.multiGastoSearchInput.nativeElement.value.toLowerCase()
