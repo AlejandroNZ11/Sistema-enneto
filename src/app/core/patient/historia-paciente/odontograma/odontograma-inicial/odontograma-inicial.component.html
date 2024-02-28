@@ -55,7 +55,7 @@
             <div style="max-height: 300px;
                       overflow-y: auto; " *ngIf="hallazgosFiltrados.length > 0; else noResultados">
 
-              <div *ngFor="let hallazgo of hallazgosFiltrados" (click)="agregarHallazgo(numeroDiente,hallazgo.tipo)"
+              <div *ngFor="let hallazgo of hallazgosFiltrados" (click)="agregarHallazgo(numeroDiente,hallazgo)"
                 class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
 
                 <div class="chat-users chat-user-blk">

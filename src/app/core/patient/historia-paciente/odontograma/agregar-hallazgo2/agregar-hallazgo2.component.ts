@@ -1,18 +1,82 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
+import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { SharedService } from '../../services/shared-service.service';
+import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-hallazgo2',
   templateUrl: './agregar-hallazgo2.component.html',
   styleUrls: ['./agregar-hallazgo2.component.scss']
 })
-export class AgregarHallazgo2Component implements AfterViewInit {
+export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
+
+  constructor(private sharedService: SharedService, private odontogramaService:OdontogramaService){}
+  pacienteId = "";
+
+  ngOnInit(): void {
+     this.sharedService.pacientID.subscribe((id)=>{
+      this.pacienteId = id
+    })
+  }
 
   hallazgoAgregado$: Subject<boolean> = new Subject<boolean>();
-  hallazgo$?:string;
-  numeroDiente$?:string;
+  hallazgoId$:number=0;
+  hallazgo$:string='';
+  numeroDiente$:string='';
+  siglas$:string[]=[];
+
+  hallazgoSeleccionado:string='';
+  especificacion:string='';
+
+  hallazgoR:hallazgoRequest = new hallazgoRequest();
 
   dientesOclusales:string[] =['18','17','16','15','14','24','25','26','27','28','38','37','36','35','34','44','45','46','47','48']
+
+  agregarHallazgo(){
+
+    const data = {
+      "Vestibular": { "Valor": this.checkboxVestibular },
+      "Palatino": { "Valor": this.checkboxPalatino },
+      "Distal": { "Valor": this.checkboxDistal },
+      "Mesial": { "Valor": this.checkboxMesial },
+      "Oclusal": { "Valor": this.checkboxOclusal }
+    };
+
+
+    this.hallazgoR.pacienteId = this.pacienteId;
+    this.hallazgoR.tipo = this.hallazgo$
+    this.hallazgoR.halllazgoId = this.hallazgoId$
+    this.hallazgoR.categoria = this.hallazgo$
+    this.hallazgoR.marcas = JSON.stringify(data).toString();
+    this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
+    this.hallazgoR.sigla = this.hallazgoSeleccionado.substring(0,2);
+    this.hallazgoR.especificacion = this.especificacion;
+
+    console.log(this.hallazgoR);
+
+    this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
+      (response) => {
+        if (response.isSuccess) {
+          Swal.fire({
+            title: 'Guardando...',
+            allowOutsideClick: false,
+          })
+          Swal.showLoading();
+          Swal.close();
+          Swal.fire('Correcto',response.message, 'success');
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
+  }
+
+
 
   @ViewChild('myCanvasModal', { static: true })
   myCanvasModal!: ElementRef<HTMLCanvasElement>;
@@ -153,7 +217,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
     context.lineTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.lateral + y);
     context.closePath();
     context.stroke();
-    context.fillStyle = 'red'; // Establece el color de relleno como rojo
+    context.fillStyle = '#f48e8e'; // Establece el color de relleno como rojo
     context.fill(); // Rellena el primer cuadrilátero de color rojo
     }
 
@@ -165,7 +229,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
       context.lineTo(this.dimensionesTrapezio.baseMenor + x, this.dimensionesTrapezio.baseMenor + y);
       context.closePath();
       context.stroke();
-      context.fillStyle = 'red'; // Establece el color de relleno como rojo
+      context.fillStyle = '#f48e8e'; // Establece el color de relleno como rojo
       context.fill(); // Rellena el primer cuadrilátero de color rojo
     }
 
@@ -177,7 +241,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
       context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
       context.closePath();
       context.stroke();
-      context.fillStyle = 'red'; // Establece el color de relleno como rojo
+      context.fillStyle = '#f48e8e'; // Establece el color de relleno como rojo
       context.fill(); // Rellena el primer cuadrilátero de color rojo
     }
 
@@ -189,7 +253,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
       context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
       context.closePath();
       context.stroke();
-      context.fillStyle = 'red'; // Establece el color de relleno como rojo
+      context.fillStyle = '#f48e8e'; // Establece el color de relleno como rojo
       context.fill(); // Rellena el primer cuadrilátero de color rojo
     }
 
@@ -202,7 +266,7 @@ export class AgregarHallazgo2Component implements AfterViewInit {
       context.lineTo(this.dimensionesTrapezio.lateral + x, this.dimensionesTrapezio.lateral + y);
       context.closePath();
       context.stroke();
-      context.fillStyle = 'red'; // Establece el color de relleno como rojo
+      context.fillStyle = '#f48e8e'; // Establece el color de relleno como rojo
       context.fill(); // Rellena el primer cuadrilátero de color rojo
 
     }

@@ -11,10 +11,22 @@
                 <h4>Agregar Hallazgo</h4>
               </div>
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-6">
                 <div class="form-group local-forms">
                   <label>Hallazgo <span class="login-danger">*</span></label>
                   <input class="form-control" type="text" [disabled]="true" [(ngModel)]="hallazgo$">
+                </div>
+              </div> -->
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label>Hallazgo<span class="login-danger">*</span></label>
+                  <mat-select
+                       class="form-control select" placeholder="Seleccione un estado"
+                       >
+                       <mat-option *ngFor="let data of siglas$" [value]="data">
+                        {{data}}
+                       </mat-option>
+                  </mat-select>
                 </div>
               </div>
               <div class="col-md-4">
@@ -23,12 +35,12 @@
                   <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
                 </div>
               </div>
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
                 <div class="form-group local-forms">
                   <label>Siglas<span class="login-danger">*</span></label>
                   <input class="form-control" type="text" value="Siglas" [disabled]="true">
                 </div>
-              </div>
+              </div> -->
           </div>
 
           <div class="row d-flex flex-nowrap  align-items-center ">

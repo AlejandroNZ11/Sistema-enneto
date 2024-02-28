@@ -10,10 +10,23 @@
                 <h4>Agregar Hallazgos caries</h4>
               </div>
 
-              <div class="col-md-6">
+              <!-- <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label>Hallazgo <span class="login-danger">*</span></label>
                   <input class="form-control" type="text" [disabled]="true">
+                </div>
+              </div> -->
+
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label>Hallazgo<span class="login-danger">*</span></label>
+                  <mat-select
+                       class="form-control select" placeholder="Seleccione un estado"
+                       [(ngModel)]="hallazgoSeleccionado">
+                       <mat-option *ngFor="let data of siglas$" [value]="data">
+                        {{data}}
+                       </mat-option>
+                  </mat-select>
                 </div>
               </div>
               <div class="col-md-4">
@@ -22,12 +35,14 @@
                   <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
                 </div>
               </div>
-              <div class="col-md-3">
+
+
+              <!-- <div class="col-md-3">
                 <div class="form-group local-forms">
                   <label>Siglas<span class="login-danger">*</span></label>
                   <input class="form-control" type="text" value="Siglas" [disabled]="true">
                 </div>
-              </div>
+              </div> -->
           </div>
 
           <div class="row d-flex flex-nowrap  align-items-center ">
@@ -82,14 +97,14 @@
               <label>Diagnostico - Especificaciones</label>
               <textarea
                   class="form-control" type="text"
-                  ></textarea>
+                  [(ngModel)]="especificacion"></textarea>
           </div>
           </div>
           <!-- form cierre -->
           <div class="col-12">
             <div class="doctor-submit text-end">
                 <button type="submit"
-                    class="btn btn-primary submit-form me-2" >Guardar</button>
+                    class="btn btn-primary submit-form me-2" (click)="agregarHallazgo()">Guardar</button>
                 <button type="submit"
                     class="btn btn-primary cancel-form">Cancelar</button>
             </div>

@@ -12,6 +12,7 @@ export class AgregarHallazgo4Component implements AfterViewInit {
   hallazgoAgregado$: Subject<boolean> = new Subject<boolean>();
   hallazgo$?: string;
   numeroDiente$?: string;
+  siglas$:string[]=[];
 
   dientesOclusales: string[] = ['18', '17', '16', '15', '14', '24', '25', '26', '27', '28', '38', '37', '36', '35', '34', '44', '45', '46', '47', '48']
 
