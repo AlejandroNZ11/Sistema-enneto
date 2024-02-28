@@ -139,8 +139,8 @@ export class AgregarGastosComponent implements OnInit{
       (response)=>{
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
-          this.bsModalRef.hide();
           this.gastoAgregada$.next(true);
+          this.bsModalRef.hide();
         }else{
           console.error(response.message);
         }

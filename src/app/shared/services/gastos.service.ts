@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { successResponse } from '../models/successResponse';
-import { DataGastos, Igastos, Gastos } from '../models/gastos';
+import { DataGastos, Igastos, Gastos, DataControlGasto, IcontrolGasto } from '../models/gastos';
 
 @Injectable({
   providedIn: 'root'
@@ -33,15 +33,15 @@ export class GastosService {
     return this.http.get<DataGastos>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
   }
 
-  obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string): Observable<DataGastos> {
-    let url = `${this.apiUrl}/Gasto/GetControlGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+  obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string): Observable<DataControlGasto> {
+    let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (estado != 'todos' && estado) {
       url += `&estado=${estado}`;
     }
     if (gasto != 'todos' && gasto) {
       url += `&conceptoGasto=${gasto}`;
     }
-    return this.http.get<DataGastos>(url);
+    return this.http.get<DataControlGasto>(url);
   }
 
 crearGastos(gastos: Gastos): Observable<successResponse> {
