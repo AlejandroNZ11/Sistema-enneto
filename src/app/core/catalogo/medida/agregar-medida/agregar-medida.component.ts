@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
 import { MedidaService } from 'src/app/shared/services/medida.service';
-import { DataMedida, Imedida, medida } from 'src/app/shared/models/medida';
+import { medida } from 'src/app/shared/models/medida';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 @Component({
@@ -11,19 +11,27 @@ import { Subject } from 'rxjs';
   templateUrl: './agregar-medida.component.html',
   styleUrls: ['./agregar-medida.component.scss']
 })
-export class AgregarMedidaComponent implements OnInit{
+export class AgregarMedidaComponent {
   medidaAgregada$: Subject<boolean> = new Subject<boolean>();
   Medida: medida = new medida();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
+
 
   constructor(public bsModalRef: BsModalRef, private service: MedidaService,
     public fb: FormBuilder,) {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
     });
+  }
+
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   isInvalid(controlName: string) {
