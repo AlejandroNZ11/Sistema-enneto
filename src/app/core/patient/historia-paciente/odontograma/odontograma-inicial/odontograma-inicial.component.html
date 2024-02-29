@@ -34,7 +34,7 @@
             <div class="row">
               <div class="col-12">
                 <div>
-                  <h4>Diente Número: {{numeroDiente}}</h4>
+                  <h4>Diente Número mi list modal: {{numeroDiente}}</h4>
                 </div>
               </div>
               <div class="col col-md-12 col-xl-12">
@@ -80,7 +80,53 @@
       </div>
     </div>
   </div>
+</ng-template>
 
 
+<ng-template #listModal>
+  <div  class="col-12 col-md-12  col-xl-8 w-100 ">
+    <div class="card">
+      <div class="d-flex align-items-center  justify-content-between ">
+        <div class="card-header">
+          <h4 class="card-title d-inline-block">Lista de Hallazgos inicial</h4>
+      </div>
+      <div class="form-heading">
+        <button (click)="abrirListaHallazgo()" class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
+      </div>
+      </div>
 
+        <div class="card-body p-0 table-dash">
+            <div class="table-responsive">
+                <table  class="table mb-0 border-0 datatable custom-table">
+                    <thead>
+                        <tr>
+                            <th >Nombre</th>
+                            <th >Categoria</th>
+                            <th >Diente</th>
+                            <th >Diente Final</th>
+                            <th >Dibujo</th>
+                            <th >Especificaciones</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of odontogramaPacienteList$">
+                            <td>{{data.halllazgoId}}</td>
+                            <td>{{data.categoria}}</td>
+                            <td>{{data.numeroDiente}}</td>
+                            <td>{{data.dienteFinal}}</td>
+                            <td [innerHTML]="obtenerNombresTrue(data.marcas)"></td>
+                            <td>{{data.especificacion}}</td>
+                            <td></td>
+                            <td class="text-center  align-middle">
+                              <a href="javascript:;"><img src="assets/img/icons/trash.svg" class="me-2" alt="img" style="width: 25px;" (click)="eliminarHallazgoPaciente(data.pacienteOdontogramaId)"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
 </ng-template>

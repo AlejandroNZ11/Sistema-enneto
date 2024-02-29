@@ -15,6 +15,7 @@ import { AgregarHallazgo6Component } from '../agregar-hallazgo-odontograma/agreg
 import { environment } from 'src/environments/environments';
 import { IHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { AgregarHallazgo7Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
+import Swal from 'sweetalert2';
 
 interface Producto {
   nombre: string;
@@ -36,6 +37,7 @@ export class OdontogramaInicialComponent implements OnInit{
 
     constructor(private modalService: BsModalService,private route: ActivatedRoute, private sharedService:SharedService, private odontogramaService: OdontogramaService){
       // this.calcularTamanhoDiente(); // Calcular el tamaño inicial del diente al inicializar el componente
+
     }
 
     // calcularTamanhoDiente(): void {
@@ -152,9 +154,10 @@ export class OdontogramaInicialComponent implements OnInit{
         const hallazgoAgregado$ = new Subject<boolean>();
 
         this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
-        hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
-          if(pacienteAlergiaEditado){
-            console.log("Traer data odontograma paciente")
+        hallazgoAgregado$.subscribe((hallazgoAgregado:boolean)=>{
+          if(hallazgoAgregado){
+            this.draw();
+
           }
         });
         this.bsModalRef.onHidden?.subscribe(()=>{
@@ -278,40 +281,95 @@ export class OdontogramaInicialComponent implements OnInit{
 
 
     @ViewChild('myModal') myModal!: TemplateRef<any>;
+    @ViewChild('listModal') listModal!: TemplateRef<any>;
+
+
+
+    obtenerNombresTrue(marcasS:string): string{
+
+      if(marcasS===''){
+        return '';
+      }
+
+      const marcas = JSON.parse(marcasS);
+      const nombresTrue: string[] = [];
+
+      for (const marca in marcas) {
+          if (marcas.hasOwnProperty(marca) && marcas[marca].Valor) {
+              nombresTrue.push(marca);
+          }
+      }
+
+      return nombresTrue.join('<br>');
+    }
+
+    eliminarHallazgoPaciente(pacienteOdontogramaId:string){
+      Swal.fire({
+        title: '¿Estas seguro que deseas eliminar?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: `Cancelar`,
+      }).then((result) => {
+        if(result.isConfirmed){
+          this.odontogramaService.eliminarHallazgoPaciente(pacienteOdontogramaId).subscribe(
+            (response) => {
+              if (response.isSuccess) {
+                Swal.fire(response.message, '', 'success');
+                // this.bsModalRef.hide();
+
+                // Limpiar el canvas
+                const canvas = this.myCanvas.nativeElement;
+                const context = canvas.getContext('2d');
+              if(context){
+                console.log("canvas limpiado")
+                context.clearRect(0, 0, canvas.width, canvas.height);
+              }
+              this.limpiarOdontograma();
+
+              } else {
+                console.error(response.message);
+              }
+            },
+            (error) => {
+              console.error(error);
+            });
+        }else{
+          return;
+        }
+      })
+    }
+
+    abrirListaHallazgo(){
+      this.modalRef = this.modalService.show(this.myModal,  { backdrop: false});
+
+    }
+
+    odontogramaPacienteList$: IodontogramaPaciente[] = [];
 
     openModal(numeroDiente:string) {
       this.numeroDiente = numeroDiente;
-      let odontogramaPacienteList$: IodontogramaPaciente[] = [];
+    this.odontogramaPacienteList$= [];
 
       for (let index = 0; index < this.odotogramaPacienteList.length; index++) {
         if(this.odotogramaPacienteList[index].numeroDiente===parseInt(numeroDiente)){
           console.log(this.odotogramaPacienteList[index]);
 
           // Agregar el OdontogramaPaciente actual a la lista
-      odontogramaPacienteList$.push(this.odotogramaPacienteList[index]);
+      this.odontogramaPacienteList$.push(this.odotogramaPacienteList[index]);
 
         }
 
 
       }
 
-      if(odontogramaPacienteList$.length>0){
-        const initialState = {
-          numeroDiente$:this.numeroDiente,
-          odontogramaPacienteList$: odontogramaPacienteList$
-          }
-          // Opciones adicionales para personalizar el modal
-          const modalOptions = {
-            initialState: initialState,
-            class: 'modal-lg' // Esta clase se utiliza para establecer el ancho del modal. 'modal-lg' es una clase predefinida en Bootstrap que establece el ancho del modal al 75% del viewport
-          };
-
-          this.bsModalRef = this.modalService.show(EditarHallazgo1Component,modalOptions)
-          return;
+      if(this.odontogramaPacienteList$.length>0){
+        console.log(this.odontogramaPacienteList$.length)
+      this.modalRef = this.modalService.show(this.listModal, {class:'modal-lg'});
+      return;
       }
 
 
-
+      console.log("ejecute")
       this.modalRef = this.modalService.show(this.myModal,  { backdrop: false});
     }
 
@@ -341,7 +399,186 @@ export class OdontogramaInicialComponent implements OnInit{
       inferior: ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38']
   }
     imagenes: { src: string, x: number, y: number, largura: number, altura: number }[] = [];
-    ngAfterViewInit(): void {
+
+    private draw(){
+      const canvas = this.myCanvas.nativeElement;
+      const context = canvas.getContext('2d');
+
+
+      if (context) {
+        this.tamanhoColumna = canvas.width / 16;
+        this.posicionPadre = {
+          posicaoYInicialDente: 220,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:30,
+        };
+        this.posicionPadreRight = {
+          posicaoYInicialDente: 190,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:30,
+        }
+
+        this.posicionPadre2 = {
+          posicaoYInicialDente: 480,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:280,
+
+        };
+
+        this.posicionNumerosSuperior ={
+          posicaoYNumeros:480
+        }
+        this.posicionNumerosInferior ={
+          posicaoYNumeros:1750
+        }
+
+
+
+
+
+        this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+          this.odotogramaPacienteList = data
+
+
+        //* Dibujar data del odontograma del paciente:
+        for (let index = 0; index < this.odotogramaPacienteList.length; index++) {
+
+          const numeroDienteSuperior = this.numeroDientes.superior.indexOf(this.odotogramaPacienteList[index].numeroDiente.toString());
+
+          const numeroDienteInferior = this.numeroDientes.inferior.indexOf(this.odotogramaPacienteList[index].numeroDiente.toString());
+
+          const numeroDienteFinalSuperior = this.numeroDientes.superior.indexOf(this.odotogramaPacienteList[index].dienteFinal.toString());
+
+          const numeroDienteFinalInferior = this.numeroDientes.inferior.indexOf(this.odotogramaPacienteList[index].dienteFinal.toString());
+
+          const posicionXSuperior = this.definePosicaoXInicialDente(numeroDienteSuperior);
+          const posicionXFinalSuperior = this.definePosicaoXInicialDente(numeroDienteFinalSuperior);
+
+          const posicionXInferior = this.definePosicaoXInicialDente(numeroDienteInferior);
+          const posicionXFinalInferior = this.definePosicaoXInicialDente(numeroDienteFinalInferior);
+
+
+
+
+          if(numeroDienteSuperior!=-1){
+            console.log(this.odotogramaPacienteList);
+            if(this.odotogramaPacienteList[index].halllazgoId=== 1 || this.odotogramaPacienteList[index].halllazgoId=== 1){
+              this.marcarTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===2){
+              this.dibujarHallazgo(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===3){
+              this.marcarBordeTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===5){
+              this.dibujarAparatoFijo(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===6){
+              this.dibujarAparatoRemovible(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],numeroDienteSuperior, numeroDienteFinalSuperior)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===7){
+              this.dibujarProtesisTotal(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===8){
+              this.dibujarProtesisRemovible(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===9){
+              this.piezaDentariaIntruida(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===10){
+              this.piezaDentariaExtruida(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, -90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===11){
+              this.textoRectangulo({
+                position: {
+                    x: posicionXSuperior + 3,
+                    y: (this.posicionPadre.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre.posicionRectangulo
+                },
+                primeiroOuUltimoDente: index === 0 || index === 15,
+                altura: this.tamanhoDiente / 1.8,
+                largura: index === 15 ? this.tamanhoDiente + this.posicionPadre.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre.margemXEntreDentes
+            },
+            context, this.odotogramaPacienteList[index].sigla)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===12){
+              this.dibujarCirculoSinRelleno(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===13){
+              this.dibujarFusión(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===14){
+              this.dibujarTriangulo(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===15){
+              this.dibujarPiezaDentaria(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,13,'S')
+            }
+          }else if(numeroDienteInferior!=-1){
+            console.log("inferior:",this.odotogramaPacienteList[index].halllazgoId);
+
+            if(this.odotogramaPacienteList[index].halllazgoId=== 1 || this.odotogramaPacienteList[index].halllazgoId=== 3){
+              this.marcarTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===2){
+              this.dibujarHallazgo(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===3){
+              this.marcarBordeTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===5){
+              this.dibujarAparatoFijo(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===6){
+              this.dibujarAparatoRemovible(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],numeroDienteInferior,numeroDienteFinalInferior)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===7){
+              this.dibujarProtesisTotal(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===8){
+              this.dibujarProtesisRemovible(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===9){
+              this.piezaDentariaIntruida(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, 90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===10){
+              this.piezaDentariaExtruida(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, -90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===11){
+              this.textoRectangulo({
+                position: {
+                    x: posicionXInferior + 3,
+                    y: (this.posicionPadre2.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre2.posicionRectangulo
+                },
+                primeiroOuUltimoDente: index === 0 || index === 15,
+                altura: this.tamanhoDiente / 1.8,
+                largura: index === 15 ? this.tamanhoDiente + this.posicionPadre2.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre2.margemXEntreDentes
+            },
+            context, this.odotogramaPacienteList[index].sigla)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===12){
+              this.dibujarCirculoSinRelleno(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===13){
+              this.dibujarFusión(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===14){
+              this.dibujarTriangulo(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===15){
+              this.dibujarPiezaDentaria(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,13,'S')
+            }
+          }
+        }
+        })
+
+
+    }
+    }
+
+    private limpiarOdontograma(){
       const canvas = this.myCanvas.nativeElement;
       const context = canvas.getContext('2d');
 
@@ -564,9 +801,241 @@ export class OdontogramaInicialComponent implements OnInit{
           }
         }
         })
+    }
+    }
+
+    private drawOdontograma(){
+      const canvas = this.myCanvas.nativeElement;
+      const context = canvas.getContext('2d');
+
+
+      if (context) {
+        this.tamanhoColumna = canvas.width / 16;
+        this.posicionPadre = {
+          posicaoYInicialDente: 220,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:30,
+        };
+        this.posicionPadreRight = {
+          posicaoYInicialDente: 190,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:30,
+        }
+
+        this.posicionPadre2 = {
+          posicaoYInicialDente: 480,
+          margemXEntreDentes: 8,
+          margemYEntreDentes: 200,
+          posicionRectangulo:280,
+
+        };
+
+        this.posicionNumerosSuperior ={
+          posicaoYNumeros:480
+        }
+        this.posicionNumerosInferior ={
+          posicaoYNumeros:1750
+        }
+
+        //* Superior
+
+        for (let index = 0; index < 16; index++) {
+          const posicionX = this.definePosicaoXInicialDente(index);
+
+          this.dibujarTrapezoide(context, posicionX + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente);
+
+
+
+          this.dibujarImagenDienteSuperior(`/assets/img/odontogramaTest/dientes/tooth-${this.numeroDientes.superior[index]}.png`, context, canvas, posicionX+ 10);
+
+          this.dibujarNumerosSuperior(context,index);
+
+          this.dibujarRectangulo({
+            position: {
+                x: posicionX + 3,
+                y: (this.posicionPadre.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre.posicionRectangulo
+            },
+            primeiroOuUltimoDente: index === 0 || index === 15,
+            altura: this.tamanhoDiente / 1.8,
+            largura: index === 15 ? this.tamanhoDiente + this.posicionPadre.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre.margemXEntreDentes
+        },
+        context)
+        }
+
+        //* Inferior
+        for (let index = 0; index < 16; index++) {
+          const posicionX = this.definePosicaoXInicialDente(index);
+          this.dibujarTrapezoide(context, posicionX + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente);
+
+
+          this.dibujarImagenDienteInferior(`/assets/img/odontogramaTest/dientes/tooth-${this.numeroDientes.inferior[index]}.png`, context, canvas, posicionX+ 10);
+
+
+          this.dibujarNumerosInferior(context,index);
+
+          this.dibujarRectangulo({
+            position: {
+                x: posicionX + 3,
+                y: (this.posicionPadre2.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre2.posicionRectangulo
+            },
+            primeiroOuUltimoDente: index === 0 || index === 15,
+            altura: this.tamanhoDiente / 1.8,
+            largura: index === 15 ? this.tamanhoDiente + this.posicionPadre2.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre2.margemXEntreDentes
+        },
+        context)
+
+        }
+
+        for(let index =0; index<16; index++){
+          const posicionX = this.definePosicaoXInicialDente(index);
+
+        }
+
+        this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+          this.odotogramaPacienteList = data
+
+
+        //* Dibujar data del odontograma del paciente:
+        for (let index = 0; index < this.odotogramaPacienteList.length; index++) {
+
+          const numeroDienteSuperior = this.numeroDientes.superior.indexOf(this.odotogramaPacienteList[index].numeroDiente.toString());
+
+          const numeroDienteInferior = this.numeroDientes.inferior.indexOf(this.odotogramaPacienteList[index].numeroDiente.toString());
+
+          const numeroDienteFinalSuperior = this.numeroDientes.superior.indexOf(this.odotogramaPacienteList[index].dienteFinal.toString());
+
+          const numeroDienteFinalInferior = this.numeroDientes.inferior.indexOf(this.odotogramaPacienteList[index].dienteFinal.toString());
+
+          const posicionXSuperior = this.definePosicaoXInicialDente(numeroDienteSuperior);
+          const posicionXFinalSuperior = this.definePosicaoXInicialDente(numeroDienteFinalSuperior);
+
+          const posicionXInferior = this.definePosicaoXInicialDente(numeroDienteInferior);
+          const posicionXFinalInferior = this.definePosicaoXInicialDente(numeroDienteFinalInferior);
+
+
+
+
+          if(numeroDienteSuperior!=-1){
+            console.log(this.odotogramaPacienteList);
+            if(this.odotogramaPacienteList[index].halllazgoId=== 1 || this.odotogramaPacienteList[index].halllazgoId=== 1){
+              this.marcarTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===2){
+              this.dibujarHallazgo(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===3){
+              this.marcarBordeTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===5){
+              this.dibujarAparatoFijo(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===6){
+              this.dibujarAparatoRemovible(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],numeroDienteSuperior, numeroDienteFinalSuperior)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===7){
+              this.dibujarProtesisTotal(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===8){
+              this.dibujarProtesisRemovible(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===9){
+              this.piezaDentariaIntruida(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===10){
+              this.piezaDentariaExtruida(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, -90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===11){
+              this.textoRectangulo({
+                position: {
+                    x: posicionXSuperior + 3,
+                    y: (this.posicionPadre.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre.posicionRectangulo
+                },
+                primeiroOuUltimoDente: index === 0 || index === 15,
+                altura: this.tamanhoDiente / 1.8,
+                largura: index === 15 ? this.tamanhoDiente + this.posicionPadre.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre.margemXEntreDentes
+            },
+            context, this.odotogramaPacienteList[index].sigla)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===12){
+              this.dibujarCirculoSinRelleno(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===13){
+              this.dibujarFusión(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===14){
+              this.dibujarTriangulo(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===15){
+              this.dibujarPiezaDentaria(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente,13,'S')
+            }
+          }else if(numeroDienteInferior!=-1){
+            console.log("inferior:",this.odotogramaPacienteList[index].halllazgoId);
+
+            if(this.odotogramaPacienteList[index].halllazgoId=== 1 || this.odotogramaPacienteList[index].halllazgoId=== 3){
+              this.marcarTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===2){
+              this.dibujarHallazgo(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===3){
+              this.marcarBordeTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente);
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===5){
+              this.dibujarAparatoFijo(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===6){
+              this.dibujarAparatoRemovible(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],numeroDienteInferior,numeroDienteFinalInferior)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===7){
+              this.dibujarProtesisTotal(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===8){
+              this.dibujarProtesisRemovible(context,posicionXInferior +30,posicionXFinalInferior +30,this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===9){
+              this.piezaDentariaIntruida(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, 90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===10){
+              this.piezaDentariaExtruida(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, -90)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===11){
+              this.textoRectangulo({
+                position: {
+                    x: posicionXInferior + 3,
+                    y: (this.posicionPadre2.margemYEntreDentes / 5) + this.tamanhoDiente + this.posicionPadre2.posicionRectangulo
+                },
+                primeiroOuUltimoDente: index === 0 || index === 15,
+                altura: this.tamanhoDiente / 1.8,
+                largura: index === 15 ? this.tamanhoDiente + this.posicionPadre2.margemXEntreDentes : this.tamanhoDiente + 2 * this.posicionPadre2.margemXEntreDentes
+            },
+            context, this.odotogramaPacienteList[index].sigla)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===12){
+              this.dibujarCirculoSinRelleno(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===13){
+              this.dibujarFusión(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,67,34, 15)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===14){
+              this.dibujarTriangulo(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,40)
+            }
+            else if(this.odotogramaPacienteList[index].halllazgoId===15){
+              this.dibujarPiezaDentaria(context,posicionXInferior +34,this.posicionPadre2.posicaoYInicialDente,13,'S')
+            }
+          }
+        }
+        })
+
         this.clickEvent(canvas);
         this.hoverEventSuperior(canvas,context);
     }
+    }
+
+
+    ngAfterViewInit(): void {
+     this.drawOdontograma();
   }
 
   private dibujarPiezaDentaria(context: CanvasRenderingContext2D, x: number, y: number, radio: number,texto:string): void {

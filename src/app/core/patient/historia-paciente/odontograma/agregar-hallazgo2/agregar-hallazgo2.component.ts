@@ -4,6 +4,8 @@ import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-agregar-hallazgo2',
@@ -12,14 +14,46 @@ import Swal from 'sweetalert2';
 })
 export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
-  constructor(private sharedService: SharedService, private odontogramaService:OdontogramaService){}
+  constructor(public bsModalRef: BsModalRef,private sharedService: SharedService, private odontogramaService:OdontogramaService, public formBuilder: FormBuilder){}
   pacienteId = "";
+  form!: FormGroup;
+  isFormSubmitted = false;
+
 
   ngOnInit(): void {
      this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
     })
+
+    this.form = this.formBuilder.group({
+
+      hallazgoId: ['', [Validators.required]],
+      numeroDiente: [{ value: '', disabled: true },[Validators.required]],
+      checkboxVestibular: ['', []],
+      checkboxPalatino: ['', []],
+      checkboxDistal: ['', []],
+      checkboxMesial: ['', []],
+      checkboxOclusal: ['', []],
+      especificacion: ['', []],
+
+
+
+    })
   }
+
+  isInvalid(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.touched;
+  }
+  isRequerido(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.errors && control.errors['required'];
+  }
+
+
+
+
+
 
   hallazgoAgregado$: Subject<boolean> = new Subject<boolean>();
   hallazgoId$:number=0;
@@ -34,7 +68,21 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
   dientesOclusales:string[] =['18','17','16','15','14','24','25','26','27','28','38','37','36','35','34','44','45','46','47','48']
 
+  markAllFieldsAsTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
+
+
   agregarHallazgo(){
+
+    if (this.form.invalid) {
+      this.isFormSubmitted = true;
+      console.log("agregar")
+      this.markAllFieldsAsTouched();
+      return;
+    }
 
     const data = {
       "Vestibular": { "Valor": this.checkboxVestibular },
@@ -57,21 +105,17 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
     console.log(this.hallazgoR);
 
     this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
-      (response) => {
-        if (response.isSuccess) {
-          Swal.fire({
-            title: 'Guardando...',
-            allowOutsideClick: false,
-          })
-          Swal.showLoading();
-          Swal.close();
-          Swal.fire('Correcto',response.message, 'success');
-        } else {
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+          this.hallazgoAgregado$.next(true);
+          this.bsModalRef.hide();
+        }else{
           console.error(response.message);
         }
       },
-      (error) => {
-        console.error(error);
+      (error)=>{
+        console.log(error);
       }
     )
   }
@@ -328,6 +372,11 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
       const posicionX = this.definePosicaoXInicialDente(0);
       this.pintarTrapezoide(context, posicionX + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente);
     }
+  }
+
+  cancelar() {
+    this.hallazgoAgregado$.next(false);
+    this.bsModalRef.hide()
   }
 
 }

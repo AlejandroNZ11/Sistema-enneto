@@ -36,4 +36,13 @@ export class OdontogramaService {
     )
   }
 
+  eliminarHallazgoPaciente(hallazgoPacienteId:string):Observable<successResponse>{
+    return this.http.delete<successResponse>(this.apiUrl + `/PacientesOdontogramas/DeletePacienteOdontograma/${hallazgoPacienteId}`).pipe(
+      catchError(error => {
+        Swal.fire('Error',error.error,'warning');
+        return throwError(()=>error);
+      })
+    )
+  }
+
 }
