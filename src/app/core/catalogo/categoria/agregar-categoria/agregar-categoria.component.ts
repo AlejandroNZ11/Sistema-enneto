@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { categoria } from 'src/app/shared/models/categoria';
@@ -11,13 +11,12 @@ import { Subject } from 'rxjs';
   templateUrl: './agregar-categoria.component.html',
   styleUrls: ['./agregar-categoria.component.scss']
 })
-export class AgregarCategoriaComponent implements OnInit {
+export class AgregarCategoriaComponent {
   categoriaAgregada$: Subject<boolean> = new Subject<boolean>();
   Categoria: categoria = new categoria();
   public routes = routes;
   form!: FormGroup;
   public mostrarErrores = false;
-  ngOnInit(): void { }
 
   constructor(
     public bsModalRef: BsModalRef, 
@@ -27,6 +26,14 @@ export class AgregarCategoriaComponent implements OnInit {
     this.form = this.fb.group({
       nombre: ['', Validators.required],
     });
+  }
+
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   isInvalid(controlName: string) {

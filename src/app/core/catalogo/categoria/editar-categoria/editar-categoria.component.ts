@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { routes } from 'src/app/shared/routes/routes';
-import Swal from 'sweetalert2';
 import { CategoriaService } from 'src/app/shared/services/categoria.service';
 import { Icategoria } from 'src/app/shared/models/categoria';
 import { Subject } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-editar-categoria',
@@ -38,6 +38,14 @@ export class EditarCategoriaComponent implements OnInit {
         estado: this.categoria.estado == '1' ? 'Activo' : 'Inactivo',
       });
     })
+  }
+
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
   }
 
   isInvalid(controlName: string) {
