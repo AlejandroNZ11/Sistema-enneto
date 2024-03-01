@@ -5,7 +5,7 @@ import { GastosRoutingModule } from './gastos-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AgregarGastosComponent } from './agregar-gastos/agregar-gastos.component';
 import { EditarGastosComponent } from './editar-gastos/editar-gastos.component';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +17,8 @@ import { EditarGastosComponent } from './editar-gastos/editar-gastos.component';
   imports: [
     CommonModule,
     GastosRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule, ReactiveFormsModule
   ]
 })
 export class GastosModule { }

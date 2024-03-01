@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
 import { routes } from 'src/app/shared/routes/routes';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { Subject } from 'rxjs';
 import { IConceptoGasto } from 'src/app/shared/models/tipogastos';
 import { TipoGastosService } from 'src/app/shared/services/tipo-gastos.service';
 import { finalize } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-gastos',
@@ -38,7 +39,8 @@ export class GastosComponent implements OnInit {
   public pageSelection: Array<pageSelection> = [];
   public totalPages = 0;
   @ViewChild('multiUserSearch') multiGastoSearchInput !: ElementRef;
-  gastoSeleccionada!: string;
+  gastoSeleccionado = "todos";
+  gastosSeleccionado!:string;
   listGastoFiltrados!: IConceptoGasto[]
   tiposGasto!: IConceptoGasto[];
   listEstados!: IConceptoGasto[];
@@ -47,20 +49,21 @@ export class GastosComponent implements OnInit {
   fechaFin = new Date();
   isLoading = false;
   mostrarOpciones = false;
-  
-  //gastoSeleccionado: Gastos = new Gastos();
   public gasto = '';
   public tipoGasto = '';
   columnas: string[] = []
   acciones: string[] = []
   bsModalRef?: BsModalRef;
+  public searchDataValue = '';
+  dataFiltro!: MatTableDataSource<any>;
+  dataSourcer: any = [];
   //limit: number = this.pageSize;
 
   constructor(
     private modalService: BsModalService, 
     private gastosservice: GastosService,
     public tipogastoservice: TipoGastosService,
-
+    private fb: FormBuilder
   ){}
   
 
@@ -69,8 +72,18 @@ export class GastosComponent implements OnInit {
     this.obtenerGastos(); 
   }
   
-
-
+  public searchData(value: string): void {
+    this.dataFiltro.filter = value.trim().toLowerCase();
+    this.dataSourcer = this.dataFiltro.filteredData;
+  }
+  
+  @Input() set data(data: any) {
+    this.isLoading = true;
+    this.dataSource = data;
+    this.dataFiltro = new MatTableDataSource<any>(data);
+    this.calculateTotalPages(this.totalData, this.pageSize);
+    this.isLoading = false;
+  }
   public getMoreData(event: string): void {
     if (event == 'next') {
       this.currentPage++;
@@ -149,7 +162,14 @@ export class GastosComponent implements OnInit {
     this.isLoading = true;
     const inicio = this.fechaInicio.toISOString().split('T')[0]
     const fin = this.fechaFin.toISOString().split('T')[0]
-    this.gastosservice.obtenerControlGastos(this.currentPage, this.pageSize, inicio, fin, this.gastoSeleccionada, this.estadoSeleccionado).pipe(
+    this.gastosservice.obtenerControlGastos(
+      this.currentPage, 
+      this.pageSize, 
+      inicio, 
+      fin, 
+      this.gastoSeleccionado, 
+      this.estadoSeleccionado
+      ).pipe(
       finalize(() => this.isLoading = false)
     ).subscribe((data: DataControlGasto) => {
       this.totalData = data.totalData;
