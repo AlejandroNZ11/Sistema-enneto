@@ -35,11 +35,6 @@ export class AgregarCuentaComponent implements OnInit{
   validarInput(event: any) {
     const inputValue = event.target.value;
     const maxValueLength = 9;
-
-    if (inputValue.length > maxValueLength) {
-      const newValue = inputValue.slice(0, maxValueLength);
-      this.renderer.setProperty(event.target, 'value', newValue);
-    }
     if (isNaN(inputValue)) {
       const newValue = inputValue.slice(0, -1);
       this.renderer.setProperty(event.target, 'value', newValue);

@@ -40,7 +40,7 @@
                                     <input formControlName="total"
                                         class="form-control" type="text"
                                         [ngClass]="{'is-invalid': isInvalid('total')}"
-                                        (input)="validarInput($event)">
+                                        (input)="validarInput($event)" maxlength="10">
                                     <div *ngIf="isInvalid('total') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('total')">
                                             Debe completar el campo*
