@@ -183,7 +183,7 @@ export class GastosComponent implements OnInit {
     }
   }
   private calculateTotalPages(totalData: number, pageSize: number): void {
-    this.serialNumberArray = [];
+    this.pageNumberArray = [];
     this.totalPages = totalData / pageSize;
     if (this.totalPages % 1 != 0) {
       this.totalPages = Math.trunc(this.totalPages + 1);
@@ -191,7 +191,7 @@ export class GastosComponent implements OnInit {
     for (let i = 1; i <= this.totalPages; i++) {
       const limit = pageSize * i;
       const skip = limit - pageSize;
-      this.serialNumberArray.push(i);
+      this.pageNumberArray.push(i);
       this.pageSelection.push({ skip: skip, limit: limit });
     }
   }
