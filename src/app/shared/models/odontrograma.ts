@@ -13,7 +13,7 @@ export interface IodontogramaPaciente {
   tipo:           string;
   halllazgoId:    number;
   categoria:      string;
-  estado:         string;
+  estado:         number;
   marcas:         string;
   numeroDiente:   number;
   dienteFinal:    number;

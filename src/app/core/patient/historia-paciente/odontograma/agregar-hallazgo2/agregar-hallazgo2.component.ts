@@ -39,6 +39,10 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
 
     })
+
+    this.form.patchValue({
+      numeroDiente:this.numeroDiente$
+    })
   }
 
   isInvalid(controlName: string) {

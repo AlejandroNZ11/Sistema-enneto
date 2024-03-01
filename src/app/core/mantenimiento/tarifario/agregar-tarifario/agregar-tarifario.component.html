@@ -88,7 +88,7 @@
                                 <div class="form-group local-forms">
                                     <label>Precio<span class="login-danger">*</span></label>
                                     <input formControlName="precio" class="form-control" type="text"
-                                            [ngClass]="{'is-invalid': isInvalid('precio')}">
+                                            [ngClass]="{'is-invalid': isInvalid('precio')}" maxlength="10">
                                     <div *ngIf="isInvalid('precio') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('precio') || mostrarErrores">
                                             Debe completar el campo*
