@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Imedida } from 'src/app/shared/models/medida';
 import { Icategoria } from 'src/app/shared/models/categoria';
@@ -56,6 +56,7 @@ export class EditarTarifarioComponent implements OnInit {
     public router: Router,
     private route: ActivatedRoute,
     public bsModalRef: BsModalRef,
+    private renderer: Renderer2,
   ){
 
     this.form = this.formBuilder.group({
@@ -126,6 +127,20 @@ export class EditarTarifarioComponent implements OnInit {
   formatoFecha(fecha: string): string {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}/${mes}/${anio}`;
+  }
+  validarInput(event: any) {
+    const inputValue = event.target.value;
+    const maxValueLength = 9;
+
+    if (inputValue.length > maxValueLength) {
+      const newValue = inputValue.slice(0, maxValueLength);
+      this.renderer.setProperty(event.target, 'value', newValue);
+    }
+    if (isNaN(inputValue)) {
+      const newValue = inputValue.slice(0, -1);
+      this.renderer.setProperty(event.target, 'value', newValue);
+    }
+
   }
   
   editarTarifario() {

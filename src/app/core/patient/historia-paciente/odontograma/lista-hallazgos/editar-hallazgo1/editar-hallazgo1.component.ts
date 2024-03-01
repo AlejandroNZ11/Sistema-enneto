@@ -9,11 +9,17 @@ import { AgregarHallazgo3Component } from '../../agregar-hallazgo3/agregar-halla
 import { Subject } from 'rxjs';
 import { AgregarHallazgo4Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo4/agregar-hallazgo4.component';
 import { AgregarHallazgo5Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo5/agregar-hallazgo5.component';
+import Swal from 'sweetalert2';
+import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
+import { AgregarHallazgo6Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo6/agregar-hallazgo6.component';
+import { AgregarHallazgo7Component } from '../../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
 
 
 interface THallazgo{
+  id:number;
   nombre:string;
   tipo:string;
+  siglas?:string[];
 }
 
 @Component({
@@ -24,25 +30,36 @@ interface THallazgo{
 export class EditarHallazgo1Component implements OnInit {
   numeroDiente$:string='';
 
-  constructor(public formBuilder: FormBuilder, private modalService:BsModalService){}
+  constructor(public bsModalRef: BsModalRef,public formBuilder: FormBuilder, private modalService:BsModalService, private odontogramaService:OdontogramaService){}
 
   categoria$?:string;
   diagnostico$?:string;
   form!: FormGroup;
   modalRef!: BsModalRef;
-  bsModalRef?: BsModalRef;
 
+
+  hallazgoEliminado$:  Subject<boolean> = new Subject<boolean>();
 
 
   odontogramaPacienteList$:IodontogramaPaciente[]=[];
 
   hallazgosList: THallazgo[]=[
-    {nombre:'Macrodoncia', tipo:'fijo'},
-    {nombre:'Caries Dental', tipo:'caries'},
-    {nombre:'Aparato Orto.fijo', tipo:'puente'},
-    {nombre:'Restauración Definitiva', tipo:'Restauracion Definitiva'},
-    {nombre:'Restauración Temporal', tipo:'Restauracion Temporal'},
-    {nombre:'Sellantes', tipo:'Sellantes'},
+    {id:1,nombre:'Caries Dental', tipo:'caries',siglas:['MB - Mancha Blanca','CE - Lesión de caries a nivel del esmalte']},
+    {id:2,nombre:'Protesis Removible', tipo:'aparato'},
+    {id:3,nombre:'Protesis Total', tipo:'aparato'},
+    {id:4,nombre:'Protesis Fija', tipo:'aparato'},
+    {id:5,nombre:'Aparato Orto. Fijo', tipo:'aparato'},
+    {id:6,nombre:'Aparato Orto. Removible', tipo:'aparato'},
+    {id:7,nombre:'Exodoncia', tipo:'fijo'},
+    {id:8,nombre:'Corona', tipo:'fijo estado',siglas:['CM - Corona Metálica','CF - Corona Fenestrada']},
+    {id:9,nombre:'Corona Temporal', tipo:'fijo estado'},
+    {id:10,nombre:'Espigo Muñon', tipo:'fijo'},
+    {id:11,nombre:'Impactacion', tipo:'fijo'},
+    {id:12,nombre:'Sellantes', tipo:'sellantes'},
+    {id:13,nombre:'Restauracion Temporal', tipo:'restauracion temporal'},
+    {id:14,nombre:'Restauracion Definitiva', tipo:'restauracion definitiva',siglas:['AM -Amalgama Dental','R - Resina']},
+
+
 
   ]
 
@@ -52,6 +69,24 @@ get hallazgosFiltrados(): THallazgo[] {
   return this.hallazgosList.filter(producto =>
     producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
   );
+}
+
+obtenerNombresTrue(marcasS:string): string{
+
+  if(marcasS===''){
+    return '';
+  }
+
+  const marcas = JSON.parse(marcasS);
+  const nombresTrue: string[] = [];
+
+  for (const marca in marcas) {
+      if (marcas.hasOwnProperty(marca) && marcas[marca].Valor) {
+          nombresTrue.push(marca);
+      }
+  }
+
+  return nombresTrue.join('<br>');
 }
 
   ngOnInit(): void {
@@ -74,17 +109,21 @@ get hallazgosFiltrados(): THallazgo[] {
 
 
   agregarHallazgoModal(){
-    this.modalRef = this.modalService.show(this.myModal,  { backdrop: false});
+    this.modalRef = this.modalService.show(this.myModal);
+    this.bsModalRef.hide()
 
   }
 
-  agregarHallazgo(numeroDiente:string, hallazgo:string){
+  agregarHallazgo(numeroDiente:string, hallazgo:THallazgo){
 
-    if(hallazgo==='fijo'){
+    // Limpiar la búsqueda:
+    this.terminoBusqueda='';
+
+    if(hallazgo.tipo==='fijo'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
-      hallazgo$:hallazgo
+      hallazgo$:hallazgo.tipo
       }
 
       this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
@@ -100,11 +139,13 @@ get hallazgosFiltrados(): THallazgo[] {
       this.bsModalRef.onHidden?.subscribe(()=>{
         hallazgoAgregado$.unsubscribe();
       })
-    }else if(hallazgo==='caries'){
+    }else if(hallazgo.tipo==='caries'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
-      hallazgo$:hallazgo
+      hallazgo$:hallazgo.tipo,
+      hallazgoId$:hallazgo.id,
+      siglas$:hallazgo.siglas,
       }
 
 
@@ -113,20 +154,21 @@ get hallazgosFiltrados(): THallazgo[] {
       const hallazgoAgregado$ = new Subject<boolean>();
 
       this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
-      hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
-        if(pacienteAlergiaEditado){
-          console.log("Traer data odontograma paciente")
+      hallazgoAgregado$.subscribe((hallazgoAgregado:boolean)=>{
+        if(hallazgoAgregado){
+          // this.drawOdontograma();
+
         }
       });
       this.bsModalRef.onHidden?.subscribe(()=>{
         hallazgoAgregado$.unsubscribe();
       })
     }
-    else if(hallazgo==='puente'){
+    else if(hallazgo.tipo==='aparato'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
-      hallazgo$:hallazgo
+      hallazgo$:hallazgo.tipo
       }
 
 
@@ -144,11 +186,12 @@ get hallazgosFiltrados(): THallazgo[] {
         hallazgoAgregado$.unsubscribe();
       })
     }
-    else if(hallazgo==='Restauracion Definitiva'){
+    else if(hallazgo.tipo==='restauracion definitiva'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
-      hallazgo$:hallazgo
+      hallazgo$:hallazgo.tipo,
+      siglas$:hallazgo.siglas,
       }
 
 
@@ -166,11 +209,11 @@ get hallazgosFiltrados(): THallazgo[] {
         hallazgoAgregado$.unsubscribe();
       })
     }
-    else if(hallazgo==='Restauracion Temporal'){
+    else if(hallazgo.tipo==='restauracion temporal'){
       this.modalRef.hide();
       const initialState ={
       numeroDiente$:numeroDiente,
-      hallazgo$:hallazgo
+      hallazgo$:hallazgo.tipo
       }
 
 
@@ -188,7 +231,80 @@ get hallazgosFiltrados(): THallazgo[] {
         hallazgoAgregado$.unsubscribe();
       })
     }
+    else if(hallazgo.tipo==='sellantes'){
+      this.modalRef.hide();
+      const initialState ={
+      numeroDiente$:numeroDiente,
+      hallazgo$:hallazgo.tipo
+      }
 
+
+      this.bsModalRef = this.modalService.show(AgregarHallazgo6Component, { initialState});
+
+      const hallazgoAgregado$ = new Subject<boolean>();
+
+      this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+      hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+        if(pacienteAlergiaEditado){
+          console.log("Traer data odontograma paciente")
+        }
+      });
+      this.bsModalRef.onHidden?.subscribe(()=>{
+        hallazgoAgregado$.unsubscribe();
+      })
+    }
+    else if(hallazgo.tipo==='fijo estado'){
+      this.modalRef.hide();
+      const initialState ={
+      numeroDiente$:numeroDiente,
+      hallazgo$:hallazgo.tipo,
+      siglas$:hallazgo.siglas,
+      }
+
+      this.bsModalRef = this.modalService.show(AgregarHallazgo7Component, { initialState});
+
+      const hallazgoAgregado$ = new Subject<boolean>();
+
+      this.bsModalRef.content.hallazgoAgregado$ = hallazgoAgregado$;
+      hallazgoAgregado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+        if(pacienteAlergiaEditado){
+          console.log("Traer data odontograma paciente")
+        }
+      });
+      this.bsModalRef.onHidden?.subscribe(()=>{
+        hallazgoAgregado$.unsubscribe();
+      })
+    }
+
+  }
+
+
+  eliminarHallazgoPaciente(pacienteOdontogramaId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if(result.isConfirmed){
+        this.odontogramaService.eliminarHallazgoPaciente(pacienteOdontogramaId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message, '', 'success');
+              this.hallazgoEliminado$.next(true);
+              this.bsModalRef.hide()
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      }else{
+        return;
+      }
+    })
   }
 
 
