@@ -4,16 +4,18 @@
       <div class="card">
         <div class="card-body">
 <!-- form -->
+<form [formGroup]="form" class="row my-4">
+
           <div class="row">
 
               <div class="form-heading">
-                <h4>Agregar Hallazgos Macrodoncia</h4>
+                <h4>Agregar Hallazgos</h4>
               </div>
 
               <div *ngIf="!siglas$" class="col-md-6">
                 <div class="form-group local-forms">
                   <label>Hallazgo <span class="login-danger">*</span></label>
-                  <input class="form-control" type="text" [disabled]="true" [(ngModel)]="hallazgo$">
+                  <input class="form-control" type="text" formControlName="hallazgoNombre">
                 </div>
               </div>
 
@@ -22,17 +24,23 @@
                   <label>Hallazgo<span class="login-danger">*</span></label>
                   <mat-select
                        class="form-control select" placeholder="Seleccione un estado"
-                       >
+                       formControlName="hallazgoId" [ngClass]="{'is-invalid': isInvalid('hallazgoId') && isFormSubmitted}">
                        <mat-option *ngFor="let data of siglas$" [value]="data">
                         {{data}}
                        </mat-option>
                   </mat-select>
+                  <div *ngIf="isInvalid('hallazgoId') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('hallazgoId')">
+                      Debe completar el campo*
+                  </div>
+              </div>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label>N° de Diente <span class="login-danger">*</span></label>
-                  <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+                  <input class="form-control" type="text" formControlName="numeroDiente">
                 </div>
               </div>
 
@@ -41,11 +49,18 @@
                   <label>Estado<span class="login-danger">*</span></label>
                   <mat-select
                        class="form-control select" placeholder="Seleccione un estado"
-                       >
-                       <mat-option *ngFor="let data of estados" [value]="data">
-                        {{data}}
+                       formControlName="estado"
+                       [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
+                       <mat-option *ngFor="let data of estados" [value]="data.value">
+                        {{data.name}}
                        </mat-option>
                   </mat-select>
+                  <div *ngIf="isInvalid('estado') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('estado')">
+                      Debe completar el campo*
+                  </div>
+              </div>
                 </div>
               </div>
 
@@ -55,16 +70,19 @@
               <label>Diagnostico - Especificaciones</label>
               <textarea
                   class="form-control" type="text"
+                  formControlName="especificacion"
                   ></textarea>
           </div>
           </div>
+        </form>
+
           <!-- form cierre -->
           <div class="col-12">
             <div class="doctor-submit text-end">
                 <button type="submit"
-                    class="btn btn-primary submit-form me-2" >Guardar</button>
+                    class="btn btn-primary submit-form me-2" (click)="agregarHallazgo()">Guardar</button>
                 <button type="submit"
-                    class="btn btn-primary cancel-form">Cancelar</button>
+                    class="btn btn-primary cancel-form" (click)="cancelar()">Cancelar</button>
             </div>
         </div>
         </div>

@@ -4,16 +4,18 @@
       <div class="card">
         <div class="card-body">
 <!-- form -->
+<form [formGroup]="form" class="row my-4">
+
           <div class="row">
 
               <div class="form-heading">
-                <h4>Agregar Hallazgos puente</h4>
+                <h4>Agregar Hallazgos</h4>
               </div>
 
               <div class="col-md-6">
                 <div class="form-group local-forms">
                   <label>Hallazgo <span class="login-danger">*</span></label>
-                  <input class="form-control" type="text" [disabled]="true">
+                  <input class="form-control" type="text" formControlName="hallazgoNombre">
                 </div>
               </div>
 
@@ -22,11 +24,17 @@
                   <label>Estados<span class="login-danger">*</span></label>
                   <mat-select
                        class="form-control select" placeholder="Seleccione un estado"
-                       >
+                       formControlName="estado" [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
                        <mat-option *ngFor="let data of estados_list" [value]="data.value">
                         {{data.name}}
                        </mat-option>
                   </mat-select>
+                  <div *ngIf="isInvalid('estado') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('estado')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
                 </div>
               </div>
           </div>
@@ -35,14 +43,28 @@
             <div class="col-md-6">
               <div class="form-group local-forms">
                 <label>Desde Pieza <span class="login-danger">*</span></label>
-                <input class="form-control" type="text" [(ngModel)]="numeroDiente$" [disabled]="true">
+                <input class="form-control" type="text" formControlName="desdePieza">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group local-forms">
                 <label>Hasta Pieza <span class="login-danger">*</span></label>
-                <input class="form-control" type="text">
+                <mat-select
+                       class="form-control select" placeholder="Seleccione un estado"
+                       formControlName="hastaPieza" [ngClass]="{'is-invalid': isInvalid('hastaPieza') && isFormSubmitted}">
+                        <!-- Verificar si la lista numerosMostrar está vacía -->
+                    <ng-container *ngIf="numerosMostrar.length > 0; else noNumeros">
+                      <mat-option *ngFor="let data of numerosMostrar" [value]="data">{{ data }}</mat-option>
+                    </ng-container>
+                        <!-- Mostrar mensaje si la lista está vacía -->
+                  <ng-template #noNumeros>
+                    <mat-option class="numMostrar">Diente {{numeroDiente$}} no tiene nada a la derecha</mat-option>
+                  </ng-template>
+                  </mat-select>
+
+
+
               </div>
             </div>
           </div>
@@ -52,16 +74,18 @@
               <label>Diagnostico - Especificaciones</label>
               <textarea
                   class="form-control" type="text"
-                  ></textarea>
+                  formControlName="especificacion"></textarea>
           </div>
           </div>
+        </form>
+
           <!-- form cierre -->
           <div class="col-12">
             <div class="doctor-submit text-end">
                 <button type="submit"
-                    class="btn btn-primary submit-form me-2" >Guardar</button>
+                    class="btn btn-primary submit-form me-2" (click)="agregarHallazgo()">Guardar</button>
                 <button type="submit"
-                    class="btn btn-primary cancel-form">Cancelar</button>
+                    class="btn btn-primary cancel-form" (click)="cancelar()">Cancelar</button>
             </div>
         </div>
         </div>
