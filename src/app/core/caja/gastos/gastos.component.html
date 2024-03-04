@@ -28,9 +28,9 @@
                                                     [matDatepicker]="picker1" (ngModelChange)="obtenerGastos()"
                                                     placeholder="Ingrese una Fecha de Inicio">
                                                 <mat-datepicker #picker1></mat-datepicker>
-                                                <mat-datepicker-toggle matIconSuffix
-                                                    [for]="picker1"></mat-datepicker-toggle>
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Hasta </label>
@@ -39,20 +39,26 @@
                                                     [matDatepicker]="picker2" (ngModelChange)="obtenerGastos()"
                                                     placeholder="Ingrese una Fecha de Fin">
                                                 <mat-datepicker #picker2></mat-datepicker>
-                                                <mat-datepicker-toggle matIconSuffix
-                                                    [for]="picker2"></mat-datepicker-toggle>
+                                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+
+                                            </div>
+                                            <div class="local-forms top-nav-search table-search-blk">
+                                                <label for="buscarPor">Gasto</label>
+                                                <input class="form-control" placeholder="Buscar aqui" [(ngModel)]="searchDataValue"
+                                                    (ngModelChange)="searchData(searchDataValue)">
+                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Tipo Gasto</label>
-                                                <mat-select formControlName="gastoSeleccionada"
+                                                <mat-select formControlName="gastoSeleccionado"
                                                     class="form-control select controlSelectCorto"
                                                     placeholder="Seleccione Gasto"
                                                     (ngModelChange)="obtenerGastos()">
                                                     <mat-option value="todos">Todos</mat-option>
                                                     <mat-option *ngFor="let gasto of tiposGasto" [value]="gasto.conceptoGastoId">
                                                         {{gasto.nombre}}
-                                                    </mat-option>
+                                                    </mat-option>                                                    
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
