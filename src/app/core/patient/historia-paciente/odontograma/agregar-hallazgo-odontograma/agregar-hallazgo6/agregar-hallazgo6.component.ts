@@ -1,22 +1,127 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
+import { SharedService } from '../../../services/shared-service.service';
+import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
+import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agregar-hallazgo6',
   templateUrl: './agregar-hallazgo6.component.html',
   styleUrls: ['./agregar-hallazgo6.component.scss']
 })
-export class AgregarHallazgo6Component implements  AfterViewInit{
+export class AgregarHallazgo6Component implements  AfterViewInit, OnInit{
 
 
   hallazgoAgregado$: Subject<boolean> = new Subject<boolean>();
-  hallazgo$?: string;
-  numeroDiente$?: string;
+  hallazgoTipo$: string="";
+  hallazgoNombre$?: string;
+  numeroDiente$: string="";
+  hallazgoId$:number=0;
 
   dientesOclusales: string[] = ['18', '17', '16', '15', '14', '24', '25', '26', '27', '28', '38', '37', '36', '35', '34', '44', '45', '46', '47', '48']
 
-  constructor(public bsModalRef: BsModalRef){}
+  hallazgoR:hallazgoRequest = new hallazgoRequest();
+
+  constructor(public bsModalRef: BsModalRef, public formBuilder: FormBuilder,private sharedService: SharedService,private odontogramaService:OdontogramaService){}
+
+  pacienteId = "";
+  form!: FormGroup;
+  isFormSubmitted = false;
+  especificacion:string='';
+
+
+
+  ngOnInit(): void {
+    this.sharedService.pacientID.subscribe((id)=>{
+      this.pacienteId = id
+    });
+
+    this.form = this.formBuilder.group({
+      hallazgoNombre:[{ value: '', disabled: true },[Validators.required]],
+      numeroDiente: [{ value: '', disabled: true },[Validators.required]],
+    })
+
+    this.form.patchValue({
+      hallazgoNombre: this.hallazgoNombre$,
+      numeroDiente:this.numeroDiente$
+    })
+
+  }
+
+  markAllFieldsAsTouched() {
+    Object.values(this.form.controls).forEach((control) => {
+      control.markAsTouched();
+    });
+  }
+  agregarHallazgo(){
+
+    if (this.form.invalid) {
+      this.isFormSubmitted = true;
+      console.log("agregar")
+      this.markAllFieldsAsTouched();
+      return;
+    }
+
+      let estadoRadioVestibular = "N/A";
+      if (this.checkboxVestibular) {
+        estadoRadioVestibular = this.checkVestibularBueno ? "Bueno" : "Malo";
+      }
+      let estadoRadioPalatino = "N/A";
+      if (this.checkboxPalatino) {
+        estadoRadioPalatino = this.checkPalatinoBueno ? "Bueno" : "Malo";
+      }
+      let estadoRadioDistal = "N/A";
+      if (this.checkboxDistal) {
+        estadoRadioDistal = this.checkDistalBueno ? "Bueno" : "Malo";
+      }
+      let estadoRadioMesial = "N/A";
+      if (this.checkboxMesial) {
+        estadoRadioMesial = this.checkMesialBueno ? "Bueno" : "Malo";
+      }
+      let estadoRadioOclusal = "N/A";
+      if (this.checkboxOclusal) {
+        estadoRadioOclusal = this.checkOclusalBueno ? "Bueno" : "Malo";
+    }
+
+    const data = {
+      "Vestibular": { "Valor": this.checkboxVestibular,"Estado":estadoRadioVestibular },
+      "Palatino": { "Valor": this.checkboxPalatino, "Estado":estadoRadioPalatino },
+      "Distal": { "Valor": this.checkboxDistal, "Estado":estadoRadioDistal },
+      "Mesial": { "Valor": this.checkboxMesial, "Estado":estadoRadioMesial },
+      "Oclusal": { "Valor": this.checkboxOclusal, "Estado":estadoRadioOclusal }
+    };
+
+    this.hallazgoR.pacienteId = this.pacienteId;
+    this.hallazgoR.tipo = this.hallazgoTipo$;
+    this.hallazgoR.halllazgoId = this.hallazgoId$;
+    this.hallazgoR.categoria = this.hallazgoTipo$
+    this.hallazgoR.marcas = JSON.stringify(data).toString();
+    this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
+    this.hallazgoR.especificacion = this.especificacion;
+
+    console.log(this.hallazgoR);
+
+
+    this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+          this.hallazgoAgregado$.next(true);
+          this.bsModalRef.hide();
+        }else{
+          console.error(response.message);
+        }
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
+
+
+  }
 
   @ViewChild('myCanvasModal', { static: true })
   myCanvasModal!: ElementRef<HTMLCanvasElement>;
