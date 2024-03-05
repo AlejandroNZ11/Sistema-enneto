@@ -29,17 +29,20 @@ export class GastosService {
   //   return this.http.get<DataGastos>(url);
   // }
 
-  obtenerGastos(clinicaId: string, page: number, rows: number): Observable<DataGastos> {
-    return this.http.get<DataGastos>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
-  }
+  // obtenerGastos(clinicaId: string, page: number, rows: number): Observable<DataGastos> {
+  //   return this.http.get<DataGastos>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  // }
 
-  obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string): Observable<DataControlGasto> {
+  obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  gasto?: string, descripcion?: string): Observable<DataControlGasto> {
     let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (estado != 'todos' && estado) {
       url += `&estado=${estado}`;
     }
     if (gasto != 'todos' && gasto) {
       url += `&conceptoGasto=${gasto}`;
+    }
+    if (descripcion != '' && descripcion) {
+      url += `&conceptoGasto=${descripcion}`;
     }
     return this.http.get<DataControlGasto>(url);
   }

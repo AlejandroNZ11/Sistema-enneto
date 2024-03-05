@@ -45,6 +45,7 @@ export class GastosComponent implements OnInit {
   tiposGasto!: IConceptoGasto[];
   listEstados!: IConceptoGasto[];
   estadoSeleccionado = 'todos';
+  descripcion = '';
   fechaInicio = new Date();
   fechaFin = new Date();
   isLoading = false;
@@ -76,9 +77,9 @@ export class GastosComponent implements OnInit {
     this.dataFiltro.filter = value.trim().toLowerCase();
     this.dataSourcer = this.dataFiltro.filteredData;
   }
-  
+
   @Input() set data(data: any) {
-    this.isLoading = true;
+    this.isLoading = true; 
     this.dataSource = data;
     this.dataFiltro = new MatTableDataSource<any>(data);
     this.calculateTotalPages(this.totalData, this.pageSize);
@@ -168,7 +169,8 @@ export class GastosComponent implements OnInit {
       inicio, 
       fin, 
       this.gastoSeleccionado, 
-      this.estadoSeleccionado
+      this.estadoSeleccionado,
+      this.descripcion,
       ).pipe(
       finalize(() => this.isLoading = false)
     ).subscribe((data: DataControlGasto) => {

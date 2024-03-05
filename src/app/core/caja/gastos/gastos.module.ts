@@ -18,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     GastosRoutingModule,
     SharedModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule 
   ]
 })
 export class GastosModule { }

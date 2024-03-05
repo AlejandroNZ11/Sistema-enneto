@@ -133,7 +133,7 @@ export class AgregarGastosComponent implements OnInit{
     this.Gasto.sedeId = this.user.selectedSucursal.id.toString();
     this.Gasto.responsable= this.form.get("responsable")?.value;
     this.Gasto.observacion= this.form.get("observacion")?.value;
-    this.Gasto.estado = "1";
+    this.Gasto.estado = 1;
     console.log(this.Gasto);
     this.gastoservice.crearGastos(this.Gasto).subscribe(
       (response)=>{
