@@ -117,6 +117,13 @@ export class EditarTarifarioComponent implements OnInit {
     const control = this.form.get(controlName);
     return control?.errors && control.errors['required'];
   }
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 
 
   Cancelar() {

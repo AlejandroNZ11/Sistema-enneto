@@ -27,7 +27,7 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
     this.form = this.formBuilder.group({
 
-      hallazgoId: ['', [Validators.required]],
+      hallazgoSigla: ['', [Validators.required]],
       numeroDiente: [{ value: '', disabled: true },[Validators.required]],
       checkboxVestibular: ['', []],
       checkboxPalatino: ['', []],
@@ -65,7 +65,6 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
   numeroDiente$:string='';
   siglas$:string[]=[];
 
-  hallazgoSeleccionado:string='';
   especificacion:string='';
 
   hallazgoR:hallazgoRequest = new hallazgoRequest();
@@ -103,7 +102,7 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
     this.hallazgoR.categoria = this.hallazgo$
     this.hallazgoR.marcas = JSON.stringify(data).toString();
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
-    this.hallazgoR.sigla = this.hallazgoSeleccionado.substring(0,2);
+    this.hallazgoR.sigla = this.form.get('hallazgoSigla')?.value.substring(0,2);
     this.hallazgoR.especificacion = this.especificacion;
 
     console.log(this.hallazgoR);

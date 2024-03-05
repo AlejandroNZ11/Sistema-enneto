@@ -104,6 +104,13 @@ export class AgregarTarifarioComponent implements OnInit {
     }
 
   }
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
   formatoFecha(fecha: string): string {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}-${mes}-${anio}`;

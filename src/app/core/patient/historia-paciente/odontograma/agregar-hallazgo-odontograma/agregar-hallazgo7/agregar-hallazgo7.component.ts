@@ -45,18 +45,26 @@ export class AgregarHallazgo7Component implements OnInit{
 
     this.form = this.formBuilder.group({
 
-      hallazgoId: ['',[Validators.required]],
-      hallazgoNombre:[{ value: '', disabled: true }, [Validators.required]],
-      numeroDiente: [{ value: '', disabled: true },[Validators.required]],
+      sigla: ['',this.validarSiglaRequerida()],
+      hallazgoNombre:[{ value: '', disabled: true }, ],
+      numeroDiente: [{ value: '', disabled: true }],
       estado:['', [Validators.required]],
-      especificacion: ['', []],
+      especificacion: [''],
 
     })
 
     this.form.patchValue({
       numeroDiente:this.numeroDiente$,
-      hallazgoNombre:this.hallazgoNombre$
+      hallazgoNombre:this.hallazgoNombre$,
     })
+  }
+  validarSiglaRequerida() {
+    return (control:any) => {
+      if (this.hallazgoId$===(3) || this.hallazgoId$===(27)) { // Reemplaza "this.condicion" por tu condición real
+        return Validators.required(control);
+      }
+      return null;
+    };
   }
 
   isInvalid(controlName: string) {
@@ -90,7 +98,7 @@ export class AgregarHallazgo7Component implements OnInit{
     this.hallazgoR.categoria = this.hallazgo$
     this.hallazgoR.estado = this.form.get('estado')?.value
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
-    this.hallazgoR.sigla = this.form.get('hallazgoId')?.value.substring(0,2);
+    this.hallazgoR.sigla = this.form.get('sigla')?.value.substring(0,2);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value
 
 
