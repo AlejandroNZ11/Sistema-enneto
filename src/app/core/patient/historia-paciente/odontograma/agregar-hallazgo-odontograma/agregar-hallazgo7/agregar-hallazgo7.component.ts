@@ -60,7 +60,7 @@ export class AgregarHallazgo7Component implements OnInit{
   }
   validarSiglaRequerida() {
     return (control:any) => {
-      if (this.hallazgoNombre$==="Corona") { // Reemplaza "this.condicion" por tu condición real
+      if (this.hallazgoId$===(3) || this.hallazgoId$===(27)) { // Reemplaza "this.condicion" por tu condición real
         return Validators.required(control);
       }
       return null;
