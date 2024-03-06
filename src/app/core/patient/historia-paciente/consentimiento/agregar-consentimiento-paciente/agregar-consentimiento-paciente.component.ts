@@ -1,8 +1,16 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Editor, Toolbar } from 'ngx-editor';
+import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Editor, NgxEditorComponent, Toolbar } from 'ngx-editor';
 import { Subject } from 'rxjs';
+import { DataConsentimiento, Iconsentimiento } from 'src/app/shared/models/consentimiento';
+import { MedicoList } from 'src/app/shared/models/medico';
 import { pacienteConsentimiento } from 'src/app/shared/models/pacienteConsentimiento';
+import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
+import { MedicoService } from 'src/app/shared/services/medico.service';
+import { PacienteConsentimientoService } from 'src/app/shared/services/pacienteConsentimiento.service';
+import { environment } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -35,33 +43,78 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     ['text_color', 'background_color'],
     ['align_left', 'align_center', 'align_right', 'align_justify'],
   ];
+  listaMedicos:Array<MedicoList>=[];
+
+
+  @ViewChild(NgxEditorComponent) editorText?: NgxEditorComponent;
+  consentimientoList:Iconsentimiento[]=[];
+
 
   ngOnInit(): void {
     this.editor = new Editor();
+    this.consetimientoService.obtenerConsentimientos(environment.clinicaId,1,7).subscribe((data:DataConsentimiento)=>{
+      this.consentimientoList = data.data;
+    })
+    this.medicoService.listaMedicos('e567ce10-7a58-4b8c-c350-08dc274d8014').subscribe(data=>{
+      this.listaMedicos = data;
+    })
   }
 
   ngOnDestroy(): void {
     this.editor.destroy();
+    clearInterval(this.timer);
   }
 
 
-  constructor(public fb: FormBuilder){
+
+
+
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: ['', Validators.required],
-      hora:['', Validators.required],
+      hora:[{ value: this.currentTime, disabled: true }],
       nombreApoderado: ['', [Validators.required, Validators.maxLength(100)]],
       documentoApoderado:['',[Validators.required, Validators.maxLength(8), Validators.minLength(8), Validators.pattern('^[0-9]+$')]],
       direccionApoderado:['',[Validators.required, Validators.maxLength(100)]],
       tipoConsentimientoId:['',Validators.required],
       pacienteId:['',Validators.required],
-
+      cuerpo:[''],
 
       terminoBusquedaMenorEdad: [''],
       terminoBusquedaMedico:['']
     });
+
+
+
+    this.timer = setInterval(() => {
+      this.getCurrentTime();
+    }, 1000);
   }
 
+
+
+
+  currentTime: string = '';
+
+  // Define un temporizador para actualizar la hora cada segundo
+  private timer: any;
+
+  getCurrentTime(): void {
+    // Obtiene la hora actual
+    const now = new Date();
+    // Formatea la hora, minuto y segundo
+    const hour = this.padNumber(now.getHours());
+    const minute = this.padNumber(now.getMinutes());
+    const second = this.padNumber(now.getSeconds());
+    // Retorna la hora formateada
+    this.currentTime = `${hour}:${minute}:${second}`;
+  }
+
+  // Función para agregar un cero delante de los números menores a 10
+  padNumber(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
+  }
 
 
   agregarConsentimiento(){
@@ -73,19 +126,75 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     }
 
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement;
+
+
+    if(this.isCanvasEmpty(canvas)){
+      Swal.showLoading();
+      Swal.close();
+      Swal.fire('Debe firmar el consentimiento','', 'warning');
+      return;
+    }else{
+      this.pacienteConsentimiento.firma =  canvas.toDataURL("image/png");
+    }
+
     this.isFormSubmitted = true;
     this.pacienteConsentimiento.medicoId = this.form.get("medicoId")?.value;
     this.pacienteConsentimiento.fecha = this.form.get("fecha")?.value;
-    this.pacienteConsentimiento.hora = this.form.get("hora")?.value;
+    this.pacienteConsentimiento.hora.ticks = parseInt(this.currentTime);
     this.pacienteConsentimiento.nombreApoderado= this.form.get("nombreApoderado")?.value;
     this.pacienteConsentimiento.documentoApoderado= this.form.get("documentoApoderado")?.value;
     this.pacienteConsentimiento.direccionApoderado= this.form.get("direccionApoderado")?.value;
     this.pacienteConsentimiento.tipoConsentimientoId= this.form.get("tipoConsentimientoId")?.value;
     this.pacienteConsentimiento.pacienteId= this.form.get("pacienteId")?.value;
-    this.pacienteConsentimiento.firma =  canvas.toDataURL("image/png");
+
+    // const tempElement = document.createElement('div');
+    // tempElement.innerHTML = this.form.get('cuerpo')?.value;
+
+    // // Obtener el texto sin formato
+    // const textoSinFormato = tempElement.textContent || tempElement.innerText;
+
+    this.pacienteConsentimiento.cuerpo = this.form.get('cuerpo')?.value;
+
+
+
+
+
 
     console.log(this.pacienteConsentimiento);
 
+    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+      if (response.isSuccess) {
+        Swal.fire({
+          title: 'Actualizando...',
+          allowOutsideClick: false,
+        })
+        Swal.showLoading();
+        Swal.close();
+        Swal.fire(response.message,'', 'success');
+        this.consentimientoPacienteAgregado$.next(true);
+      } else {
+        console.error(response.message);
+      }
+    },
+    (error) => {
+      console.error(error);
+    })
+
+  }
+
+  isCanvasEmpty(canvas: HTMLCanvasElement): boolean {
+    const context = canvas.getContext('2d');
+    let imageData:any;
+    if(context){
+     imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    }
+    // Verificar si todos los píxeles son transparentes
+    return !imageData.some((value:any) => value !== 0);
+  }
+
+  cancelar() {
+    this.consentimientoPacienteAgregado$.next(false);
+    this.bsModalRef.hide()
   }
 
 
@@ -93,8 +202,8 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 
 
 
-  get medicosFiltrados(): IMenorEdad[] {
-    return this.medicos.filter(nombre =>
+  get medicosFiltrados(): MedicoList[] {
+    return this.listaMedicos.filter(nombre =>
       nombre.nombre.toLowerCase().includes(this.form.get('terminoBusquedaMedico')?.value.toLowerCase())
     );
   }
@@ -209,4 +318,12 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     });
   }
 
+  isInvalid(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.invalid && control?.touched;
+  }
+  isRequerido(controlName: string) {
+    const control = this.form.get(controlName);
+    return control?.errors && control.errors['required'];
+  }
 }

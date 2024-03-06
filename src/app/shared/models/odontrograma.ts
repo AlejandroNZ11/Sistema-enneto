@@ -11,7 +11,8 @@ export interface IodontogramaPaciente {
   clinicaId:      string;
   pacienteId:     string;
   tipo:           string;
-  halllazgoId:    number;
+  hallazgoId:    number;
+  nombre:string;
   categoria:      string;
   estado:         number;
   marcas:         string;

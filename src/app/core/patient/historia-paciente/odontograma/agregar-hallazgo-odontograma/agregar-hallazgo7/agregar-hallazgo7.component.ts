@@ -94,7 +94,7 @@ export class AgregarHallazgo7Component implements OnInit{
 
     this.hallazgoR.pacienteId = this.pacienteId;
     this.hallazgoR.tipo = this.hallazgo$
-    this.hallazgoR.halllazgoId = this.hallazgoId$
+    this.hallazgoR.hallazgoId = this.hallazgoId$
     this.hallazgoR.categoria = this.hallazgo$
     this.hallazgoR.estado = this.form.get('estado')?.value
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);

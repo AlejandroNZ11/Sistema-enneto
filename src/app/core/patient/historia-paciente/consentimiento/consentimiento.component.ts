@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from '../services/shared-service.service';
 import { PacienteConsentimientoService } from 'src/app/shared/services/pacienteConsentimiento.service';
-import { finalize } from 'rxjs';
+import { Subject, finalize } from 'rxjs';
 import { IPacienteConsentimiento, PacienteConsentimientoData } from 'src/app/shared/models/pacienteConsentimiento';
 import { MatTableDataSource } from '@angular/material/table';
 import { pageSelection } from 'src/app/shared/models/models';
@@ -80,12 +80,18 @@ export class ConsentimientoComponent implements OnInit {
 crearConsentimientoPaciente(){
   this.bsModalRef = this.modalService.show(AgregarConsentimientoPacienteComponent,{class:'modal-lg'});
 
-  this.bsModalRef.content.consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
+  const consentimientoPacienteAgregado$ = new Subject<boolean>();
+
+  this.bsModalRef.content.consentimientoPacienteAgregado$ = consentimientoPacienteAgregado$;
+  consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
     if (consentimientoPacienteAgregado) {
       // this.getTableData(this.currentPage, this.pageSize);
     }
 
   });
+  this.bsModalRef.onHidden?.subscribe(()=>{
+    consentimientoPacienteAgregado$.unsubscribe();
+  })
 
 }
 

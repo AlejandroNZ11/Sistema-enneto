@@ -152,7 +152,7 @@ agregarHallazgo(){
 
   this.hallazgoR.pacienteId = this.pacienteId;
   this.hallazgoR.tipo = this.hallazgo$;
-  this.hallazgoR.halllazgoId = this.hallazgoId$
+  this.hallazgoR.hallazgoId = this.hallazgoId$
   this.hallazgoR.categoria = this.hallazgo$
   this.hallazgoR.marcas = JSON.stringify(data).toString();
   this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);

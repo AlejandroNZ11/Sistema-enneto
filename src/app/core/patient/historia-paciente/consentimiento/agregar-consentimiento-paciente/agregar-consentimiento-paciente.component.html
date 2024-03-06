@@ -14,17 +14,24 @@
                 <div class="form-group local-forms">
                   <label>Medico:</label>
                   <mat-select formControlName="medicoId"  class="form-control select"
-                    placeholder="--Seleccionar--" >
+                    placeholder="--Seleccionar--"
+                    [ngClass]="{'is-invalid': isInvalid('medicoId') && isFormSubmitted}">
                     <input type="text" class="form-control buscar" autocomplete="off"
                     placeholder="Ingrese Apellidos o Nombres" matInput
                     formControlName="terminoBusquedaMedico">
                     <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
                     <ng-container *ngIf="medicosFiltrados.length > 0; else noResultadosMedico">
-                      <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico.id">
+                      <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico.medicoId">
                         {{medico.nombre}}
                       </mat-option>
                     </ng-container>
                   </mat-select>
+                  <div *ngIf="isInvalid('medicoId') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('medicoId')">
+                      Debe completar el campo*
+                  </div>
+              </div>
                   <ng-template #noResultadosMedico>
                     <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaMedico')?.value}}"</p>
                   </ng-template>
@@ -34,14 +41,24 @@
               <div class="col-md-8">
                 <div class="form-group local-forms">
                   <label>Nombre apoderado:</label>
-                  <input formControlName="nombreApoderado" class="form-control" type="text">
+                  <input formControlName="nombreApoderado" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombreApoderado') && isFormSubmitted}">
+                  <div *ngIf="isInvalid('nombreApoderado') && isFormSubmitted" class="invalid-feedback">
+                    <div *ngIf="isRequerido('nombreApoderado')">
+                        Debe completar el campo*
+                    </div>
+                </div>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label class="control-label">Documento:</label>
-                  <input formControlName="documentoApoderado" class="form-control" type="text">
+                  <input formControlName="documentoApoderado" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('documentoApoderado') && isFormSubmitted}">
+                  <div *ngIf="isInvalid('documentoApoderado') && isFormSubmitted" class="invalid-feedback">
+                    <div *ngIf="isRequerido('documentoApoderado')">
+                        Debe completar el campo*
+                    </div>
+                </div>
                 </div>
               </div>
 
@@ -50,11 +67,17 @@
               <div class="col-md-12">
                 <div class="form-group local-forms">
                   <label>Tipo Consentimiento:</label>
-                  <mat-select formControlName="tipoConsentimientoId" class="form-control select" placeholder="Seleccione Estado Civil">
-                    <mat-option *ngFor="let data of consentimiento" [value]="data">
-                      {{data}}
+                  <mat-select formControlName="tipoConsentimientoId" class="form-control select" placeholder="Seleccione Estado Civil" [ngClass]="{'is-invalid': isInvalid('tipoConsentimientoId') && isFormSubmitted}">
+                    <mat-option *ngFor="let data of consentimientoList" [value]="data.consentimientoId">
+                      {{data.nombre}}
                     </mat-option>
                   </mat-select>
+                  <div *ngIf="isInvalid('tipoConsentimientoId') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('tipoConsentimientoId')">
+                      Debe completar el campo*
+                  </div>
+              </div>
                 </div>
               </div>
 
@@ -69,17 +92,28 @@
                 <div class="form-group local-forms">
                   <label class="control-label">Fecha:</label>
                   <input formControlName="fecha" style='height:48px' class="form-control datetimepicker" type="text" placeholder="" matInput
-                    [matDatepicker]="picker">
+                    [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}">
                   <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                   <mat-datepicker-toggle matIconSuffix [for]="picker"
                     matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                    <div *ngIf="isInvalid('fecha') && isFormSubmitted"
+                    class="invalid-feedback">
+                    <div *ngIf="isRequerido('fecha')">
+                        Debe completar el campo*
+                    </div>
+                </div>
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label>Hora:<span class="login-danger">*</span></label>
-                  <input formControlName="hora"  class="form-control">
+                  <input formControlName="hora"  class="form-control" [ngClass]="{'is-invalid': isInvalid('hora') && isFormSubmitted}" [value]="currentTime">
+                  <div *ngIf="isInvalid('hora') && isFormSubmitted" class="invalid-feedback">
+                    <div *ngIf="isRequerido('hora')">
+                        Debe completar el campo*
+                    </div>
+                </div>
                 </div>
               </div>
               <div class="col-md-12">
@@ -93,7 +127,7 @@
                 <div class="form-group local-forms">
                   <label>Menor de edad:</label>
                   <mat-select formControlName="pacienteId"  class="form-control select"
-                    placeholder="--Seleccionar--" >
+                    placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('pacienteId') && isFormSubmitted}">
                     <input type="text" class="form-control buscar" autocomplete="off"
                     placeholder="Ingrese Apellidos o Nombres" matInput
                     formControlName="terminoBusquedaMenorEdad">
@@ -104,6 +138,12 @@
                       </mat-option>
                     </ng-container>
                   </mat-select>
+                  <div *ngIf="isInvalid('pacienteId') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('pacienteId')">
+                      Debe completar el campo*
+                  </div>
+              </div>
                   <ng-template #noResultadosMenorEdad>
                     <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaMenorEdad')?.value }}"</p>
                   </ng-template>
@@ -114,10 +154,16 @@
 
           <div class="col-lg-12">
             <div class="form-group summer-mail">
-                <ngx-editor [editor]="editor">
+                <ngx-editor [editor]="editor" formControlName="cuerpo" [ngClass]="{'is-invalid': isInvalid('cuerpo') && isFormSubmitted}">
                     <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
                     </ngx-editor-menu>
                 </ngx-editor>
+                <div *ngIf="isInvalid('cuerpo') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('cuerpo')">
+                      Debe completar el campo*
+                  </div>
+              </div>
             </div>
         </div>
 
@@ -126,7 +172,7 @@
               <div class="form-group">
 
                 <div id="signature-pad" class="signature-pad">
-                  <div class="signature-pad--body">
+                  <div class="signature-pad--body" style="text-align: center;">
                     <h5>Firmar aqui: <i class="fa fa-fw fa-hand-o-down"></i></h5>
                     <canvas id="canvasId" width="330" height="200"
                       style="border: 1px solid rgb(221, 221, 221); padding: 0px; margin: auto; display: block; inset: 0px; touch-action: none;"></canvas>

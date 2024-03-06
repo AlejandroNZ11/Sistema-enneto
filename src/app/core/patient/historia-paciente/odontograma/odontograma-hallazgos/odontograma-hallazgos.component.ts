@@ -56,7 +56,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
 
     this.hallazgoR.pacienteId = this.pacienteId;
     this.hallazgoR.tipo = this.hallazgoTipo$;
-    this.hallazgoR.halllazgoId = this.hallazgoId$;
+    this.hallazgoR.hallazgoId = this.hallazgoId$;
     this.hallazgoR.categoria = this.hallazgoTipo$;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
