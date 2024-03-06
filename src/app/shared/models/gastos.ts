@@ -6,7 +6,7 @@ export class Gastos {
     conceptoGastoId= "";
     bancoId= "";
     cuentaPagarId= "";
-    estado="";
+    estado!: number;
     monto= "";
     operacion= "";
     sedeId= "";
