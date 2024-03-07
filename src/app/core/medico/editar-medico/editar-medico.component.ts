@@ -7,6 +7,7 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { EspecialidadesService } from 'src/app/shared/services/especialidades.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environments';
 interface data {
   value: string;
 }
@@ -39,7 +40,7 @@ export class EditarMedicoComponent implements OnInit {
   medicoEditar!: MedicoEditar;
   sexoMedico!: string;
   estadoMedico !: number;
-
+  apiImage = environment.apiURL + '/Medicos/GetImage?imageName='
   ngOnInit(): void {
     this.form = this.formBuilder.group({
       nombres: ['', [Validators.required, Validators.maxLength(100)]],
@@ -57,6 +58,7 @@ export class EditarMedicoComponent implements OnInit {
       foto: [''],
       firma: [''],
       color: ['', [Validators.required]],
+      rne: ['', [Validators.maxLength(5)]],
     });
     this.isFormSubmitted = false;
     this.especialidadService.obtenerEspecialidades
@@ -69,10 +71,10 @@ export class EditarMedicoComponent implements OnInit {
     this.medicoService.obtenerMedico(this.medicoId).subscribe((medico: MedicoEditar) => {
       if (medico) {
         this.medicoEditar = medico;
-        this.imagenTempFoto = this.medicoEditar.foto;
-        this.imagenTempFirma = this.medicoEditar.firma;
+        if (medico.foto) this.imagenTempFoto = this.apiImage + this.medicoEditar.foto;
+        if (medico.firma) this.imagenTempFirma = this.apiImage + this.medicoEditar.firma;
         this.sexoMedico = this.medicoEditar.sexo;
-        if (this.medicoEditar.estado == "A") {
+        if (this.medicoEditar.estado == "A" || this.medicoEditar.estado == "1") {
           this.estadoMedico = 1
         } else {
           this.estadoMedico = 0
@@ -230,7 +232,7 @@ export class EditarMedicoComponent implements OnInit {
     formData.append('Nombres', this.medicoEditar.nombre);
     formData.append('Apellidos', this.medicoEditar.apellido);
     formData.append('Abreviatura', this.medicoEditar.abreviatura);
-    formData.append('TipoDocumento', this.medicoEditar.tipoDocumentoId);
+    formData.append('TipoDocumentoIdentidadId', this.medicoEditar.tipoDocumentoId);
     formData.append('NumeroDocumento', this.medicoEditar.numeroDocumento);
     formData.append('ColegioMedico', this.medicoEditar.colegioMedico);
     formData.append('Telefono', this.medicoEditar.telefono);
@@ -242,6 +244,8 @@ export class EditarMedicoComponent implements OnInit {
     formData.append('ClinicaId', this.medicoEditar.clinicaId);
     formData.append('UsuarioId', this.medicoEditar.usuarioId);
     formData.append('MedicoId', this.medicoEditar.medicoId);
+    formData.append('Color', this.medicoEditar.color);
+    if (this.medicoEditar.rne) { formData.append('Rne', this.medicoEditar.rne); }
     formData.append('Estado', this.medicoEditar.estado);
     this.medicoService.actualizarMedico(formData, this.medicoEditar.medicoId).subscribe(
       (response) => {

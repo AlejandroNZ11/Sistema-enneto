@@ -170,9 +170,15 @@ export class CitasComponent implements OnInit {
     let b = parseInt(hex.substring(5, 7), 16);
     const brightness = (r * 0.299 + g * 0.587 + b * 0.114) / 255;
     let result;
-    if (brightness > 0.5) {
-      result = "#000000"
+    if (brightness > 0.8) {
+      r = Math.round(r * (1 - 0.6));
+      g = Math.round(g * (1 - 0.6));
+      b = Math.round(b * (1 - 0.6));
+      result = "#000000";
     } else {
+      r = Math.round(r + (255 - r) * 0.8);
+      g = Math.round(g + (255 - g) * 0.8);
+      b = Math.round(b + (255 - b) * 0.8);
       result = "#ffffff";
     }
     return result;

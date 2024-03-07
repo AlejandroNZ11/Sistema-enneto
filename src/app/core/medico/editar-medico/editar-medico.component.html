@@ -114,8 +114,9 @@
                                 <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>RNE <span class="login-danger"></span></label>
-                                        <input formControlName="rne" [(ngModel)]="medicoEditar.rne" class="form-control" type="text" maxlength="5"
-                                            (input)="soloNumeros($event)" [ngClass]="{'is-invalid': isInvalid('rne') && isFormSubmitted}">
+                                        <input formControlName="rne" [(ngModel)]="medicoEditar.rne" class="form-control"
+                                            type="text" maxlength="5" (input)="soloNumeros($event)"
+                                            [ngClass]="{'is-invalid': isInvalid('rne') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('rne') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('rne')">
                                                 Debe completar el campo*
@@ -229,7 +230,8 @@
                                 <div class="col-6 col-md-6 col-xl-2">
                                     <div class="form-group local-forms">
                                         <label>Color <span class="login-danger">*</span></label>
-                                        <input formControlName="color" [(ngModel)]="medicoEditar.color" class="form-control" type="color"
+                                        <input formControlName="color" [(ngModel)]="medicoEditar.color"
+                                            class="form-control" type="color"
                                             [ngClass]="{'is-invalid': isInvalid('color') && isFormSubmitted}">
                                         <div *ngIf="isInvalid('color') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('color')">

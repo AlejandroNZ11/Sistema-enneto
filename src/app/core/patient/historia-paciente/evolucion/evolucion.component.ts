@@ -121,13 +121,18 @@ export class EvolucionComponent implements OnInit{
 
   crearEvolucionPaciente(){
     this.bsModalRef = this.modalService.show(AgregarEvolucionPacienteComponent);
+    const evolucionAgregada$ = new Subject<boolean>();
 
-    this.bsModalRef.content.evolucionAgregada$.subscribe((evolucionAgregada: boolean)=>{
+    this.bsModalRef.content.evolucionAgregada$ = evolucionAgregada$
+    evolucionAgregada$.subscribe((evolucionAgregada: boolean)=>{
       if (evolucionAgregada) {
         this.getTableData(this.currentPage, this.pageSize);
       }
 
     });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      evolucionAgregada$.unsubscribe();
+    })
   }
 
   editarEvolucionPaciente(evolucion: EvolucionPacienteDTO){

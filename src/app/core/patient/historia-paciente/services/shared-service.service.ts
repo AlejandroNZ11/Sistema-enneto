@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { THallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class SharedService {
 
   pacienteId$ = this.pacienteIdSource.asObservable();
   pacienteName$ = this.pacienteNameSource.asObservable();
+
 
 
   setPacienteId(pacienteId: string) {
@@ -32,6 +34,26 @@ export class SharedService {
     return this.pacienteName$;
   }
 
+  private hallazgo: THallazgo | null = null;
 
+  setVariable(value: THallazgo) {
+    this.hallazgo = value;
+  }
 
+  getVariable(): THallazgo | null {
+    return this.hallazgo;
+  }
+
+  resetVariable() {
+    this.hallazgo = null;
+  }
+
+  hasSelection(): boolean {
+    return this.hallazgo !== null;
+  }
 }
+
+
+
+
+

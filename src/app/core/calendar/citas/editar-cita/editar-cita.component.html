@@ -117,9 +117,8 @@
                                         <mat-select formControlName="estado" [(ngModel)]="citaEditar.estado"
                                             class="form-control select" placeholder="Seleccione Tipo Citado"
                                             [ngClass]="{'is-invalid': isInvalid('estado') && isFormSubmitted}">
-                                            <mat-option value=0>Nuevo</mat-option>
-                                            <mat-option value=1>Reingreso</mat-option>
-                                            <mat-option value=2>Continuador</mat-option>
+                                            <mat-option *ngFor="let estado of estados"
+                                                [value]="estado.value">{{estado.name}}</mat-option>
                                         </mat-select>
                                         <div *ngIf="isInvalid('estado') && isFormSubmitted" class="invalid-feedback">
                                             <div *ngIf="isRequerido('estado')">
@@ -204,4 +203,3 @@
         </div>
     </div>
 </div>
-

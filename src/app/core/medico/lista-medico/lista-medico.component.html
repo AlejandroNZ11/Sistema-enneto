@@ -96,7 +96,7 @@
                                     <tr *ngFor="let data of doctorsList let i = index">
                                         <td>{{serialNumberArray[i]}}</td>
                                         <td class="profile-image"><img width="28" height="28" *ngIf="data.foto"
-                                                [src]="data.foto" class="rounded-circle m-r-5">
+                                                [src]="apiImage+data.foto" class="rounded-circle m-r-5">
                                             <img width="28" height="28" *ngIf="!data.foto" src="assets/img/user.jpg"
                                                 class="rounded-circle m-r-5">
                                             {{data.nombre}} {{data.apellido}}

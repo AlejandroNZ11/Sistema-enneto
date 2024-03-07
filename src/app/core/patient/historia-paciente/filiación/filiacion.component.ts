@@ -386,7 +386,7 @@ actualizarEdad() {
           })
           Swal.showLoading();
           Swal.close();
-          Swal.fire('Correcto', 'Paciente actualizado en el sistema correctamente.', 'success');
+          Swal.fire(response.message,'', 'success');
         } else {
           console.error(response.message);
         }

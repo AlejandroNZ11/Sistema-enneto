@@ -96,7 +96,7 @@ export class AgregarHallazgo6Component implements  AfterViewInit, OnInit{
 
     this.hallazgoR.pacienteId = this.pacienteId;
     this.hallazgoR.tipo = this.hallazgoTipo$;
-    this.hallazgoR.halllazgoId = this.hallazgoId$;
+    this.hallazgoR.hallazgoId = this.hallazgoId$;
     this.hallazgoR.categoria = this.hallazgoTipo$
     this.hallazgoR.marcas = JSON.stringify(data).toString();
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);

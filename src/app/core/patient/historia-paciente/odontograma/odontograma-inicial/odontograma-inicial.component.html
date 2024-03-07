@@ -2,7 +2,7 @@
   <div class="col-12 col-md-12  col-xl-9">
   <div class="card">
     <div class="card-body">
-      <main>
+      <main style="max-width: 1000px;">
         <canvas #myCanvas [width]="canvasWidth" [height]="canvasHeight">
 
         </canvas>
@@ -13,20 +13,47 @@
   </div>
   <div class="col-12 col-lg-12 col-xl-3">
     <div class="card flex-fill comman-shadow">
-      <div class="card-header">
-          <h4 class="card-title d-inline-block">Recent Appointments</h4> <a class="patient-views float-end">Show all</a>
+      <div class="card-header" style="padding-bottom: 0px;">
+          <h4 class="card-title d-inline-block">Hallazgos</h4>
+
       </div>
-      <div class="card-body">
-        <div class="email-menu-blk">
-          <ul >
-              <li class="active"><a href="javascript:;"><img src="assets/img/icons/inbox.svg" class="me-2" alt="img">Inbox<span class="comman-flex">50</span></a></li>
-              <li><a href="javascript:;"><img src="assets/img/icons/sent.svg" class="me-2" alt="img">Sent <span class="comman-flex">120</span></a></li>
-              <li><a href="javascript:;"><img src="assets/img/icons/draft.svg" class="me-2" alt="img">Draft <span class="comman-flex">20</span></a></li>
-              <li><a href="javascript:;"><img src="assets/img/icons/star.svg" class="me-2" alt="img">Starred <span class="comman-flex">05</span></a></li>
-              <li><a href="javascript:;"><img src="assets/img/icons/trash.svg" class="me-2" alt="img">Trash <span class="comman-flex">12</span></a></li>
-          </ul>
+      <div class="card-box">
+        <ul class="nav nav-tabs nav-tabs-bottom">
+          <li class="nav-item" *ngFor="let pestana of pestanas">
+            <a class="nav-link" href="#bottom-tab{{ pestana.nombre }}" data-bs-toggle="tab">{{ pestana.nombre }}</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane" *ngFor="let pestana of pestanas" [id]="'bottom-tab' + pestana.nombre">
+            <div class="email-menu-blk">
+              <ul >
+                <ng-container *ngFor="let hallazgo of pestana.hallazgos">
+                  <li *ngIf="!hallazgo.siglas || hallazgo.siglas.length === 0" class="">
+                    <a (click)="changeVariable(hallazgo)" href="javascript:;">
+                      <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
+                      {{ hallazgo.nombre }}
+                    </a>
+                  </li>
+                  <li *ngIf="hallazgo.siglas && hallazgo.siglas.length > 0" class="dropdown ">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
+                      {{ hallazgo.nombre }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-radius: 15px;">
+                      <a class="dropdown-item" *ngFor="let sigla of hallazgo.siglas" (click)="changeVariable(hallazgo)" href="javascript:;">{{ sigla }}</a>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+          </div>
+          </div>
+        </div>
+        <button *ngIf="sharedService.getVariable()" type="button" class="btn btn-primary btn-lg me-1 w-100" style="margin-bottom: 5px;">
+          {{ sharedService.getVariable()?.nombre }}</button>
+        <button (click)="toggleSelection()" type="button" class="btn btn-primary btn-lg me-1 w-100 ">
+          {{ sharedService.hasSelection() ? 'Quitar selección' : 'Seleccione' }}</button>
       </div>
-         </div>
       </div>
   </div>
 </div>
@@ -120,7 +147,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of odontogramaPacienteList$">
-                            <td>{{data.sigla+": " + data.halllazgoId}}</td>
+                            <td>{{data.sigla+": " + data.hallazgoId}}</td>
                             <td>{{data.categoria}}</td>
                             <td>{{data.numeroDiente}}</td>
                             <td>{{data.dienteFinal}}</td>
