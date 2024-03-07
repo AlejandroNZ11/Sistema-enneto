@@ -43,6 +43,10 @@ export class EditarCitaComponent implements OnInit {
   whatsappMessage = '';
   numero = '';
   public routes = routes;
+  protected estados =
+    [{ name: "Nuevo", value: 0 },
+    { name: "Reingreso", value: 1 },
+    { name: "Continuador", value: 2 }]
   citaAgregada$: Subject<boolean> = new Subject<boolean>();
   constructor(public especialidadService: EspecialidadesService, public tipoCitadoService: TipoCitadoService, public pacienteService: PacienteService, public bsModalRef: BsModalRef,
     public formBuilder: FormBuilder, public citaMedicaService: CitaService, public user: UserLoggedService, private modalService: BsModalService, private medicoService: MedicoService,
@@ -103,7 +107,7 @@ export class EditarCitaComponent implements OnInit {
   }
   irHistoria() {
     this.bsModalRef.hide();
-    this.router.navigate([`/paciente/historia-paciente/${this.citaEditar.pacienteId}`]);
+    this.router.navigate([`/paciente/historia-paciente/filiacion/${this.citaEditar.pacienteId}`]);
   }
   clonar() {
     const initialState = {
