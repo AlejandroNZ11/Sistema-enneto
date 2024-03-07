@@ -13,19 +13,14 @@ import { AgregarHallazgo4Component } from '../agregar-hallazgo-odontograma/agreg
 import { AgregarHallazgo5Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo5/agregar-hallazgo5.component';
 import { AgregarHallazgo6Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo6/agregar-hallazgo6.component';
 import { environment } from 'src/environments/environments';
-import { IHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, THallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { AgregarHallazgo7Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
 import Swal from 'sweetalert2';
 
 interface Producto {
   nombre: string;
 }
-interface THallazgo{
-  id:number;
-  nombre:string;
-  tipo:string;
-  siglas?:string[];
-}
+
 @Component({
   selector: 'app-odontograma-inicial',
   templateUrl: './odontograma-inicial.component.html',
@@ -35,7 +30,7 @@ interface THallazgo{
 export class OdontogramaInicialComponent implements OnInit{
 
 
-    constructor(private modalService: BsModalService,private route: ActivatedRoute, private sharedService:SharedService, private odontogramaService: OdontogramaService){
+    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService){
       // this.calcularTamanhoDiente(); // Calcular el tamaño inicial del diente al inicializar el componente
 
     }
@@ -85,10 +80,29 @@ export class OdontogramaInicialComponent implements OnInit{
       {id:12,nombre:'Sellantes', tipo:'sellantes'},
       {id:13,nombre:'Restauracion Temporal', tipo:'restauracion temporal'},
       {id:14,nombre:'Restauracion Definitiva', tipo:'restauracion definitiva',siglas:['AM -Amalgama Dental','R - Resina']},
-
-
-
     ]
+
+    changeVariable(hallazgo:THallazgo) {
+      console.log(hallazgo)
+      this.sharedService.setVariable(hallazgo);
+    }
+    pestanas: { nombre: string; hallazgos: THallazgo[] }[] = [];
+
+    agruparHallazgosPorPestanas() {
+      const rangos = [
+        { nombre: 'A-I', letras: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'] },
+        { nombre: 'L-P', letras: ['L', 'M', 'N', 'O', 'P'] },
+        { nombre: 'R-T', letras: ['R', 'S', 'T'] }
+      ];
+
+      rangos.forEach(rango => {
+        const hallazgosEnPestana = this.hallazgosList.filter(hallazgo =>
+          rango.letras.some(letra => hallazgo.nombre.startsWith(letra))
+        ).sort((a, b) => a.nombre.localeCompare(b.nombre));
+        this.pestanas.push({ nombre: rango.nombre, hallazgos: hallazgosEnPestana });
+      });
+    }
+
 
     terminoBusqueda: string = '';
 
@@ -104,6 +118,7 @@ export class OdontogramaInicialComponent implements OnInit{
       producto.nombre.toLowerCase().includes(this.terminoBusqueda.toLowerCase())
     );
   }
+
 
 
     pacienteId='';
@@ -123,6 +138,8 @@ export class OdontogramaInicialComponent implements OnInit{
       this.odontogramaService.obtenerHallazgos(environment.clinicaId,1,20).subscribe((data)=>{
         this.hallazgoLista = data.data;
       })
+
+      this.agruparHallazgosPorPestanas();
     }
 
     agregarHallazgo(numeroDiente:string, hallazgo:THallazgo){
@@ -131,7 +148,7 @@ export class OdontogramaInicialComponent implements OnInit{
       this.terminoBusqueda='';
 
       if(hallazgo.tipo==='fijo'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgoTipo$:hallazgo.tipo,
@@ -154,7 +171,7 @@ export class OdontogramaInicialComponent implements OnInit{
           hallazgoAgregado$.unsubscribe();
         })
       }else if(hallazgo.tipo==='caries'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgo$:hallazgo.tipo,
@@ -178,7 +195,7 @@ export class OdontogramaInicialComponent implements OnInit{
         })
       }
       else if(hallazgo.tipo==='protesis'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgoNombre$:hallazgo.nombre,
@@ -204,7 +221,7 @@ export class OdontogramaInicialComponent implements OnInit{
         })
       }
       else if(hallazgo.tipo==='restauracion definitiva'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgo$:hallazgo.tipo,
@@ -228,7 +245,7 @@ export class OdontogramaInicialComponent implements OnInit{
         })
       }
       else if(hallazgo.tipo==='restauracion temporal'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgoTipo$:hallazgo.tipo,
@@ -253,7 +270,7 @@ export class OdontogramaInicialComponent implements OnInit{
         })
       }
       else if(hallazgo.tipo==='sellantes'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgoTipo$:hallazgo.tipo,
@@ -278,7 +295,7 @@ export class OdontogramaInicialComponent implements OnInit{
         })
       }
       else if(hallazgo.tipo==='fijo estado'){
-        this.modalRef.hide();
+        // this.modalRef.hide();
         const initialState ={
         numeroDiente$:numeroDiente,
         hallazgo$:hallazgo.tipo,
@@ -410,33 +427,54 @@ export class OdontogramaInicialComponent implements OnInit{
 
     }
 
+    toggleSelection() {
+      const currentSelection = this.sharedService.getVariable();
+      if (currentSelection) {
+        this.sharedService.resetVariable();
+      } else {
+        return;
+      }
+    }
+
     odontogramaPacienteList$: IodontogramaPaciente[] = [];
 
     openModal(numeroDiente:string) {
-      this.numeroDiente = numeroDiente;
-    this.odontogramaPacienteList$= [];
 
-      for (let index = 0; index < this.odotogramaPacienteList.length; index++) {
-        if(this.odotogramaPacienteList[index].numeroDiente===parseInt(numeroDiente)){
-          console.log(this.odotogramaPacienteList[index]);
+      const hallazgo = this.sharedService.getVariable();
 
-          // Agregar el OdontogramaPaciente actual a la lista
-      this.odontogramaPacienteList$.push(this.odotogramaPacienteList[index]);
+        if(hallazgo){
+        this.agregarHallazgo(numeroDiente, hallazgo);
 
+        // this.sharedService.resetVariable();
+      // console.log("ejecute")
+      // this.modalRef = this.modalService.show(this.myModal,  { backdrop: false});
+        }
+        else{
+          this.numeroDiente = numeroDiente;
+          this.odontogramaPacienteList$= [];
+
+          for (let index = 0; index < this.odotogramaPacienteList.length; index++) {
+            if(this.odotogramaPacienteList[index].numeroDiente===parseInt(numeroDiente)){
+              console.log(this.odotogramaPacienteList[index]);
+
+              // Agregar el OdontogramaPaciente actual a la lista
+          this.odontogramaPacienteList$.push(this.odotogramaPacienteList[index]);
+
+            }
+          }
+
+          if(this.odontogramaPacienteList$.length>0){
+            console.log(this.odontogramaPacienteList$.length)
+            this.modalRef = this.modalService.show(this.listModal, {class:'modal-lg'});
+            return;
+          }
         }
 
 
-      }
-
-      if(this.odontogramaPacienteList$.length>0){
-        console.log(this.odontogramaPacienteList$.length)
-      this.modalRef = this.modalService.show(this.listModal, {class:'modal-lg'});
-      return;
-      }
 
 
-      console.log("ejecute")
-      this.modalRef = this.modalService.show(this.myModal,  { backdrop: false});
+
+
     }
 
     @ViewChild('myCanvas', { static: true })

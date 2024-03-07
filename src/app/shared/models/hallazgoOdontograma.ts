@@ -26,3 +26,11 @@ export interface IHallazgo {
   nombre:string;
   siglas:string;
 }
+
+
+export interface THallazgo{
+  id:number;
+  nombre:string;
+  tipo:string;
+  siglas?:string[];
+}
