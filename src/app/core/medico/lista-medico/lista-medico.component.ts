@@ -41,11 +41,12 @@ export class ListaMedicoComponent implements OnInit {
   public totalPages = 0;
   isLoading = false;
   especialidades !: Iespecialidad[];
+  apiImage = environment.apiURL+'/Medicos/GetImage?imageName='
   constructor(public data: DataService, public medicoService: MedicoService, public especialidadService: EspecialidadesService) {
 
   }
   ngOnInit() {
-    this.especialidadService.obtenerListaEspecialidad().subscribe((data)=> this.especialidades = data);
+    this.especialidadService.obtenerListaEspecialidad().subscribe((data) => this.especialidades = data);
     this.obtenerDatosMedicos();
   }
 
@@ -54,6 +55,7 @@ export class ListaMedicoComponent implements OnInit {
     this.serialNumberArray = [];
     let fechaInicioFormateado = undefined
     let fechaFinFormateado = undefined
+    this.isLoading = true;
     if (this.fechaInicio != "") {
       fechaInicioFormateado = new Date(this.fechaInicio)?.toISOString().split('T')[0];
     }
@@ -61,6 +63,9 @@ export class ListaMedicoComponent implements OnInit {
       fechaFinFormateado = new Date(this.fechaFin)?.toISOString().split('T')[0];
     }
     this.medicoService.obtenerMedicos(environment.clinicaId, this.currentPage, this.pageSize, fechaInicioFormateado, fechaFinFormateado, this.medico, this.especialidad)
+      .pipe(
+        finalize(() => this.isLoading = false)
+      )
       .subscribe((data: MedicoListData) => {
         this.totalData = data.totalData;
         for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
@@ -72,7 +77,9 @@ export class ListaMedicoComponent implements OnInit {
         this.calculateTotalPages(this.totalData, this.pageSize);
       });
   }
-
+  fotoPerfil(foto:string):string{
+    return foto
+  }
   formatoFecha(fecha: string): string {
     const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
     return `${dia}/${mes}/${anio}`;
