@@ -16,40 +16,43 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
                         <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk mt-3">
-                                        <div class="doctor-search-blk">
-                                            <div class="local-forms top-nav-search table-search-blk">
+                            <div class="align-items-center">
+                                <div class="doctor-table-blk">
+                                    <div class="row doctor-search-blk w-100">
+                                        <div class="col-12 col-md-6 col-xl-2 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label>Desde </label>
-                                                <input class="form-control datetimepicker controlSelectFecha"
-                                                    type="text" matInput [(ngModel)]="fechaInicio"
-                                                    [matDatepicker]="picker1" (ngModelChange)="obtenerCitasMedicas()"
+                                                <input class="form-control datetimepicker input-group" type="text"
+                                                    matInput [(ngModel)]="fechaInicio" [matDatepicker]="picker1"
+                                                    (ngModelChange)="obtenerCitasMedicas()"
                                                     placeholder="Ingrese una Fecha de Inicio">
                                                 <mat-datepicker #picker1></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
                                                     [for]="picker1"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-6 col-xl-2 mt-3 ">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label>Hasta </label>
-                                                <input class="form-control datetimepicker controlSelectFecha"
-                                                    type="text" matInput [(ngModel)]="fechaFin"
-                                                    [matDatepicker]="picker2" (ngModelChange)="obtenerCitasMedicas()"
+                                                <input class="form-control datetimepicker" type="text" matInput
+                                                    [(ngModel)]="fechaFin" [matDatepicker]="picker2"
+                                                    (ngModelChange)="obtenerCitasMedicas()"
                                                     placeholder="Ingrese una Fecha de Fin">
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix
                                                     [for]="picker2"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-12 col-xl-3 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label for="buscarPor">Paciente</label>
                                                 <mat-select [(ngModel)]="pacienteSeleccionado"
-                                                    class="form-control select controlSelectPaciente"
-                                                    placeholder="Seleccione un Paciente"
+                                                    class="form-control paciente" placeholder="Seleccione un Paciente"
                                                     (ngModelChange)="obtenerCitasMedicas()">
-                                                    <input type="text" class="form-control buscar" autocomplete="off"
-                                                        #multiUserSearch matInput
+                                                    <input type="text" class="form-control buscar w-100"
+                                                        autocomplete="off" #multiUserSearch matInput
                                                         placeholder="Ingrese Apellidos o Nombres"
                                                         (input)="buscarPacientes()">
                                                     <mat-option [value]=null> Todos </mat-option>
@@ -62,50 +65,61 @@
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
-                                                <label>Sede</label>
-                                                <mat-select [(ngModel)]="sedeSeleccionada"
-                                                    class="form-control select controlSelectCorto"
-                                                    placeholder="Seleccione una Sede"
-                                                    (ngModelChange)="obtenerCitasMedicas()">
-                                                    <mat-option value="todos"> Todos </mat-option>
-                                                    <mat-option *ngFor="let sede of sedes" [value]="sede.id">
-                                                        {{sede.nombre}}
-                                                    </mat-option>
-                                                </mat-select>
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
-                                                <label>Estado Cita</label>
-                                                <mat-select [(ngModel)]="estadoSeleccionado"
-                                                    class="form-control select controlSelect"
-                                                    placeholder="Seleccione un Estado"
-                                                    (ngModelChange)="obtenerCitasMedicas()">
-                                                    <mat-option value="todos"> Todos </mat-option>
-                                                    <mat-option *ngFor="let estado of listEstados"
-                                                        [value]="estado.tipoCitadoId">
-                                                        {{estado.nombre}}
-                                                    </mat-option>
-                                                </mat-select>
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
-                                            </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
-                                                <label>Historia</label>
-                                                <mat-select [(ngModel)]="historiaSeleccionada"
-                                                    class="form-control select controlSelectCorto"
-                                                    placeholder="Seleccione una Historia"
-                                                    (ngModelChange)="obtenerCitasMedicas()">
-                                                    <mat-option value="todos">Todos</mat-option>
-                                                    <mat-option value='A'>Antiguo</mat-option>
-                                                    <mat-option value='N'>Nuevo</mat-option>
-                                                </mat-select>
-                                                <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                                        </div>
+                                        <div class="col-12 col-md-12 col-xl-5">
+                                            <div class="row">
+                                                <div class="col-12 col-md-12 col-xl-4 mt-3">
+                                                    <div class="local-forms top-nav-search table-search-blk w-100">
+                                                        <label>Sede</label>
+                                                        <mat-select [(ngModel)]="sedeSeleccionada" class="form-control"
+                                                            placeholder="Seleccione una Sede"
+                                                            (ngModelChange)="obtenerCitasMedicas()">
+                                                            <mat-option value="todos"> Todos </mat-option>
+                                                            <mat-option *ngFor="let sede of sedes" [value]="sede.id">
+                                                                {{sede.nombre}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <a class="btn"><img src="assets/img/icons/search-normal.svg"
+                                                                alt=""></a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-12 col-xl-4 mt-3">
+                                                    <div class="local-forms top-nav-search table-search-blk w-100">
+                                                        <label>Estado Cita</label>
+                                                        <mat-select [(ngModel)]="estadoSeleccionado"
+                                                            class="form-control" placeholder="Seleccione un Estado"
+                                                            (ngModelChange)="obtenerCitasMedicas()">
+                                                            <mat-option value="todos"> Todos </mat-option>
+                                                            <mat-option *ngFor="let estado of listEstados"
+                                                                [value]="estado.tipoCitadoId">
+                                                                {{estado.nombre}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                        <a class="btn"><img src="assets/img/icons/search-normal.svg"
+                                                                alt=""></a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-11 col-md-11 col-xl-3 mt-3">
+                                                    <div class="local-forms top-nav-search table-search-blk w-100">
+                                                        <label>Historia</label>
+                                                        <mat-select [(ngModel)]="historiaSeleccionada"
+                                                            class="form-control" placeholder="Seleccione una Historia"
+                                                            (ngModelChange)="obtenerCitasMedicas()">
+                                                            <mat-option value="todos">Todos</mat-option>
+                                                            <mat-option value='A'>Antiguo</mat-option>
+                                                            <mat-option value='N'>Nuevo</mat-option>
+                                                        </mat-select>
+                                                        <a class="btn"><img src="assets/img/icons/search-normal.svg"
+                                                                alt=""></a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto text-end float-end ms-auto download-grp mt-4">
+                                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg"
+                                                            alt=""></a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp mt-2">
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
                                 </div>
                             </div>
                         </div>

@@ -82,7 +82,7 @@ export class EditarGastosComponent implements OnInit  {
         sedes: this.gasto.sedeId,
         responsable: this.gasto.responsable,
         observacion: this.gasto.observacion,
-        estado: this.gasto.estado == '1' ? 'Gastado' : 'Anulado',
+        estado: this.gasto.estado == 1 ? 'Gastado' : 'Anulado',
       })
     });
 
@@ -144,7 +144,7 @@ export class EditarGastosComponent implements OnInit  {
       operacion: this.form.value.operacion,
       sedeId: this.form.value.sedes,
       responsable: this.form.value.responsable,
-      estado: this.form.value.estado == 'Gastado' ? '1' : '0',
+      estado: this.form.value.estado == 'Gastado' ? 1 : 0,
     };
 
     this.gastosservice.actualizarGastos(gastoActualizada).subscribe(

@@ -168,8 +168,8 @@ export class GastosComponent implements OnInit {
       this.pageSize, 
       inicio, 
       fin, 
-      this.gastoSeleccionado, 
       this.estadoSeleccionado,
+      this.gastoSeleccionado, 
       this.descripcion,
       ).pipe(
       finalize(() => this.isLoading = false)

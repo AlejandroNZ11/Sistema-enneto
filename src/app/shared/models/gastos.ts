@@ -27,7 +27,7 @@ export interface Igastos {
     sedeId: string;
     responsable: string;
     observacion: string;
-    estado: string;
+    estado: number;
 }
 
 export interface DataGastos {

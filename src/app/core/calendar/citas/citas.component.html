@@ -16,15 +16,14 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
                         <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blkv">
-                                        <div class="doctor-search-blk">
-                                            <div class="local-forms top-nav-search table-search-blk">
+                            <div class="align-items-center">
+                                <div class="doctor-table-blk">
+                                    <div class="row doctor-search-blk w-100">
+                                        <div class="col-12 col-md-6 col-xl-3 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label for="buscarPor">Especialidad</label>
                                                 <mat-select [(ngModel)]="especialidadSeleccionada"
-                                                    (ngModelChange)="obtenerCitasMedicas()"
-                                                    class="form-control select selectCita">
+                                                    (ngModelChange)="obtenerCitasMedicas()" class="form-control">
                                                     <mat-option value="todos"> Todos </mat-option>
                                                     <mat-option *ngFor="let especialidad of listEspecialidades"
                                                         [value]="especialidad.especialidadId">
@@ -33,11 +32,12 @@
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-6 col-xl-2 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label for="buscarPor">Estado</label>
                                                 <mat-select [(ngModel)]="estadoSeleccionado"
-                                                    (ngModelChange)="obtenerCitasMedicas()"
-                                                    class="form-control select selectCita">
+                                                    (ngModelChange)="obtenerCitasMedicas()" class="form-control">
                                                     <mat-option value="todos"> Todos </mat-option>
                                                     <mat-option *ngFor="let estado of listEstados"
                                                         [value]="estado.tipoCitadoId">
@@ -46,10 +46,11 @@
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-8 col-xl-3 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label for="buscarPor">Paciente</label>
-                                                <mat-select [(ngModel)]="pacienteleccionado"
-                                                    class="form-control select selectCitaPaciente"
+                                                <mat-select [(ngModel)]="pacienteleccionado" class="form-control "
                                                     (ngModelChange)="obtenerCitasMedicas()"
                                                     placeholder="Seleccione un Paciente">
                                                     <input type="text" class="form-control buscar" autocomplete="off"
@@ -66,6 +67,8 @@
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
+                                        </div>
+                                        <div class="col-6 col-md-3 col-xl-2 mt-4">
                                             <div class="form-group">
                                                 <button class="btn btn-primary submit-form busqueda"
                                                     [disabled]="!pacienteleccionado || pacienteleccionado === 'todos'"
@@ -73,10 +76,11 @@
                                                     Historia</button>
                                             </div>
                                         </div>
+                                        <div class="col-auto text-end float-end ms-auto download-grp mt-1">
+                                            <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg"
+                                                    alt=""></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp mt-2">
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
                                 </div>
                             </div>
                         </div>
@@ -85,10 +89,13 @@
                                 <div class="medico-container">
                                     <div *ngFor="let medico of listMedicos" class="medico-item">
                                         <span class="badge" [style.background-color]="medico.color">
-                                            <input class="form-check-input" type="checkbox" [id]="medico.medicoId" 
+                                            <input class="form-check-input" type="checkbox" [id]="medico.medicoId"
                                                 [(ngModel)]="medicosSeleccionados[medico.medicoId]"
                                                 (change)="filtrarCitas()" />
-                                            <label class="label-medico" [for]="medico.medicoId" [style.background-color]="medico.color" [style.color]="lightenOrDarkenColor(medico.color)">{{ medico.nombres }} {{
+                                            <label class="label-medico" [for]="medico.medicoId"
+                                                [style.background-color]="medico.color"
+                                                [style.color]="lightenOrDarkenColor(medico.color)">{{ medico.nombres }}
+                                                {{
                                                 medico.apellidos }}</label>
                                         </span>
                                     </div>

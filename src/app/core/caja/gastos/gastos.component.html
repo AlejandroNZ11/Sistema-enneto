@@ -25,7 +25,7 @@
                                                 <label>Desde </label>
                                                 <input class="form-control datetimepicker gastoSelectFecha"
                                                     type="text" matInput [(ngModel)]="fechaInicio"
-                                                    [matDatepicker]="picker1" (ngModelChange)="obtenerGastos()"
+                                                    [matDatepicker]="picker1" 
                                                     placeholder="Ingrese una Fecha de Inicio">
                                                 <mat-datepicker #picker1></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix 
@@ -36,7 +36,7 @@
                                                 <label>Hasta </label>
                                                 <input class="form-control datetimepicker gastoSelectFecha"
                                                     type="text" matInput [(ngModel)]="fechaFin"
-                                                    [matDatepicker]="picker2" (ngModelChange)="obtenerGastos()"
+                                                    [matDatepicker]="picker2" 
                                                     placeholder="Ingrese una Fecha de Fin"> 
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle matIconSuffix 
@@ -45,19 +45,18 @@
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Gasto</label>
-                                                <input class="form-control" placeholder="Buscar aqui" [(ngModel)]="descripcion"
-                                                    (ngModelChange)="obtenerGastos()">
+                                                <input class="form-control" placeholder="Buscar aqui" [(ngModel)]="descripcion">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
                                             <div class="local-forms top-nav-search table-search-blk">
                                                 <label>Tipo Gasto</label>
                                                 <mat-select [(ngModel)]="gastoSeleccionado"
                                                     class="form-control select controlSelectCorto"
-                                                    placeholder="Seleccione Gasto"
-                                                    (ngModelChange)="obtenerGastos()">
+                                                    placeholder="Seleccione Gasto">
                                                     <mat-option value="todos">Todos</mat-option>
-                                                    <mat-option *ngFor="let gasto of tiposGasto" [value]="gasto.conceptoGastoId">
-                                                        {{gasto.nombre}}
+                                                    <mat-option *ngFor="let tipo of tiposGasto" 
+                                                    [value]="tipo.conceptoGastoId">
+                                                        {{tipo.nombre}}
                                                     </mat-option>                                                    
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
@@ -66,8 +65,7 @@
                                                 <label>Estado Pago</label>
                                                 <mat-select [(ngModel)]="estadoSeleccionado"
                                                     class="form-control select controlSelect"
-                                                    placeholder="Seleccione Estado"
-                                                    (ngModelChange)="obtenerGastos()">
+                                                    placeholder="Seleccione Estado">
                                                     <mat-option value="todos">Todos</mat-option>
                                                     <mat-option value= 1 >Gastado</mat-option>
                                                     <mat-option value= 0 >Anulado</mat-option>
