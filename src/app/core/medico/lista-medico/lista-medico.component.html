@@ -1,6 +1,5 @@
 <div class="page-wrapper">
     <div class="content">
-        <!-- Page Header -->
         <div class="page-header">
             <div class="row">
                 <div class="col-sm-12">
@@ -17,35 +16,43 @@
                 <div class="card card-table show-entire">
                     <div class="card-body">
                         <div class="page-table-header mb-2">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <div class="doctor-table-blk mt-2">
-                                        <h3>Médicos</h3>
-                                        <div class="doctor-search-blk ">
-                                            <div class="local-forms top-nav-search table-search-blk">
-                                                <input [(ngModel)]="fechaInicio" style='height:48px'
+                            <div class="align-items-center">
+                                <div class="doctor-table-blk">
+                                    <div class="row doctor-search-blk w-100">
+                                        <div class="col-12 col-md-6 col-xl-2 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
+                                                <label>Desde </label>
+                                                <input [(ngModel)]="fechaInicio" style="height: 48px;"
                                                     class="form-control" type="text" placeholder="Desde" matInput
                                                     [matDatepicker]="picker">
                                                 <mat-datepicker #picker></mat-datepicker>
                                                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
+
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-6 col-xl-2 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
+                                                <label>Hasta </label>
                                                 <input [(ngModel)]="fechaFin" style='height:48px' class="form-control"
                                                     type="text" placeholder="Hasta" matInput [matDatepicker]="picker2">
                                                 <mat-datepicker #picker2></mat-datepicker>
                                                 <mat-datepicker-toggle [for]="picker2"></mat-datepicker-toggle>
                                                 <a class="btn"><img src="assets/img/icons/calendar.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-12 col-xl-2 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label>Médico</label>
                                                 <input class="form-control" placeholder="Buscar Medico"
                                                     [(ngModel)]="medico">
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
-                                            <div class="local-forms top-nav-search table-search-blk">
+                                        </div>
+                                        <div class="col-12 col-md-8 col-xl-3 mt-3">
+                                            <div class="local-forms top-nav-search table-search-blk w-100">
                                                 <label>Especialidad</label>
-                                                <mat-select [(ngModel)]="especialidad" class="form-control especialidad"
+                                                <mat-select [(ngModel)]="especialidad" class="form-control"
                                                     placeholder="Seleccione Especialidad">
                                                     <mat-option value='todos'>Todos</mat-option>
                                                     <mat-option *ngFor="let data of especialidades"
@@ -55,6 +62,8 @@
                                                 </mat-select>
                                                 <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
                                             </div>
+                                        </div>
+                                        <div class="col-6 col-md-1 col-xl-1 mt-3">
                                             <div class="add-group">
                                                 <a [routerLink]="routes.agregarMedico"
                                                     class="btn btn-primary add-pluss ms-2"><img
@@ -64,16 +73,16 @@
                                                         src="assets/img/icons/re-fresh.svg" alt=""></a>
                                             </div>
                                         </div>
+                                        <div class="col-auto text-end float-end ms-auto download-grp mt-3">
+                                            <a href="javascript:;" class="me-2"><img
+                                                    src="assets/img/icons/pdf-icon-01.svg" alt=""></a>
+                                            <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg"
+                                                    alt=""></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-auto text-end float-end ms-auto download-grp">
-                                    <a href="javascript:;" class=" me-2"><img src="assets/img/icons/pdf-icon-01.svg"
-                                            alt=""></a>
-                                    <a href="javascript:;"><img src="assets/img/icons/pdf-icon-04.svg" alt=""></a>
                                 </div>
                             </div>
                         </div>
-                        <!-- /Table Header -->
                         <div *ngIf="isLoading" class="spinner-container">
                             <div class="custom-spinner"></div>
                         </div>
