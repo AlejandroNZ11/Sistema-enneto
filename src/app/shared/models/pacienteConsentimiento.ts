@@ -7,9 +7,9 @@ export class pacienteConsentimiento {
   cuerpo=''
   fecha=''
   hora: Hora = { ticks: 0 };
-  nombreApoderado=''
-  documentoApoderado=''
-  direccionApoderado=''
+  apoderadoNombre=''
+  apoderadoDocumento=''
+  apoderadoDireccion=''
   pacienteRelacionadoId=0
   medicoId=0
   estado=0
@@ -29,9 +29,9 @@ export interface IPacienteConsentimiento {
   cuerpo:                   string;
   fecha:                    string;
   hora:                     Hora;
-  nombreApoderado:          string;
-  documentoApoderado:       string;
-  direccionApoderado:       string;
+  apoderadoNombre:          string;
+  apoderadoDocumento:       string;
+  apoderadoDireccion:       string;
   pacienteRelacionadoId:    number;
   medicoId:                 number;
   estado:                   number;

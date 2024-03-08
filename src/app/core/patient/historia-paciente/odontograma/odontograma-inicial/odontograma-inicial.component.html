@@ -147,7 +147,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of odontogramaPacienteList$">
-                            <td>{{data.sigla+": " + data.hallazgoId}}</td>
+                            <td>{{data.sigla+": " + data.nombreHallazgos[0]}}</td>
                             <td>{{data.categoria}}</td>
                             <td>{{data.numeroDiente}}</td>
                             <td>{{data.dienteFinal}}</td>

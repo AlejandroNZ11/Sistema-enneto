@@ -126,8 +126,8 @@
               <div class="col-md-12">
                 <div class="form-group local-forms">
                   <label>Menor de edad:</label>
-                  <mat-select formControlName="pacienteId"  class="form-control select"
-                    placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('pacienteId') && isFormSubmitted}">
+                  <mat-select formControlName="pacienteRelacionadoId"  class="form-control select"
+                    placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('pacienteRelacionadoId') && isFormSubmitted}">
                     <input type="text" class="form-control buscar" autocomplete="off"
                     placeholder="Ingrese Apellidos o Nombres" matInput
                     formControlName="terminoBusquedaMenorEdad">
@@ -138,9 +138,9 @@
                       </mat-option>
                     </ng-container>
                   </mat-select>
-                  <div *ngIf="isInvalid('pacienteId') && isFormSubmitted"
+                  <div *ngIf="isInvalid('pacienteRelacionadoId') && isFormSubmitted"
                   class="invalid-feedback">
-                  <div *ngIf="isRequerido('pacienteId')">
+                  <div *ngIf="isRequerido('pacienteRelacionadoId')">
                       Debe completar el campo*
                   </div>
               </div>

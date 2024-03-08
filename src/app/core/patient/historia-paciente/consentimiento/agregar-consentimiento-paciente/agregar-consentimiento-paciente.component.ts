@@ -11,6 +11,7 @@ import { MedicoService } from 'src/app/shared/services/medico.service';
 import { PacienteConsentimientoService } from 'src/app/shared/services/pacienteConsentimiento.service';
 import { environment } from 'src/environments/environments';
 import Swal from 'sweetalert2';
+import { SharedService } from '../../services/shared-service.service';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -27,6 +28,7 @@ interface IMedico{
 
 
 export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnInit,OnDestroy {
+  pacienteId="";
 
   form!: FormGroup;
   isFormSubmitted = false;
@@ -55,8 +57,13 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     this.consetimientoService.obtenerConsentimientos(environment.clinicaId,1,7).subscribe((data:DataConsentimiento)=>{
       this.consentimientoList = data.data;
     })
+
     this.medicoService.listaMedicos('e567ce10-7a58-4b8c-c350-08dc274d8014').subscribe(data=>{
       this.listaMedicos = data;
+    })
+
+    this.sharedService.pacientID.subscribe((id)=>{
+      this.pacienteId = id
     })
   }
 
@@ -69,7 +76,7 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 
 
 
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: ['', Validators.required],
@@ -78,7 +85,7 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
       documentoApoderado:['',[Validators.required, Validators.maxLength(8), Validators.minLength(8), Validators.pattern('^[0-9]+$')]],
       direccionApoderado:['',[Validators.required, Validators.maxLength(100)]],
       tipoConsentimientoId:['',Validators.required],
-      pacienteId:['',Validators.required],
+      pacienteRelacionadoId:['',Validators.required],
       cuerpo:[''],
 
       terminoBusquedaMenorEdad: [''],
@@ -116,8 +123,30 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     return num < 10 ? '0' + num : num.toString();
   }
 
+  convertToTicks(fecha:Date){
+    return ((fecha.getTime()*10000) + 621355968000000000)
+  }
+
+
+  convertToDateTime(fecha:any){
+     // Convertir la cadena de fecha a un objeto de tipo Date
+     const fechaDate = new Date(fecha);
+
+     // Obtener la fecha en formato ISO 8601 sin la zona horaria (sin la parte de "GMT-0500")
+     const fechaISO = fechaDate.toISOString().split("T")[0];
+
+     // Combinar la fecha en formato ISO 8601 con la cadena de hora
+     const fechaHoraISO = fechaISO + "T" + this.currentTime + ".000Z";
+
+     // Crear un objeto de tipo Date a partir de la cadena en formato ISO 8601
+     const date = new Date(fechaHoraISO);
+
+     return date;
+  }
 
   agregarConsentimiento(){
+
+
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.isTouched()
@@ -126,6 +155,8 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     }
 
     const canvas = document.getElementById("canvasId") as HTMLCanvasElement;
+
+
 
 
     if(this.isCanvasEmpty(canvas)){
@@ -138,14 +169,19 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
     }
 
     this.isFormSubmitted = true;
+    this.pacienteConsentimiento.pacienteId = this.pacienteId;
     this.pacienteConsentimiento.medicoId = this.form.get("medicoId")?.value;
     this.pacienteConsentimiento.fecha = this.form.get("fecha")?.value;
-    this.pacienteConsentimiento.hora.ticks = parseInt(this.currentTime);
-    this.pacienteConsentimiento.nombreApoderado= this.form.get("nombreApoderado")?.value;
-    this.pacienteConsentimiento.documentoApoderado= this.form.get("documentoApoderado")?.value;
-    this.pacienteConsentimiento.direccionApoderado= this.form.get("direccionApoderado")?.value;
+
+    const date = this.convertToDateTime(this.form.get("fecha")?.value);
+
+
+    this.pacienteConsentimiento.hora.ticks = this.convertToTicks(date);
+    this.pacienteConsentimiento.apoderadoNombre= this.form.get("nombreApoderado")?.value;
+    this.pacienteConsentimiento.apoderadoDocumento= this.form.get("documentoApoderado")?.value;
+    this.pacienteConsentimiento.apoderadoDireccion= this.form.get("direccionApoderado")?.value;
     this.pacienteConsentimiento.tipoConsentimientoId= this.form.get("tipoConsentimientoId")?.value;
-    this.pacienteConsentimiento.pacienteId= this.form.get("pacienteId")?.value;
+    this.pacienteConsentimiento.pacienteRelacionadoId= this.form.get("pacienteRelacionadoId")?.value;
 
     // const tempElement = document.createElement('div');
     // tempElement.innerHTML = this.form.get('cuerpo')?.value;
@@ -293,14 +329,14 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
   }
 
   public limpiarCanvas() {
-    // Colocar color blanco en fondo de canvas
-    const $canvas = document.getElementById("canvasId");
-    const contexto = ($canvas as HTMLCanvasElement).getContext("2d");
-    const COLOR_FONDO = "white";
-    if(contexto && $canvas  instanceof HTMLCanvasElement){
-      contexto.fillStyle = COLOR_FONDO;
-      contexto.fillRect(0, 0, $canvas!.width, $canvas!.height);
-    }
+   // Obtener el canvas y el contexto 2D
+   const canvas = document.getElementById("canvasId") as HTMLCanvasElement;
+   const contexto = canvas.getContext("2d");
+
+   // Limpiar el canvas
+   if (contexto) {
+       contexto.clearRect(0, 0, canvas.width, canvas.height);
+   }
 
 
   };
