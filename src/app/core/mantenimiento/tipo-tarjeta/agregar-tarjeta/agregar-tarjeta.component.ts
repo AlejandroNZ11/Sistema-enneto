@@ -68,5 +68,12 @@ export class AgregarTarjetaComponent implements OnInit {
         console.error(error);
       });
   }
+  soloLetras(event: KeyboardEvent): void {
+    const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
+    const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!regex.test(event.key) && !teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
  
 }

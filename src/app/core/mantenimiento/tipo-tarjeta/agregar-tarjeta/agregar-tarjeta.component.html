@@ -11,11 +11,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Descripcion <span class="login-danger">*</span></label>
                                     <input formControlName="descripcion" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}" maxlength="30">
+                                        [ngClass]="{'is-invalid': isInvalid('descripcion')}" maxlength="30" (keydown)="soloLetras($event)">
                                     <div *ngIf="isInvalid('descripcion') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('descripcion')|| mostrarErrores">
                                             Debe completar el campo*
