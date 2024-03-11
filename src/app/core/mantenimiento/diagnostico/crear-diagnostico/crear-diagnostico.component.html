@@ -10,7 +10,7 @@
                                     <h4>Nuevo Diagnostico</h4>
                                 </div>
                             </div>                 
-                            <div class="col-12 col-md-12 col-xl-12">
+                            <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label >EnfermedadId <span class="login-danger">*</span></label>
                                     <input formControlName="enfermedadId" class="form-control" type="text"
@@ -20,6 +20,13 @@
                                             Debe completar el campo*
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-6">
+                                <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 col-xl-12">
@@ -35,13 +42,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-12 col-xl-6">
-                                <div class="form-group local-forms">
-                                    <label>Estado <span class="login-danger">*</span></label>
-                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
-                                    </mat-select>
-                                </div>
-                            </div>
+                            
                         </div>
                     </form>
                     <div class="col-12">
