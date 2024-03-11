@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { THallazgo } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, THallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 
 @Injectable({
   providedIn: 'root'
@@ -34,13 +34,13 @@ export class SharedService {
     return this.pacienteName$;
   }
 
-  private hallazgo: THallazgo | null = null;
+  private hallazgo: IHallazgo | null = null;
 
-  setVariable(value: THallazgo) {
+  setVariable(value: IHallazgo) {
     this.hallazgo = value;
   }
 
-  getVariable(): THallazgo | null {
+  getVariable(): IHallazgo | null {
     return this.hallazgo;
   }
 

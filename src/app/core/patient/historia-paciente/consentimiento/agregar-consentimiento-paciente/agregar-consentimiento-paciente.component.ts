@@ -47,6 +47,8 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
   ];
   listaMedicos:Array<MedicoList>=[];
 
+  cantidad:number =8;
+
 
   @ViewChild(NgxEditorComponent) editorText?: NgxEditorComponent;
   consentimientoList:Iconsentimiento[]=[];
@@ -64,8 +66,15 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 
     this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
-    })
+    });
+
+
+
+
+
   }
+
+
 
   ngOnDestroy(): void {
     this.editor.destroy();
@@ -82,7 +91,7 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
       fecha: ['', Validators.required],
       hora:[{ value: this.currentTime, disabled: true }],
       nombreApoderado: ['', [Validators.required, Validators.maxLength(100)]],
-      documentoApoderado:['',[Validators.required, Validators.maxLength(8), Validators.minLength(8), Validators.pattern('^[0-9]+$')]],
+      documentoApoderado:['',[Validators.required, Validators.maxLength(this.cantidad), Validators.minLength(this.cantidad), Validators.pattern('^[0-9]+$')]],
       direccionApoderado:['',[Validators.required, Validators.maxLength(100)]],
       tipoConsentimientoId:['',Validators.required],
       pacienteRelacionadoId:['',Validators.required],
@@ -94,9 +103,19 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 
 
 
+
+
+
+
     this.timer = setInterval(() => {
       this.getCurrentTime();
     }, 1000);
+  }
+
+  soloNumeros(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const currentValue = input.value;
+    input.value = currentValue.replace(/[^0-9]/g, '');
   }
 
 
