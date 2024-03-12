@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import { SharedService } from '../../services/shared-service.service';
-import { IHallazgo, hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import Swal from 'sweetalert2';
 
 
@@ -20,6 +20,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
   // hallazgo$?:string;
   numeroDiente$:string='';
   hallazgoSeleccionado$!: IHallazgo;
+  siglaSeleccionada$!: siglasHallazgo;
 
   hallazgoR:hallazgoRequest = new hallazgoRequest();
 
@@ -58,12 +59,17 @@ export class OdontogramaHallazgosComponent implements OnInit{
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
+    this.hallazgoR.sigla = this.siglaSeleccionada$.sigla
 
 
     console.log(this.hallazgoR);
 
+    Swal.fire('Procesando')
+          Swal.showLoading()
+
     this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
       (response)=>{
+        Swal.close();
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.hallazgoAgregado$.next(true);
