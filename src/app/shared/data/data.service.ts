@@ -313,7 +313,7 @@ export class DataService {
               base: routes.cobroPresupuestoCaja,
             },
             {
-              menuValue: 'Cierre',
+              menuValue: 'Apertura/Cierre',
               route: routes.cierreCaja,
               base: routes.cierreCaja,
             },
@@ -477,6 +477,11 @@ export class DataService {
               menuValue: 'Cuenta',
               route: routes.cuentaMant,
               base: routes.cuentaMant,
+            },
+            {
+              menuValue: 'Caja',
+              route: routes.cajaMant,
+              base: routes.cajaMant,
             },
             {
               menuValue: 'Tarifario',
