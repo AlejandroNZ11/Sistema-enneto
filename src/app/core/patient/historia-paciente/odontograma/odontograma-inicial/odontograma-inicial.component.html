@@ -29,13 +29,13 @@
             <div class="email-menu-blk">
               <ul >
                 <ng-container *ngFor="let hallazgo of pestana.hallazgos">
-                  <li *ngIf="!hallazgo.siglas || hallazgo.siglas.length === 0" class="">
+                  <li *ngIf="hallazgo.siglas" class="">
                     <a (click)="changeVariable(hallazgo)" href="javascript:;">
                       <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
                       {{ hallazgo.nombre }}
                     </a>
                   </li>
-                  <li *ngIf="hallazgo.siglas && hallazgo.siglas.length > 0" class="dropdown ">
+                  <!-- <li *ngIf="hallazgo.siglas && hallazgo.siglas.length > 1" class="dropdown ">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
                       {{ hallazgo.nombre }}
@@ -43,7 +43,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-radius: 15px;">
                       <a class="dropdown-item" *ngFor="let sigla of hallazgo.siglas" (click)="changeVariable(hallazgo)" href="javascript:;">{{ sigla }}</a>
                     </div>
-                  </li>
+                  </li> -->
                 </ng-container>
               </ul>
           </div>
@@ -59,7 +59,7 @@
 </div>
 
 
-
+<!--
 <ng-template #myModal>
   <div class="content">
     <div class="row">
@@ -116,7 +116,7 @@
     </div>
   </div>
 </ng-template>
-
+ -->
 
 <ng-template #listModal>
   <div  class="col-12 col-md-12  col-xl-8 w-100 ">
