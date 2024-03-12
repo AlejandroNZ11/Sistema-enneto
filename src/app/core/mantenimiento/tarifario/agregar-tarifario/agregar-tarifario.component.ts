@@ -104,6 +104,12 @@ export class AgregarTarifarioComponent implements OnInit {
     }
 
   }
+  soloNumeros(event: KeyboardEvent): void {
+    const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
   soloLetras(event: KeyboardEvent): void {
     const regex = new RegExp("^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$");
     const teclasPermitidas = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];

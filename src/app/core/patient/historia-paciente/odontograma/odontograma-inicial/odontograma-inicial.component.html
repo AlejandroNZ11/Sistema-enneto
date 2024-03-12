@@ -25,23 +25,23 @@
         </ul>
 
         <div class="tab-content">
-          <div class="tab-pane" *ngFor="let pestana of pestanas" [id]="'bottom-tab' + pestana.nombre">
+          <div class="tab-pane" *ngFor="let pestana of pestanas; let i = index" [id]="'bottom-tab' + pestana.nombre">
             <div class="email-menu-blk">
               <ul >
                 <ng-container *ngFor="let hallazgo of pestana.hallazgos">
-                  <li *ngIf="!hallazgo.siglas || hallazgo.siglas.length === 0" class="">
+                  <li *ngIf="!hallazgo.siglasHallazgo[i]" class="">
                     <a (click)="changeVariable(hallazgo)" href="javascript:;">
                       <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
                       {{ hallazgo.nombre }}
                     </a>
                   </li>
-                  <li *ngIf="hallazgo.siglas && hallazgo.siglas.length > 0" class="dropdown ">
+                  <li *ngIf="hallazgo.siglasHallazgo && hallazgo.siglasHallazgo.length > 1" class="dropdown ">
                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
                       {{ hallazgo.nombre }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-radius: 15px;">
-                      <a class="dropdown-item" *ngFor="let sigla of hallazgo.siglas" (click)="changeVariable(hallazgo)" href="javascript:;">{{ sigla }}</a>
+                      <a class="dropdown-item" *ngFor="let sigla of hallazgo.siglasHallazgo" (click)="changeVariable(hallazgo, sigla)" href="javascript:;"> {{sigla.sigla}} - {{ sigla.nombre }}</a>
                     </div>
                   </li>
                 </ng-container>
@@ -59,7 +59,7 @@
 </div>
 
 
-
+<!--
 <ng-template #myModal>
   <div class="content">
     <div class="row">
@@ -116,7 +116,7 @@
     </div>
   </div>
 </ng-template>
-
+ -->
 
 <ng-template #listModal>
   <div  class="col-12 col-md-12  col-xl-8 w-100 ">
@@ -125,9 +125,9 @@
         <div class="card-header">
           <h4 class="card-title d-inline-block">Lista de Hallazgos inicial</h4>
       </div>
-      <div class="form-heading">
+      <!-- <div class="form-heading">
         <button (click)="abrirListaHallazgo()" class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
-      </div>
+      </div> -->
       </div>
 
         <div class="card-body p-0 table-dash">
@@ -147,7 +147,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let data of odontogramaPacienteList$">
-                            <td>{{data.sigla+": " + data.hallazgoId}}</td>
+                            <td>{{data.sigla+": " + data.nombreHallazgos[0]}}</td>
                             <td>{{data.categoria}}</td>
                             <td>{{data.numeroDiente}}</td>
                             <td>{{data.dienteFinal}}</td>

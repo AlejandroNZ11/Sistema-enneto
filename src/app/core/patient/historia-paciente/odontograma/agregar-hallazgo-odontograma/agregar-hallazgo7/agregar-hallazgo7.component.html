@@ -12,14 +12,14 @@
                 <h4>Agregar Hallazgos</h4>
               </div>
 
-              <div *ngIf="!siglas$" class="col-md-6">
+              <div class="col-md-8">
                 <div class="form-group local-forms">
                   <label>Hallazgo <span class="login-danger">*</span></label>
                   <input class="form-control" type="text" formControlName="hallazgoNombre">
                 </div>
               </div>
 
-              <div *ngIf="siglas$" class="col-md-6">
+              <!-- <div *ngIf="siglas$" class="col-md-6">
                 <div class="form-group local-forms">
                   <label>Hallazgo<span class="login-danger">*</span></label>
                   <mat-select
@@ -36,7 +36,7 @@
                   </div>
               </div>
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label>N° de Diente <span class="login-danger">*</span></label>

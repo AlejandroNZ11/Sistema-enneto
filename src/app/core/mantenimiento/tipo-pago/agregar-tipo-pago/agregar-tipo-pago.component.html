@@ -25,6 +25,13 @@
                             </div>
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
+                                    <label>Estado <span class="login-danger">*</span></label>
+                                    <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 col-xl-12">
+                                <div class="form-group local-forms">
                                     <label for="descripcion">Descripción <span class="login-danger">*</span></label>
                                     <input formControlName="descripcion" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('descripcion')}" (keydown)="soloLetras($event)" maxlength="30">
                                     <div class="invalid-feedback" *ngIf="isRequerido('descripcion')">
@@ -33,13 +40,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-12 col-xl-6">
-                            <div class="form-group local-forms">
-                                <label>Estado <span class="login-danger">*</span></label>
-                                <mat-select class="form-control select" placeholder="Activo" [disabled]="true">
-                                </mat-select>
-                            </div>
-                        </div>
+                        
                     </form>
                     <div class="col-12">
                         <div class="doctor-submit text-end">

@@ -23,3 +23,20 @@ export interface IodontogramaPaciente {
   idUsuario:      string;
   fechaHora:      string;
 }
+
+
+export interface IodontogramaPacienteList {
+  pacienteOdontogramaId:string;
+  pacienteId:     string;
+  tipo:           string;
+  categoria:      string;
+  estado:         number;
+  marcas:         string;
+  numeroDiente:   number;
+  dienteFinal:    number;
+  sigla:          string;
+  especificacion: string;
+  usuarioId:      string;
+  fechaHora:      string;
+  nombreHallazgos:string[];
+}

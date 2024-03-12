@@ -3,7 +3,7 @@ export class hallazgoRequest{
   clinicaid='D30C2D1E-E883-4B2D-818A-6813E15046E6';
   pacienteId ='';
   tipo ='';
-  hallazgoId=0;
+  hallazgos:string[]=[];
   categoria='';
   estado=1;
   marcas='';
@@ -22,9 +22,17 @@ export interface HallazgoData{
 
 export interface IHallazgo {
 
-  hallazgoId:number;
+  hallazgoId:string;
   nombre:string;
   siglas:string;
+  tipo:string;
+  siglasHallazgo:siglasHallazgo[];
+}
+
+export interface siglasHallazgo{
+  nombreHallazgo:string;
+  sigla:string;
+  nombre:string;
 }
 
 

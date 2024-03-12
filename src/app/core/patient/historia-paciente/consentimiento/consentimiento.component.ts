@@ -9,6 +9,7 @@ import { pageSelection } from 'src/app/shared/models/models';
 import { Sort } from '@angular/material/sort';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AgregarConsentimientoPacienteComponent } from './agregar-consentimiento-paciente/agregar-consentimiento-paciente.component';
+import { EditarConsentimientoPacienteComponent } from './editar-consentimiento-paciente/editar-consentimiento-paciente.component';
 
 @Component({
   selector: 'app-consentimiento',
@@ -77,23 +78,44 @@ export class ConsentimientoComponent implements OnInit {
 }
 
 
-crearConsentimientoPaciente(){
-  this.bsModalRef = this.modalService.show(AgregarConsentimientoPacienteComponent,{class:'modal-lg'});
+  crearConsentimientoPaciente(){
+    this.bsModalRef = this.modalService.show(AgregarConsentimientoPacienteComponent,{class:'modal-lg'});
 
-  const consentimientoPacienteAgregado$ = new Subject<boolean>();
+    const consentimientoPacienteAgregado$ = new Subject<boolean>();
 
-  this.bsModalRef.content.consentimientoPacienteAgregado$ = consentimientoPacienteAgregado$;
-  consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
-    if (consentimientoPacienteAgregado) {
-      // this.getTableData(this.currentPage, this.pageSize);
-    }
+    this.bsModalRef.content.consentimientoPacienteAgregado$ = consentimientoPacienteAgregado$;
+    consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
+      if (consentimientoPacienteAgregado) {
+        // this.getTableData(this.currentPage, this.pageSize);
+      }
 
-  });
-  this.bsModalRef.onHidden?.subscribe(()=>{
-    consentimientoPacienteAgregado$.unsubscribe();
-  })
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      consentimientoPacienteAgregado$.unsubscribe();
+    })
 
-}
+  }
+
+  editarConsentimientoPaciente(consentimientoPaciente: IPacienteConsentimiento){
+    const initialState = {
+    consentimientoSeleccionado: consentimientoPaciente
+    };
+
+    this.bsModalRef = this.modalService.show(EditarConsentimientoPacienteComponent, {initialState, class:'modal-lg'})
+
+    const consentimientoPacienteEditado$ = new Subject<boolean>();
+    this.bsModalRef.content.consentimientoPacienteEditado$ = consentimientoPacienteEditado$;
+    consentimientoPacienteEditado$.subscribe((consentimientoEditado: boolean) => {
+      if (consentimientoEditado) {
+        // this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      consentimientoPacienteEditado$.unsubscribe();
+    })
+
+
+  }
 
 
  private calculateTotalPages(totalData: number, pageSize: number): void {

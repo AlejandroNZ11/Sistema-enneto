@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import Swal from 'sweetalert2';
@@ -18,6 +18,8 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
   pacienteId = "";
   form!: FormGroup;
   isFormSubmitted = false;
+  siglaSeleccionada$!:siglasHallazgo;
+  hallazgoSeleccionado$!: IHallazgo;
 
 
   ngOnInit(): void {
@@ -27,7 +29,8 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
     this.form = this.formBuilder.group({
 
-      hallazgoSigla: ['', [Validators.required]],
+      hallazgoNombre: [{ value: '', disabled: true }, [Validators.required]],
+      hallazgoSigla:[{ value: '', disabled: true }, [Validators.required]],
       numeroDiente: [{ value: '', disabled: true },[Validators.required]],
       checkboxVestibular: ['', []],
       checkboxPalatino: ['', []],
@@ -41,7 +44,9 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
     })
 
     this.form.patchValue({
-      numeroDiente:this.numeroDiente$
+      numeroDiente:this.numeroDiente$,
+      hallazgoNombre: this.hallazgoSeleccionado$.nombre,
+      hallazgoSigla:this.siglaSeleccionada$
     })
   }
 
@@ -97,30 +102,30 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgo$
-    this.hallazgoR.hallazgoId = this.hallazgoId$
-    this.hallazgoR.categoria = this.hallazgo$
+    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo
+    // this.hallazgoR.hallazgoId = this.hallazgoId$
+    this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo
     this.hallazgoR.marcas = JSON.stringify(data).toString();
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
-    this.hallazgoR.sigla = this.form.get('hallazgoSigla')?.value.substring(0,2);
+    this.hallazgoR.sigla = this.siglaSeleccionada$.sigla;
     this.hallazgoR.especificacion = this.especificacion;
 
     console.log(this.hallazgoR);
 
-    this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
-      (response)=>{
-        if(response.isSuccess){
-          Swal.fire(response.message, '', 'success');
-          this.hallazgoAgregado$.next(true);
-          this.bsModalRef.hide();
-        }else{
-          console.error(response.message);
-        }
-      },
-      (error)=>{
-        console.log(error);
-      }
-    )
+    // this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
+    //   (response)=>{
+    //     if(response.isSuccess){
+    //       Swal.fire(response.message, '', 'success');
+    //       this.hallazgoAgregado$.next(true);
+    //       this.bsModalRef.hide();
+    //     }else{
+    //       console.error(response.message);
+    //     }
+    //   },
+    //   (error)=>{
+    //     console.log(error);
+    //   }
+    // )
   }
 
 

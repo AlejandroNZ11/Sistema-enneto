@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { THallazgo } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, THallazgo, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 
 @Injectable({
   providedIn: 'root'
@@ -34,18 +34,26 @@ export class SharedService {
     return this.pacienteName$;
   }
 
-  private hallazgo: THallazgo | null = null;
+  private hallazgo: IHallazgo | null = null;
+  private sigla: siglasHallazgo | undefined = undefined;
 
-  setVariable(value: THallazgo) {
+
+  setVariable(value: IHallazgo, sigla?:siglasHallazgo) {
     this.hallazgo = value;
+    this.sigla = sigla
   }
 
-  getVariable(): THallazgo | null {
+  getVariable(): IHallazgo | null {
     return this.hallazgo;
+  }
+
+  getVariableSigla(): siglasHallazgo | undefined {
+    return this.sigla;
   }
 
   resetVariable() {
     this.hallazgo = null;
+    this.sigla = undefined;
   }
 
   hasSelection(): boolean {

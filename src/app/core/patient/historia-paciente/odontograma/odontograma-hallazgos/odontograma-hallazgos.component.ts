@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import { SharedService } from '../../services/shared-service.service';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import Swal from 'sweetalert2';
 
 
@@ -19,9 +19,8 @@ export class OdontogramaHallazgosComponent implements OnInit{
   hallazgoAgregado$: Subject<boolean> = new Subject<boolean>();
   // hallazgo$?:string;
   numeroDiente$:string='';
-  hallazgoTipo$:string='';
-  hallazgoNombre$?:string;
-  hallazgoId$:number=0;
+  hallazgoSeleccionado$!: IHallazgo;
+  siglaSeleccionada$!: siglasHallazgo;
 
   hallazgoR:hallazgoRequest = new hallazgoRequest();
 
@@ -47,7 +46,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
     })
 
     this.form.patchValue({
-      hallazgoNombre:this.hallazgoNombre$,
+      hallazgoNombre:this.hallazgoSeleccionado$.nombre,
       numeroDiente:this.numeroDiente$,
     })
   }
@@ -55,17 +54,22 @@ export class OdontogramaHallazgosComponent implements OnInit{
   agregarHallazgo(){
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgoTipo$;
-    this.hallazgoR.hallazgoId = this.hallazgoId$;
-    this.hallazgoR.categoria = this.hallazgoTipo$;
+    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+    this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
+    this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
+    this.hallazgoR.sigla = this.siglaSeleccionada$.sigla
 
 
     console.log(this.hallazgoR);
 
+    Swal.fire('Procesando')
+          Swal.showLoading()
+
     this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
       (response)=>{
+        Swal.close();
         if(response.isSuccess){
           Swal.fire(response.message, '', 'success');
           this.hallazgoAgregado$.next(true);

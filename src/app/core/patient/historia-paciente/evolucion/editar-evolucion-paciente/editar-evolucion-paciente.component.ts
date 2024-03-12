@@ -55,7 +55,6 @@ export class EditarEvolucionPacienteComponent implements OnInit{
       })
     })
 
-    this.evolucionPacienteService
 
     this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
