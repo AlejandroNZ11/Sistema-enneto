@@ -18,7 +18,7 @@ export class AgregarCajaComponent implements OnInit{
   form!: FormGroup;
   public mostrarErrores = false;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {  }
 
   constructor(
     public bsModalRef: BsModalRef, 

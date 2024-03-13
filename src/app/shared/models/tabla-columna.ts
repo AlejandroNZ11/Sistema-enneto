@@ -34,6 +34,8 @@ import { tipoCitado, tipoCitadoResponse } from "./tipoCitado";
 import { cajaResponse } from "./caja";
 
 
+
+
 export interface Accion<T = any> {
   accion: string;
   fila?: T

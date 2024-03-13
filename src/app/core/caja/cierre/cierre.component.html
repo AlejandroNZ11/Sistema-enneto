@@ -1,1 +1,137 @@
-<p>cierre works!</p>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.cierreCaja">Apertura/Cierre</a></li>
+                        <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
+                        <li class="breadcrumb-item active">Cajas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card card-table show-entire">
+                    <div class="card-body">
+                        <div class="page-table-header mb-2">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <div class="doctor-table-blk mt-3 mb-3">
+                                        <div class="doctor-search-blk">
+                                            <h3 style="margin-bottom: 10px;">Caja</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- formulario para abrir caja -->
+                                <div class="row">
+                                    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light" *ngIf="mostrarFormulario">
+                                        <div style="text-align: center;">
+                                            <!-- Icono de candado en la primera columna -->
+                                            <i class="feather icon-lock" style="font-size: 3rem;"></i>
+                                            <br>
+                                            <button type="submit" class="btn btn-danger mt-2">Cerrado</button>
+                                            <br>
+                                            <label class="mt-2">Ingrese los datos<br>para abrir una caja</label>
+                                        </div>
+                                    </div>     
+                                    <div class="col-md-6" *ngIf="mostrarFormulario">
+                                        <form>
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Caja <span class="login-danger">*</span></label>
+                                                    <mat-select formControlName="tipoconcepto"
+                                                        class="form-control select" placeholder="Seleccione Caja">
+                                                        <mat-option value="Mañana">Mañana </mat-option>
+                                                        <mat-option value="Tarde">Tarde </mat-option>
+                                                        <mat-option value="Noche">Noche </mat-option>
+                                                    </mat-select> 
+                                                    <!-- <mat-select formControlName="tipoconcepto"
+                                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoconcepto')}" placeholder="Seleccione Tipo Concepto"
+                                                        [ngClass]="{'is-invalid': isInvalid('tipoconcepto') && isFormSubmitted}">
+                                                        <mat-option *ngFor="let data of tipoconcepto_LISTA"
+                                                            [value]="data.tipoConceptoId">
+                                                            {{data.nombre}}
+                                                        </mat-option>
+                                                    </mat-select>  -->
+                                                     <!--<div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
+                                                        Debe completar el campo*
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-12 col-xl-12">
+                                                <div class="form-group">
+                                                    <label>Turnos <span class="login-danger">*</span></label>
+                                                    <mat-select formControlName="tipoconcepto"
+                                                        class="form-control select" placeholder="Seleccione Turno">
+                                                        <mat-option value="Mañana">Mañana </mat-option>
+                                                        <mat-option value="Tarde">Tarde </mat-option>
+                                                        <mat-option value="Noche">Noche </mat-option>
+                                                    </mat-select> 
+                                                    <!-- <div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
+                                                        Debe completar el campo*
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Ingrese monto de apertura<span class="login-danger">*</span></label>
+                                                <div class="input-group"> 
+                                                    <div class="input-group-prepend"> 
+                                                        <span class="input-group-text">S/</span> 
+                                                    </div>
+                                                    <input formControlName="descripcion" class="form-control" type="text">
+                                                    <div class="input-group-prepend"> 
+                                                        <span class="input-group-text">SOL</span> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary" (click)="alternarFormulario()">Abrir Caja </button>
+                                            </div>
+                                        </form>
+                                    </div>                                                                                                                                              
+                                    <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light" *ngIf="!mostrarFormulario">
+                                        <div style="text-align: center;">
+                                            <i class="feather icon-unlock" style="font-size: 3rem;"></i>
+                                            <br>
+                                            <button type="submit" class="btn btn-success mt-2">Abierto</button>
+                                            <br>
+                                            <label class="mt-2">Ingrese los datos<br>para cerrar una caja</label>
+                                        </div>
+                                    </div>     
+                                    <div class="col-md-6" *ngIf="!mostrarFormulario">
+                                        <form>
+                                            <div class="form-group">
+                                                <br>
+                                                <br>
+                                                <label>Ingrese monto de cierre<span class="login-danger">*</span></label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"> 
+                                                        <span class="input-group-text">S/</span> 
+                                                    </div>
+                                                    <input formControlName="descripcion" class="form-control" type="text">
+                                                    <div class="input-group-prepend"> 
+                                                        <span class="input-group-text">SOL</span> 
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <button type="submit" class="btn btn-primary" (click)="alternarFormulario()">Cerrar Caja </button>
+                                            </div>
+                                        </form><br>
+                                    </div> 
+
+                                </div>
+                            
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
