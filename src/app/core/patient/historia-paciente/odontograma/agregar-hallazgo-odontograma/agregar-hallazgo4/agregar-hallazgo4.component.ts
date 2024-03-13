@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { SharedService } from '../../../services/shared-service.service';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -19,6 +19,9 @@ export class AgregarHallazgo4Component implements AfterViewInit, OnInit{
   numeroDiente$: string='';
   siglas$:string[]=[];
   hallazgoId$:number=0;
+
+  hallazgoSeleccionado$!: IHallazgo;
+  siglaSeleccionada$!: siglasHallazgo;
 
   hallazgoR:hallazgoRequest = new hallazgoRequest();
 
@@ -36,12 +39,15 @@ export class AgregarHallazgo4Component implements AfterViewInit, OnInit{
     });
 
     this.form = this.formBuilder.group({
-      hallazgoSigla:['', [Validators.required]],
+      hallazgoNombre:[{ value: '', disabled: true }, [Validators.required]],
+      siglaHallazgo:[{ value: '', disabled: true }, [Validators.required]],
       numeroDiente: [{ value: '', disabled: true },[Validators.required]],
     })
 
     this.form.patchValue({
-      numeroDiente:this.numeroDiente$
+      numeroDiente:this.numeroDiente$,
+      hallazgoNombre:this.hallazgoSeleccionado$.nombre,
+      siglaHallazgo: this.siglaSeleccionada$.sigla
     })
 
   }
@@ -151,12 +157,13 @@ agregarHallazgo(){
 
 
   this.hallazgoR.pacienteId = this.pacienteId;
-  this.hallazgoR.tipo = this.hallazgo$;
+  this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+  this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
   // this.hallazgoR.hallazgoId = this.hallazgoId$
-  this.hallazgoR.categoria = this.hallazgo$
+  this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
   this.hallazgoR.marcas = JSON.stringify(data).toString();
   this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
-  this.hallazgoR.sigla = this.form.get('hallazgoSigla')?.value.substring(0,2);
+  this.hallazgoR.sigla = this.form.get('siglaHallazgo')?.value.substring(0,2);
   this.hallazgoR.especificacion = this.especificacion;
 
 

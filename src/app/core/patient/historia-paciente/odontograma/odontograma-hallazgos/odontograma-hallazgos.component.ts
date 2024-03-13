@@ -40,15 +40,28 @@ export class OdontogramaHallazgosComponent implements OnInit{
     this.form = this.formBuilder.group({
 
       hallazgoNombre: [{ value: '', disabled: true }, [Validators.required]],
+      siglaHallazgo:[{value:'', disabled:true},[Validators.required]],
       numeroDiente: [{ value: '', disabled: true },[Validators.required]],
       especificacion: ['', []],
 
     })
 
-    this.form.patchValue({
-      hallazgoNombre:this.hallazgoSeleccionado$.nombre,
-      numeroDiente:this.numeroDiente$,
-    })
+    if(this.siglaSeleccionada$){
+      this.form.patchValue({
+        hallazgoNombre:this.hallazgoSeleccionado$.nombre,
+        numeroDiente:this.numeroDiente$,
+        siglaHallazgo:this.siglaSeleccionada$.sigla,
+      })
+    }
+    else{
+      this.form.patchValue({
+        hallazgoNombre:this.hallazgoSeleccionado$.nombre,
+        numeroDiente:this.numeroDiente$,
+        siglaHallazgo:"II"
+      })
+    }
+
+
   }
 
   agregarHallazgo(){
@@ -59,7 +72,9 @@ export class OdontogramaHallazgosComponent implements OnInit{
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
+    if(this.siglaSeleccionada$){
     this.hallazgoR.sigla = this.siglaSeleccionada$.sigla
+    }
 
 
     console.log(this.hallazgoR);

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { SharedService } from '../../../services/shared-service.service';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,6 +20,8 @@ export class AgregarHallazgo5Component implements AfterViewInit,OnInit {
   hallazgoNombre$:string='';
   hallazgoId$:number=0;
   especificacion:string='';
+
+  hallazgoSeleccionado$!: IHallazgo;
 
   dientesOclusales:string[] =['18','17','16','15','14','24','25','26','27','28','38','37','36','35','34','44','45','46','47','48']
 
@@ -44,7 +46,7 @@ export class AgregarHallazgo5Component implements AfterViewInit,OnInit {
    })
 
    this.form.patchValue({
-    hallazgoNombre: this.hallazgoNombre$,
+    hallazgoNombre: this.hallazgoSeleccionado$.nombre,
      numeroDiente:this.numeroDiente$
    })
  }
@@ -72,10 +74,11 @@ export class AgregarHallazgo5Component implements AfterViewInit,OnInit {
   };
 
   this.hallazgoR.pacienteId = this.pacienteId;
-  this.hallazgoR.tipo = this.hallazgoTipo$
-  // this.hallazgoR.hallazgoId = this.hallazgoId$
-  this.hallazgoR.categoria = this.hallazgoTipo$
+  this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+  this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
+  this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
   this.hallazgoR.marcas = JSON.stringify(data).toString();
+  this.hallazgoR.sigla = this.hallazgoSeleccionado$.siglas;
   this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
   this.hallazgoR.especificacion = this.especificacion;
 
