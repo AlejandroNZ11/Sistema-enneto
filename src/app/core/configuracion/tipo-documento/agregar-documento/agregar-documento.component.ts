@@ -5,6 +5,7 @@ import { TipoDocumento } from 'src/app/shared/models/tipodocumento';
 import { TipoDocumentoService } from 'src/app/shared/services/tipo-documento.service';
 import { routes } from 'src/app/shared/routes/routes';
 import Swal from 'sweetalert2';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-agregar-documento',
@@ -14,6 +15,7 @@ import Swal from 'sweetalert2';
 
 export class AgregarDocumentoComponent implements OnInit{
   public routes = routes;
+  documentoAgregado$: Subject<boolean> = new Subject<boolean>();
   Documento: TipoDocumento = new TipoDocumento();
   form!: FormGroup;
   public mostrarErrores = false;
@@ -30,7 +32,6 @@ export class AgregarDocumentoComponent implements OnInit{
   }
   
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   isInvalid(controlName: string) {
@@ -44,6 +45,7 @@ export class AgregarDocumentoComponent implements OnInit{
   }
 
   Cancelar() {
+    this.documentoAgregado$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -66,16 +68,18 @@ export class AgregarDocumentoComponent implements OnInit{
     this.Documento.correlativoActual = this.form.get("correlativoActual")?.value;
 
     this.tipoDocumentoService.crearTipoDocumento(this.Documento).subscribe(
-      (response) => {
-        if (response.isSuccess) {
-          Swal.fire(response.message, '', 'success');
-          this.bsModalRef.hide();
-        } else {
-          console.error(response.message);
-        }
-      },
-      (error) => {
-        console.error(error);
-      });
+        (response)=>{
+          if(response.isSuccess){
+            Swal.fire(response.message, '', 'success');
+            this.documentoAgregado$.next(true);
+            this.bsModalRef.hide();
+          }else{
+            console.error(response.message);
+          }
+        },
+        (error)=>{
+          console.error(error);
+        });
+    }
   }
-}
+  

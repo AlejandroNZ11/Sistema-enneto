@@ -32,6 +32,8 @@ import { PagoResponce } from "./pagos";
 import { inventarioResponse } from "./inventario";
 import { tipoCitado, tipoCitadoResponse } from "./tipoCitado";
 import { cajaResponse } from "./caja";
+import { GastosResponse } from "./gastos";
+import { ClinicasResponse } from "./clinicas";
 
 
 
@@ -87,7 +89,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Pago': clase = new PagoResponce();break;
     case 'Inventario': clase = new inventarioResponse();break;
     case 'EstadoCita': clase = new tipoCitadoResponse(); break;
-    case 'Caja': clase = new cajaResponse(); break;
+    case 'Gasto': clase = new GastosResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);

@@ -22,28 +22,24 @@
               <div class="col-md-6">
                 <div class="form-group local-forms">
                   <label>Hallazgo<span class="login-danger">*</span></label>
-                  <mat-select
-                       class="form-control select" placeholder="Seleccione un estado"
-                       formControlName="hallazgoSigla"
-                       [ngClass]="{'is-invalid': isInvalid('hallazgoSigla') && isFormSubmitted}">
-                       <mat-option *ngFor="let data of siglas$" [value]="data">
-                        {{data}}
-                       </mat-option>
-                  </mat-select>
-                  <div *ngIf="isInvalid('hallazgoSigla') && isFormSubmitted"
-                                            class="invalid-feedback">
-                                            <div *ngIf="isRequerido('hallazgoSigla')">
-                                                Debe completar el campo*
-                                            </div>
-                                        </div>
+                  <input class="form-control" type="text" formControlName="hallazgoNombre">
                 </div>
               </div>
+
+              <div class="col-md-3">
+                <div class="form-group local-forms">
+                  <label>Sigla<span class="login-danger">*</span></label>
+                  <input class="form-control" type="text" formControlName="siglaHallazgo">
+                </div>
+              </div>
+
               <div class="col-md-4">
                 <div class="form-group local-forms">
                   <label>N° de Diente <span class="login-danger">*</span></label>
                   <input class="form-control" type="text" formControlName="numeroDiente">
                 </div>
               </div>
+
               <!-- <div class="col-md-3">
                 <div class="form-group local-forms">
                   <label>Siglas<span class="login-danger">*</span></label>

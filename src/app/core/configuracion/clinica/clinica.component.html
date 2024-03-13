@@ -5,21 +5,132 @@
             <div class="row">
                 <div class="col-sm-12">
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a [routerLink]="routes.miClinicaCrud">Clinicas</a></li>
+                        <li class="breadcrumb-item"><a [routerLink]="routes.miClinicaCrud">Mi clinica</a></li>
                         <li class="breadcrumb-item"><i class="feather icon-chevron-right"></i></li>
-                        <li class="breadcrumb-item active">Lista de  Clinicas</li>
+                        <li class="breadcrumb-item active">Detalle de mi clinica</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- Page Header -->
+        <div class="row" *ngIf="clinica">
             <div class="col-sm-12">
-                <div class="card card-table show-entire">
+                <div class="card">
                     <div class="card-body">
-                        <app-tabla [total]="totalData" [data]="ListClinicas" [indice]="serialNumberArray"
-                            [columns]="columnas" [titulo]="'Lista Clinicas'" [accion]="acciones"
-                            (MoreData)="getMoreData($event)">
-                        </app-tabla>
+                        <form [formGroup]="form">
+                            <div class="row">
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="form-group local-forms">
+                                    <label>Nombre<span class="login-danger">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="form-group local-forms">
+                                    <label>Dirección <span class="login-danger">*</span></label>
+                                    <input formControlName="direccion" class="form-control" type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 col-xl-4">
+                                <div class="form-group local-forms">
+                                    <label>Email <span class="login-danger">*</span></label>
+                                    <input formControlName="email" class="form-control" type="email">
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 col-xl-3">
+                                <div class="form-group local-forms">
+                                    <label>Fecha <span class="login-danger">*</span></label>
+                                        <input formControlName="fecha" style='height:48px' class="form-control datetimepicker" 
+                                            type="text" placeholder="" matInput [matDatepicker]="picker"
+                                            [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}">
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <div *ngIf="isInvalid('fecha') && isFormSubmitted"
+                                            class="invalid-feedback">
+                                            <div *ngIf="isRequerido('fecha')">
+                                                Debe completar el campo*
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 col-xl-3">
+                                <div class="form-group local-top-form">
+                                    <label class="local-top">Foto <span class="login-danger"></span></label>
+                                    <div class="settings-btn upload-files-avator">
+                                        <input formControlName="foto" type="file" accept="image/*" name="image"
+                                            id="foto" (change)="cargarImagenFoto($event)" class="hide-input"
+                                            value="{{ imagenTempFoto }}" readonly>
+                                        <label for="foto" class="upload">Choose File</label>
+                                    </div>
+                                    <div class="upload-images upload-size"
+                                        [ngClass]="{'d-none':deleteIcon === false}"
+                                        style="width: 150px; height: 150px;">
+                                        <img *ngIf="!imagenTempFoto" src="assets/img/user.jpg" alt="Image">
+                                        <img *ngIf="imagenTempFoto" [src]="imagenTempFoto.toString()" alt="Image">
+                                        <a (click)="deleteIconFuncFoto()" href="javascript:void(0);"
+                                            class="btn-icon logo-hide-btn">
+                                            <i class="feather icon-x-circle"></i>
+                                        </a>
+                                    </div>
+                                    <div *ngIf="isInvalid('foto') && isFormSubmitted" class="invalid-feedback">
+                                        <div *ngIf="isRequerido('foto')">
+                                            Debe completar el campo*
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 col-xl-3">
+                                <div class="form-group local-forms">
+                                    <label>R.U.C. <span class="login-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input (input)="soloNumeros($event)" formControlName="ruc"
+                                            [(ngModel)]="clinica.ruc" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('ruc') && isFormSubmitted}"
+                                            pattern="[0-9]*" maxlength="11">
+                                            <div *ngIf="isInvalid('ruc') && isFormSubmitted" class="invalid-feedback">
+                                                <div *ngIf="isRequerido('ruc')">
+                                                    Debe completar el campo*
+                                                </div>
+                                                <div *ngIf="isCantidadExacta('ruc')">
+                                                    Debe ingresar la cantidad correcta: 11*
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-12 col-xl-3">
+                                <div class="form-group local-forms">
+                                    <label>Celular <span class="login-danger">*</span></label>
+                                        <input (input)="soloNumeros($event)" formControlName="celular"
+                                            [(ngModel)]="clinica.celular" class="form-control" type="text"
+                                            [ngClass]="{'is-invalid': isInvalid('celular') && isFormSubmitted}"
+                                            pattern="[0-9]*" maxlength="9">
+                                        <div *ngIf="isInvalid('celular') && isFormSubmitted" class="invalid-feedback">
+                                            <div *ngIf="isRequerido('celular')">
+                                                Debe completar el campo*
+                                            </div>
+                                            <div *ngIf="isCantidadExacta('celular')">
+                                                Debe ingresar la cantidad correcta: 9*
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                        <div class="col-12">
+                            <div class="doctor-submit text-end">
+                                <button (click)="guardarClinica()"
+                                class="btn btn-primary submit-form me-2">Guardar</button>
+                                <button [routerLink]="routes.listaMedico"
+                                    class="btn btn-primary cancel-form">Cancelar</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
