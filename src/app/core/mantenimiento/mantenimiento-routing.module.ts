@@ -60,6 +60,13 @@ const routes: Routes = [
             (m) => m.TipoPagoModule
           ),
       },
+      {
+        path: 'caja',
+        loadChildren: () =>
+          import('./caja/caja.module').then(
+            (m) => m.CajaModule
+          ),
+      },
     ]
   }
 ];

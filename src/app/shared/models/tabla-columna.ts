@@ -31,7 +31,9 @@ import { EvolucionPacienteResponse } from "./evolucionPaciente";
 import { PagoResponce } from "./pagos";
 import { inventarioResponse } from "./inventario";
 import { tipoCitado, tipoCitadoResponse } from "./tipoCitado";
+import { cajaResponse } from "./caja";
 import { GastosResponse } from "./gastos";
+import { ClinicasResponse } from "./clinicas";
 
 
 export interface Accion<T = any> {

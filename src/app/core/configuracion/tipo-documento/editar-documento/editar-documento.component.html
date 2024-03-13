@@ -11,14 +11,15 @@
                                 </div>
                             </div>
 
-                            <div class="col-12 col-md-12 col-xl-6">
+                            <div class="col-12 col-md-12 col-xl-6" >
                                 <div class="form-group local-forms">
-                                    <label>Tipo de comprobante <span class="login-danger">*</span></label>
-                                    <select class="form-control form-select" formControlName="tipoComprobanteId">
-                                        <option value="01">Factura</option>
-                                        <option value="03">Boleta</option>
-                                        <option value="07">Nota de crédito</option>
-                                        <option value="33">Nota de venta</option>
+                                    <label >Tipo de comprobante <span class="login-danger">*</span></label>
+                                    
+                                    <select [disabled]="true" class="form-control form-select" formControlName="tipoComprobanteId">
+                                        <option [disabled]="true" value="01">Factura</option>
+                                        <option [disabled]="true" value="03">Boleta</option>
+                                        <option [disabled]="true" value="07">Nota de crédito</option>
+                                        <option [disabled]="true" value="33">Nota de venta</option>
                                     </select>
                                 </div>
                             </div>
