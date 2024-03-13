@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Subject } from 'rxjs';
 import { ITipoDocumento } from 'src/app/shared/models/tipodocumento';
 import { routes } from 'src/app/shared/routes/routes';
 import { TipoDocumentoService } from 'src/app/shared/services/tipo-documento.service';
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./editar-documento.component.scss']
 })
 export class EditarDocumentoComponent implements OnInit {
+  documentoeditado$: Subject<boolean> = new Subject<boolean>();
   documento!: ITipoDocumento;
   documentoSeleccionado: any;
   public routes = routes;
@@ -63,6 +65,7 @@ export class EditarDocumentoComponent implements OnInit {
   }
 
   Cancelar() {
+    this.documentoeditado$.next(false);
     this.bsModalRef.hide();
   }
 
@@ -88,6 +91,7 @@ export class EditarDocumentoComponent implements OnInit {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
           this.bsModalRef.hide();
+          this.documentoeditado$.next(true);
         } else {
           console.error(response.message);
         }

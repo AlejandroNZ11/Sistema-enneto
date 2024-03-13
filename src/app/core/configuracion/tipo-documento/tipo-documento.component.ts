@@ -9,6 +9,7 @@ import { DataTipoDocumento, ITipoDocumento, TipoDocumento } from 'src/app/shared
 import { environment as env } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { Accion, PageSize, Paginacion, getEntityPropiedades } from 'src/app/shared/models/tabla-columna';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tipo-documento',
@@ -80,8 +81,10 @@ export class TipoDocumentoComponent implements OnInit {
 
   crearTipoDocumento() {
     this.bsModalRef = this.modalService.show(AgregarDocumentoComponent);
-    this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+    this.bsModalRef.content.documentoAgregado$.subscribe((documentoAgregado: boolean) => {
+      if (documentoAgregado) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
     });
   }
 
@@ -90,11 +93,18 @@ export class TipoDocumentoComponent implements OnInit {
       documentoSeleccionado: tipoDocumento.tipoDocumentoId
     };
     this.bsModalRef = this.modalService.show(EditarDocumentoComponent, { initialState });
+    const documentoeditado$ = new Subject<boolean>();
+    this.bsModalRef.content.documentoeditado$ = documentoeditado$;
+    documentoeditado$.subscribe((documentoeditado: boolean) => {
+      if (documentoeditado) {
+        this.getTableData(this.currentPage, this.pageSize);
+      }
+    });
     this.bsModalRef.onHidden?.subscribe(() => {
-      this.getTableData(this.currentPage, this.pageSize);
+      documentoeditado$.unsubscribe();   
     });
   }
-
+  
   eliminarTipoDocumento(tipoDocumentoId: string) {
     Swal.fire({
       title: '¿Estás seguro que deseas eliminar?',
