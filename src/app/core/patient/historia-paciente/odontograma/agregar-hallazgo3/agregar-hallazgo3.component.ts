@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { SharedService } from '../../services/shared-service.service';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import Swal from 'sweetalert2';
 
@@ -19,6 +19,9 @@ export class AgregarHallazgo3Component implements OnInit{
 
   numerosMostrar: string[] = [];
   numeroSeleccionado: string = '';
+
+  hallazgoSeleccionado$!: IHallazgo;
+
 
 
   llenarSelect(): void {
@@ -82,7 +85,7 @@ export class AgregarHallazgo3Component implements OnInit{
     })
 
     this.form.patchValue({
-      hallazgoNombre:this.hallazgoNombre$,
+      hallazgoNombre:this.hallazgoSeleccionado$.nombre,
       desdePieza:this.numeroDiente$,
     })
 
@@ -116,9 +119,9 @@ export class AgregarHallazgo3Component implements OnInit{
     }
 
     this.hallazgoR.pacienteId = this.pacienteId;
-      this.hallazgoR.tipo = this.hallazgoTipo$;
-      // this.hallazgoR.hallazgoId = this.hallazgoId$;
-      this.hallazgoR.categoria = this.hallazgoTipo$;
+      this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+      this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
+      this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
       this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
       this.hallazgoR.dienteFinal = this.form.get('hastaPieza')?.value;
       this.hallazgoR.especificacion = this.form.get('especificacion')?.value;

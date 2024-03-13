@@ -11,12 +11,13 @@ import { DiagnosticoComponent } from './diagnostico/diagnostico.component';
 import { MantenimientoComponent } from './mantenimiento.component';
 import { MantenimientoRoutingModule } from './mantenimiento-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CajaComponent } from './caja/caja.component';
 
 
 
 @NgModule({
   declarations: [
-    MantenimientoComponent
+    MantenimientoComponent,
   ],
   imports: [
     CommonModule,

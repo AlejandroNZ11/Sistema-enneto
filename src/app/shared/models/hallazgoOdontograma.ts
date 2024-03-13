@@ -26,6 +26,13 @@ export interface IHallazgo {
   nombre:string;
   siglas:string;
   tipo:string;
+  siglasHallazgo:siglasHallazgo[];
+}
+
+export interface siglasHallazgo{
+  nombreHallazgo:string;
+  sigla:string;
+  nombre:string;
 }
 
 

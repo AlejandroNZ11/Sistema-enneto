@@ -106,6 +106,9 @@ export class routes {
   public static get bancoMant(): string {
     return this.baseUrl + '/mantenimiento/banco';
   }
+  public static get cajaMant(): string {
+    return this.baseUrl + '/mantenimiento/caja'
+  }
   public static get tipoTarjetaMant(): string {
     return this.baseUrl + '/mantenimiento/tipo-tarjeta';
   }

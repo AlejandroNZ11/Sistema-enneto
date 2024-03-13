@@ -4,7 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subject } from 'rxjs';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
 import { SharedService } from '../../../services/shared-service.service';
-import { hallazgoRequest } from 'src/app/shared/models/hallazgoOdontograma';
+import { IHallazgo, hallazgoRequest, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,6 +21,8 @@ export class AgregarHallazgo7Component implements OnInit{
   hallazgoNombre$:string ='';
   numeroDiente$:string='';
   siglas$:string[]=[];
+  siglaSeleccionada$!:siglasHallazgo;
+  hallazgoSeleccionado$!: IHallazgo;
 
   estados:any[]=[{
     name:'Buen Estado',value:1
@@ -53,10 +55,19 @@ export class AgregarHallazgo7Component implements OnInit{
 
     })
 
-    this.form.patchValue({
-      numeroDiente:this.numeroDiente$,
-      hallazgoNombre:this.hallazgoNombre$,
-    })
+    if(this.siglaSeleccionada$!=undefined){
+      this.form.patchValue({
+        numeroDiente:this.numeroDiente$,
+        hallazgoNombre: `${this.siglaSeleccionada$.sigla }: ${this.siglaSeleccionada$.nombre}`,
+      })
+    }
+    else{
+      this.form.patchValue({
+        numeroDiente:this.numeroDiente$,
+        hallazgoNombre: `${this.hallazgoSeleccionado$.siglas }: ${this.hallazgoSeleccionado$.nombre}`,
+      })
+    }
+
   }
   validarSiglaRequerida() {
     return (control:any) => {
