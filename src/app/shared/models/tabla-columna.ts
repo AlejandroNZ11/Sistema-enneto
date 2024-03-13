@@ -32,6 +32,7 @@ import { PagoResponce } from "./pagos";
 import { inventarioResponse } from "./inventario";
 import { tipoCitado, tipoCitadoResponse } from "./tipoCitado";
 import { GastosResponse } from "./gastos";
+import { ClinicasResponse } from "./clinicas";
 
 
 export interface Accion<T = any> {
@@ -86,6 +87,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Inventario': clase = new inventarioResponse();break;
     case 'EstadoCita': clase = new tipoCitadoResponse(); break;
     case 'Gasto': clase = new GastosResponse(); break;
+    case 'Clinicas': clase = new ClinicasResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);

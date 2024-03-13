@@ -10,8 +10,7 @@ const routes: Routes = [
       path: 'clinica',
       loadChildren: () =>
         import('./clinica/clinica.module').then(
-          (m) => m.ClinicaModule
-        ),
+          (m) => m.ClinicaModule),
     },
     {
       path: 'permiso',
