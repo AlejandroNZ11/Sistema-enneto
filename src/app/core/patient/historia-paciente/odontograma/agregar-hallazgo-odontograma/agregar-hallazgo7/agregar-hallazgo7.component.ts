@@ -49,6 +49,7 @@ export class AgregarHallazgo7Component implements OnInit{
 
       sigla: ['',this.validarSiglaRequerida()],
       hallazgoNombre:[{ value: '', disabled: true }, ],
+      siglaHallazgo:[{ value: '', disabled: true }, ],
       numeroDiente: [{ value: '', disabled: true }],
       estado:['', [Validators.required]],
       especificacion: [''],
@@ -59,12 +60,15 @@ export class AgregarHallazgo7Component implements OnInit{
       this.form.patchValue({
         numeroDiente:this.numeroDiente$,
         hallazgoNombre: `${this.siglaSeleccionada$.sigla }: ${this.siglaSeleccionada$.nombre}`,
+        siglaHallazgo:this.siglaSeleccionada$.sigla,
       })
     }
     else{
       this.form.patchValue({
         numeroDiente:this.numeroDiente$,
         hallazgoNombre: `${this.hallazgoSeleccionado$.siglas }: ${this.hallazgoSeleccionado$.nombre}`,
+        siglaHallazgo:this.hallazgoSeleccionado$.siglas,
+
       })
     }
 
@@ -104,12 +108,12 @@ export class AgregarHallazgo7Component implements OnInit{
     }
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgo$
-    // this.hallazgoR.hallazgoId = this.hallazgoId$
-    this.hallazgoR.categoria = this.hallazgo$
+    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+    this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
+    this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.estado = this.form.get('estado')?.value
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
-    this.hallazgoR.sigla = this.form.get('sigla')?.value.substring(0,2);
+    this.hallazgoR.sigla = this.form.get('siglaHallazgo')?.value.substring(0,2);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value
 
 

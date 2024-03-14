@@ -1,1 +1,169 @@
-<p>odontograma-evolucion works!</p>
+<div class="row">
+  <div class="col-12 col-md-12  col-xl-9">
+  <div class="card">
+    <div class="card-body">
+      <main style="max-width: 1000px;">
+        <canvas #myCanvas [width]="canvasWidth" [height]="canvasHeight">
+
+        </canvas>
+      </main>
+
+    </div>
+  </div>
+  </div>
+  <div class="col-12 col-lg-12 col-xl-3">
+    <div class="card flex-fill comman-shadow">
+      <div class="card-header" style="padding-bottom: 0px;">
+          <h4 class="card-title d-inline-block">Hallazgos</h4>
+
+      </div>
+      <div class="card-box">
+        <ul class="nav nav-tabs nav-tabs-bottom">
+          <li class="nav-item" *ngFor="let pestana of pestanas">
+            <a class="nav-link" href="#bottom-tab{{ pestana.nombre }}" data-bs-toggle="tab">{{ pestana.nombre }}</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane" *ngFor="let pestana of pestanas; let i = index" [id]="'bottom-tab' + pestana.nombre">
+            <div class="email-menu-blk">
+              <ul >
+                <ng-container *ngFor="let hallazgo of pestana.hallazgos">
+                  <li *ngIf="!hallazgo.siglasHallazgo[i]" class="">
+                    <a (click)="changeVariable(hallazgo)" href="javascript:;">
+                      <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
+                      {{ hallazgo.nombre }}
+                    </a>
+                  </li>
+                  <li *ngIf="hallazgo.siglasHallazgo && hallazgo.siglasHallazgo.length > 1" class="dropdown ">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <img src="assets/img/icons/inbox.svg" class="me-2" alt="img">
+                      {{ hallazgo.nombre }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-radius: 15px;">
+                      <a class="dropdown-item" *ngFor="let sigla of hallazgo.siglasHallazgo" (click)="changeVariable(hallazgo, sigla)" href="javascript:;"> {{sigla.sigla}} - {{ sigla.nombre }}</a>
+                    </div>
+                  </li>
+                </ng-container>
+              </ul>
+          </div>
+          </div>
+        </div>
+        <button *ngIf="sharedService.getVariable()" type="button" class="btn btn-primary btn-lg me-1 w-100" style="margin-bottom: 5px;">
+          {{ sharedService.getVariable()?.nombre }}</button>
+        <button (click)="toggleSelection()" type="button" class="btn btn-primary btn-lg me-1 w-100 ">
+          {{ sharedService.hasSelection() ? 'Quitar selección' : 'Seleccione' }}</button>
+      </div>
+      </div>
+  </div>
+</div>
+
+
+<!--
+<ng-template #myModal>
+  <div class="content">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <div>
+                  <h4>Diente Número mi list modal: {{numeroDiente}}</h4>
+                </div>
+              </div>
+              <div class="col col-md-12 col-xl-12">
+                <div class="col">
+                  <div class="">
+                    <div class="doctor-search-blk" style="padding-bottom: 25px;">
+                      <div class="top-nav-search table-search-blk">
+                        <input type="text" class="form-control" placeholder="Buscar Simbolo"
+                          [(ngModel)]="terminoBusqueda">
+                        <a class="btn"><img src="assets/img/icons/search-normal.svg" alt=""></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="max-height: 300px;
+                      overflow-y: auto; " *ngIf="hallazgosFiltrados.length > 0; else noResultados">
+
+              <div *ngFor="let hallazgo of hallazgosFiltrados" (click)="agregarHallazgo(numeroDiente,hallazgo)"
+                class="chat-user-group video-call-blk d-flex align-items-center" style="cursor: pointer;">
+
+                <div class="chat-users chat-user-blk">
+                  <div class="user-titles ">
+                    <h5>{{ hallazgo.nombre }}</h5>
+                  </div>
+                  <div class="chat-user-icon">
+                    <a href="javascript:;"><img src="assets/img/icons/video-icon-01.svg" class="me-2" alt="img"></a>
+                    <a href="javascript:;"><img src="assets/img/icons/video-icon-02.svg" alt="img"></a>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <ng-template #noResultados>
+              <p>No se encontraron resultados para "{{ terminoBusqueda }}"</p>
+            </ng-template>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+ -->
+
+<ng-template #listModal>
+  <div  class="col-12 col-md-12  col-xl-8 w-100 ">
+    <div class="card">
+      <div class="d-flex align-items-center  justify-content-between ">
+        <div class="card-header">
+          <h4 class="card-title d-inline-block">Lista de Hallazgos inicial</h4>
+      </div>
+      <!-- <div class="form-heading">
+        <button (click)="abrirListaHallazgo()" class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
+      </div> -->
+      </div>
+
+        <div class="card-body p-0 table-dash">
+            <div class="table-responsive">
+                <table  class="table mb-0 border-0 datatable custom-table">
+                    <thead>
+                        <tr>
+                            <th >Nombre</th>
+                            <th >Categoria</th>
+                            <th >Diente</th>
+                            <th >Diente Final</th>
+                            <th >Dibujo</th>
+                            <th >Especificaciones</th>
+
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of odontogramaPacienteList$">
+                            <td>{{data.sigla+": " + data.nombreHallazgos[0]}}</td>
+                            <td>{{data.categoria}}</td>
+                            <td>{{data.numeroDiente}}</td>
+                            <td>{{data.dienteFinal}}</td>
+                            <td [innerHTML]="obtenerNombresTrue(data.marcas)"></td>
+                            <td>{{data.especificacion}}</td>
+                            <td></td>
+                            <td class="text-center  align-middle">
+                              <a href="javascript:;"><img src="assets/img/icons/trash.svg" class="me-2" alt="img" style="width: 25px;" (click)="eliminarHallazgoPaciente(data.pacienteOdontogramaId,data)"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
+</ng-template>
+
+

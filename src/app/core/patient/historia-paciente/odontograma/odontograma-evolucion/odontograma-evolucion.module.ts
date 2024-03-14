@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { OdontogramaEvolucionRoutingModule } from './odontograma-evolucion-routing.module';
 import { OdontogramaEvolucionComponent } from './odontograma-evolucion.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { OdontogramaEvolucionComponent } from './odontograma-evolucion.component
   ],
   imports: [
     CommonModule,
-    OdontogramaEvolucionRoutingModule
+    OdontogramaEvolucionRoutingModule,
+    SharedModule
   ]
 })
 export class OdontogramaEvolucionModule { }

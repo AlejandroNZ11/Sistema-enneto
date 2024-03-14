@@ -125,6 +125,7 @@ export class AgregarHallazgo3Component implements OnInit{
       this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
       this.hallazgoR.dienteFinal = this.form.get('hastaPieza')?.value;
       this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
+      this.hallazgoR.sigla = this.hallazgoSeleccionado$.siglas;
 
       console.log(this.hallazgoR);
 
