@@ -36,6 +36,8 @@ import { GastosResponse } from "./gastos";
 import { ClinicasResponse } from "./clinicas";
 
 
+
+
 export interface Accion<T = any> {
   accion: string;
   fila?: T

@@ -48,12 +48,11 @@ export class EditarSedeComponent implements OnInit {
       estado: ['Activo', Validators.required],
     })
 
-    this.ubicacionService.obtenerDepartamentos().subscribe(data => { this.departamentos = data; })
+    
   }
   
 
   ngOnInit() {
-    this.isLoading = true;
     this.ubicacionService.obtenerDepartamentos().subscribe(data => { 
       this.departamentos = data; 
       if (this.sedeSeleccionada) {
