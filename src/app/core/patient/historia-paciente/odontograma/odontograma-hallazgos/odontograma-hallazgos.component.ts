@@ -72,9 +72,8 @@ export class OdontogramaHallazgosComponent implements OnInit{
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value;
-    if(this.siglaSeleccionada$){
-    this.hallazgoR.sigla = this.siglaSeleccionada$.sigla
-    }
+    this.hallazgoR.sigla = this.form.get('siglaHallazgo')?.value;
+
 
 
     console.log(this.hallazgoR);

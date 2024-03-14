@@ -54,6 +54,9 @@ export class OdontogramaInicialComponent implements OnInit{
       // Agregar más productos...
     ];
 
+
+
+
     hallazgosList: THallazgo[]=[
       {id:1,nombre:'Caries Dental', tipo:'caries',siglas:['MB - Mancha Blanca','CE - Lesión de caries a nivel del esmalte']},
       {id:8,nombre:'Protesis Removible', tipo:'protesis'},
@@ -355,6 +358,8 @@ export class OdontogramaInicialComponent implements OnInit{
         // hallazgoTipo$:hallazgo.tipo,
         // hallazgoNombre$:hallazgo.nombre,
         // hallazgoId$:hallazgo.hallazgoId,
+        hallazgoSeleccionado$:hallazgo,
+
         }
 
 
@@ -573,30 +578,28 @@ export class OdontogramaInicialComponent implements OnInit{
 
   @HostListener('window:resize', ['$event'])
   onResize(event: Event) {
-    this.adjustCanvasSize();
-     // Limpiar el canvas
-     const canvas = this.myCanvas.nativeElement;
+    // this.adjustCanvasSize();
+
+    const canvas = this.myCanvas.nativeElement;
      const context = canvas.getContext('2d');
    if(context){
      console.log("canvas limpiado")
      context.clearRect(0, 0, canvas.width, canvas.height);
    }
-   this.limpiarOdontograma();
-
+    this.drawOdontograma();
   }
 
   adjustCanvasSize() {
     const canvas = this.myCanvas.nativeElement;
-    this.canvasWidth = canvas.offsetWidth; // o canvas.clientWidth
+    this.canvasWidth = window.innerWidth; // o canvas.clientWidth
 
+    console.log(this.canvasWidth)
     if (this.canvasWidth >= 1000) {
       this.tamanhoDiente = 50;
     } else {
       // Ajustar el tamaño del diente en relación con el nuevo tamaño del canvas
       this.tamanhoDiente = this.canvasWidth * 0.04; // Por ejemplo, el tamaño del diente es el 4% del ancho del canvas
     }
-
-
   }
 
     tamanhoColumna = 0;
@@ -682,6 +685,14 @@ export class OdontogramaInicialComponent implements OnInit{
       const canvas = this.myCanvas.nativeElement;
       const context = canvas.getContext('2d');
 
+      if(window.innerWidth<=1852){
+        this.tamanhoDiente = 40;
+      }
+      else if(window.innerWidth>1750){
+        this.tamanhoDiente = 50;
+
+      }
+      // 1630 -> 35
 
       if (context) {
         this.drawCanvasBase(context,canvas);
@@ -699,7 +710,14 @@ export class OdontogramaInicialComponent implements OnInit{
     }
     }
 
+    // figurasHallazgos:any[]=[
+    //   {hallazgo:'Exodoncia'},
+    //   {hallazgo:'Pieza Dentaria Ausente'},
+    //   {hallazgo:'Pieza Dentaria En Erupción'},
+    //   {hallazgo:'Transposicion'},
+    // ]
 
+    figurasHallazgos:string[] =['Exodoncia','Pieza Dentaria Ausente','Pieza Dentaria En Erupción','Transposicion'];
     drawCanvasOdontograma(context:CanvasRenderingContext2D, canvas:HTMLCanvasElement){
 
       this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
@@ -729,15 +747,15 @@ export class OdontogramaInicialComponent implements OnInit{
 
 
         if(numeroDienteSuperior!=-1){
-          if(this.odotogramaPacienteList[index].nombreHallazgos[0]=== ""){
+          if(this.odotogramaPacienteList[index].nombreHallazgos[0]=== "Caries Dental"){
             this.marcarTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
           this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
 
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Exodoncia" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Pieza Dentaria Ausente" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Pieza Dentaria En Erupción" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Transposicion"){
+          else if(this.figurasHallazgos.includes(this.odotogramaPacienteList[index].nombreHallazgos[0])){
             this.dibujarHallazgoSuperior(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Corona Temporal"){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Corona Temporal" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Corona"){
             this.marcarBordeTrapezoide(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
           this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
           }
@@ -746,6 +764,10 @@ export class OdontogramaInicialComponent implements OnInit{
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Espigo Muñon"){
             this.dibujarEspigoMunon(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
+            this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
+          }
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Tratamiento Pulpar"){
+            this.dibujarTratamientoPulpar(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
             this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Aparato Orto.Fijo"){
@@ -787,13 +809,13 @@ export class OdontogramaInicialComponent implements OnInit{
 
           this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Sellantes"){
             this.dibujarSellantes(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Restauración Temporal"){
             this.dibujarRestauracionTemporal(context, posicionXSuperior + 10, this.posicionPadre.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Implante Dental"){
             this.textoRectanguloParameters(this.posicionPadre,posicionXSuperior, index,context);
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Protesis Fija"){
@@ -802,24 +824,32 @@ export class OdontogramaInicialComponent implements OnInit{
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Giroversión"){
             this.dibujarGiroVersionSuperior(context,posicionXSuperior +34,this.posicionPadre.posicaoYInicialDente, 13);
           }
+
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Edentulo Total"){
+            this.dibujarEdentuloTotal(context,posicionXSuperior +30,posicionXFinalSuperior +30,this.posicionPadre.posicaoYInicialDente +83, this.tamanhoDiente,this.odotogramaPacienteList[index])
+          }
           // else if(this.odotogramaPacienteList[index].sigla!=""){
 
           // }
         }else if(numeroDienteInferior!=-1){
 
-          if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Caries Dental"){
             this.marcarTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index]);
             this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Exodoncia" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Pieza Dentaria Ausente" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Pieza Dentaria En Erupción" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Transposicion"){
+          else if(this.figurasHallazgos.includes(this.odotogramaPacienteList[index].nombreHallazgos[0])){
             this.dibujarHallazgoInferior(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index],canvas);
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Corona Temporal" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Corona"){
             this.marcarBordeTrapezoide(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
             this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Espigo Muñon"){
             this.dibujarEspigoMunon(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
+            this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
+          }
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Tratamiento Pulpar"){
+            this.dibujarTratamientoPulpar(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,  this.odotogramaPacienteList[index]);
             this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Aparato Orto.Fijo"){
@@ -867,13 +897,13 @@ export class OdontogramaInicialComponent implements OnInit{
             this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
 
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Sellantes"){
             this.dibujarSellantes(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
           }
           else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Restauración temporal"){
             this.dibujarRestauracionTemporal(context, posicionXInferior + 10, this.posicionPadre2.posicaoYInicialDente, this.tamanhoDiente,this.odotogramaPacienteList[index])
           }
-          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]===""){
+          else if(this.odotogramaPacienteList[index].nombreHallazgos[0]==="Implante Dental" || this.odotogramaPacienteList[index].nombreHallazgos[0]==="Fosas y Fisuras Profundas"){
             this.textoRectanguloParameters(this.posicionPadre2,posicionXInferior, index,context);
 
           }
@@ -1637,8 +1667,14 @@ export class OdontogramaInicialComponent implements OnInit{
      // Dibuja el rectángulo al principio
      tamanhoDiente = 10;
      context.save();
-     context.strokeStyle = "blue";
+     if(pacienteOdontograma.estado===0){
+      context.strokeStyle = "red";
+     context.fillStyle = "red";
+     }else if(pacienteOdontograma.estado===1){
+      context.strokeStyle = "blue";
      context.fillStyle = "blue";
+     }
+
      context.lineWidth = 3;
      context.beginPath();
 
@@ -2266,6 +2302,46 @@ export class OdontogramaInicialComponent implements OnInit{
 
         context.beginPath();
         context.rect(x +18, y +31, 13, 33);
+        context.fill();
+        context.restore();
+
+
+      }
+    }
+
+    private dibujarTratamientoPulpar(context: CanvasRenderingContext2D, x: number, y: number, tamanhoDiente: number, pacienteOdontograma: IodontogramaPacienteList){
+      this.dimensionesTrapezio = {
+        baseMaior: tamanhoDiente,
+        lateral: tamanhoDiente / 4,
+        baseMenor: (tamanhoDiente / 4) * 3
+      };
+
+      if(pacienteOdontograma?.estado===0){
+        context.save();
+        context.lineWidth = 5;
+        // Coloreado corona
+        context.fillStyle='red'
+        context.strokeStyle = 'red';
+        context.beginPath();
+        context.moveTo(x, y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, y);
+        context.lineTo(this.dimensionesTrapezio.baseMaior + x, this.dimensionesTrapezio.baseMaior + y);
+        context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
+        context.moveTo(x, y);
+        context.lineTo(x, this.dimensionesTrapezio.baseMaior + y);
+        context.closePath();
+        context.stroke();
+        context.restore();
+      }
+      else if(pacienteOdontograma?.estado===1){
+        context.save();
+        context.lineWidth = 5;
+        // Coloreado corona
+        context.fillStyle='blue'
+        context.strokeStyle = 'blue';
+
+        context.beginPath();
+        context.rect(x +22, y +28, 5, 43);
         context.fill();
         context.restore();
 

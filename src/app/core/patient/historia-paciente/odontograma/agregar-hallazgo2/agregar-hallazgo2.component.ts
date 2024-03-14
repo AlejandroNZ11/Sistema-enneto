@@ -46,7 +46,7 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
     this.form.patchValue({
       numeroDiente:this.numeroDiente$,
       hallazgoNombre: this.hallazgoSeleccionado$.nombre,
-      hallazgoSigla:this.siglaSeleccionada$
+      hallazgoSigla:this.siglaSeleccionada$.sigla
     })
   }
 
@@ -103,7 +103,7 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
     this.hallazgoR.pacienteId = this.pacienteId;
     this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo
-    // this.hallazgoR.hallazgoId = this.hallazgoId$
+    this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo
     this.hallazgoR.marcas = JSON.stringify(data).toString();
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
@@ -112,20 +112,20 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
     console.log(this.hallazgoR);
 
-    // this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
-    //   (response)=>{
-    //     if(response.isSuccess){
-    //       Swal.fire(response.message, '', 'success');
-    //       this.hallazgoAgregado$.next(true);
-    //       this.bsModalRef.hide();
-    //     }else{
-    //       console.error(response.message);
-    //     }
-    //   },
-    //   (error)=>{
-    //     console.log(error);
-    //   }
-    // )
+    this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+          this.hallazgoAgregado$.next(true);
+          this.bsModalRef.hide();
+        }else{
+          console.error(response.message);
+        }
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
   }
 
 
