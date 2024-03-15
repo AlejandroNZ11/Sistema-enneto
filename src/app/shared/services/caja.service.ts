@@ -14,10 +14,10 @@ export class CajaService {
     constructor(public http: HttpClient,) { }
 
 obtenerCajas(clinicaId: string, page: number, rows: number): Observable<DataCaja> {
-    return this.http.get<DataCaja>(this.apiUrl + `/Caja/GetAllCaja?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+    return this.http.get<DataCaja>(this.apiUrl + `/Cajas/GetAllCaja?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
 }
 crearCaja(caja: caja): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Caja/SaveCaja', caja).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/Cajas/SaveCaja', caja).pipe(
     catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
@@ -26,16 +26,16 @@ crearCaja(caja: caja): Observable<successResponse> {
 }
 
 obtenerListaCaja(): Observable<Icaja[]> {
-    return this.http.get<Icaja[]>(this.apiUrl + `/Caja/GetCajaList`);
+    return this.http.get<Icaja[]>(this.apiUrl + `/Cajas/GetCajaList`);
 }
 obtenerCaja( cajaId: string): Observable<Icaja> {
-    return this.http.get<Icaja>(this.apiUrl + `/Caja/GetCaja/${cajaId}`);
+    return this.http.get<Icaja>(this.apiUrl + `/Cajas/GetCaja/${cajaId}`);
 }
 eliminarCaja( cajaId: string): Observable<successResponse> {
-    return this.http.delete<successResponse>(this.apiUrl + `/Caja/DeleteCaja/${cajaId}`);
+    return this.http.delete<successResponse>(this.apiUrl + `/Cajas/DeleteCaja/${cajaId}`);
 }
 actualizarCaja(caja: Icaja): Observable<successResponse> {
-    return this.http.put<successResponse>(this.apiUrl + `/Caja/UpdateCaja/${caja.cajaId}`, caja).pipe(
+    return this.http.put<successResponse>(this.apiUrl + `/Cajas/UpdateCaja/${caja.cajaId}`, caja).pipe(
     catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);
