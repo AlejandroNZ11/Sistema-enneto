@@ -89,7 +89,7 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
     case 'Pago': clase = new PagoResponce();break;
     case 'Inventario': clase = new inventarioResponse();break;
     case 'EstadoCita': clase = new tipoCitadoResponse(); break;
-    case 'Gasto': clase = new GastosResponse(); break;
+    case 'Caja': clase = new cajaResponse(); break;
   }
   if (clase) {
     resultados = Object.keys(clase);
