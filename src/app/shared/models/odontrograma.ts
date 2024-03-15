@@ -31,6 +31,7 @@ export interface IodontogramaPacienteList {
   tipo:           string;
   categoria:      string;
   estado:         number;
+  estadoHallazgo:         number;
   marcas:         string;
   numeroDiente:   number;
   dienteFinal:    number;
