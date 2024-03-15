@@ -1,0 +1,10 @@
+
+.local-forms label{
+  background: #f4f5fa;
+  border-radius: 15px;
+}
+
+
+.form-control::placeholder {
+  color: #adb2e0; /* Puedes cambiar "red" al color que prefieras */
+}
