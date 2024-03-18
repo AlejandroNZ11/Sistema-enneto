@@ -37,15 +37,15 @@
                                         </div>
                                     </div>     
                                     <div class="col-md-6" *ngIf="mostrarFormulario">
-                                        <form>
+                                        <form [formGroup]="form1">
                                             <div class="col-12 col-md-12 col-xl-12">
                                                 <div class="form-group">
                                                     <label>Caja <span class="login-danger">*</span></label>
-                                                    <mat-select formControlName="tipoconcepto"
+                                                    <mat-select formControlName="caja"
                                                         class="form-control select" placeholder="Seleccione Caja">
-                                                        <mat-option value="Mañana">Mañana </mat-option>
-                                                        <mat-option value="Tarde">Tarde </mat-option>
-                                                        <mat-option value="Noche">Noche </mat-option>
+                                                        <mat-option value=1>Mañana </mat-option>
+                                                        <mat-option value=2>Tarde </mat-option>
+                                                        <mat-option value=3>Noche </mat-option>
                                                     </mat-select> 
                                                     <!-- <mat-select formControlName="tipoconcepto"
                                                         class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoconcepto')}" placeholder="Seleccione Tipo Concepto"
@@ -55,21 +55,21 @@
                                                             {{data.nombre}}
                                                         </mat-option>
                                                     </mat-select>  -->
-                                                     <!--<div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
+                                                    <div class="invalid-feedback" *ngIf="isRequerido('caja')">
                                                         Debe completar el campo*
-                                                    </div> -->
+                                                    </div> 
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-12 col-xl-12">
                                                 <div class="form-group">
                                                     <label>Turnos <span class="login-danger">*</span></label>
-                                                    <mat-select formControlName="tipoconcepto"
+                                                    <mat-select formControlName="turno"
                                                         class="form-control select" placeholder="Seleccione Turno">
-                                                        <mat-option value="Mañana">Mañana </mat-option>
-                                                        <mat-option value="Tarde">Tarde </mat-option>
-                                                        <mat-option value="Noche">Noche </mat-option>
+                                                        <mat-option value=1>Mañana </mat-option>
+                                                        <mat-option value=2>Tarde </mat-option>
+                                                        <mat-option value=3>Noche </mat-option>
                                                     </mat-select> 
-                                                    <div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
+                                                    <div class="invalid-feedback" *ngIf="isRequerido('turno')">
                                                         Debe completar el campo*
                                                     </div> 
                                                 </div>
@@ -80,16 +80,15 @@
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
-                                                    <input formControlName="monto" class="form-control" type="text"
-                                                    [ngClass]="{'is-invalid': isInvalid('monto')}"
-                                                    (input)="validarInput($event)" maxlength="10">
-                                                    <div class="invalid-feedback" *ngIf="isRequerido('tipoconcepto')">
-                                                        Debe completar el campo*
-                                                    </div> 
+                                                    <input formControlName="montoapertura" class="form-control" type="text">
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">SOL</span> 
                                                     </div>
-                                                    
+                                                </div>
+                                                <div *ngIf="isInvalid('montoapertura') || mostrarErrores" class="invalid-feedback">
+                                                    <div *ngIf="isRequerido('montoapertura')|| mostrarErrores">
+                                                        Debe completar el campo*
+                                                    </div>
                                                 </div>
                                             </div>
                                             
@@ -108,7 +107,7 @@
                                         </div>
                                     </div>     
                                     <div class="col-md-6" *ngIf="!mostrarFormulario">
-                                        <form>
+                                        <form [formGroup]="form2">
                                             <div class="form-group">
                                                 <br>
                                                 <br>
@@ -117,9 +116,7 @@
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
-                                                    <input formControlName="monto" class="form-control" type="text"
-                                                    [ngClass]="{'is-invalid': isInvalid('monto')}"
-                                                    (input)="validarInput($event)" maxlength="10">
+                                                    <input formControlName="montocierre" class="form-control" type="text">
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">SOL</span> 
                                                     </div>

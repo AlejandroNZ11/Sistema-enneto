@@ -55,6 +55,7 @@ export class AgregarCajaComponent implements OnInit{
       return;
     }
     this.Caja.nombre = this.form.get("nombre")?.value;
+    this.Caja.estado = 1
     console.log(this.Caja);
     this.cajaService.crearCaja(this.Caja).subscribe(
       (response)=>{

@@ -1,5 +1,5 @@
-<div class="settings-menu-links">
-  <ul class="nav nav-tabs menu-tabs" style="margin-bottom: 0px;">
+<div class="settings-menu-links d-flex align-items-end" >
+  <ul class="nav nav-tabs menu-tabs" style="margin-bottom: 0px; padding-right: 350px;">
       <li class="nav-item" [routerLinkActive]="['active']" [routerLink]="['./odontograma-inicial',pacienteId]">
           <a class="nav-link"  >Odo. Inicial</a>
       </li>
@@ -10,6 +10,12 @@
           <a  class="nav-link"  >Odo. Evolucion</a>
       </li>
   </ul>
+
+  <div class="call-all comman-space-flex">
+    <h4 style="flex-direction: row-reverse; padding-right: 15px; gap:5px" >Mal Estado<span style="background: #ec0404;"></span></h4>
+    <h4 style="flex-direction: row-reverse; gap:5px">Buen Estado<span style="background: #1550f3;"></span></h4>
+  </div>
 </div>
+
 
 <router-outlet></router-outlet>
