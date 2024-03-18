@@ -71,6 +71,12 @@ export class AgregarSedeComponent implements OnInit{
     const control = this.form.get('codigo');
     return control?.value.length !== 4;
   }
+  soloNumeros(event: KeyboardEvent): void {
+    const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 
   isRequerido(controlName: string) {
     const control = this.form.get(controlName);
