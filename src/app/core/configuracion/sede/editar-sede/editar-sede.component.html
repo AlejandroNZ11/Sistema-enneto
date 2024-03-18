@@ -37,7 +37,7 @@
                                 <div class="form-group local-forms">
                                     <label>Codigo <span class="login-danger">*</span></label>
                                     <input formControlName="codigo" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('codigo')}" maxlength="4">
+                                        [ngClass]="{'is-invalid': isInvalid('codigo')}" maxlength="4" (keydown)="soloNumeros($event)">
                                     <div *ngIf="validarLongitudCodigo() || isInvalid('codigo') || mostrarErrores" class="invalid-feedback">El código debe contener exactamente 4 caracteres.
                                         <div *ngIf="validarLongitudCodigo() || isRequerido('codigo') || mostrarErrores" class="invalid-feedback">
                                             El código debe contener exactamente 4 caracteres.
