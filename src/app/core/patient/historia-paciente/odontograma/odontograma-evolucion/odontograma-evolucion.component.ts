@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaHallazgosComponent } from '../odontograma-hallazgos/odontograma-hallazgos.component';
-import { Subject } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { AgregarHallazgo2Component } from '../agregar-hallazgo2/agregar-hallazgo2.component';
 import { AgregarHallazgo3Component } from '../agregar-hallazgo3/agregar-hallazgo3.component';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
@@ -16,6 +16,8 @@ import { environment } from 'src/environments/environments';
 import { IHallazgo, THallazgo, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { AgregarHallazgo7Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
 import Swal from 'sweetalert2';
+import { CapturaOdontogramaComponent } from '../captura-odontograma/captura-odontograma.component';
+import { NgxCaptureService } from 'ngx-capture';
 
 interface Producto {
   nombre: string;
@@ -30,7 +32,7 @@ interface Producto {
 export class OdontogramaEvolucionComponent implements OnInit{
 
 
-    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService){
+    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService, private captureService:NgxCaptureService){
       // this.calcularTamanhoDiente(); // Calcular el tamaño inicial del diente al inicializar el componente
 
     }
@@ -140,6 +142,31 @@ export class OdontogramaEvolucionComponent implements OnInit{
       {nombreHallazgo:"Tratamiento Pulpar",sigla:"PP",nombre:"Pulpotomía"},
 
     ]
+
+    imgCapture:string='';
+
+    @ViewChild('screen', { static: true }) screen: any;
+    capture(){
+      Swal.fire('Procesando')
+      Swal.showLoading()
+      this.captureService.getImage(this.screen.nativeElement, true)
+
+  .pipe(
+    tap(img => {
+
+      Swal.close();
+
+      this.imgCapture = img;
+      const initialState ={
+        imgCapture:this.imgCapture,
+      }
+
+      this.bsModalRef = this.modalService.show(CapturaOdontogramaComponent,{initialState, class:'modal-lg'});
+      console.log(this.imgCapture);
+
+    })
+  ).subscribe();
+    }
 
     changeVariable(hallazgo:IHallazgo, sigla?:siglasHallazgo) {
       console.log(hallazgo)

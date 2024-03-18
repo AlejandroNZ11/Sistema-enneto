@@ -12,6 +12,7 @@ import { AgregarHallazgo4Component } from './agregar-hallazgo-odontograma/agrega
 import { AgregarHallazgo5Component } from './agregar-hallazgo-odontograma/agregar-hallazgo5/agregar-hallazgo5.component';
 import { AgregarHallazgo6Component } from './agregar-hallazgo-odontograma/agregar-hallazgo6/agregar-hallazgo6.component';
 import { AgregarHallazgo7Component } from './agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
+import { CapturaOdontogramaComponent } from './captura-odontograma/captura-odontograma.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AgregarHallazgo7Component } from './agregar-hallazgo-odontograma/agrega
     AgregarHallazgo4Component,
     AgregarHallazgo5Component,
     AgregarHallazgo6Component,
-    AgregarHallazgo7Component
+    AgregarHallazgo7Component,
+    CapturaOdontogramaComponent
   ],
   imports: [
     CommonModule,

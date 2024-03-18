@@ -2,8 +2,8 @@
   <div class="col-12 col-md-12  col-xl-9">
   <div class="card">
     <div class="card-body">
-      <main style="max-width: 1000px;">
-        <canvas #myCanvas [width]="canvasWidth" [height]="canvasHeight">
+      <main style="max-width: 1000px;" >
+        <canvas #myCanvas [width]="canvasWidth" [height]="canvasHeight" #screen>
 
         </canvas>
       </main>
@@ -12,8 +12,8 @@
   </div>
   </div>
 
-  <div class="col-12 col-lg-12 col-xl-3">
-    <button  type="button" class="btn btn-primary btn-lg me-1 w-100 mb-3">
+  <div class="col-12 col-lg-12 col-xl-3" >
+    <button (click)="capture()" type="button" class="btn btn-primary btn-lg me-1 w-100 mb-3">
        Capturar Odontograma </button>
     <div class="card flex-fill comman-shadow">
       <div class="card-header" style="padding-bottom: 0px;">

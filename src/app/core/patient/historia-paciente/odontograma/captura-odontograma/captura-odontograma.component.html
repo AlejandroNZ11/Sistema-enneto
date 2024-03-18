@@ -1,0 +1,30 @@
+<div  class="content">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-body">
+<!-- form -->
+
+
+          <div class="row">
+
+              <div class="form-heading">
+                <h4>Odontograma Capturado</h4>
+              </div>
+              <img [src]="imgCapture" alt="">
+
+
+          <!-- form cierre -->
+          <div class="col-12 mt-5 gap-3">
+            <div class="doctor-submit text-end  ">
+                <button type="submit"
+                    class="btn btn-primary cancel-form mx-2 " >Cerrar</button>
+                    <button type="submit"
+                    class="btn btn-primary submit-form me-2" (click)="descargarImagen()">Guardar</button>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaHallazgosComponent } from '../odontograma-hallazgos/odontograma-hallazgos.component';
-import { Subject } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { AgregarHallazgo2Component } from '../agregar-hallazgo2/agregar-hallazgo2.component';
 import { AgregarHallazgo3Component } from '../agregar-hallazgo3/agregar-hallazgo3.component';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
@@ -16,6 +16,8 @@ import { environment } from 'src/environments/environments';
 import { IHallazgo, THallazgo, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { AgregarHallazgo7Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
 import Swal from 'sweetalert2';
+import { NgxCaptureService } from 'ngx-capture';
+import { CapturaOdontogramaComponent } from '../captura-odontograma/captura-odontograma.component';
 
 interface Producto {
   nombre: string;
@@ -30,7 +32,7 @@ interface Producto {
 export class OdontogramaInicialComponent implements OnInit{
 
 
-    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService){
+    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService,private captureService:NgxCaptureService){
       // this.calcularTamanhoDiente(); // Calcular el tamaño inicial del diente al inicializar el componente
 
     }
@@ -53,6 +55,30 @@ export class OdontogramaInicialComponent implements OnInit{
       { nombre: 'Producto 3' },
       // Agregar más productos...
     ];
+
+    imgCapture:string='';
+  @ViewChild('screen', { static: true }) screen: any;
+  capture(){
+    Swal.fire('Procesando')
+    Swal.showLoading()
+    this.captureService.getImage(this.screen.nativeElement, true)
+
+.pipe(
+  tap(img => {
+
+    Swal.close();
+
+    this.imgCapture = img;
+    const initialState ={
+      imgCapture:this.imgCapture,
+    }
+
+    this.bsModalRef = this.modalService.show(CapturaOdontogramaComponent,{initialState, class:'modal-lg'});
+    console.log(this.imgCapture);
+
+  })
+).subscribe();
+  }
 
 
 
@@ -592,8 +618,10 @@ export class OdontogramaInicialComponent implements OnInit{
     console.log(this.canvasWidth)
     if (this.canvasWidth >= 1000) {
       this.tamanhoDiente = 50;
+
     } else {
       // Ajustar el tamaño del diente en relación con el nuevo tamaño del canvas
+
       this.tamanhoDiente = this.canvasWidth * 0.04; // Por ejemplo, el tamaño del diente es el 4% del ancho del canvas
     }
   }
@@ -667,9 +695,13 @@ export class OdontogramaInicialComponent implements OnInit{
       const context = canvas.getContext('2d');
 
       if(window.innerWidth<=1852){
+        this.diastemaX=10
+        this.diastemaXR=38
         this.tamanhoDiente = 40;
       }
       else if(window.innerWidth>1750){
+        this.diastemaX=20;
+        this.diastemaXR=48;
         this.tamanhoDiente = 50;
 
       }
@@ -1721,13 +1753,16 @@ export class OdontogramaInicialComponent implements OnInit{
 
 }
 
+  diastemaX:number=20;
+  diastemaXR:number=48;
+
   private dibujarDiastema(context: CanvasRenderingContext2D, x: number, y: number, radio: number){
     context.save();
     // Establecer estilo de la flecha
     context.strokeStyle = "blue";
 
     context.lineWidth = 2;
-    context.translate(x+20, y+22); // Mueve el punto de origen al centro del arco
+    context.translate(x+this.diastemaX, y+22); // Mueve el punto de origen al centro del arco
     context.rotate(Math.PI/1.6); // Rota el contexto
     context.beginPath(); // Inicia la ruta de dibujo
     context.arc(0, 0, radio, Math.PI, Math.PI * 1.75); // Dibuja un arco desde 180 grados hasta 360 grados (la mitad del círculo)
@@ -1740,7 +1775,7 @@ export class OdontogramaInicialComponent implements OnInit{
     context.strokeStyle = "blue";
 
     context.lineWidth = 2;
-    context.translate(x+48, y+22); // Mueve el punto de origen al centro del arco
+    context.translate(x+this.diastemaXR, y+22); // Mueve el punto de origen al centro del arco
     context.rotate(Math.PI/-2.6); // Rota el contexto
     context.beginPath(); // Inicia la ruta de dibujo
     context.arc(0, 0, radio, Math.PI, Math.PI * 1.75); // Dibuja un arco desde 180 grados hasta 360 grados (la mitad del círculo)
