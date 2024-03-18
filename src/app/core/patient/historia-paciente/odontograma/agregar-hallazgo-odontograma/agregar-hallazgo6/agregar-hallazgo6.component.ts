@@ -20,6 +20,7 @@ export class AgregarHallazgo6Component implements  AfterViewInit, OnInit{
   hallazgoNombre$?: string;
   numeroDiente$: string="";
   hallazgoId$:number=0;
+  tipoHallazgo:string='';
 
   dientesOclusales: string[] = ['18', '17', '16', '15', '14', '24', '25', '26', '27', '28', '38', '37', '36', '35', '34', '44', '45', '46', '47', '48']
 
@@ -98,7 +99,7 @@ export class AgregarHallazgo6Component implements  AfterViewInit, OnInit{
     };
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo =  this.hallazgoSeleccionado$.tipo;
+    this.hallazgoR.tipo =  this.tipoHallazgo;
     this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
     this.hallazgoR.categoria =  this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.marcas = JSON.stringify(data).toString();

@@ -25,6 +25,8 @@ export class AgregarHallazgo3Component implements OnInit{
   numeroSeleccionado: string = '';
 
   hallazgoSeleccionado$!: IHallazgo;
+  tipoHallazgo:string='';
+
 
 
 
@@ -141,10 +143,11 @@ export class AgregarHallazgo3Component implements OnInit{
       return;
     }
 
-    this.hallazgoR.pacienteId = this.pacienteId;
-      this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+      this.hallazgoR.pacienteId = this.pacienteId;
+      this.hallazgoR.tipo = this.tipoHallazgo;
       this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
       this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
+      this.hallazgoR.estadoHallazgo = this.form.get('estado')?.value;
       this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);
       this.hallazgoR.dienteFinal = this.form.get('hastaPieza')?.value;
       this.hallazgoR.especificacion = this.form.get('especificacion')?.value;

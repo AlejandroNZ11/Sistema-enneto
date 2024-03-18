@@ -42,6 +42,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./consentimiento/consentimiento.module').then((m) => m.ConsentimientoModule),
       },
+      {
+        path: 'recetas/:pacienteId',
+        loadChildren: () =>
+          import('./recetas/recetas.module').then((m) => m.RecetasModule),
+      },
     ],
   },
 ];

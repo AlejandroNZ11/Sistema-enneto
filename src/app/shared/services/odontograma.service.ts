@@ -19,8 +19,8 @@ export class OdontogramaService {
     return this.http.get<DataOdontogramaPaciente>('/assets/json/pacienteOdontograma.json');
   }
 
-  obtenerOdontogramaPacienteListAPI(pacienteId:string):Observable<IodontogramaPacienteList[]>{
-    return this.http.get<IodontogramaPacienteList[]>(`${this.apiUrl}/PacientesOdontogramas/GetAllPacienteOdontograma?pacienteId=${pacienteId}`);
+  obtenerOdontogramaPacienteListAPI(pacienteId:string,tipo:string):Observable<IodontogramaPacienteList[]>{
+    return this.http.get<IodontogramaPacienteList[]>(`${this.apiUrl}/PacientesOdontogramas/GetAllPacienteOdontograma?pacienteId=${pacienteId}&tipo=${tipo}`);
   }
 
   obtenerHallazgos():Observable<IHallazgo[]>{

@@ -3,8 +3,10 @@
 <div class="modal-body" data-select2-id="70">
   <div class="box box-default box-solid box-default ">
     <div class="form-heading">
-      <h4>Nueva Evolución Paciente</h4>
+      <h4>Agregar Consentimiento</h4>
   </div>
+  <hr style="margin: 2rem 0;">
+
     <div class="box-body" data-select2-id="69">
       <form [formGroup]="form" >
         <div class="row">
@@ -187,14 +189,16 @@
                   <div class="doctor-submit text-end d-flex justify-content-center ">
                       <button
                           class="btn btn-primary cancel-form me-2" (click)="limpiarCanvas()">Limpiar firma</button>
+                          <button class="btn btn-primary submit-form" (click)="agregarConsentimiento()"
+          >Guardar</button>
                   </div>
               </div>
           </div>
           </div>
 
           <div class="doctor-submit text-end d-flex justify-content-end ">
-            <button class="btn btn-primary submit-form" (click)="agregarConsentimiento()"
-          >Guardar</button>
+            <button class="btn btn-primary submit-form" (click)="cancelar()"
+          >Cancelar</button>
           </div>
         </div>
       </form>
