@@ -4,4 +4,5 @@ export class cajaAC {
     caja = "";
     turno = "";
     montoapertura= "";
+    montocierre= "";
 }

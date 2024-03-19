@@ -42,19 +42,13 @@
                                                 <div class="form-group">
                                                     <label>Caja <span class="login-danger">*</span></label>
                                                     <mat-select formControlName="caja"
-                                                        class="form-control select" placeholder="Seleccione Caja">
-                                                        <mat-option value=1>Mañana </mat-option>
-                                                        <mat-option value=2>Tarde </mat-option>
-                                                        <mat-option value=3>Noche </mat-option>
-                                                    </mat-select> 
-                                                    <!-- <mat-select formControlName="tipoconcepto"
-                                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('tipoconcepto')}" placeholder="Seleccione Tipo Concepto"
-                                                        [ngClass]="{'is-invalid': isInvalid('tipoconcepto') && isFormSubmitted}">
-                                                        <mat-option *ngFor="let data of tipoconcepto_LISTA"
-                                                            [value]="data.tipoConceptoId">
+                                                        class="form-control select" [ngClass]="{'is-invalid': isInvalid('caja')}" placeholder="Seleccione Caja"
+                                                        [ngClass]="{'is-invalid': isInvalid('caja') && isFormSubmitted}">
+                                                        <mat-option *ngFor="let data of caja_LISTA"
+                                                            [value]="data.cajaId">
                                                             {{data.nombre}}
                                                         </mat-option>
-                                                    </mat-select>  -->
+                                                    </mat-select> 
                                                     <div class="invalid-feedback" *ngIf="isRequerido('caja')">
                                                         Debe completar el campo*
                                                     </div> 
@@ -64,7 +58,8 @@
                                                 <div class="form-group">
                                                     <label>Turnos <span class="login-danger">*</span></label>
                                                     <mat-select formControlName="turno"
-                                                        class="form-control select" placeholder="Seleccione Turno">
+                                                        class="form-control select"[ngClass]="{'is-invalid': isInvalid('turno')}" placeholder="Seleccionar Turno"
+                                                        [ngClass]="{'is-invalid': isInvalid('turno') && isFormSubmitted}" >
                                                         <mat-option value=1>Mañana </mat-option>
                                                         <mat-option value=2>Tarde </mat-option>
                                                         <mat-option value=3>Noche </mat-option>
@@ -80,16 +75,18 @@
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
-                                                    <input formControlName="montoapertura" class="form-control" type="text">
+                                                    <input formControlName="montoapertura" class="form-control" type="text"
+                                                                [ngClass]="{'is-invalid': isInvalid('montoapertura')}">
+                                                        <div *ngIf="isInvalid('montoapertura') || mostrarErrores" class="invalid-feedback">
+                                                            <div *ngIf="isRequerido('montoapertura')|| mostrarErrores">
+                                                                Debe completar el campo*
+                                                            </div>
+                                                        </div>
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">SOL</span> 
                                                     </div>
                                                 </div>
-                                                <div *ngIf="isInvalid('montoapertura') || mostrarErrores" class="invalid-feedback">
-                                                    <div *ngIf="isRequerido('montoapertura')|| mostrarErrores">
-                                                        Debe completar el campo*
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                             
                                             <div class="mb-3">
@@ -116,7 +113,13 @@
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
-                                                    <input formControlName="montocierre" class="form-control" type="text">
+                                                    <input formControlName="montocierre" class="form-control" type="text"
+                                                            [ngClass]="{'is-invalid': isInvalid('montocierre')}">
+                                                        <div *ngIf="isInvalid('montocierre') || mostrarErrores" class="invalid-feedback">
+                                                            <div *ngIf="isRequerido('montocierre')|| mostrarErrores">
+                                                                Debe completar el campo*
+                                                            </div>
+                                                        </div>
                                                     <div class="input-group-prepend"> 
                                                         <span class="input-group-text">SOL</span> 
                                                     </div>

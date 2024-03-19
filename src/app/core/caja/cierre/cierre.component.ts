@@ -1,8 +1,10 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Renderer2, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { routes } from 'src/app/shared/routes/routes';
 import { cajaAC } from 'src/app/shared/models/cajaAC';
 import { CajaACService } from 'src/app/shared/services/cajaAC.service';
+import { CajaService } from 'src/app/shared/services/caja.service';
+import { Icaja } from 'src/app/shared/models/caja';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,13 +12,16 @@ import Swal from 'sweetalert2';
   templateUrl: './cierre.component.html',
   styleUrls: ['./cierre.component.scss']
 })
-export class CierreComponent {
+export class CierreComponent implements OnInit{
   public routes = routes;
   Caja: cajaAC = new cajaAC();
   form1!: FormGroup;
   public mostrarErrores = false;
   mostrarFormulario = true;
   form2!: FormGroup;
+  isFormSubmitted = false;
+  caja_LISTA: Array<Icaja> = [];
+  public caja !: string[];
 
 
 
@@ -24,6 +29,7 @@ export class CierreComponent {
     private renderer: Renderer2,
     public fb: FormBuilder, 
     private cajaService: CajaACService,
+    public cajaservice: CajaService,
   ){
     this.form1 = this.fb.group({
       caja: ['', Validators.required],
@@ -34,6 +40,12 @@ export class CierreComponent {
       montocierre: ['', Validators.required],
     });
 
+  }
+
+  ngOnInit(): void {
+    this.cajaservice.obtenerListaCaja().subscribe((data: Icaja[]) => {
+      this.caja_LISTA = data;
+    });
   }
 
   markAllFieldsAsTouched() {
@@ -80,7 +92,7 @@ export class CierreComponent {
   }
 
   
-  abrirCuenta() {
+  abrirCaja() {
     if (this.form1.invalid) {
       this.isTouched()      
       return;
@@ -92,5 +104,14 @@ export class CierreComponent {
     this.cajaService.abrirCaja
   }
 
-
+ 
+  cerrarCaja() {
+    if (this.form2.invalid) {
+      this.isTouched()      
+      return;
+    }
+    this.Caja.montocierre = this.form2.get("montocierre")?.value;
+    console.log(this.Caja);
+    this.cajaService.abrirCaja
+  }
 }
