@@ -16,7 +16,7 @@ export class pacienteRecetaRequest {
   estado=0
 }
 
-export interface DataPacienteReceta{
+export interface PacienteRecetaData{
   data: IPacienteReceta[];
   totalData: number
 }

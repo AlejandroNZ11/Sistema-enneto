@@ -26,6 +26,7 @@ export class AgregarHallazgo3Component implements OnInit{
 
   hallazgoSeleccionado$!: IHallazgo;
   tipoHallazgo:string='';
+  cantidad:number =150;
 
 
 

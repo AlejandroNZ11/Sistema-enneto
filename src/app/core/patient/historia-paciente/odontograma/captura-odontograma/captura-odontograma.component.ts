@@ -19,4 +19,8 @@ export class CapturaOdontogramaComponent {
     this.bsModalRef.hide();
   }
 
+
+  cancelar() {
+    this.bsModalRef.hide();
+  }
 }

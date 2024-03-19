@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../services/shared-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { pageSelection } from 'src/app/shared/models/models';
 import { IcitaMedica } from 'src/app/shared/models/cita';
 import { PacienteAlergiaService } from 'src/app/shared/services/paciente-alergia.service';
@@ -12,15 +12,17 @@ import { MatTableDataSource } from '@angular/material/table';
 import Swal from 'sweetalert2';
 import { AlergiasService } from 'src/app/shared/services/alergias.service';
 import { Ialergias } from 'src/app/shared/models/alergia';
-import { AgregarRecetaComponent } from './agregar-receta/agregar-receta.component';
-import { EditarRecetaComponent } from './editar-receta/editar-receta.component';
+import { diagnostico } from '../../../../shared/models/diagnostico';
+import { AgregarImagenComponent } from './agregar-imagen/agregar-imagen.component';
+import { IPacienteImagen, PacienteImagenData } from 'src/app/shared/models/pacienteImagenes';
+import { PacienteImagenService } from 'src/app/shared/services/pacienteImagenes.service';
 @Component({
-  selector: 'app-recetas',
-  templateUrl: './recetas.component.html',
-  styleUrls: ['./recetas.component.scss']
+  selector: 'app-imagenes',
+  templateUrl: './imagenes.component.html',
+  styleUrls: ['./imagenes.component.scss']
 })
-export class RecetasComponent implements OnInit{
-  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, private alergiaService: AlergiasService ) { }
+export class ImagenesComponent implements OnInit{
+  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, private pacienteImagenService:PacienteImagenService,private router: Router ) { }
 
 
   public serialNumberArray: Array<number> = [];
@@ -33,8 +35,8 @@ export class RecetasComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public citasList: Array<IcitaMedica> = [];
-  dataSource!: MatTableDataSource<IPacienteAlergia>;
-  pacienteAlergiasList: Array<IPacienteAlergia> = [];
+  dataSource!: MatTableDataSource<IPacienteImagen>;
+  pacienteImagenList: Array<IPacienteImagen> = [];
   public totalPages = 0;
   ListAlergias?: Ialergias[];
 
@@ -53,18 +55,23 @@ export class RecetasComponent implements OnInit{
     })
 
     this.sharedService.setPacienteId(this.pacienteId);
-
+    console.log(this.pacienteId);
     this.getTableData();
+  }
+
+  navegarAGaleriaImagenes() {
+    const pacienteId = this.pacienteId; // Obtén el pacienteId de donde lo tengas guardado en tu componente
+    this.router.navigate(['/paciente/historia-paciente/galeria-imagenes', pacienteId]);
   }
 
 
   getTableData(){
     this.isLoading = true;
-    this.pacienteAlergiaService.obtenerPacienteAlergiaList(this.pacienteId, environment.clinicaId, this.currentPage,this.pageSize)
+    this.pacienteImagenService.obtenerPacienteImagenes()
     .pipe(
             finalize(() => this.isLoading = false)
           )
-          .subscribe((data: DataPacienteAlergia) => {
+          .subscribe((data: PacienteImagenData) => {
             console.log("Respuesta del Servidor:", data);
 
 
@@ -76,12 +83,10 @@ export class RecetasComponent implements OnInit{
         }
 
 
-            this.pacienteAlergiasList = data.data;
-            console.log("Consulta del Paciente")
-            console.log(this.pacienteAlergiasList)
+            this.pacienteImagenList = data.data;
 
 
-            this.dataSource = new MatTableDataSource<IPacienteAlergia>(this.pacienteAlergiasList);
+            this.dataSource = new MatTableDataSource<IPacienteImagen>(this.pacienteImagenList);
             this.calculateTotalPages(this.totalData, this.pageSize);
 
 
@@ -94,7 +99,7 @@ export class RecetasComponent implements OnInit{
 
 
   crearAlergiaPaciente() {
-    this.bsModalRef = this.modalService.show(AgregarRecetaComponent,{class:'modal-lg'});
+    this.bsModalRef = this.modalService.show(AgregarImagenComponent);
 
     this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
       if(alergiaAgregada){
@@ -103,30 +108,30 @@ export class RecetasComponent implements OnInit{
     })
   }
 
-  editar(pacienteAlergia: IPacienteAlergia) {
+//   editar(pacienteAlergia: IPacienteAlergia) {
 
-    // const initialState ={
-    //   pacienteAlergiaId : pacienteAlergia.pacienteAlergiaId,
-    //   observacion:pacienteAlergia.observacion,
-    //   alergiaId:pacienteAlergia.alergiaId
+//     const initialState ={
+//       pacienteAlergiaId : pacienteAlergia.pacienteAlergiaId,
+//       observacion:pacienteAlergia.observacion,
+//       alergiaId:pacienteAlergia.alergiaId
 
-    // }
+//     }
 
-    this.bsModalRef = this.modalService.show(EditarRecetaComponent,{class:'modal-lg'});
+//     this.bsModalRef = this.modalService.show(EditarAlergiaPacienteComponent, { initialState});
 
-    // const pacienteAlergiaEditado$ = new Subject<boolean>();
+//     const pacienteAlergiaEditado$ = new Subject<boolean>();
 
-    // this.bsModalRef.content.pacienteAlergiaEditado$ = pacienteAlergiaEditado$;
-    // pacienteAlergiaEditado$.subscribe((pacienteAlergiaEditado:boolean)=>{
-    //   if(pacienteAlergiaEditado){
-    //     this.getTableData();
-    //   }
-    // });
-    // this.bsModalRef.onHidden?.subscribe(()=>{
-    //   pacienteAlergiaEditado$.unsubscribe();
-    // })
+//     this.bsModalRef.content.pacienteAlergiaEditado$ = pacienteAlergiaEditado$;
+//     pacienteAlergiaEditado$.subscribe((pacienteAlergiaEditado:boolean)=>{
+//       if(pacienteAlergiaEditado){
+//         this.getTableData();
+//       }
+//     });
+//     this.bsModalRef.onHidden?.subscribe(()=>{
+//       pacienteAlergiaEditado$.unsubscribe();
+//     })
 
-}
+// }
 
 public moveToPage(pageNumber: number): void {
   this.currentPage = pageNumber;

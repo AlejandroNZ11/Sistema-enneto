@@ -729,7 +729,7 @@ export class OdontogramaAltaComponent implements OnInit{
     // ]
 
     figurasHallazgos:string[] =['Exodoncia','Pieza Dentaria Ausente','Pieza Dentaria En Erupción','Transposicion'];
-    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte'];
+    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte','Macrodoncia','Microdoncia','Pieza Dentaria Ectópica','Posición Dentaria','Remanente Radicular','Superficie Desgastada'];
 
     drawCanvasOdontograma(context:CanvasRenderingContext2D, canvas:HTMLCanvasElement){
 

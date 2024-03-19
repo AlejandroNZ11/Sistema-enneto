@@ -15,6 +15,8 @@ import { SharedService } from '../../services/shared-service.service';
 import { Enfermedad } from 'src/app/shared/models/enfermedad';
 import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 import { pacienteRecetaRequest } from 'src/app/shared/models/pacienteReceta';
+import { PacienteService } from 'src/app/shared/services/paciente.service';
+import { PacienteEditar } from '../../../../../shared/models/paciente';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -76,12 +78,8 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
     });
-
-
-
+    this.edadPaciente();
   }
-
-
 
   ngOnDestroy(): void {
     this.editorReceta.destroy();
@@ -89,10 +87,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     clearInterval(this.timer);
   }
 
-
-
-
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService, private pacienteService: PacienteService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: [{ value: this.currentTime, disabled: true }],
@@ -105,9 +100,6 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
       terminoBusquedaDiagnostico1: [''],
       terminoBusquedaDiagnostico2: [''],
     });
-
-
-
     const now = new Date();
     console.log(now)
 
@@ -120,6 +112,14 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.timer = setInterval(() => {
       this.getCurrentTime();
     }, 1000);
+  }
+
+  edad:string='';
+  private edadPaciente(){
+    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe((data:PacienteEditar)=>{
+
+      this.edad = data.edad;
+    })
   }
 
 

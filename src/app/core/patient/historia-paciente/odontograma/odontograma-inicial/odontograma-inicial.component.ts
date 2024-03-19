@@ -80,6 +80,47 @@ export class OdontogramaInicialComponent implements OnInit{
 ).subscribe();
   }
 
+iconsHallazgo:any[]=[
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtodonticoRemovibleIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgariosa.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/CoronaDefinitivavalcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/Coronatemp.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgdde.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgdiastema.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgendtotal.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/pernomunon.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgfractura.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgfusion.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imggeminasion.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgimpactacion.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/imgimplant.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+      {path:'assets/img/odontogramaTest/hallazgoIcons/AparatoOrtoIcono.png'},
+
+    ]
 
 
 
@@ -166,6 +207,7 @@ export class OdontogramaInicialComponent implements OnInit{
       {nombreHallazgo:"Tratamiento Pulpar",sigla:"PP",nombre:"Pulpotomía"},
 
     ]
+
 
     changeVariable(hallazgo:IHallazgo, sigla?:siglasHallazgo) {
       console.log(hallazgo)
@@ -727,7 +769,7 @@ export class OdontogramaInicialComponent implements OnInit{
     // ]
 
     figurasHallazgos:string[] =['Exodoncia','Pieza Dentaria Ausente','Pieza Dentaria En Erupción','Transposicion'];
-    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte'];
+    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte','Macrodoncia','Microdoncia','Pieza Dentaria Ectópica','Posición Dentaria','Remanente Radicular','Superficie Desgastada'];
 
     drawCanvasOdontograma(context:CanvasRenderingContext2D, canvas:HTMLCanvasElement){
 

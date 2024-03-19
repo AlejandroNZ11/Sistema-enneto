@@ -1,1 +1,193 @@
-<p>editar-receta works!</p>
+
+
+
+
+<div class="modal-body" data-select2-id="70">
+  <div class="box box-default box-solid box-default ">
+    <div class="form-heading">
+      <h4>Agregar Receta</h4>
+  </div>
+  <hr style="margin: 2rem 0;">
+    <div class="box-body" data-select2-id="69">
+      <form [formGroup]="form" >
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12 mb-4">
+                <span>Edad: {{edad}} años</span>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group local-forms">
+                  <label class="control-label">Fecha:</label>
+                  <input formControlName="fecha" style='height:48px' class="form-control datetimepicker" type="text" placeholder="" matInput
+                    [matDatepicker]="picker" [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}"
+                    >
+                  <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
+                  <mat-datepicker-toggle matIconSuffix [for]="picker"
+                    matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                    <div *ngIf="isInvalid('fecha') && isFormSubmitted"
+                    class="invalid-feedback">
+                    <div *ngIf="isRequerido('fecha')">
+                        Debe completar el campo*
+                    </div>
+                </div>
+                </div>
+              </div>
+
+
+              <div class="col-md-4">
+                <div class="form-group local-forms">
+                  <label>Hora:<span class="login-danger">*</span></label>
+                  <input formControlName="hora"  class="form-control" [ngClass]="{'is-invalid': isInvalid('hora') && isFormSubmitted}" [value]="currentTime">
+                  <div *ngIf="isInvalid('hora') && isFormSubmitted" class="invalid-feedback">
+                    <div *ngIf="isRequerido('hora')">
+                        Debe completar el campo*
+                    </div>
+                </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Medico:</label>
+                  <mat-select formControlName="medicoId"  class="form-control select"
+                    placeholder="--Seleccionar--"
+                    [ngClass]="{'is-invalid': isInvalid('medicoId') && isFormSubmitted}">
+                    <input type="text" class="form-control buscar" autocomplete="off"
+                    placeholder="Ingrese Nombre del Médico" matInput
+                    formControlName="terminoBusquedaMedico">
+                    <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
+                    <ng-container *ngIf="medicosFiltrados.length > 0; else noResultadosMedico">
+                      <mat-option *ngFor="let medico of medicosFiltrados" [value]="medico.medicoId">
+                        {{medico.nombre}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <div *ngIf="isInvalid('medicoId') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('medicoId')">
+                      Debe completar el campo*
+                  </div>
+              </div>
+                  <ng-template #noResultadosMedico>
+                    <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaMedico')?.value}}"</p>
+                  </ng-template>
+                </div>
+              </div>
+
+            </div>
+
+
+
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Diagnostico 01:</label>
+                  <mat-select formControlName="diagnostico1"  class="form-control select"
+                    placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('diagnostico1') && isFormSubmitted}">
+                    <input type="text" class="form-control buscar" autocomplete="off"
+                    placeholder="Ingrese Apellidos o Nombres" matInput
+                    formControlName="terminoBusquedaDiagnostico1">
+                    <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
+                    <ng-container *ngIf="enfermedadFiltradas1.length > 0; else noResultadosMenorEdad">
+                      <mat-option *ngFor="let enfermedad of enfermedadFiltradas1" [value]="enfermedad.enfermedadId">
+                        {{enfermedad.descripcion}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <div *ngIf="isInvalid('diagnostico1') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('diagnostico1')">
+                      Debe completar el campo*
+                  </div>
+              </div>
+                  <ng-template #noResultadosMenorEdad>
+                    <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaDiagnostico1')?.value }}"</p>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group local-forms">
+                  <label>Diagnostico 02:</label>
+                  <mat-select formControlName="diagnostico2"  class="form-control select"
+                    placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('diagnostico2') && isFormSubmitted}">
+                    <input type="text" class="form-control buscar" autocomplete="off"
+                    placeholder="Ingrese Apellidos o Nombres" matInput
+                    formControlName="terminoBusquedaDiagnostico2">
+                    <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
+                    <ng-container *ngIf="enfermedadFiltradas2.length > 0; else noResultadosMenorEdad">
+                      <mat-option *ngFor="let enfermedad of enfermedadFiltradas2" [value]="enfermedad.enfermedadId">
+                        {{enfermedad.descripcion}}
+                      </mat-option>
+                    </ng-container>
+                  </mat-select>
+                  <div *ngIf="isInvalid('diagnostico2') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('diagnostico2')">
+                      Debe completar el campo*
+                  </div>
+              </div>
+                  <ng-template #noResultadosMenorEdad>
+                    <p style="margin-left:1rem;">No se encontraron resultados para "{{ this.form.get('terminoBusquedaDiagnostico1')?.value }}"</p>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-12">
+
+            <div class="form-group summer-mail local-forms">
+            <label>Receta:</label>
+
+                <ngx-editor [editor]="editorReceta" formControlName="cuerpoReceta" [ngClass]="{'is-invalid': isInvalid('cuerpoReceta') && isFormSubmitted}">
+                    <ngx-editor-menu [editor]="editorReceta" [toolbar]="toolbar">
+                    </ngx-editor-menu>
+                </ngx-editor>
+                <div *ngIf="isInvalid('cuerpoReceta') && isFormSubmitted"
+                  class="invalid-feedback">
+                  <div *ngIf="isRequerido('cuerpoReceta')">
+                      Debe completar el campo*
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+
+          <div class="form-group summer-mail local-forms">
+          <label>Indicaciones:</label>
+
+              <ngx-editor [editor]="editorIndicacion" formControlName="cuerpoIndicacion" [ngClass]="{'is-invalid': isInvalid('cuerpoIndicacion') && isFormSubmitted}">
+                  <ngx-editor-menu [editor]="editorIndicacion" [toolbar]="toolbar">
+                  </ngx-editor-menu>
+              </ngx-editor>
+              <div *ngIf="isInvalid('cuerpoIndicacion') && isFormSubmitted"
+                class="invalid-feedback">
+                <div *ngIf="isRequerido('cuerpoIndicacion')">
+                    Debe completar el campo*
+                </div>
+            </div>
+          </div>
+      </div>
+
+
+
+          <div class="doctor-submit text-end d-flex justify-content-end gap-1 ">
+            <button class="btn btn-primary cancel-form me-2" (click)="cancelar()"
+            >Cancelar</button>
+            <button class="btn btn-primary submit-form" (click)="agregarConsentimiento()"
+          >Guardar</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+  </div>
+</div>
