@@ -1,7 +1,7 @@
 
 export class pacienteConsentimiento {
   clinicaId='D30C2D1E-E883-4B2D-818A-6813E15046E6';
-  usuarioId=''
+  usuarioId='b9ee1329-9f8f-4ce5-a6a6-c3d849b1af39'
   pacienteId=''
   tipoConsentimientoId=0
   cuerpo=''

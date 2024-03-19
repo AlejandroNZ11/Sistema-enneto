@@ -19,6 +19,7 @@ export class AgregarHallazgo4Component implements AfterViewInit, OnInit{
   numeroDiente$: string='';
   siglas$:string[]=[];
   hallazgoId$:number=0;
+  tipoHallazgo:string='';
 
   hallazgoSeleccionado$!: IHallazgo;
   siglaSeleccionada$!: siglasHallazgo;
@@ -157,7 +158,7 @@ agregarHallazgo(){
 
 
   this.hallazgoR.pacienteId = this.pacienteId;
-  this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+  this.hallazgoR.tipo = this.tipoHallazgo;
   this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
   // this.hallazgoR.hallazgoId = this.hallazgoId$
   this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;

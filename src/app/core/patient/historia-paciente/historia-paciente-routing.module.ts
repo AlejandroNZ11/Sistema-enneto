@@ -38,9 +38,24 @@ const routes: Routes = [
           import('./evolucion/evolucion.module').then((m) => m.EvolucionModule),
       },
       {
+        path: 'imagenes/:pacienteId',
+        loadChildren: () =>
+          import('./imagenes/imagenes.module').then((m) => m.ImagenesModule),
+      },
+      {
+        path: 'galeria-imagenes/:pacientId',
+        loadChildren: () =>
+          import('./galeria-imagenes/galeria-imagenes.module').then((m) => m.GaleriaImagenesModule),
+      },
+      {
         path: 'consentimiento/:pacienteId',
         loadChildren: () =>
           import('./consentimiento/consentimiento.module').then((m) => m.ConsentimientoModule),
+      },
+      {
+        path: 'recetas/:pacienteId',
+        loadChildren: () =>
+          import('./recetas/recetas.module').then((m) => m.RecetasModule),
       },
     ],
   },

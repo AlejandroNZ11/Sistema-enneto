@@ -21,7 +21,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
   numeroDiente$:string='';
   hallazgoSeleccionado$!: IHallazgo;
   siglaSeleccionada$!: siglasHallazgo;
-
+  tipoHallazgo:string='';
   hallazgoR:hallazgoRequest = new hallazgoRequest();
 
 
@@ -57,7 +57,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
       this.form.patchValue({
         hallazgoNombre:this.hallazgoSeleccionado$.nombre,
         numeroDiente:this.numeroDiente$,
-        siglaHallazgo:"II"
+        siglaHallazgo:this.hallazgoSeleccionado$.siglas
       })
     }
 
@@ -67,7 +67,7 @@ export class OdontogramaHallazgosComponent implements OnInit{
   agregarHallazgo(){
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+    this.hallazgoR.tipo = this.tipoHallazgo;
     this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
     this.hallazgoR.numeroDiente =  parseInt(this.numeroDiente$);

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { SharedService } from '../../services/shared-service.service';
 import { OdontogramaHallazgosComponent } from '../odontograma-hallazgos/odontograma-hallazgos.component';
-import { Subject } from 'rxjs';
+import { Subject, tap } from 'rxjs';
 import { AgregarHallazgo2Component } from '../agregar-hallazgo2/agregar-hallazgo2.component';
 import { AgregarHallazgo3Component } from '../agregar-hallazgo3/agregar-hallazgo3.component';
 import { OdontogramaService } from 'src/app/shared/services/odontograma.service';
@@ -16,6 +16,8 @@ import { environment } from 'src/environments/environments';
 import { IHallazgo, THallazgo, siglasHallazgo } from 'src/app/shared/models/hallazgoOdontograma';
 import { AgregarHallazgo7Component } from '../agregar-hallazgo-odontograma/agregar-hallazgo7/agregar-hallazgo7.component';
 import Swal from 'sweetalert2';
+import { CapturaOdontogramaComponent } from '../captura-odontograma/captura-odontograma.component';
+import { NgxCaptureService } from 'ngx-capture';
 
 interface Producto {
   nombre: string;
@@ -30,7 +32,7 @@ interface Producto {
 export class OdontogramaEvolucionComponent implements OnInit{
 
 
-    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService){
+    constructor(private modalService: BsModalService,private route: ActivatedRoute, public sharedService:SharedService, private odontogramaService: OdontogramaService, private captureService:NgxCaptureService){
       // this.calcularTamanhoDiente(); // Calcular el tamaño inicial del diente al inicializar el componente
 
     }
@@ -141,6 +143,31 @@ export class OdontogramaEvolucionComponent implements OnInit{
 
     ]
 
+    imgCapture:string='';
+
+    @ViewChild('screen', { static: true }) screen: any;
+    capture(){
+      Swal.fire('Procesando')
+      Swal.showLoading()
+      this.captureService.getImage(this.screen.nativeElement, true)
+
+  .pipe(
+    tap(img => {
+
+      Swal.close();
+
+      this.imgCapture = img;
+      const initialState ={
+        imgCapture:this.imgCapture,
+      }
+
+      this.bsModalRef = this.modalService.show(CapturaOdontogramaComponent,{initialState, class:'modal-lg'});
+      console.log(this.imgCapture);
+
+    })
+  ).subscribe();
+    }
+
     changeVariable(hallazgo:IHallazgo, sigla?:siglasHallazgo) {
       console.log(hallazgo)
       this.sharedService.setVariable(hallazgo,sigla);
@@ -231,6 +258,7 @@ export class OdontogramaEvolucionComponent implements OnInit{
         numeroDiente$:numeroDiente,
         hallazgoSeleccionado$:hallazgo,
         siglaSeleccionada$: sigla,
+        tipoHallazgo:'Odo.Evolucion'
         }
 
         this.bsModalRef = this.modalService.show(OdontogramaHallazgosComponent, { initialState});
@@ -255,6 +283,8 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // siglas$:hallazgo.siglas,
         hallazgoSeleccionado$:hallazgo,
         siglaSeleccionada$: sigla,
+        tipoHallazgo:'Odo.Evolucion'
+
 
         }
 
@@ -281,6 +311,8 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // hallazgoId$:hallazgo.hallazgoId,
         // hallazgoTipo$:hallazgo.tipo
         hallazgoSeleccionado$:hallazgo,
+        tipoHallazgo:'Odo.Evolucion'
+
         }
 
 
@@ -308,6 +340,8 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // hallazgoId$:hallazgo.hallazgoId,
         hallazgoSeleccionado$:hallazgo,
         siglaSeleccionada$: sigla,
+        tipoHallazgo:'Odo.Evolucion'
+
         }
 
 
@@ -333,6 +367,8 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // hallazgoNombre$:hallazgo.nombre,
         // hallazgoId$:hallazgo.hallazgoId
         hallazgoSeleccionado$:hallazgo,
+        tipoHallazgo:'Odo.Evolucion'
+
         }
 
 
@@ -359,6 +395,8 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // hallazgoNombre$:hallazgo.nombre,
         // hallazgoId$:hallazgo.hallazgoId,
         hallazgoSeleccionado$:hallazgo,
+        tipoHallazgo:'Odo.Evolucion'
+
 
         }
 
@@ -387,7 +425,9 @@ export class OdontogramaEvolucionComponent implements OnInit{
         // hallazgoNombre$:hallazgo.nombre,
         // siglas$:hallazgo.siglas,
         hallazgoSeleccionado$:hallazgo,
-        siglaSeleccionada$:sigla
+        siglaSeleccionada$:sigla,
+        tipoHallazgo:'Odo.Evolucion'
+
         }
 
         this.bsModalRef = this.modalService.show(AgregarHallazgo7Component, { initialState});
@@ -433,31 +473,31 @@ export class OdontogramaEvolucionComponent implements OnInit{
       return nombresTrue.join('<br>');
     }
 
-    cargarListaHallazgos(numeroDiente:number){
+    // cargarListaHallazgos(numeroDiente:number){
 
-      let odontogramaList:any[]=[];
-      this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
-        odontogramaList = data
+    //   let odontogramaList:any[]=[];
+    //   this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+    //     odontogramaList = data
 
-      })
+    //   })
 
-      for (let index = 0; index < odontogramaList.length; index++) {
-        if(odontogramaList[index].numeroDiente===numeroDiente){
+    //   for (let index = 0; index < odontogramaList.length; index++) {
+    //     if(odontogramaList[index].numeroDiente===numeroDiente){
 
-          // Agregar el OdontogramaPaciente actual a la lista
-        this.odontogramaPacienteList$.push(odontogramaList[index]);
+    //       // Agregar el OdontogramaPaciente actual a la lista
+    //     this.odontogramaPacienteList$.push(odontogramaList[index]);
 
-        }
+    //     }
 
 
-      }
+    //   }
 
-      if(this.odontogramaPacienteList$.length<0){
-       this.modalRef?.hide();
+    //   if(this.odontogramaPacienteList$.length<0){
+    //    this.modalRef?.hide();
 
-      return;
-      }
-    }
+    //   return;
+    //   }
+    // }
 
     eliminarHallazgoPaciente(pacienteOdontogramaId:string, data:any){
       Swal.fire({
@@ -704,11 +744,11 @@ export class OdontogramaEvolucionComponent implements OnInit{
     // ]
 
     figurasHallazgos:string[] =['Exodoncia','Pieza Dentaria Ausente','Pieza Dentaria En Erupción','Transposicion'];
-    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte'];
+    textoHallazgos:string[] =['Implante Dental','Fosas y Fisuras Profundas','Defectos de Desarrollo del Esmalte','Macrodoncia','Microdoncia','Pieza Dentaria Ectópica','Posición Dentaria','Remanente Radicular','Superficie Desgastada'];
 
     drawCanvasOdontograma(context:CanvasRenderingContext2D, canvas:HTMLCanvasElement){
 
-      this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId).subscribe((data)=>{
+      this.odontogramaService.obtenerOdontogramaPacienteListAPI(this.pacienteId,'Odo.Evolucion').subscribe((data)=>{
         this.odotogramaPacienteList = data
         console.log(this.odotogramaPacienteList)
 
@@ -1147,7 +1187,7 @@ export class OdontogramaEvolucionComponent implements OnInit{
         }
 
         this.posicionPadre2 = {
-          posicaoYInicialDente: 735,
+          posicaoYInicialDente: 745,
           margemXEntreDentes: 8,
           margemYEntreDentes: 200,
           posicionRectangulo:555,
@@ -2343,7 +2383,7 @@ export class OdontogramaEvolucionComponent implements OnInit{
         }
 
         // Fila Inferior
-        if (x+10 > posicionX+10 && x < (posicionX+210) + this.tamanhoDiente &&
+        if (x+10 > posicionX+210  && x < (posicionX+210) + this.tamanhoDiente &&
           y > posicionY2 && y < posicionY2 + this.tamanhoDiente) {
         // El mouse está sobre el cuadro i
         canvas.style.cursor = 'pointer'; // Cambiar el cursor

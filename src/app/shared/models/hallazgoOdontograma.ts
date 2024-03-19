@@ -4,6 +4,7 @@ export class hallazgoRequest{
   pacienteId ='';
   tipo ='';
   hallazgos:string[]=[];
+  estadoHallazgo=0;
   categoria='';
   estado=1;
   marcas='';
@@ -26,6 +27,7 @@ export interface IHallazgo {
   nombre:string;
   siglas:string;
   tipo:string;
+  estadoHallazgo:number;
   siglasHallazgo:siglasHallazgo[];
 }
 

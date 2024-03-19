@@ -60,6 +60,12 @@ export class EditarSedeComponent implements OnInit {
       }
     });
   }
+  soloNumeros(event: KeyboardEvent): void {
+    const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
   
   obtenerSede() {
     this.sedeService.obtenerSede(this.sedeSeleccionada).subscribe(sede => {

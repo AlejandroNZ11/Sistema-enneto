@@ -20,6 +20,8 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
   isFormSubmitted = false;
   siglaSeleccionada$!:siglasHallazgo;
   hallazgoSeleccionado$!: IHallazgo;
+  tipoHallazgo:string='';
+
 
 
   ngOnInit(): void {
@@ -102,7 +104,7 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
 
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo
+    this.hallazgoR.tipo = this.tipoHallazgo;
     this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo
     this.hallazgoR.marcas = JSON.stringify(data).toString();
@@ -111,6 +113,8 @@ export class AgregarHallazgo2Component implements AfterViewInit,OnInit {
     this.hallazgoR.especificacion = this.especificacion;
 
     console.log(this.hallazgoR);
+    Swal.fire('Procesando')
+          Swal.showLoading()
 
     this.odontogramaService.agregarOdontogramaPaciente(this.hallazgoR).subscribe(
       (response)=>{

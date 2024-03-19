@@ -38,6 +38,7 @@
     "ng-apexcharts": "^1.7.4",
     "ng-circle-progress": "^1.7.1",
     "ngx-bootstrap": "^10.2.0",
+    "ngx-capture": "^0.13.0",
     "ngx-countup": "^13.1.0",
     "ngx-editor": "^15.2.0",
     "ngx-material-timepicker": "^13.1.1",

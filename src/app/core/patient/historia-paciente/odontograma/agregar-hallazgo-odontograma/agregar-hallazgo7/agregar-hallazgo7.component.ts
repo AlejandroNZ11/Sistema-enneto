@@ -23,6 +23,8 @@ export class AgregarHallazgo7Component implements OnInit{
   siglas$:string[]=[];
   siglaSeleccionada$!:siglasHallazgo;
   hallazgoSeleccionado$!: IHallazgo;
+  tipoHallazgo:string='';
+
 
   estados:any[]=[{
     name:'Buen Estado',value:1
@@ -108,10 +110,10 @@ export class AgregarHallazgo7Component implements OnInit{
     }
 
     this.hallazgoR.pacienteId = this.pacienteId;
-    this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+    this.hallazgoR.tipo = this.tipoHallazgo;
     this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
     this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
-    this.hallazgoR.estado = this.form.get('estado')?.value
+    this.hallazgoR.estadoHallazgo = this.form.get('estado')?.value;
     this.hallazgoR.numeroDiente = parseInt(this.numeroDiente$);
     this.hallazgoR.sigla = this.form.get('siglaHallazgo')?.value.substring(0,2);
     this.hallazgoR.especificacion = this.form.get('especificacion')?.value

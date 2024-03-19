@@ -20,6 +20,7 @@ export class AgregarHallazgo5Component implements AfterViewInit,OnInit {
   hallazgoNombre$:string='';
   hallazgoId$:number=0;
   especificacion:string='';
+  tipoHallazgo:string='';
 
   hallazgoSeleccionado$!: IHallazgo;
 
@@ -74,7 +75,7 @@ export class AgregarHallazgo5Component implements AfterViewInit,OnInit {
   };
 
   this.hallazgoR.pacienteId = this.pacienteId;
-  this.hallazgoR.tipo = this.hallazgoSeleccionado$.tipo;
+  this.hallazgoR.tipo = this.tipoHallazgo;
   this.hallazgoR.hallazgos.push(this.hallazgoSeleccionado$.hallazgoId);
   this.hallazgoR.categoria = this.hallazgoSeleccionado$.tipo;
   this.hallazgoR.marcas = JSON.stringify(data).toString();
