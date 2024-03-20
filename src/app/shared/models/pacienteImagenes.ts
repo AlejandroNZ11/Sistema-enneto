@@ -2,6 +2,15 @@
 
 
 
+export class pacienteImagen{
+  pacienteId='';
+  fecha='';
+  nombre='';
+  notas='';
+}
+
+
+
 export interface PacienteImagenData{
   data: IPacienteImagen[];
   totalData: number

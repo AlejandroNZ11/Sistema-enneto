@@ -12,30 +12,22 @@
                           </div>
                           <div class="col-12 col-md-12 col-xl-12">
                             <div class="form-group local-forms">
-                                <label>Alergia <span class="login-danger">*</span></label>
-                                <mat-select
-                                formControlName="alergiaId"
-                                class="form-control select" placeholder="Seleccione Alergia"
-                                [ngClass]="{'is-invalid': isInvalid('alergiaId') && isFormSubmitted}">
-                                  <mat-option *ngFor="let data of ListAlergias" [value]="data.alergiaId">
-                                    {{ data.nombre }}
-                                  </mat-option>
-                                </mat-select>
-                                <div *ngIf="isInvalid('alergiaId') && isFormSubmitted"
-                                        class="invalid-feedback">
-                                        <div *ngIf="isRequerido('alergiaId')">
-                                            Debe elegir una alergia*
-                                        </div>
-                                    </div>
+                              <label>Titulo<span class="login-danger">*</span></label>
+                              <input formControlName="nombre" class="form-control" type="text" [ngClass]="{'is-invalid': isInvalid('nombre') && isFormSubmitted}">
+                              <div *ngIf="isInvalid('nombre') && isFormSubmitted" class="invalid-feedback">
+                                <div *ngIf="isRequerido('nombre')">
+                                    Debe completar el campo*
+                                </div>
                             </div>
+                            </div>
+
                         </div>
                           <div class="col-12 col-md-12 col-xl-12">
                               <div class="form-group local-forms">
-                                  <label>Observacion <span class="login-danger">*</span></label>
+                                  <label>Notas:</label>
                                   <div class="input-group">
                                     <textarea
-
-                                    class="form-control" formControlName="observacion" type="text">
+                                    class="form-control" formControlName="notas" type="text">
                                      </textarea>
                                   </div>
 

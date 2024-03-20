@@ -6,10 +6,60 @@
         <h4>Galería de Imágenes/archivos | Placa</h4>
     </div>
       <div class="form-heading">
-        <button   class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
+        <button (click)="agregarImagen()"  class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
         <button   class="btn btn-primary submit-form me-2" (click)="navegarAImagenes()"><img src="assets/img/icons/back-icon.svg" alt="img-icon">Volver</button>
       </div>
+
+      <div class="row pt-4 ">
+        <div class="col-sm-6 col-md-6 col-xl-4" *ngFor="let data of galleryImgs">
+            <div class="blog grid-blog" style="padding:0px">
+                <div class="blog-image">
+                    <a data-bs-toggle="modal"
+                    data-bs-target="#bank_details" style="cursor: pointer;"><img class="img-fluid" [src]="data.img" alt=""></a>
+                </div>
+                <div class="blog-content">
+                  <div class="d-flex justify-content-center mt-1">
+                    <div class="settings-form" style="margin-top: 0px;">
+                      <div class="form-row links-cont">
+                        <a  href="javascript:void(0);" class="btn trash" style="background-color: #00c292;">
+                          <i class="fa fa-download"></i>
+                      </a>
+                      </div>
+                    </div>
+                    <div class="settings-form" style="margin-top: 0px;">
+                      <div class="form-row links-cont">
+                        <a  href="javascript:void(0);" class="btn trash"style="background-color: #e46a76;" >
+                          <i class="feather icon-trash-2"></i>
+                      </a>
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
   </div>
+  </div>
+</div>
+
+
+<!-- Add Invoices Modal -->
+<div class="modal custom-modal modal-bg fade bank-details" id="bank_details" role="dialog">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <div class="form-header text-start mb-0">
+                  <h4 class="mb-0">Img Title</h4>
+              </div>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div style="margin: 20px;">
+            <div class="blog-image" style="margin-bottom:0px;">
+              <a><img style="transform: none!important;" class="img-fluid" src="assets/img/galeria-imgs/blog-1.jpg" alt=""></a>
+          </div>
+          </div>
+      </div>
   </div>
 </div>
 

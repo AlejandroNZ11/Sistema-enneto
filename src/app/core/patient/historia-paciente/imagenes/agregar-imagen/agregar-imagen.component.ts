@@ -10,6 +10,7 @@ import { PacienteAlergiaService } from 'src/app/shared/services/paciente-alergia
 
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs';
+import { pacienteImagen } from 'src/app/shared/models/pacienteImagenes';
 @Component({
   selector: 'app-agregar-imagen',
   templateUrl: './agregar-imagen.component.html',
@@ -22,11 +23,12 @@ export class AgregarImagenComponent implements OnInit{
   pacienteId="";
 
   pacienteAlergia:pacienteAlergia = new pacienteAlergia();
+  pacienteImagen: pacienteImagen = new pacienteImagen();
   constructor(public bsModalRef: BsModalRef, public alergiaService: AlergiasService,  public fb: FormBuilder, public sharedService:SharedService, public pacienteAlergiaService: PacienteAlergiaService ){
 
     this.form = this.fb.group({
-      alergiaId:['', [Validators.required]],
-      observacion:['']
+      nombre:['', [Validators.required]],
+      notas:['']
     })
   }
 
@@ -57,9 +59,7 @@ export class AgregarImagenComponent implements OnInit{
 
 
 
-  cancelar() {
-    this.bsModalRef.hide()
-  }
+
 
   private obtenerListaAlergias(): void {
 
@@ -76,34 +76,37 @@ export class AgregarImagenComponent implements OnInit{
     if (this.form.invalid) {
       this.isFormSubmitted = true;
       this.isTouched()
+      console.log("error")
       return;
     }
 
     this.isFormSubmitted = true;
+    this.pacienteImagen.pacienteId = this.pacienteId;
+    const now = new Date();
+    this.pacienteImagen.fecha = now.toString();
+    this.pacienteImagen.nombre = this.form.get("nombre")?.value;
+    this.pacienteImagen.notas = this.form.get("notas")?.value;
 
-    this.pacienteAlergia.pacienteId = this.pacienteId,
-    this.pacienteAlergia.alergiaId = this.form.get("alergiaId")?.value;
-    this.pacienteAlergia.observacion = this.form.get("observacion")?.value;
 
-    console.log(this.pacienteAlergia);
+    console.log(this.pacienteImagen);
 
-    this.pacienteAlergiaService.agregarPacienteAlergia(this.pacienteAlergia).subscribe(
-      (response)=>{
-        if(response.isSuccess){
-          Swal.fire(response.message, '', 'success');
-          this.pacienteAlergiaAgregada$.next(true);
-          this.bsModalRef.hide();
-        }else{
-          console.error(response.message);
-        }
-      },
-      (error)=>{
-        console.log(error);
-      }
-    )
+    // this.pacienteAlergiaService.agregarPacienteAlergia(this.pacienteAlergia).subscribe(
+    //   (response)=>{
+    //     if(response.isSuccess){
+    //       Swal.fire(response.message, '', 'success');
+    //       this.pacienteAlergiaAgregada$.next(true);
+    //       this.bsModalRef.hide();
+    //     }else{
+    //       console.error(response.message);
+    //     }
+    //   },
+    //   (error)=>{
+    //     console.log(error);
+    //   }
+    // )
   }
 
-  Cancelar() {
+  cancelar() {
     this.pacienteAlergiaAgregada$.next(false);
     this.bsModalRef.hide()
   }

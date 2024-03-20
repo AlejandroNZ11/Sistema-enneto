@@ -43,7 +43,7 @@ const routes: Routes = [
           import('./imagenes/imagenes.module').then((m) => m.ImagenesModule),
       },
       {
-        path: 'galeria-imagenes/:pacientId',
+        path: 'galeria-imagenes/:pacienteId',
         loadChildren: () =>
           import('./galeria-imagenes/galeria-imagenes.module').then((m) => m.GaleriaImagenesModule),
       },

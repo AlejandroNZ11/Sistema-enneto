@@ -57,9 +57,6 @@ export class AgregarAlergiaPacienteComponent implements OnInit{
 
 
 
-  cancelar() {
-    this.bsModalRef.hide()
-  }
 
   private obtenerListaAlergias(): void {
 
@@ -103,7 +100,7 @@ export class AgregarAlergiaPacienteComponent implements OnInit{
     )
   }
 
-  Cancelar() {
+  cancelar() {
     this.pacienteAlergiaAgregada$.next(false);
     this.bsModalRef.hide()
   }

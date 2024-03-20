@@ -89,8 +89,8 @@
                   <label>Diagnostico 01:</label>
                   <mat-select formControlName="diagnostico1"  class="form-control select"
                     placeholder="--Seleccionar--" [ngClass]="{'is-invalid': isInvalid('diagnostico1') && isFormSubmitted}">
-                    <input type="text" class="form-control buscar" autocomplete="off"
-                    placeholder="Ingrese Apellidos o Nombres" matInput
+                    <input type="text" class="form-control buscar"
+                    placeholder="Ingrese Apellidos o Nombres"
                     formControlName="terminoBusquedaDiagnostico1">
                     <mat-option value="seleccionar"> --Seleccionar-- </mat-option>
                     <ng-container *ngIf="enfermedadFiltradas1.length > 0; else noResultadosMenorEdad">
