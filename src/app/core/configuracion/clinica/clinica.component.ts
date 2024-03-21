@@ -44,6 +44,15 @@ export class ClinicaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.form = this.formBuilder.group({
+      nombre: [''],
+      direccion: [''],
+      celular: [''],
+      email:[''],
+      ruc: [''],
+      fecha: [''],
+      foto: ['']
+    });
     this.obtenerDataClinicaService();
   }
 
@@ -52,15 +61,7 @@ export class ClinicaComponent implements OnInit {
       this.clinica = data;
 
       console.log(this.clinica);
-      this.form = this.formBuilder.group({
-        nombre: [this.clinica.nombre],
-        direccion: [this.clinica.direccion],
-        celular: [this.clinica.celular],
-        email:[this.clinica.email],
-        ruc: [this.clinica.ruc],
-        fecha: [this.clinica.fecha],
-        foto: [this.clinica.foto]
-      });
+      this.form.patchValue(data)
     });
   }
 
@@ -131,42 +132,19 @@ export class ClinicaComponent implements OnInit {
     return false;
   }
 
-  crearClinica() {
-    if (this.form.invalid) {
-      this.isFormSubmitted = true;
-      this.markAllFieldsAsTouched();
-      return;
-    }
-    const formData = new FormData();
-    formData.append('Nombres', this.clinica.nombre);
-    formData.append('NumeroDocumento', this.clinica.ruc);
-    formData.append('Celular', this.clinica.celular);
-    formData.append('Direccion', this.clinica.direccion);
-    formData.append('Email', this.clinica.email);
-    formData.append('Fecha', this.clinica.fecha.toISOString().split('T')[0]);
-    if (this.imagenSubirFoto) { formData.append('Foto', this.imagenSubirFoto, this.imagenSubirFoto.name) }
-  }
-
   guardarClinica(){
-    // if(!this.clinica || this.form.invalid){
-    //   this.mostrarErrores = true;
-    //   return;
-    // }
+    console.log(this.clinica);
 
-    const clinicaActualizada: Iclinicas ={
-      clinicaId: this.clinica.clinicaId,
-      nombre: this.form.value.nombre,
-      direccion: this.form.value.direccion,
-      celular: this.form.value.celular,
-      email: this.form.value.email,
-      ruc: this.form.value.ruc,
-      fecha: this.form.value.fecha,
-      foto: this.form.value.foto,
-      // foto: this.imagenSubirFoto ? this.imagenSubirFoto.split(',')[1] : null,
-      estado: this.form.value.estado == 'Activo' ? '1' : '0',
-    }
+    const formData = new FormData();
+    formData.append('Nombre', this.form.controls["nombre"].value);
+    formData.append('RUC', this.form.controls["ruc"].value);
+    formData.append('Celular', this.form.controls["celular"].value);
+    formData.append('Direccion', this.form.controls["direccion"].value);
+    formData.append('Email', this.form.controls["email"].value);
+    formData.append('Fecha', this.form.controls["fecha"].value.toString().split('T')[0]);
+    if (this.imagenSubirFoto) { formData.append('Foto', this.imagenSubirFoto, this.imagenSubirFoto.name) }
 
-    this.clinicasService.actualizarClinica(clinicaActualizada).subscribe(
+    this.clinicasService.actualizarClinica(formData, this.clinica.clinicaId).subscribe(
       (response) => {
         if (response.isSuccess) {
           Swal.fire(response.message, '', 'success');
