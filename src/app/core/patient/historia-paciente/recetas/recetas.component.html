@@ -24,25 +24,28 @@
 
               <th >N°</th>
               <!-- <th mat-sort-header="specialization">Especializacion</th> -->
-              <th>Nombre</th>
-              <th >Observacion</th>
+              <th>Fecha</th>
+              <th >Médico</th>
+              <th >Diagnostico</th>
           </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of pacienteAlergiasList let i = index">
+        <tr *ngFor="let data of pacienteRecetaList let i = index">
 
             <td>{{serialNumberArray[i]}}</td>
             <!-- <td>{{ data.citaMedicaId }}</td> -->
-            <td>{{ data.nombreAlergia}}</td>
-            <td>{{ data.observacion }}</td>
+            <td>{{ data.fecha}}</td>
+            <td>{{ data.medicoId }}</td>
+            <td>{{ data.nombreEnfermedad01 }} | {{ data.nombreEnfermedad02}}</td>
+
             <td class="text-end">
               <div class="dropdown dropdown-action">
                 <a href="javascript:void(0);" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"
                   aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                 <div class="dropdown-menu dropdown-menu-end">
-                  <a class="dropdown-item" (click)="editar(data)"><i
+                  <a class="dropdown-item" (click)="editarReceta(data)"><i
                       class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
-                  <a class="dropdown-item" href="javascript:void(0);" (click)="eliminar(data.pacienteAlergiaId)"><i
+                  <a class="dropdown-item" href="javascript:void(0);" (click)="eliminar(data.pacienteRecetaId)"><i
                       class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
                 </div>
               </div>
@@ -116,7 +119,7 @@
                                   disabled:
                                     currentPage ===
                                       pageNumberArray[pageNumberArray.length - 1] ||
-                                      pacienteAlergiasList.length === 0
+                                      pacienteRecetaList.length === 0
                                 }">
                 <a (click)="getMoreData('next')" class="page-link" href="javascript:void(0);">Next
                 </a>

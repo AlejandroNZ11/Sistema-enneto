@@ -26,7 +26,7 @@ interface IMedico{
   templateUrl: './editar-consentimiento-paciente.component.html',
   styleUrls: ['./editar-consentimiento-paciente.component.scss']
 })
-export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnInit,OnDestroy {
+export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnInit {
   pacienteId="";
 
   form!: FormGroup;
@@ -70,6 +70,7 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     this.form.patchValue({
       medicoId: this.consentimientoSeleccionado.medicoId,
       fecha: this.consentimientoSeleccionado.fecha,
+      hora: this.consentimientoSeleccionado.hora,
       nombreApoderado:this.consentimientoSeleccionado.apoderadoNombre,
       documentoApoderado:this.consentimientoSeleccionado.apoderadoDocumento,
       direccionApoderado:this.consentimientoSeleccionado.apoderadoDireccion,
@@ -81,10 +82,10 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     })
   }
 
-  ngOnDestroy(): void {
-    this.editor.destroy();
-    clearInterval(this.timer);
-  }
+  // ngOnDestroy(): void {
+  //   this.editor.destroy();
+  //   clearInterval(this.timer);
+  // }
 
 
 
@@ -94,7 +95,7 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: ['', Validators.required],
-      hora:[{ value: this.currentTime, disabled: true }],
+      hora:[{ value: '', disabled: true }],
       nombreApoderado: ['', [Validators.required, Validators.maxLength(100)]],
       documentoApoderado:['',[Validators.required, Validators.maxLength(8), Validators.minLength(8), Validators.pattern('^[0-9]+$')]],
       direccionApoderado:['',[Validators.required, Validators.maxLength(100)]],
@@ -108,9 +109,9 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
 
 
 
-    this.timer = setInterval(() => {
-      this.getCurrentTime();
-    }, 1000);
+    // this.timer = setInterval(() => {
+    //   this.getCurrentTime();
+    // }, 1000);
   }
 
 

@@ -14,13 +14,17 @@ import { AlergiasService } from 'src/app/shared/services/alergias.service';
 import { Ialergias } from 'src/app/shared/models/alergia';
 import { AgregarRecetaComponent } from './agregar-receta/agregar-receta.component';
 import { EditarRecetaComponent } from './editar-receta/editar-receta.component';
+import { PacienteRecetaService } from 'src/app/shared/services/pacienteReceta.service';
+import { IPacienteReceta, PacienteRecetaData } from 'src/app/shared/models/pacienteReceta';
+import { PacienteService } from 'src/app/shared/services/paciente.service';
+import { PacienteEditar } from 'src/app/shared/models/paciente';
 @Component({
   selector: 'app-recetas',
   templateUrl: './recetas.component.html',
   styleUrls: ['./recetas.component.scss']
 })
 export class RecetasComponent implements OnInit{
-  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, private alergiaService: AlergiasService ) { }
+  constructor(private sharedService:SharedService ,private route: ActivatedRoute, private pacienteAlergiaService: PacienteAlergiaService,private modalService: BsModalService, private alergiaService: AlergiasService, private pacienteRecetaService: PacienteRecetaService, private pacienteService:PacienteService ) { }
 
 
   public serialNumberArray: Array<number> = [];
@@ -33,10 +37,12 @@ export class RecetasComponent implements OnInit{
   public pageNumberArray: Array<number> = [];
   public pageSelection: Array<pageSelection> = [];
   public citasList: Array<IcitaMedica> = [];
-  dataSource!: MatTableDataSource<IPacienteAlergia>;
-  pacienteAlergiasList: Array<IPacienteAlergia> = [];
+  dataSource!: MatTableDataSource<IPacienteReceta>;
+  pacienteRecetaList: Array<IPacienteReceta> = [];
   public totalPages = 0;
   ListAlergias?: Ialergias[];
+  pacienteData!: PacienteEditar;
+
 
   isLoading = false;
   pacienteId = "";
@@ -55,16 +61,21 @@ export class RecetasComponent implements OnInit{
     this.sharedService.setPacienteId(this.pacienteId);
 
     this.getTableData();
+
+    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe((paciente:PacienteEditar)=>{
+      this.pacienteData=paciente;
+      console.log(this.pacienteData);
+    })
   }
 
 
   getTableData(){
     this.isLoading = true;
-    this.pacienteAlergiaService.obtenerPacienteAlergiaList(this.pacienteId, environment.clinicaId, this.currentPage,this.pageSize)
+    this.pacienteRecetaService.obtenerPacienteReceta()
     .pipe(
             finalize(() => this.isLoading = false)
           )
-          .subscribe((data: DataPacienteAlergia) => {
+          .subscribe((data: PacienteRecetaData) => {
             console.log("Respuesta del Servidor:", data);
 
 
@@ -76,12 +87,12 @@ export class RecetasComponent implements OnInit{
         }
 
 
-            this.pacienteAlergiasList = data.data;
+            this.pacienteRecetaList = data.data;
             console.log("Consulta del Paciente")
-            console.log(this.pacienteAlergiasList)
+            console.log(this.pacienteRecetaList)
 
 
-            this.dataSource = new MatTableDataSource<IPacienteAlergia>(this.pacienteAlergiasList);
+            this.dataSource = new MatTableDataSource<IPacienteReceta>(this.pacienteRecetaList);
             this.calculateTotalPages(this.totalData, this.pageSize);
 
 
@@ -94,25 +105,28 @@ export class RecetasComponent implements OnInit{
 
 
   crearAlergiaPaciente() {
-    this.bsModalRef = this.modalService.show(AgregarRecetaComponent,{class:'modal-lg'});
 
-    this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
-      if(alergiaAgregada){
-        this.getTableData();
-      }
-    })
+    const initialState ={
+      edad$: this.pacienteData.edad
+    }
+
+    this.bsModalRef = this.modalService.show(AgregarRecetaComponent,{initialState, class:'modal-lg'});
+
+    // this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
+    //   if(alergiaAgregada){
+    //     this.getTableData();
+    //   }
+    // })
   }
 
-  editar(pacienteAlergia: IPacienteAlergia) {
+  editarReceta(pacienteReceta: IPacienteReceta) {
 
-    // const initialState ={
-    //   pacienteAlergiaId : pacienteAlergia.pacienteAlergiaId,
-    //   observacion:pacienteAlergia.observacion,
-    //   alergiaId:pacienteAlergia.alergiaId
+    const initialState ={
+      pacienteSeleccionado$:pacienteReceta,
+      edad$: this.pacienteData.edad
+    }
 
-    // }
-
-    this.bsModalRef = this.modalService.show(EditarRecetaComponent,{class:'modal-lg'});
+    this.bsModalRef = this.modalService.show(EditarRecetaComponent,{initialState,class:'modal-lg'});
 
     // const pacienteAlergiaEditado$ = new Subject<boolean>();
 
@@ -172,31 +186,31 @@ public moveToPage(pageNumber: number): void {
     }
   }
 
-  eliminar(pacienteAlergiaId: string){
-    Swal.fire({
-      title: '¿Estas seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: 'Eliminar',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.pacienteAlergiaService.eliminarPacienteAlergia(pacienteAlergiaId).subscribe(
-          (response) => {
-            if (response.isSuccess) {
-              Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
-              this.getTableData();
-              return;
-            } else {
-              console.error(response.message);
-            }
-          },
-          (error) => {
-            console.error(error);
-          });
-      } else {
-        return;
-      }
-    })
+  eliminar(pacienteRecetaId: string){
+    // Swal.fire({
+    //   title: '¿Estas seguro que deseas eliminar?',
+    //   showDenyButton: true,
+    //   confirmButtonText: 'Eliminar',
+    //   denyButtonText: `Cancelar`,
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     this.pacienteAlergiaService.eliminarPacienteAlergia(pacienteRecetaId).subscribe(
+    //       (response) => {
+    //         if (response.isSuccess) {
+    //           Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
+    //           this.getTableData();
+    //           return;
+    //         } else {
+    //           console.error(response.message);
+    //         }
+    //       },
+    //       (error) => {
+    //         console.error(error);
+    //       });
+    //   } else {
+    //     return;
+    //   }
+    // })
   }
 
 

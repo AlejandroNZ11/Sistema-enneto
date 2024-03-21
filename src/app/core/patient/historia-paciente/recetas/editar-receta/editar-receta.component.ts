@@ -17,6 +17,7 @@ import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 import { pacienteRecetaRequest } from 'src/app/shared/models/pacienteReceta';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { PacienteEditar } from '../../../../../shared/models/paciente';
+import { IPacienteReceta } from '../../../../../shared/models/pacienteReceta';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -32,7 +33,7 @@ interface IMedico{
 })
 
 
-export class EditarRecetaComponent implements OnInit,OnDestroy {
+export class EditarRecetaComponent implements OnInit{
   pacienteId="";
 
   form!: FormGroup;
@@ -42,6 +43,8 @@ export class EditarRecetaComponent implements OnInit,OnDestroy {
   pacienteRecetaR:pacienteRecetaRequest = new pacienteRecetaRequest();
   editorReceta!: Editor;
   editorIndicacion!: Editor;
+  pacienteSeleccionado$!:IPacienteReceta;
+  edad$:string='';
 
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -78,56 +81,36 @@ export class EditarRecetaComponent implements OnInit,OnDestroy {
     this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
     });
-    this.edadPaciente();
+    this.form.patchValue({
+      medicoId:this.pacienteSeleccionado$.medicoId,
+      fecha:this.pacienteSeleccionado$.fecha,
+      hora:this.pacienteSeleccionado$.hora,
+      diagnostico1: this.pacienteSeleccionado$.codigoEnfermedad01,
+      diagnostico2: this.pacienteSeleccionado$.codigoEnfermedad02,
+      cuerpoReceta:this.pacienteSeleccionado$.receta,
+      cuerpoIndicacion: this.pacienteSeleccionado$.indicaciones,
+    })
+
   }
 
-  ngOnDestroy(): void {
-    this.editorReceta.destroy();
-    this.editorIndicacion.destroy();
-    clearInterval(this.timer);
-  }
 
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService, private pacienteService: PacienteService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
-      fecha: [{ value: this.currentTime, disabled: true }],
+      fecha: [{ value:'', disabled: true }],
       hora:[{ value: this.currentTime, disabled: true }],
       diagnostico1:['',Validators.required],
       diagnostico2:['',Validators.required],
       cuerpoReceta:['',Validators.required],
       cuerpoIndicacion:['',Validators.required],
+
       terminoBusquedaMedico:[''],
       terminoBusquedaDiagnostico1: [''],
       terminoBusquedaDiagnostico2: [''],
     });
-    const now = new Date();
-    console.log(now)
-
-    this.form.patchValue({
-      fecha:now
-    })
-
-
-
-    this.timer = setInterval(() => {
-      this.getCurrentTime();
-    }, 1000);
   }
-
-  edad:string='';
-  private edadPaciente(){
-    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe((data:PacienteEditar)=>{
-
-      this.edad = data.edad;
-    })
-  }
-
-
-
 
   currentTime: string = '';
-
-
   // Define un temporizador para actualizar la hora cada segundo
   private timer: any;
 
@@ -168,7 +151,7 @@ export class EditarRecetaComponent implements OnInit,OnDestroy {
      return date;
   }
 
-  agregarConsentimiento(){
+  editarReceta(){
 
 
     if (this.form.invalid) {
@@ -199,7 +182,7 @@ export class EditarRecetaComponent implements OnInit,OnDestroy {
     this.pacienteRecetaR.fecha = this.form.get("fecha")?.value;
     const date = this.convertToDateTime(this.form.get("fecha")?.value);
 
-    this.pacienteRecetaR.hora.ticks = this.convertToTicks(date);
+    this.pacienteRecetaR.hora = this.convertToTicks(date);
     this.pacienteRecetaR.codigoEnfermedad01 = this.form.get('diagnostico1')?.value;
     this.pacienteRecetaR.codigoEnfermedad02 = this.form.get('diagnostico2')?.value;
     this.pacienteRecetaR.receta = this.form.get('cuerpoReceta')?.value;

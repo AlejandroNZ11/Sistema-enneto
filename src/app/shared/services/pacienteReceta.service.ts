@@ -7,13 +7,13 @@ import { successResponse } from '../models/successResponse';
 import { PacienteRecetaData } from '../models/pacienteReceta';
 
 @Injectable({providedIn: 'root'})
-export class PacienteConsentimientoService {
+export class PacienteRecetaService {
 
   apiUrl = environment.apiURL;
   constructor(public http: HttpClient) { }
 
-  obtenerPacienteConsentimiento():Observable<PacienteRecetaData>{
-    return this.http.get<PacienteRecetaData>('/assets/json/pacienteConsentimiento.json');
+  obtenerPacienteReceta():Observable<PacienteRecetaData>{
+    return this.http.get<PacienteRecetaData>('/assets/json/pacienteReceta.json');
   }
 
   // agregarPacienteConsentimiento(pacienteConsen:pacienteConsentimiento):Observable<successResponse>{

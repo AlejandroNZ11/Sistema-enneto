@@ -8,9 +8,7 @@
       "tipoConsentimientoId": "3c709401-2562-4c80-da53-08dc2a7d1c55",
       "cuerpo": "<h2><strong>diagnostico paciente</strong></h2>",
       "fecha": "2019-01-06T17:16:40Z",
-      "hora": {
-        "ticks": 1
-      },
+      "hora":"12:18:36",
       "apoderadoNombre": "Juancito",
       "apoderadoDocumento": "71313509",
       "apoderadoDireccion": "av. los olivos",
