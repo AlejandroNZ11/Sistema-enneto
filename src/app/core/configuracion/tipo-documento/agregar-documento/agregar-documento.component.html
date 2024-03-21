@@ -44,8 +44,8 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Inicio <span class="login-danger">*</span></label>
-                                    <input formControlName="inicio" class="form-control" type="number"
-                                        [ngClass]="{'is-invalid': isInvalid('inicio')}">
+                                    <input formControlName="inicio" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('inicio')}" (keydown)="soloNumeros($event)">
                                     <div *ngIf="isInvalid('inicio') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('inicio')|| mostrarErrores">
                                             Debe completar el campo*
@@ -56,8 +56,8 @@
                             <div class="col-12 col-md-12 col-xl-6">
                                 <div class="form-group local-forms">
                                     <label>Fin <span class="login-danger">*</span></label>
-                                    <input formControlName="fin" class="form-control" type="number"
-                                        [ngClass]="{'is-invalid': isInvalid('fin')}">
+                                    <input formControlName="fin" class="form-control" type="text"
+                                        [ngClass]="{'is-invalid': isInvalid('fin')}" (keydown)="soloNumeros($event)">
                                     <div *ngIf="isInvalid('fin') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('fin')|| mostrarErrores">
                                             Debe completar el campo*
