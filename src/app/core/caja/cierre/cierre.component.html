@@ -76,7 +76,7 @@
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
                                                     <input formControlName="montoapertura" class="form-control" type="text"
-                                                                [ngClass]="{'is-invalid': isInvalid('montoapertura')}">
+                                                                [ngClass]="{'is-invalid': isInvalid('montoapertura')}" (keydown)="soloNumeros($event)" maxlength="10">
                                                         <div *ngIf="isInvalid('montoapertura') || mostrarErrores" class="invalid-feedback">
                                                             <div *ngIf="isRequerido('montoapertura')|| mostrarErrores">
                                                                 Debe completar el campo*
@@ -114,9 +114,9 @@
                                                         <span class="input-group-text">S/</span> 
                                                     </div>
                                                     <input formControlName="montocierre" class="form-control" type="text"
-                                                            [ngClass]="{'is-invalid': isInvalid('montocierre')}">
-                                                        <div *ngIf="isInvalid('montocierre') || mostrarErrores" class="invalid-feedback">
-                                                            <div *ngIf="isRequerido('montocierre')|| mostrarErrores">
+                                                            [ngClass]="{'is-invalid': isInvalid2('montocierre')}" (keydown)="soloNumeros($event)" maxlength="10">
+                                                        <div *ngIf="isInvalid2('montocierre') || mostrarErrores" class="invalid-feedback">
+                                                            <div *ngIf="isRequerido2('montocierre')|| mostrarErrores">
                                                                 Debe completar el campo*
                                                             </div>
                                                         </div>

@@ -26,7 +26,7 @@ export class EditarCajaComponent implements OnInit  {
     public fb: FormBuilder
     ) {
     this.form = this.fb.group({
-      caja: ['', Validators.required],
+      nombre: ['', Validators.required],
       estado: ['Activo', Validators.required],
     });
   }
