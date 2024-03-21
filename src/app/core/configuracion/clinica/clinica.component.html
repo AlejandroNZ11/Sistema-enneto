@@ -36,7 +36,7 @@
                             <div class="col-12 col-md-6 col-xl-4">
                                 <div class="form-group local-forms">
                                     <label>Email <span class="login-danger">*</span></label>
-                                    <input formControlName="email" class="form-control" type="email">
+                                    <input formControlName="email" class="form-control" type="text">
                                 </div>
                             </div>
 
@@ -44,10 +44,11 @@
                                 <div class="form-group local-forms">
                                     <label>Fecha <span class="login-danger">*</span></label>
                                         <input formControlName="fecha" style='height:48px' class="form-control datetimepicker" 
-                                            type="text" placeholder="" matInput [matDatepicker]="picker"
+                                            [(ngModel)]="clinica.fecha" type="text" placeholder="" matInput [matDatepicker]="picker"
                                             [ngClass]="{'is-invalid': isInvalid('fecha') && isFormSubmitted}">
-                                        <mat-datepicker #picker></mat-datepicker>
-                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"
+                                            matDatepickerFilter="DD/MM/YYYY"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker matDatepickerFilter="DD/MM/YYYY"></mat-datepicker>
                                         <div *ngIf="isInvalid('fecha') && isFormSubmitted"
                                             class="invalid-feedback">
                                             <div *ngIf="isRequerido('fecha')">
@@ -59,11 +60,10 @@
 
                             <div class="col-12 col-md-12 col-xl-3">
                                 <div class="form-group local-top-form">
-                                    <label class="local-top">Foto <span class="login-danger"></span></label>
+                                    <label class="local-top">Foto <span class="login-danger">*</span></label>
                                     <div class="settings-btn upload-files-avator">
                                         <input formControlName="foto" type="file" accept="image/*" name="image"
-                                            id="foto" (change)="cargarImagenFoto($event)" class="hide-input"
-                                            value="{{ imagenTempFoto }}" readonly>
+                                            id="foto" (change)="cargarImagenFoto($event)" class="hide-input">
                                         <label for="foto" class="upload">Choose File</label>
                                     </div>
                                     <div class="upload-images upload-size"

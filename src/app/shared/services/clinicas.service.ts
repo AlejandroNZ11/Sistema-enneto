@@ -29,8 +29,8 @@ export class ClinicasService {
     eliminarClinica(clinicaId:string): Observable<successResponse> {
         return this.http.delete<successResponse>(this.apiUrl + `/Clinicas/DeleteClinica/${clinicaId}`);
     }
-    actualizarClinica(clinicas: Iclinicas): Observable<successResponse> {
-        return this.http.put<successResponse>(this.apiUrl + `/Clinicas/UpdateClinica/${clinicas.clinicaId}`,clinicas).pipe(
+    actualizarClinica(clinicas: FormData, clinicaId:string): Observable<successResponse> {
+        return this.http.put<successResponse>(this.apiUrl + `/Clinicas/UpdateClinica/${clinicaId}`,clinicas).pipe(
             catchError(error => {
                 Swal.fire('Error', error.error, 'warning');
                 return throwError(() => error);

@@ -5,7 +5,8 @@ export class pacienteRecetaRequest {
   usuarioId=''
   pacienteId=''
   fecha=''
-  hora: Hora = { ticks: 0 };
+  // hora: Hora = { ticks: 0 };
+  hora=0
   asunto=''
   receta=''
   medicoId=''
@@ -25,17 +26,20 @@ export interface IPacienteReceta {
   pacienteRecetaId:   string;
   pacienteId:         string;
   fecha:              string;
-  hora:               { [key: string]: number };
+  // hora:               { [key: string]: number };
+  hora:number;
   asunto:             string;
   receta:             string;
   medicoId:           string;
   codigoEnfermedad01: string;
+  nombreEnfermedad01:string;
   codigoEnfermedad02: string;
+  nombreEnfermedad02:string;
   codigoEnfermedad03: string;
   indicaciones:       string;
   estado:             number;
 }
 
-export interface Hora {
-  ticks: number;
-}
+// export interface Hora {
+//   ticks: number;
+// }

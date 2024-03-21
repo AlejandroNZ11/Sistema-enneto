@@ -42,6 +42,8 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
   pacienteRecetaR:pacienteRecetaRequest = new pacienteRecetaRequest();
   editorReceta!: Editor;
   editorIndicacion!: Editor;
+  edad$:string='';
+
 
   toolbar: Toolbar = [
     ['bold', 'italic'],
@@ -78,7 +80,6 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.sharedService.pacientID.subscribe((id)=>{
       this.pacienteId = id
     });
-    this.edadPaciente();
   }
 
   ngOnDestroy(): void {
@@ -87,7 +88,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     clearInterval(this.timer);
   }
 
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService, private pacienteService: PacienteService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: [{ value: this.currentTime, disabled: true }],
@@ -112,14 +113,6 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.timer = setInterval(() => {
       this.getCurrentTime();
     }, 1000);
-  }
-
-  edad:string='';
-  private edadPaciente(){
-    this.pacienteService.obtenerPaciente(this.pacienteId).subscribe((data:PacienteEditar)=>{
-
-      this.edad = data.edad;
-    })
   }
 
 
@@ -168,7 +161,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
      return date;
   }
 
-  agregarConsentimiento(){
+  agregarReceta(){
 
 
     if (this.form.invalid) {
@@ -199,7 +192,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.pacienteRecetaR.fecha = this.form.get("fecha")?.value;
     const date = this.convertToDateTime(this.form.get("fecha")?.value);
 
-    this.pacienteRecetaR.hora.ticks = this.convertToTicks(date);
+    this.pacienteRecetaR.hora = this.convertToTicks(date);
     this.pacienteRecetaR.codigoEnfermedad01 = this.form.get('diagnostico1')?.value;
     this.pacienteRecetaR.codigoEnfermedad02 = this.form.get('diagnostico2')?.value;
     this.pacienteRecetaR.receta = this.form.get('cuerpoReceta')?.value;

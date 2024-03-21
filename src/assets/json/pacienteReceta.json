@@ -1,0 +1,20 @@
+{
+  "data":[
+    {
+      "pacienteRecetaId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "pacienteId": "bb4b9192-19bf-4a5a-69d0-08dc274dee47",
+      "fecha": "2019-01-06T17:16:40Z",
+      "hora": "12:18:36",
+      "asunto":"asunto del paciente",
+      "receta":"receta paciente",
+      "medicoId": "7af403fc-fb48-4321-43cf-08dc28e5ae91",
+      "codigoEnfermedad01":"K00.1",
+      "nombreEnfermedad01":"Endodoncia",
+      "codigoEnfermedad02":"K00.2",
+      "nombreEnfermedad02":"Hiperdodoncia",
+      "indicaciones":"indicaciones del paciente",
+      "estado": 0
+    }
+  ],
+  "totalData":1
+}

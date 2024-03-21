@@ -1,13 +1,13 @@
 export class Clinicas {
-    clinicaId = "D30C2D1E-E883-4B2D-818A-6813E15046E6";
-    nombre ="";
-    direccion= "";
-    celular = "";
-    email ="";
-    ruc ="";
-    fecha!: Date;
-    foto = "";
-    estado!:"";
+    clinicaId = "d30c2d1e-e883-4b2d-818a-6813e15046e6";
+    Nombre ="";
+    Direccion= "";
+    Celular = "";
+    Email ="";
+    Ruc ="";
+    Fecha!: Date;
+    Foto = "";
+    Estado!:"";
 }
 
 export interface Iclinicas {
