@@ -15,7 +15,7 @@ export class CajaACService {
     apiUrl = environment.apiURL;
     constructor(public http: HttpClient,) { }
 abrirCaja(caja: cajaAC): Observable<successResponse> {
-    return this.http.post<successResponse>(this.apiUrl + '/Caja/SaveCaja', caja).pipe(
+    return this.http.post<successResponse>(this.apiUrl + '/CajasApertura/SaveCajaApertura', caja).pipe(
     catchError(error => {
         Swal.fire('Error', error.error, 'warning');
         return throwError(() => error);

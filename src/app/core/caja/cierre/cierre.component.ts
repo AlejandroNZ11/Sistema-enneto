@@ -134,11 +134,22 @@ export class CierreComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Caja.caja = this.form1.get("caja")?.value;
-    this.Caja.turno= this.form1.get("turno")?.value;
-    this.Caja.montoapertura= this.form1.get("montoapertura")?.value;
+    this.mostrarFormulario = !this.mostrarFormulario;
+    this.Caja.cajaId = this.form1.get("caja")?.value;
+    this.Caja.turnoId= this.form1.get("turno")?.value;
+    this.Caja.importeApertura= this.form1.get("montoapertura")?.value;
     console.log(this.Caja);
-    this.cajaService.abrirCaja
+    this.cajaService.abrirCaja(this.Caja).subscribe(
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+        }else{
+          console.error(response.message);
+        }
+      },
+      (error)=>{
+        console.error(error);
+      });
   }
 
  
@@ -147,8 +158,19 @@ export class CierreComponent implements OnInit{
       this.isTouched()      
       return;
     }
-    this.Caja.montocierre = this.form2.get("montocierre")?.value;
+    this.mostrarFormulario = !this.mostrarFormulario;
+    this.Caja.importeCierre = this.form2.get("montocierre")?.value;
     console.log(this.Caja);
-    this.cajaService.abrirCaja
+    this.cajaService.abrirCaja(this.Caja).subscribe(
+      (response)=>{
+        if(response.isSuccess){
+          Swal.fire(response.message, '', 'success');
+        }else{
+          console.error(response.message);
+        }
+      },
+      (error)=>{
+        console.error(error);
+      });
   }
 }
