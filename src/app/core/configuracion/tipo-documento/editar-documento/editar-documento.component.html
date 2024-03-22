@@ -37,7 +37,7 @@
                                 <div class="form-group local-forms">
                                     <label>Serie <span class="login-danger">*</span></label>
                                     <input formControlName="serie" class="form-control" type="text"
-                                        [ngClass]="{'is-invalid': isInvalid('serie')}">
+                                        [ngClass]="{'is-invalid': isInvalid('serie')}" >
                                     <div *ngIf="isInvalid('serie') || mostrarErrores" class="invalid-feedback">
                                         <div *ngIf="isRequerido('serie')">
                                             Debe completar el campo*
