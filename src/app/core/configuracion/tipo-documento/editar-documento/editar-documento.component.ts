@@ -53,6 +53,12 @@ export class EditarDocumentoComponent implements OnInit {
     error=>{console.error('Error al obtener el documento:', error);
       });
   }
+  soloNumeros(event: KeyboardEvent): void {
+    const teclasPermitidas = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Enter'];
+    if (!teclasPermitidas.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
 
   isInvalid(controlName: string) {
     const control = this.form.get(controlName);
