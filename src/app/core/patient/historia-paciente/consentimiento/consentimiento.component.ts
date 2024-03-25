@@ -10,6 +10,7 @@ import { Sort } from '@angular/material/sort';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AgregarConsentimientoPacienteComponent } from './agregar-consentimiento-paciente/agregar-consentimiento-paciente.component';
 import { EditarConsentimientoPacienteComponent } from './editar-consentimiento-paciente/editar-consentimiento-paciente.component';
+import { environment } from 'src/environments/environments';
 
 @Component({
   selector: 'app-consentimiento',
@@ -58,7 +59,7 @@ export class ConsentimientoComponent implements OnInit {
   this.serialNumberArray = [];
 
 
-  this.pacienteConsentimientoService.obtenerPacienteConsentimiento()
+  this.pacienteConsentimientoService.obtenerPacienteConsentimiento(environment.clinicaId, this.currentPage,this.pageSize,this.pacienteId)
    .pipe(
     finalize(()=>this.isLoading = false)
    )
@@ -69,6 +70,7 @@ export class ConsentimientoComponent implements OnInit {
           const serialNumber = index + 1;
           this.serialNumberArray.push(serialNumber);
         }
+        console.log(data.data)
         this.pacienteConsentimientoList = data.data;
         this.dataSourceAPI = new MatTableDataSource<IPacienteConsentimiento>(this.pacienteConsentimientoList);
         this.calculateTotalPages(this.totalData, this.pageSize);

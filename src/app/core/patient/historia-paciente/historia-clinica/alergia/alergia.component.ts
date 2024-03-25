@@ -60,6 +60,7 @@ export class AlergiaComponent implements OnInit{
 
 
   getTableData(){
+    this.serialNumberArray = [];
     this.isLoading = true;
     this.pacienteAlergiaService.obtenerPacienteAlergiaList(this.pacienteId, environment.clinicaId, this.currentPage,this.pageSize)
     .pipe(

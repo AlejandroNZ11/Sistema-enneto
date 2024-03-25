@@ -70,8 +70,9 @@ export class RecetasComponent implements OnInit{
 
 
   getTableData(){
+    this.serialNumberArray = [];
     this.isLoading = true;
-    this.pacienteRecetaService.obtenerPacienteReceta()
+    this.pacienteRecetaService.obtenerPacienteReceta(this.pacienteId,environment.clinicaId,this.currentPage,this.pageSize)
     .pipe(
             finalize(() => this.isLoading = false)
           )
@@ -104,13 +105,25 @@ export class RecetasComponent implements OnInit{
   }
 
 
-  crearAlergiaPaciente() {
+  crearRecetaPaciente() {
 
     const initialState ={
       edad$: this.pacienteData.edad
     }
 
     this.bsModalRef = this.modalService.show(AgregarRecetaComponent,{initialState, class:'modal-lg'});
+    const recetaAgregada$ = new Subject<boolean>();
+
+    this.bsModalRef.content.recetaAgregada$ = recetaAgregada$;
+
+    recetaAgregada$.subscribe((recetaAgregada$:boolean)=>{
+      if(recetaAgregada$){
+        this.getTableData()
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      recetaAgregada$.unsubscribe();
+    })
 
     // this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
     //   if(alergiaAgregada){

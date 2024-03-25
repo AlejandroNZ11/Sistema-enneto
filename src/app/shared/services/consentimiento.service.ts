@@ -11,7 +11,7 @@ import { DataConsentimiento, Iconsentimiento, consentimiento } from '../models/c
 export class ConsentimientoService {
 
     apiUrl = environment.apiURL;
-    constructor(public http: HttpClient,) { }
+    constructor(public http: HttpClient) { }
 
     obtenerConsentimientos(clinicaId: string, page: number, rows: number): Observable<DataConsentimiento> {
         return this.http.get<DataConsentimiento>(this.apiUrl + `/Consentimientos/GetAllConsentimiento?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);

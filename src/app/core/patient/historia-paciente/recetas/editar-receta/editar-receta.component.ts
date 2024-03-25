@@ -192,23 +192,23 @@ export class EditarRecetaComponent implements OnInit{
 
     console.log(this.pacienteRecetaR);
 
-    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
-      if (response.isSuccess) {
-        Swal.fire({
-          title: 'Actualizando...',
-          allowOutsideClick: false,
-        })
-        Swal.showLoading();
-        Swal.close();
-        Swal.fire(response.message,'', 'success');
-        this.consentimientoPacienteAgregado$.next(true);
-      } else {
-        console.error(response.message);
-      }
-    },
-    (error) => {
-      console.error(error);
-    })
+    // this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+    //   if (response.isSuccess) {
+    //     Swal.fire({
+    //       title: 'Actualizando...',
+    //       allowOutsideClick: false,
+    //     })
+    //     Swal.showLoading();
+    //     Swal.close();
+    //     Swal.fire(response.message,'', 'success');
+    //     this.consentimientoPacienteAgregado$.next(true);
+    //   } else {
+    //     console.error(response.message);
+    //   }
+    // },
+    // (error) => {
+    //   console.error(error);
+    // })
 
   }
 

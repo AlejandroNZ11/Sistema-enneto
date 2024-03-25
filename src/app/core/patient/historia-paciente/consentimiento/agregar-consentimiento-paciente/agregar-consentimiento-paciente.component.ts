@@ -143,26 +143,61 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
   }
 
   convertToTicks(fecha:Date){
-    return ((fecha.getTime()*10000) + 621355968000000000)
+    // return ((fecha.getTime()*10000) + 621355968000000000)
+    const hourTicks = fecha.getHours() * 3600000; // 1 hora en ticks
+    const minuteTicks = fecha.getMinutes() * 60000; // 1 minuto en ticks
+    const secondTicks = fecha.getSeconds() * 1000; // 1 segundo en ticks
+    return hourTicks + minuteTicks + secondTicks;
   }
 
 
-  convertToDateTime(fecha:any){
-     // Convertir la cadena de fecha a un objeto de tipo Date
-     const fechaDate = new Date(fecha);
+  convertToDateTime(fechaOriginal:Date){
+     // Obtener los componentes de la fecha
+     const year: number = fechaOriginal.getFullYear(); // Año
+     const month: number = fechaOriginal.getMonth() + 1; // Mes (se suma 1 porque los meses van de 0 a 11)
+     const day: number = fechaOriginal.getDate(); // Día
+     const hours: number = fechaOriginal.getHours(); // Horas
+     const minutes: number = fechaOriginal.getMinutes(); // Minutos
+     const seconds: number = fechaOriginal.getSeconds(); // Segundos
 
-     // Obtener la fecha en formato ISO 8601 sin la zona horaria (sin la parte de "GMT-0500")
-     const fechaISO = fechaDate.toISOString().split("T")[0];
+     // Formatear la fecha en el formato deseado
+     const fechaFormateada: string = `${year}-${
+       month < 10 ? '0' + month : month
+     }-${
+       day < 10 ? '0' + day : day
+     }T${
+       hours < 10 ? '0' + hours : hours
+     }:${
+       minutes < 10 ? '0' + minutes : minutes
+     }:${
+       seconds < 10 ? '0' + seconds : seconds
+     }.000Z`;
 
-     // Combinar la fecha en formato ISO 8601 con la cadena de hora
-     const fechaHoraISO = fechaISO + "T" + this.currentTime + ".000Z";
-
-     // Crear un objeto de tipo Date a partir de la cadena en formato ISO 8601
-     const date = new Date(fechaHoraISO);
-
-     return date;
+     return fechaFormateada;
   }
 
+  myconvertToTicks(hour: number, minute: number, second: number): number {
+    // Convertir la hora, minutos y segundos a milisegundos
+    const totalMilliseconds = (hour * 3600 + minute * 60 + second) * 1000;
+    // Calcular los "ticks" equivalentes (10000 ticks por milisegundo)
+    return totalMilliseconds * 10000;
+  }
+
+  dataURItoBlob(dataURI: string): Blob {
+    const byteString = atob(dataURI.split(',')[1]);
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], { type: mimeString });
+}
+
+binaryString:string ='';
   agregarConsentimiento(){
 
 
@@ -183,19 +218,107 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
       Swal.close();
       Swal.fire('Debe firmar el consentimiento','', 'warning');
       return;
-    }else{
-      this.pacienteConsentimiento.firma =  canvas.toDataURL("image/png");
     }
+
+    const formData = new FormData();
+
+    formData.append('PacienteId', this.pacienteId);
+    formData.append('ConsentimentoId', this.form.get('tipoConsentimientoId')?.value);
+    formData.append('MedicoId', this.form.get("medicoId")?.value);
+    formData.append('Cuerpo', this.form.get('cuerpo')?.value);
+    // const fechaOriginal = this.convertToDateTime();
+    const fechaOriginal: Date = new Date(this.form.get("fecha")?.value);
+
+      const fecha = this.convertToDateTime(fechaOriginal);
+    formData.append('Fecha', fecha.toString());
+
+
+    const hora = this.currentTime;
+    const [hour, minute, second] = hora.split(':').map(Number);
+    const horaTicks = this.myconvertToTicks(hour, minute, second);
+
+    formData.append('Hora', horaTicks.toString());
+    formData.append('ApoderadoNombre', this.form.get("nombreApoderado")?.value);
+    formData.append('ApoderadoDocumento', this.form.get("documentoApoderado")?.value);
+    formData.append('ApoderadoDireccion', this.form.get("direccionApoderado")?.value);
+    formData.append('PacienteRelacionadoId',this.form.get("pacienteRelacionadoId")?.value);
+
+
+    canvas.toBlob((blob) => {
+      // Crea un nuevo archivo a partir del blob
+      if(blob){
+        console.log(blob)
+      const file = new File([blob], 'img.png', { type: 'image/png' });
+        console.log(file)
+      formData.append('Firma', file);
+    formData.append('Estado', '0');
+
+
+      this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(formData).subscribe((response) => {
+        if (response.isSuccess) {
+          Swal.fire({
+            title: 'Actualizando...',
+            allowOutsideClick: false,
+          })
+          Swal.showLoading();
+          Swal.close();
+          Swal.fire(response.message,'', 'success');
+          this.consentimientoPacienteAgregado$.next(true);
+        } else {
+          console.error(response.message);
+        }
+      },
+      (error) => {
+        console.error(error);
+      })
+
+      }
+
+    }, 'image/png');
+    // const blob = this.dataURItoBlob(dataURL);
+    // console.log(blob)
+
+    // const reader = new FileReader();
+    //   reader.onload = () => {
+    //     const arrayBuffer = reader.result as ArrayBuffer;
+    //     const uint8Array = new Uint8Array(arrayBuffer);
+    //     const byteArray = Array.from(uint8Array);
+    //     const binaryString = String.fromCharCode.apply(null, byteArray);
+    //     formData.append('Firma', binaryString);
+
+
+    //   };
+    //   reader.readAsArrayBuffer(blob);
+
+
+// const imageFile = new File([blob], 'firma.png', { type: 'image/png' });
+
+//     canvas.toBlob((blob) => {
+//       if (blob) {
+//         // Crear un objeto File a partir del Blob
+//         const firmaFile = new File([blob], 'firma.png', { type: 'image/png' });
+//         // Agregar el objeto File al FormData
+//         formData.append('Firma', firmaFile);
+//             formData.forEach((value: FormDataEntryValue, key: string) => {
+//       console.log(`${key}: ${value}`);
+//     });
+//       }
+//     }, 'image/png');
+
+    formData.forEach((value: FormDataEntryValue, key: string) => {
+      console.log(`${key}: ${value}`);
+
+    });
 
     this.isFormSubmitted = true;
     this.pacienteConsentimiento.pacienteId = this.pacienteId;
     this.pacienteConsentimiento.medicoId = this.form.get("medicoId")?.value;
     this.pacienteConsentimiento.fecha = this.form.get("fecha")?.value;
 
-    const date = this.convertToDateTime(this.form.get("fecha")?.value);
+    // const date = this.convertToDateTime(this.form.get("fecha")?.value);
 
 
-    this.pacienteConsentimiento.hora.ticks = this.convertToTicks(date);
+    // this.pacienteConsentimiento.hora.ticks = this.convertToTicks(date);
     this.pacienteConsentimiento.apoderadoNombre= this.form.get("nombreApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDocumento= this.form.get("documentoApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDireccion= this.form.get("direccionApoderado")?.value;
@@ -214,26 +337,8 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 
 
 
+    // console.log(this.pacienteConsentimiento);
 
-    console.log(this.pacienteConsentimiento);
-
-    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
-      if (response.isSuccess) {
-        Swal.fire({
-          title: 'Actualizando...',
-          allowOutsideClick: false,
-        })
-        Swal.showLoading();
-        Swal.close();
-        Swal.fire(response.message,'', 'success');
-        this.consentimientoPacienteAgregado$.next(true);
-      } else {
-        console.error(response.message);
-      }
-    },
-    (error) => {
-      console.error(error);
-    })
 
   }
 
