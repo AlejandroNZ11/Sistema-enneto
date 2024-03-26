@@ -125,11 +125,6 @@ export class RecetasComponent implements OnInit{
       recetaAgregada$.unsubscribe();
     })
 
-    // this.bsModalRef.content.pacienteAlergiaAgregada$.subscribe((alergiaAgregada: boolean)=>{
-    //   if(alergiaAgregada){
-    //     this.getTableData();
-    //   }
-    // })
   }
 
   editarReceta(pacienteReceta: IPacienteReceta) {
@@ -141,17 +136,17 @@ export class RecetasComponent implements OnInit{
 
     this.bsModalRef = this.modalService.show(EditarRecetaComponent,{initialState,class:'modal-lg'});
 
-    // const pacienteAlergiaEditado$ = new Subject<boolean>();
+    const pacienteRecetaEditado$ = new Subject<boolean>();
 
-    // this.bsModalRef.content.pacienteAlergiaEditado$ = pacienteAlergiaEditado$;
-    // pacienteAlergiaEditado$.subscribe((pacienteAlergiaEditado:boolean)=>{
-    //   if(pacienteAlergiaEditado){
-    //     this.getTableData();
-    //   }
-    // });
-    // this.bsModalRef.onHidden?.subscribe(()=>{
-    //   pacienteAlergiaEditado$.unsubscribe();
-    // })
+    this.bsModalRef.content.pacienteRecetaEditado$ = pacienteRecetaEditado$;
+    pacienteRecetaEditado$.subscribe((pacienteRecetaEditado:boolean)=>{
+      if(pacienteRecetaEditado){
+        this.getTableData();
+      }
+    });
+    this.bsModalRef.onHidden?.subscribe(()=>{
+      pacienteRecetaEditado$.unsubscribe();
+    })
 
 }
 
@@ -199,31 +194,37 @@ public moveToPage(pageNumber: number): void {
     }
   }
 
+
+  formatoFecha(fecha: string): string {
+    const [anio, mes, dia] = fecha.toString().split('T')[0].split('-');
+    return `${dia}-${mes}-${anio}`;
+  }
+
   eliminar(pacienteRecetaId: string){
-    // Swal.fire({
-    //   title: '¿Estas seguro que deseas eliminar?',
-    //   showDenyButton: true,
-    //   confirmButtonText: 'Eliminar',
-    //   denyButtonText: `Cancelar`,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     this.pacienteAlergiaService.eliminarPacienteAlergia(pacienteRecetaId).subscribe(
-    //       (response) => {
-    //         if (response.isSuccess) {
-    //           Swal.fire('Correcto', 'Paciente Eliminado en el sistema correctamente.', 'success');
-    //           this.getTableData();
-    //           return;
-    //         } else {
-    //           console.error(response.message);
-    //         }
-    //       },
-    //       (error) => {
-    //         console.error(error);
-    //       });
-    //   } else {
-    //     return;
-    //   }
-    // })
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pacienteRecetaService.eliminarPacienteReceta(pacienteRecetaId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message,'', 'success');
+              this.getTableData();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
   }
 
 

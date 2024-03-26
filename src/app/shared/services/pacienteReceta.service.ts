@@ -30,4 +30,22 @@ export class PacienteRecetaService {
   );
   }
 
+  editarPacienteReceta(pacienteReceta:pacienteRecetaRequest):Observable<successResponse>{
+    return this.http.put<successResponse>(this.apiUrl + `/PacientesRecetas/UpdatePacienteReceta/${pacienteReceta.pacienteId}`,pacienteReceta).pipe(
+      catchError(error => {
+          Swal.fire('Error', error.error, 'warning');
+          return throwError(() => error);
+      })
+  );
+  }
+
+  eliminarPacienteReceta(pacienteRecetId:string):Observable<successResponse>{
+    return this.http.delete<successResponse>(this.apiUrl + `/PacientesRecetas/DeletePacienteReceta/${pacienteRecetId}`).pipe(
+      catchError(error => {
+          Swal.fire('Error', error.error, 'warning');
+          return throwError(() => error);
+      })
+  );
+  }
+
 }

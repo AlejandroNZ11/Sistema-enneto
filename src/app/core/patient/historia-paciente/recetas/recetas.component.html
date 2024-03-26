@@ -34,9 +34,9 @@
 
             <td>{{serialNumberArray[i]}}</td>
             <!-- <td>{{ data.citaMedicaId }}</td> -->
-            <td>{{ data.fecha}}</td>
-            <td>{{ data.medicoId }}</td>
-            <td>{{ data.codigoEnfermedad01 }} | {{ data.codigoEnfermedad02}}</td>
+            <td>{{ formatoFecha(data.fecha)}}</td>
+            <td>{{ data.nombreMedico }}</td>
+            <td>{{ data.nombreEnfermedad01 }} | {{ data.nombreEnfermedad02}}</td>
 
             <td class="text-end">
               <div class="dropdown dropdown-action">
