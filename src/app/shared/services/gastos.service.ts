@@ -29,12 +29,12 @@ export class GastosService {
   //   return this.http.get<DataGastos>(url);
   // }
 
-  // obtenerGastos(clinicaId: string, page: number, rows: number): Observable<DataGastos> {
-  //   return this.http.get<DataGastos>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
-  // }
+  obtenerGastos(clinicaId: string, page: number, rows: number): Observable<DataControlGasto> {
+    return this.http.get<DataControlGasto>(this.apiUrl + `/Gasto/GetAllGasto?clinicaid=${clinicaId}&page=${page}&rows=${rows}`);
+  }
 
   obtenerControlGastos( page: number, rows: number, fechaInicio?: string, fechaFin?: string, estado?: string,  tipogasto?: string, descripcion?: string): Observable<DataControlGasto> {
-    let url = `${this.apiUrl}/Gasto/GetAllGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
+    let url = `${this.apiUrl}/Gasto/GetControlGasto?&page=${page}&rows=${rows}&FechaInicio=${fechaInicio}&FechaFin=${fechaFin}`;
     if (estado != 'todos' && estado) {
       url += `&estado=${estado}`;
     }

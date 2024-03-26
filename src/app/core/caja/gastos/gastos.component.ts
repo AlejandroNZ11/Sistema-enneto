@@ -101,6 +101,20 @@ export class GastosComponent implements OnInit {
     }
   }
   
+  private getTableData(currentPage: number, pageSize: number): void {
+    this.GastosList = [];
+    this.serialNumberArray = [];
+    this.gastosservice.obtenerGastos(env.clinicaId, currentPage, pageSize).subscribe((data: DataControlGasto) => {
+      this.totalData = data.totalData
+      for (let index = this.skip; index < Math.min(this.limit, data.totalData); index++) {
+        const serialNumber = index + 1;
+        this.serialNumberArray.push(serialNumber);
+      }
+      this.GastosList = data.data;
+      this.dataSource = new MatTableDataSource<IcontrolGasto>(this.GastosList);
+    });
+  }
+
   crearGasto() {
     this.bsModalRef = this.modalService.show(AgregarGastosComponent),
     this.bsModalRef.content.gastoAgregada$.subscribe((gastoAgregada: boolean) => {

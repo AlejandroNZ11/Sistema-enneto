@@ -21,3 +21,10 @@ export interface IcajaAC {
     fechaCierre: string;
 
 }
+
+export class turno {
+    ninguno= 0;
+    mañana= 1; 
+    tarde= 2;
+    noche= 3;
+}
