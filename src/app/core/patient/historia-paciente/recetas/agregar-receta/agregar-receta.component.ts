@@ -8,7 +8,6 @@ import { MedicoList } from 'src/app/shared/models/medico';
 import { pacienteConsentimiento } from 'src/app/shared/models/pacienteConsentimiento';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import { MedicoService } from 'src/app/shared/services/medico.service';
-import { PacienteConsentimientoService } from 'src/app/shared/services/pacienteConsentimiento.service';
 import { environment } from 'src/environments/environments';
 import Swal from 'sweetalert2';
 import { SharedService } from '../../services/shared-service.service';
@@ -17,6 +16,7 @@ import { EnfermedadService } from 'src/app/shared/services/enfermedad.service';
 import { pacienteRecetaRequest } from 'src/app/shared/models/pacienteReceta';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { PacienteEditar } from '../../../../../shared/models/paciente';
+import { PacienteRecetaService } from 'src/app/shared/services/pacienteReceta.service';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -37,7 +37,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
 
   form!: FormGroup;
   isFormSubmitted = false;
-  consentimientoPacienteAgregado$: Subject<boolean> = new Subject<boolean>();
+  recetaAgregada$: Subject<boolean> = new Subject<boolean>();
   pacienteConsentimiento: pacienteConsentimiento = new pacienteConsentimiento();
   pacienteRecetaR:pacienteRecetaRequest = new pacienteRecetaRequest();
   editorReceta!: Editor;
@@ -88,7 +88,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     clearInterval(this.timer);
   }
 
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteRecetaService: PacienteRecetaService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: [{ value: this.currentTime, disabled: true }],
@@ -161,6 +161,14 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
      return date;
   }
 
+
+  myconvertToTicks(hour: number, minute: number, second: number): number {
+    // Convertir la hora, minutos y segundos a milisegundos
+    const totalMilliseconds = (hour * 3600 + minute * 60 + second) * 1000;
+    // Calcular los "ticks" equivalentes (10000 ticks por milisegundo)
+    return totalMilliseconds * 10000;
+  }
+
   agregarReceta(){
 
 
@@ -192,7 +200,11 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
     this.pacienteRecetaR.fecha = this.form.get("fecha")?.value;
     const date = this.convertToDateTime(this.form.get("fecha")?.value);
 
-    this.pacienteRecetaR.hora = this.convertToTicks(date);
+    const hora = this.currentTime;
+    const [hour, minute, second] = hora.split(':').map(Number);
+    const horaTicks = this.myconvertToTicks(hour, minute, second);
+
+    this.pacienteRecetaR.hora = horaTicks;
     this.pacienteRecetaR.codigoEnfermedad01 = this.form.get('diagnostico1')?.value;
     this.pacienteRecetaR.codigoEnfermedad02 = this.form.get('diagnostico2')?.value;
     this.pacienteRecetaR.receta = this.form.get('cuerpoReceta')?.value;
@@ -202,7 +214,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
 
     console.log(this.pacienteRecetaR);
 
-    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+    this.pacienteRecetaService.agregarPacienteReceta(this.pacienteRecetaR).subscribe((response) => {
       if (response.isSuccess) {
         Swal.fire({
           title: 'Actualizando...',
@@ -211,7 +223,8 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
         Swal.showLoading();
         Swal.close();
         Swal.fire(response.message,'', 'success');
-        this.consentimientoPacienteAgregado$.next(true);
+        this.recetaAgregada$.next(true);
+        this.bsModalRef.hide();
       } else {
         console.error(response.message);
       }
@@ -224,7 +237,7 @@ export class AgregarRecetaComponent implements OnInit,OnDestroy {
 
 
   cancelar() {
-    this.consentimientoPacienteAgregado$.next(false);
+    this.recetaAgregada$.next(false);
     this.bsModalRef.hide()
   }
 

@@ -6,7 +6,7 @@ export class pacienteConsentimiento {
   tipoConsentimientoId=0
   cuerpo=''
   fecha=''
-  hora: Hora = { ticks: 0 };
+  hora= '';
   apoderadoNombre=''
   apoderadoDocumento=''
   apoderadoDireccion=''
@@ -21,23 +21,19 @@ export interface PacienteConsentimientoData {
   totalData: number;
 }
 export interface IPacienteConsentimiento {
-  clinicaId:                string;
-  usuarioId:                string;
   pacienteConsentimientoId: string;
   pacienteId:               string;
-  tipoConsentimientoId:     number;
+  consentimientoId:     string;
   cuerpo:                   string;
   fecha:                    string;
-  hora:                     Hora;
+  hora:                     string;
   apoderadoNombre:          string;
   apoderadoDocumento:       string;
   apoderadoDireccion:       string;
   pacienteRelacionadoId:    number;
-  medicoId:                 number;
+  medicoId:                 string;
   estado:                   number;
   firma:                    string;
 }
 
-export interface Hora {
-  ticks: number;
-}
+

@@ -8,7 +8,7 @@
         </div>
 
       <div class="form-heading">
-        <button (click)="crearAlergiaPaciente()"  class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
+        <button (click)="crearRecetaPaciente()"  class="btn btn-primary submit-form me-2"><i class="fa-solid fa-plus" style="padding-right: 10px;"></i>Agregar</button>
       </div>
   </div>
 
@@ -34,8 +34,8 @@
 
             <td>{{serialNumberArray[i]}}</td>
             <!-- <td>{{ data.citaMedicaId }}</td> -->
-            <td>{{ data.fecha}}</td>
-            <td>{{ data.medicoId }}</td>
+            <td>{{ formatoFecha(data.fecha)}}</td>
+            <td>{{ data.nombreMedico }}</td>
             <td>{{ data.nombreEnfermedad01 }} | {{ data.nombreEnfermedad02}}</td>
 
             <td class="text-end">

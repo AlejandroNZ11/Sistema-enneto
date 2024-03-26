@@ -2,7 +2,7 @@
 
 export class pacienteRecetaRequest {
   clinicaId='D30C2D1E-E883-4B2D-818A-6813E15046E6';
-  usuarioId=''
+  pacienteRecetaId=''
   pacienteId=''
   fecha=''
   // hora: Hora = { ticks: 0 };
@@ -31,6 +31,7 @@ export interface IPacienteReceta {
   asunto:             string;
   receta:             string;
   medicoId:           string;
+  nombreMedico:string;
   codigoEnfermedad01: string;
   nombreEnfermedad01:string;
   codigoEnfermedad02: string;

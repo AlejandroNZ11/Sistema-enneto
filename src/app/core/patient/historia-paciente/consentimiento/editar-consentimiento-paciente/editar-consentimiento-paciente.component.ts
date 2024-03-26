@@ -74,7 +74,7 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
       nombreApoderado:this.consentimientoSeleccionado.apoderadoNombre,
       documentoApoderado:this.consentimientoSeleccionado.apoderadoDocumento,
       direccionApoderado:this.consentimientoSeleccionado.apoderadoDireccion,
-      tipoConsentimientoId:this.consentimientoSeleccionado.tipoConsentimientoId,
+      tipoConsentimientoId:this.consentimientoSeleccionado.consentimientoId,
       cuerpo:this.consentimientoSeleccionado.cuerpo,
       pacienteRelacionadoId: this.consentimientoSeleccionado.pacienteRelacionadoId,
 
@@ -190,7 +190,7 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     const date = this.convertToDateTime(this.form.get("fecha")?.value);
 
 
-    this.pacienteConsentimiento.hora.ticks = this.convertToTicks(date);
+    this.pacienteConsentimiento.hora = this.convertToTicks(date).toString();
     this.pacienteConsentimiento.apoderadoNombre= this.form.get("nombreApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDocumento= this.form.get("documentoApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDireccion= this.form.get("direccionApoderado")?.value;
@@ -213,23 +213,23 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
 
     console.log(this.pacienteConsentimiento);
 
-    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
-      if (response.isSuccess) {
-        Swal.fire({
-          title: 'Actualizando...',
-          allowOutsideClick: false,
-        })
-        Swal.showLoading();
-        Swal.close();
-        Swal.fire(response.message,'', 'success');
-        this.consentimientoPacienteEditado$.next(true);
-      } else {
-        console.error(response.message);
-      }
-    },
-    (error) => {
-      console.error(error);
-    })
+    // this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+    //   if (response.isSuccess) {
+    //     Swal.fire({
+    //       title: 'Actualizando...',
+    //       allowOutsideClick: false,
+    //     })
+    //     Swal.showLoading();
+    //     Swal.close();
+    //     Swal.fire(response.message,'', 'success');
+    //     this.consentimientoPacienteEditado$.next(true);
+    //   } else {
+    //     console.error(response.message);
+    //   }
+    // },
+    // (error) => {
+    //   console.error(error);
+    // })
 
   }
 

@@ -18,6 +18,7 @@ import { pacienteRecetaRequest } from 'src/app/shared/models/pacienteReceta';
 import { PacienteService } from 'src/app/shared/services/paciente.service';
 import { PacienteEditar } from '../../../../../shared/models/paciente';
 import { IPacienteReceta } from '../../../../../shared/models/pacienteReceta';
+import { PacienteRecetaService } from 'src/app/shared/services/pacienteReceta.service';
 interface IMenorEdad{
   id:number;
   nombre:string;
@@ -38,7 +39,7 @@ export class EditarRecetaComponent implements OnInit{
 
   form!: FormGroup;
   isFormSubmitted = false;
-  consentimientoPacienteAgregado$: Subject<boolean> = new Subject<boolean>();
+  pacienteRecetaEditado$: Subject<boolean> = new Subject<boolean>();
   pacienteConsentimiento: pacienteConsentimiento = new pacienteConsentimiento();
   pacienteRecetaR:pacienteRecetaRequest = new pacienteRecetaRequest();
   editorReceta!: Editor;
@@ -94,7 +95,7 @@ export class EditarRecetaComponent implements OnInit{
   }
 
 
-  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService,private pacienteCOnsentimientoService: PacienteConsentimientoService, public sharedService:SharedService, private enfermedadService: EnfermedadService){
+  constructor(public bsModalRef: BsModalRef,public fb: FormBuilder, public consetimientoService:ConsentimientoService,  public medicoService: MedicoService, public sharedService:SharedService, private enfermedadService: EnfermedadService,private pacienteRecetaService: PacienteRecetaService){
     this.form = this.fb.group({
       medicoId: ['', Validators.required],
       fecha: [{ value:'', disabled: true }],
@@ -178,21 +179,21 @@ export class EditarRecetaComponent implements OnInit{
     // this.pacienteConsentimiento.pacienteRelacionadoId= this.form.get("pacienteRelacionadoId")?.value;
 
     this.pacienteRecetaR.pacienteId = this.pacienteId;
+    this.pacienteRecetaR.pacienteRecetaId = this.pacienteSeleccionado$.pacienteRecetaId
     this.pacienteRecetaR.medicoId =  this.form.get("medicoId")?.value;
-    this.pacienteRecetaR.fecha = this.form.get("fecha")?.value;
-    const date = this.convertToDateTime(this.form.get("fecha")?.value);
+    this.pacienteRecetaR.fecha = this.pacienteSeleccionado$.fecha;
 
-    this.pacienteRecetaR.hora = this.convertToTicks(date);
+    this.pacienteRecetaR.hora = this.pacienteSeleccionado$.hora;
     this.pacienteRecetaR.codigoEnfermedad01 = this.form.get('diagnostico1')?.value;
     this.pacienteRecetaR.codigoEnfermedad02 = this.form.get('diagnostico2')?.value;
     this.pacienteRecetaR.receta = this.form.get('cuerpoReceta')?.value;
-    this.pacienteRecetaR.indicaciones = this.form.get('cuerpoReceta')?.value;
+    this.pacienteRecetaR.indicaciones = this.form.get('cuerpoIndicacion')?.value;
 
 
 
     console.log(this.pacienteRecetaR);
 
-    this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+    this.pacienteRecetaService.editarPacienteReceta(this.pacienteRecetaR).subscribe((response) => {
       if (response.isSuccess) {
         Swal.fire({
           title: 'Actualizando...',
@@ -201,7 +202,9 @@ export class EditarRecetaComponent implements OnInit{
         Swal.showLoading();
         Swal.close();
         Swal.fire(response.message,'', 'success');
-        this.consentimientoPacienteAgregado$.next(true);
+        this.pacienteRecetaEditado$.next(true);
+        this.bsModalRef.hide();
+
       } else {
         console.error(response.message);
       }
@@ -214,7 +217,7 @@ export class EditarRecetaComponent implements OnInit{
 
 
   cancelar() {
-    this.consentimientoPacienteAgregado$.next(false);
+    this.pacienteRecetaEditado$.next(false);
     this.bsModalRef.hide()
   }
 
