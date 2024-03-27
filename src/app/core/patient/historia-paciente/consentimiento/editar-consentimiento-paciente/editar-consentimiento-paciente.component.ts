@@ -5,7 +5,7 @@ import { Editor, NgxEditorComponent, Toolbar } from 'ngx-editor';
 import { Subject } from 'rxjs';
 import { DataConsentimiento, Iconsentimiento } from 'src/app/shared/models/consentimiento';
 import { MedicoList } from 'src/app/shared/models/medico';
-import { IPacienteConsentimiento, pacienteConsentimiento } from 'src/app/shared/models/pacienteConsentimiento';
+import { IPacienteConsentimiento, pacienteConsentimiento, pacienteConsentimientoEditar } from 'src/app/shared/models/pacienteConsentimiento';
 import { ConsentimientoService } from 'src/app/shared/services/consentimiento.service';
 import { MedicoService } from 'src/app/shared/services/medico.service';
 import { PacienteConsentimientoService } from 'src/app/shared/services/pacienteConsentimiento.service';
@@ -32,7 +32,7 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
   form!: FormGroup;
   isFormSubmitted = false;
   consentimientoPacienteEditado$: Subject<boolean> = new Subject<boolean>();
-  pacienteConsentimiento: pacienteConsentimiento = new pacienteConsentimiento();
+  pacienteConsentimiento: pacienteConsentimientoEditar = new pacienteConsentimientoEditar();
   consentimientoSeleccionado!:IPacienteConsentimiento;
   editor!: Editor;
   toolbar: Toolbar = [
@@ -118,6 +118,8 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
 
 
   currentTime: string = '';
+  cantidad:number =8;
+
 
   // Define un temporizador para actualizar la hora cada segundo
   private timer: any;
@@ -131,6 +133,11 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     const second = this.padNumber(now.getSeconds());
     // Retorna la hora formateada
     this.currentTime = `${hour}:${minute}:${second}`;
+  }
+  soloNumeros(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const currentValue = input.value;
+    input.value = currentValue.replace(/[^0-9]/g, '');
   }
 
   // Función para agregar un cero delante de los números menores a 10
@@ -170,27 +177,18 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
       return;
     }
 
-    const canvas = document.getElementById("canvasId") as HTMLCanvasElement;
 
 
-
-
-    if(!this.isCanvasEmpty(canvas)){
-      this.base64Imagen = this.pacienteConsentimiento.firma =  canvas.toDataURL("image/png");
-    }
-    else{
-      this.base64Imagen = this.consentimientoSeleccionado.firma;
-    }
 
     this.isFormSubmitted = true;
+    this.pacienteConsentimiento.pacienteConsentimientoId = this.consentimientoSeleccionado.pacienteConsentimientoId
     this.pacienteConsentimiento.pacienteId = this.pacienteId;
     this.pacienteConsentimiento.medicoId = this.form.get("medicoId")?.value;
-    this.pacienteConsentimiento.fecha = this.form.get("fecha")?.value;
-
-    const date = this.convertToDateTime(this.form.get("fecha")?.value);
+    this.pacienteConsentimiento.fecha = this.consentimientoSeleccionado.fecha;
 
 
-    this.pacienteConsentimiento.hora = this.convertToTicks(date).toString();
+
+    this.pacienteConsentimiento.hora = this.consentimientoSeleccionado.hora;
     this.pacienteConsentimiento.apoderadoNombre= this.form.get("nombreApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDocumento= this.form.get("documentoApoderado")?.value;
     this.pacienteConsentimiento.apoderadoDireccion= this.form.get("direccionApoderado")?.value;
@@ -205,6 +203,44 @@ export class EditarConsentimientoPacienteComponent implements AfterViewInit,OnIn
     // const textoSinFormato = tempElement.textContent || tempElement.innerText;
 
     this.pacienteConsentimiento.cuerpo = this.form.get('cuerpo')?.value;
+
+    const canvas = document.getElementById("canvasId") as HTMLCanvasElement;
+
+    if(!this.isCanvasEmpty(canvas)){
+
+      canvas.toBlob((blob) => {
+        // Crea un nuevo archivo a partir del blob
+        if(blob){
+        const file = new File([blob], 'img.png', { type: 'image/png' });
+        this.pacienteConsentimiento.firma = file.toString();
+
+        this.pacienteCOnsentimientoService.editarPacienteConsentimiento(this.pacienteConsentimiento).subscribe((response) => {
+          if (response.isSuccess) {
+            Swal.fire({
+              title: 'Actualizando...',
+              allowOutsideClick: false,
+            })
+            Swal.showLoading();
+            Swal.close();
+            Swal.fire(response.message,'', 'success');
+            this.consentimientoPacienteEditado$.next(true);
+            this.bsModalRef.hide();
+          } else {
+            console.error(response.message);
+          }
+        },
+        (error) => {
+          console.error(error);
+        })
+
+        }
+
+      }, 'image/png');
+
+    }
+    else{
+      this.base64Imagen = this.consentimientoSeleccionado.firma;
+    }
 
 
 

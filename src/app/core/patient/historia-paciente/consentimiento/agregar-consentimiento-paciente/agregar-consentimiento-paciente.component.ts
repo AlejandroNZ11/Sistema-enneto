@@ -198,6 +198,7 @@ export class AgregarConsentimientoPacienteComponent implements AfterViewInit,OnI
 }
 
 binaryString:string ='';
+
   agregarConsentimiento(){
 
 
@@ -223,7 +224,7 @@ binaryString:string ='';
     const formData = new FormData();
 
     formData.append('PacienteId', this.pacienteId);
-    formData.append('ConsentimentoId', this.form.get('tipoConsentimientoId')?.value);
+    formData.append('ConsentimientoId', this.form.get('tipoConsentimientoId')?.value);
     formData.append('MedicoId', this.form.get("medicoId")?.value);
     formData.append('Cuerpo', this.form.get('cuerpo')?.value);
     // const fechaOriginal = this.convertToDateTime();
@@ -247,11 +248,9 @@ binaryString:string ='';
     canvas.toBlob((blob) => {
       // Crea un nuevo archivo a partir del blob
       if(blob){
-        console.log(blob)
       const file = new File([blob], 'img.png', { type: 'image/png' });
-        console.log(file)
       formData.append('Firma', file);
-    formData.append('Estado', '0');
+      formData.append('Estado', '0');
 
 
       this.pacienteCOnsentimientoService.agregarPacienteConsentimiento(formData).subscribe((response) => {
@@ -264,6 +263,7 @@ binaryString:string ='';
           Swal.close();
           Swal.fire(response.message,'', 'success');
           this.consentimientoPacienteAgregado$.next(true);
+          this.bsModalRef.hide();
         } else {
           console.error(response.message);
         }
@@ -275,40 +275,6 @@ binaryString:string ='';
       }
 
     }, 'image/png');
-    // const blob = this.dataURItoBlob(dataURL);
-    // console.log(blob)
-
-    // const reader = new FileReader();
-    //   reader.onload = () => {
-    //     const arrayBuffer = reader.result as ArrayBuffer;
-    //     const uint8Array = new Uint8Array(arrayBuffer);
-    //     const byteArray = Array.from(uint8Array);
-    //     const binaryString = String.fromCharCode.apply(null, byteArray);
-    //     formData.append('Firma', binaryString);
-
-
-    //   };
-    //   reader.readAsArrayBuffer(blob);
-
-
-// const imageFile = new File([blob], 'firma.png', { type: 'image/png' });
-
-//     canvas.toBlob((blob) => {
-//       if (blob) {
-//         // Crear un objeto File a partir del Blob
-//         const firmaFile = new File([blob], 'firma.png', { type: 'image/png' });
-//         // Agregar el objeto File al FormData
-//         formData.append('Firma', firmaFile);
-//             formData.forEach((value: FormDataEntryValue, key: string) => {
-//       console.log(`${key}: ${value}`);
-//     });
-//       }
-//     }, 'image/png');
-
-    formData.forEach((value: FormDataEntryValue, key: string) => {
-      console.log(`${key}: ${value}`);
-
-    });
 
     this.isFormSubmitted = true;
     this.pacienteConsentimiento.pacienteId = this.pacienteId;

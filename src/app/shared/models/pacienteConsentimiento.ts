@@ -16,6 +16,23 @@ export class pacienteConsentimiento {
   firma=''
 }
 
+export class pacienteConsentimientoEditar {
+  clinicaId='D30C2D1E-E883-4B2D-818A-6813E15046E6';
+  pacienteConsentimientoId='';
+  pacienteId=''
+  tipoConsentimientoId=0
+  cuerpo=''
+  fecha=''
+  hora= '';
+  apoderadoNombre=''
+  apoderadoDocumento=''
+  apoderadoDireccion=''
+  pacienteRelacionadoId=0
+  medicoId=0
+  estado=0
+  firma=''
+}
+
 export interface PacienteConsentimientoData {
   data: IPacienteConsentimiento[];
   totalData: number;
