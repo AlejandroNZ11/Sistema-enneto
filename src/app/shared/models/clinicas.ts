@@ -1,5 +1,5 @@
 export class Clinicas {
-    clinicaId = "d30c2d1e-e883-4b2d-818a-6813e15046e6";
+    clinicaId = "D30C2D1E-E883-4B2D-818A-6813E15046E6";
     Nombre ="";
     Direccion= "";
     Celular = "";

@@ -111,7 +111,7 @@ export class CierreComponent implements OnInit{
         // Si form2 es válido y form1 es inválido, muestra form1
         else if (!this.form2.invalid && this.form1.invalid) {
             this.mostrarFormulario = false;
-        }
+        } 
         // Si ambos formularios son válidos, muestra form1
         else {
             this.mostrarFormulario = false; // Puedes cambiar esto si prefieres mostrar form2 por defecto
