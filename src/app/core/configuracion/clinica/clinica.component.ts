@@ -141,7 +141,7 @@ export class ClinicaComponent implements OnInit {
     formData.append('Celular', this.form.controls["celular"].value);
     formData.append('Direccion', this.form.controls["direccion"].value);
     formData.append('Email', this.form.controls["email"].value);
-    formData.append('Fecha', this.form.controls["fecha"].value.toString().split('T')[0]);
+    formData.append('Fecha', this.form.controls["fecha"].value.toISOString().split('T')[0]);
     if (this.imagenSubirFoto) { formData.append('Foto', this.imagenSubirFoto, this.imagenSubirFoto.name) }
 
     this.clinicasService.actualizarClinica(formData, this.clinica.clinicaId).subscribe(
