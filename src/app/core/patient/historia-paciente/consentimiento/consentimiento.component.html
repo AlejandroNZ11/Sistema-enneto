@@ -72,8 +72,8 @@
                       <div class="dropdown-menu dropdown-menu-end">
                         <a (click)="editarConsentimientoPaciente(data)" class="dropdown-item" href="javascript:void(0);"><i
                             class="fa-solid fa-pen-to-square m-r-5"></i> Editar</a>
-                        <a class="dropdown-item" href="javascript:void(0);" ><i
-                            class="fa fa-trash-alt m-r-5"></i> Eliminar</a>
+                        <a (click)="eliminarConsentimiento(data.pacienteConsentimientoId)" class="dropdown-item" href="javascript:void(0);" ><i
+                            class="fa fa-trash-alt m-r-5" ></i> Eliminar</a>
                       </div>
                     </div>
                   </td>

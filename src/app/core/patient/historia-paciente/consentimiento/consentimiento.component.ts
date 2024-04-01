@@ -11,6 +11,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AgregarConsentimientoPacienteComponent } from './agregar-consentimiento-paciente/agregar-consentimiento-paciente.component';
 import { EditarConsentimientoPacienteComponent } from './editar-consentimiento-paciente/editar-consentimiento-paciente.component';
 import { environment } from 'src/environments/environments';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-consentimiento',
@@ -88,7 +89,7 @@ export class ConsentimientoComponent implements OnInit {
     this.bsModalRef.content.consentimientoPacienteAgregado$ = consentimientoPacienteAgregado$;
     consentimientoPacienteAgregado$.subscribe((consentimientoPacienteAgregado: boolean)=>{
       if (consentimientoPacienteAgregado) {
-        // this.getTableData(this.currentPage, this.pageSize);
+        this.obtenerDatosPacientesSinFiltro();
       }
 
     });
@@ -109,7 +110,8 @@ export class ConsentimientoComponent implements OnInit {
     this.bsModalRef.content.consentimientoPacienteEditado$ = consentimientoPacienteEditado$;
     consentimientoPacienteEditado$.subscribe((consentimientoEditado: boolean) => {
       if (consentimientoEditado) {
-        // this.getTableData(this.currentPage, this.pageSize);
+        this.obtenerDatosPacientesSinFiltro();
+
       }
     });
     this.bsModalRef.onHidden?.subscribe(()=>{
@@ -117,6 +119,33 @@ export class ConsentimientoComponent implements OnInit {
     })
 
 
+  }
+
+  eliminarConsentimiento(pacienteConsentimientoId:string){
+    Swal.fire({
+      title: '¿Estas seguro que deseas eliminar?',
+      showDenyButton: true,
+      confirmButtonText: 'Eliminar',
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pacienteConsentimientoService.eliminarPacienteConsentimiento(pacienteConsentimientoId).subscribe(
+          (response) => {
+            if (response.isSuccess) {
+              Swal.fire(response.message,'', 'success');
+              this.obtenerDatosPacientesSinFiltro();
+              return;
+            } else {
+              console.error(response.message);
+            }
+          },
+          (error) => {
+            console.error(error);
+          });
+      } else {
+        return;
+      }
+    })
   }
 
 
