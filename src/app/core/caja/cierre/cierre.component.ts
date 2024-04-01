@@ -95,30 +95,6 @@ export class CierreComponent implements OnInit{
   //   this.mostrarFormulario = !this.mostrarFormulario;
   // }
 
-  alternarFormulario() {
-    if (this.form1.invalid && this.form2.invalid) {
-        this.markAllFieldsAsTouched();
-        return;
-    }
-
-    if (this.mostrarFormulario) {
-        this.mostrarFormulario = false;
-    } else {
-        // Si form1 es válido y form2 es inválido, muestra form2
-        if (!this.form1.invalid && this.form2.invalid) {
-            this.mostrarFormulario = true;
-        }
-        // Si form2 es válido y form1 es inválido, muestra form1
-        else if (!this.form2.invalid && this.form1.invalid) {
-            this.mostrarFormulario = false;
-        } 
-        // Si ambos formularios son válidos, muestra form1
-        else {
-            this.mostrarFormulario = false; // Puedes cambiar esto si prefieres mostrar form2 por defecto
-        }
-    }
-}
-
   
 
   soloNumeros(event: KeyboardEvent): void {
@@ -142,7 +118,7 @@ export class CierreComponent implements OnInit{
     this.cajaService.abrirCaja(this.Caja).subscribe(
       (response)=>{
         if(response.isSuccess){
-          Swal.fire(response.message, '', 'success');
+          Swal.fire(response.message,'Caja Abierta', 'success');
         }else{
           console.error(response.message);
         }
@@ -152,7 +128,7 @@ export class CierreComponent implements OnInit{
       });
   }
 
- 
+
   cerrarCaja() {
     if (this.form2.invalid) {
       this.isTouched()      
@@ -164,7 +140,7 @@ export class CierreComponent implements OnInit{
     this.cajaService.abrirCaja(this.Caja).subscribe(
       (response)=>{
         if(response.isSuccess){
-          Swal.fire(response.message, '', 'success');
+          Swal.fire(response.message,'Caja Cerrada', 'success');
         }else{
           console.error(response.message);
         }

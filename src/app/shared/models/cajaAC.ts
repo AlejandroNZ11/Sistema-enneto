@@ -5,6 +5,8 @@ export class cajaAC {
     turnoId!: number;
     importeApertura= "";
     importeCierre= "";
+    fechaApertura!: Date;
+    fechaCierre!: Date;
 }
 
 export interface DataCajaAC {
@@ -19,7 +21,6 @@ export interface IcajaAC {
     cajaId: string;
     fechaApertura:string;
     fechaCierre: string;
-
 }
 
 export class turno {

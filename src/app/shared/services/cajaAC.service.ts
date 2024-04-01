@@ -23,6 +23,15 @@ abrirCaja(caja: cajaAC): Observable<successResponse> {
     );
 }
 
+cerrarCaja(caja: cajaAC): Observable<successResponse> {
+    return this.http.post<successResponse>(this.apiUrl + '/CajasApertura/SaveCajaApertura', caja).pipe(
+    catchError(error => {
+        Swal.fire('Error', error.error, 'warning');
+        return throwError(() => error);
+        })
+    );
+}
+
 aperturarCaja(caja: cajaAC): successResponse {
     return {
         isSuccess: true,
